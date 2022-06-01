@@ -3,10 +3,12 @@ title: Welcome to My Website
 ---
 
 <style>
-  .md-typeset p {
-    font-size: 20pt;
-    line-height: 1.5;
-    --md-typeset-a-color: #009999;
+.md-nav--primary {
+  display: none
+}
+/*  Table of contents sidebar */
+.md-nav--secondary {
+  display: none
 }
 
 </style>
