@@ -16,6 +16,17 @@ theme:
     - toc.integrate
     - navigation.top
 
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - attr_list
+  - meta
+  - pymdownx.betterem:
+      smart_enable: all
+  - toc:
+      toc_depth: 2
+
 
 nav:
   - Home: index.md
