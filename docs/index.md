@@ -1,5 +1,7 @@
 ---
 title: Welcome to My Website 
+hide:
+  - navigation
 ---
 
 
