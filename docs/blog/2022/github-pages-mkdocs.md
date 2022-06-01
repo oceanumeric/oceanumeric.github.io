@@ -2,7 +2,6 @@
 title: Github Pages with MkDocs
 ---
 
-
 If you want to create a website with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) and host it on Github Pages,
 you could follow the instructions in this post: 
 
