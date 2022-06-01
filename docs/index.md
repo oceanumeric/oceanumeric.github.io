@@ -1,7 +1,6 @@
 ---
-markdown_extensions:
-    - toc:
-        toc_depth : "1-1"
+hide:
+  - navigation
 ---
 # Welcome to My Website 
 
