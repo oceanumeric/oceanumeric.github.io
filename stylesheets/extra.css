@@ -2,12 +2,18 @@
     max-width: 1157px;
 }
 
+/* @media screen and (min-width: 769px) and (max-width: 1024px)  {
 
-@media only screen and (min-width : 768px) and (max-width : 1220px){
+    .md-nav--secondary {
+        display: none
+      }
+} */
+
+/* @media only screen and (min-width : 768px) and (max-width : 1220px){
     .md-grid {
         max-width: 700px;
     }
-}
+} */
 
 /* ul.navbar-nav:nth-child(1) > li:nth-child(1) {
     display: none;
