@@ -2,6 +2,8 @@ site_name: Innovation Lab
 
 theme:
   name: material
+  font:
+    text: Source Sans Pro
   palette: 
     - scheme: default
       toggle:
@@ -12,12 +14,16 @@ theme:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
   features:
+    - navigation.instant
     - navigation.tabs
-    - toc.integrate
-    - navigation.top
+    # - toc.follow
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - 'javascripts/headroom.js'
+  - 'javascripts/activate_headroom.js'
 
 markdown_extensions:
   - attr_list
@@ -27,12 +33,16 @@ markdown_extensions:
   - toc:
       toc_depth: 2
 
+plugins:
+  - search:
+      lang: en
 
 nav:
   - Home: index.md
   - Readings:
     - readings/index.md
   - Blog:
-    - blog/index.md
+    - 2022:
+      - blog/2022/github-pages-mkdocs.md
   - Life Style:
     - lifestyle/index.md
