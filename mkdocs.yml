@@ -2,6 +2,7 @@ site_name: Innovation Lab
 
 theme:
   name: material
+  custom_dir: overrides
   font:
     text: Source Sans Pro
   palette: 
