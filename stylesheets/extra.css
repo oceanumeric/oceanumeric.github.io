@@ -13,10 +13,6 @@
     display: none;
 } */
 
-.nav.navbar-nav>li:first-child{
-    display: none;
-}
-
 
 .md-typeset p {
     font-size: 14pt;
