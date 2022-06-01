@@ -2,6 +2,8 @@
 title: Github Pages with MkDocs
 ---
 
+
+
 If you want to create a website with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) and host it on Github Pages,
 you could follow the instructions in this post: 
 
@@ -25,4 +27,10 @@ Writing English words and writing code are very different activities. When progr
 
 Why the additional quoting? Well, our logs may be quite large, and it’s wasteful to stream it all to our computer and then do the filtering. Instead, we can do the filtering on the remote server, and then massage the data locally. less gives us a “pager” that allows us to scroll up and down through the long output. To save some additional traffic while we debug our command-line, we can even stick the current filtered logs into a file so that we don’t have to access the network while developing:
 
-### Hello 
+## Installation 2
+
+Why the additional quoting? Well, our logs may be quite large, and it’s wasteful to stream it all to our computer and then do the filtering. Instead, we can do the filtering on the remote server, and then massage the data locally. less gives us a “pager” that allows us to scroll up and down through the long output. To save some additional traffic while we debug our command-line, we can even stick the current filtered logs into a file so that we don’t have to access the network while developing:
+
+## Hello
+
+Whenever you’re typing in any command, think about what manipulation the command is making to the underlying graph data structure. Conversely, if you’re trying to make a particular kind of change to the commit DAG, e.g. “discard uncommitted changes and make the ‘master’ ref point to commit

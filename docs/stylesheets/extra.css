@@ -2,12 +2,24 @@
     max-width: 1157px;
 }
 
-/* @media screen and (min-width: 769px) and (max-width: 1024px)  {
-
-    .md-nav--secondary {
+@media screen and (min-width: 960px) and (max-width: 1221px)  {
+    /* .md-nav--secondary {
         display: none
+    } */
+    .md-tabs {
+        display: block;
       }
-} */
+    .md-typeset {
+        margin-left: 170px;
+    }
+}
+
+@media screen and (min-width: 800px) and (max-width: 960px)  {
+    .md-typeset {
+        margin-left: 117px;
+        margin-right: 117px;
+    }
+}
 
 /* @media only screen and (min-width : 768px) and (max-width : 1220px){
     .md-grid {
