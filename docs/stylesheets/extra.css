@@ -9,6 +9,10 @@
     }
 }
 
+ul.navbar-nav:nth-child(1) > li:nth-child(1) {
+    display: none;
+}
+
 
 .md-typeset p {
     font-size: 14pt;
