@@ -18,6 +18,8 @@
 
 [data-md-color-scheme="slate"] {
     --md-hue: 200; /* [0, 360] */
+    background-color:#303030;
+    color:#ddd;
   }
 
 /* :root > * {
