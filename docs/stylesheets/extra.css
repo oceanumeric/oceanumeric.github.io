@@ -9,7 +9,11 @@
     }
 }
 
-ul.navbar-nav:nth-child(1) > li:nth-child(1) {
+/* ul.navbar-nav:nth-child(1) > li:nth-child(1) {
+    display: none;
+} */
+
+.nav.navbar-nav>li:first-child{
     display: none;
 }
 
