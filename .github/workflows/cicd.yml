@@ -1,0 +1,24 @@
+name: Publish website via GitHub Pages
+on:
+  push:
+    branches:
+      - master 
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Master
+        uses: actions/checkout@v2
+      - name : Set up python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material
+          pip install pymdown-extensions
+      - name: Deploy
+        run : |
+          git pull
+          mkdocs gh-deploy --force
