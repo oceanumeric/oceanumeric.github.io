@@ -4,7 +4,7 @@ title: Welcome to My Website
 
 <style>
   /* Desktops and laptops ----------- */
-@media only screen and (min-width: 1224px) {
+@media only screen and (min-width: 1221px) {
   /*  hide navigation bar */
   .md-nav--primary {
     display: none
