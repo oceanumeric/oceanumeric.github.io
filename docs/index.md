@@ -1,9 +1,13 @@
 --- 
-template: main.html
 title: Welcome to My Website 
 ---
 
-<style> 
+<style>
+  .md-typeset p {
+    font-size: 20pt;
+    line-height: 1.5;
+    --md-typeset-a-color: #009999;
+}
 
 </style>
 
