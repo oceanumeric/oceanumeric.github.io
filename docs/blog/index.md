@@ -2,14 +2,12 @@
 title: Blog
 search:
   exclude: true
-hide:
-  - toc
 ---
 
 <style>
-  .md-sidebar--secondary:not([hidden]) {
-    visibility: hidden;
-  }
+  .md-nav--secondary {
+    display: none
+    }
 </style>
 
 
