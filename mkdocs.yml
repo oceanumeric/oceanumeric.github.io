@@ -42,12 +42,14 @@ extra_javascript:
 plugins:
   - search:
       lang: en
+  - tags
 
 markdown_extensions:
   - abbr
   - admonition
   - attr_list
   - md_in_html
+  - pymdownx.superfences
   - def_list
   - footnotes
   - meta
@@ -85,6 +87,8 @@ nav:
   - Home: index.md
   - Readings:
     - readings/index.md
+    - 2022:
+      - readings/2022/innovation-research-roadmap.md
   - Blog: 
     - blog/index.md
     - 2022:
