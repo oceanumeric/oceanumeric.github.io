@@ -20,9 +20,11 @@ theme:
   # hljs_languages:
   #     - python
   features:
-    - navigation.instant
+    - navigation.indexes
     - navigation.tabs
-    # - toc.follow
+    - navigation.top
+    - navigation.sections
+    - toc.follow
     - content.code.annotate
   markdown_extentions:
     - pymdownx.highlight:
@@ -83,7 +85,8 @@ nav:
   - Home: index.md
   - Readings:
     - readings/index.md
-  - Blog:
+  - Blog: 
+    - blog/index.md
     - 2022:
       - blog/2022/github-pages-mkdocs.md
   - Life Style:

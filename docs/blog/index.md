@@ -1,7 +1,8 @@
 ---
-title: First Blog
-hide:
-  - toc 
+title: Blog
+search:
+  exclude: true
 ---
 
-## My first blog
+
+# Blog 
