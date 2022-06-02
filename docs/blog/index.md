@@ -2,6 +2,8 @@
 title: Blog
 search:
   exclude: true
+hide:
+  - toc
 ---
 
 
