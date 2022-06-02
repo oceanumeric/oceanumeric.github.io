@@ -4,6 +4,7 @@ theme:
   name: material
   font:
     text: Source Sans Pro
+    code: Roboto Mono
   palette: 
     - scheme: default
       # primary: teal
@@ -15,10 +16,18 @@ theme:
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
+  # highlightjs: true
+  # hljs_languages:
+  #     - python
   features:
     - navigation.instant
     - navigation.tabs
     # - toc.follow
+    - content.code.annotate
+  markdown_extentions:
+    - pymdownx.highlight:
+        anchor_linenums: false
+
 
 extra_css:
   - stylesheets/extra.css
@@ -27,17 +36,47 @@ extra_javascript:
   - 'javascripts/headroom.js'
   - 'javascripts/activate_headroom.js'
 
-markdown_extensions:
-  - attr_list
-  - meta
-  - pymdownx.betterem:
-      smart_enable: all
-  - toc:
-      toc_depth: 2
 
 plugins:
   - search:
       lang: en
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 2
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
 
 nav:
   - Home: index.md
