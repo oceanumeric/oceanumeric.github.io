@@ -39,9 +39,9 @@
 }
 
 [data-md-color-scheme="slate"] {
-    --md-hue: 200; /* [0, 360] */
-    background-color:#303030;
-    color:#ddd;
+    --md-hue: 170; /* [0, 360] */
+    background-color:#2b2f2b;  /*#303030*/
+    color:#e5e4e2;
   }
 
 /* :root > * {
