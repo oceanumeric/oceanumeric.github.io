@@ -31,6 +31,9 @@
     display: none;
 } */
 
+.md-typeset h1 {
+    font-family: sans-serif;
+  }
 
 .md-typeset p {
     font-size: 14pt;
