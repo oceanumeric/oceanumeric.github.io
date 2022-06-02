@@ -6,6 +6,12 @@ hide:
   - toc
 ---
 
+<style>
+  .md-sidebar--secondary:not([hidden]) {
+    visibility: hidden;
+  }
+</style>
+
 
 ## [Github Pages with MkDocs]
 
