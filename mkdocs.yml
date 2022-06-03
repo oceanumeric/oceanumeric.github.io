@@ -45,6 +45,11 @@ plugins:
   - tags
   - git-revision-date-localized:
       type: date
+      exclude:
+        - index.md
+      locale: en
+      fallback_to_build_date: false
+      enable_creation_date: true
 
 markdown_extensions:
   - abbr

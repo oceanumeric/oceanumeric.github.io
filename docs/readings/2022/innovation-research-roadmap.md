@@ -101,4 +101,4 @@ field.
 
 In case, you found this post useful, please cite as:
 ??? cite
-    Wang, F. (2022). Roadmap for Researchers in Innovation [web log]. Retrieved {{ git_site_revision_date_localized }}, from https://oceanumeric.github.io/readings/2022/innovation-research-roadmap/. 
+    Wang, F. (2022). Roadmap for Researchers in Innovation [web blog]. Retrieved {{ git_site_revision_date_localized }}, from https://oceanumeric.github.io/readings/2022/innovation-research-roadmap/. 
