@@ -2,6 +2,19 @@ site_name: Innovation Lab
 copyright: 'Copyright &copy; 2022'
 repo_url: https://github.com/oceanumeric/oceanumeric.github.io
 
+nav:
+  - Home: index.md
+  - Readings:
+    - readings/index.md
+    - 2022:
+      - readings/2022/innovation-research-roadmap.md
+  - Blog: 
+    - blog/index.md
+    - 2022:
+      - blog/2022/github-pages-mkdocs.md
+  - Life Style:
+    - lifestyle/index.md
+
 theme:
   name: material
   icon:
@@ -34,7 +47,9 @@ theme:
   markdown_extentions:
     - pymdownx.highlight:
         anchor_linenums: false
-
+  
+  
+edit_uri: ""
 
 extra_css:
   - stylesheets/extra.css
@@ -83,8 +98,8 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.magiclink:
       repo_url_shorthand: true
-      user: squidfunk
-      repo: mkdocs-material
+      user: oceanumeric
+      repo: oceanumeric.github.io
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.superfences:
@@ -96,15 +111,3 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 
-nav:
-  - Home: index.md
-  - Readings:
-    - readings/index.md
-    - 2022:
-      - readings/2022/innovation-research-roadmap.md
-  - Blog: 
-    - blog/index.md
-    - 2022:
-      - blog/2022/github-pages-mkdocs.md
-  - Life Style:
-    - lifestyle/index.md
