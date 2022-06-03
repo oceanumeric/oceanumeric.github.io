@@ -1,7 +1,12 @@
 site_name: Innovation Lab
+copyright: 'Copyright &copy; 2022'
+repo_url: https://github.com/oceanumeric/oceanumeric.github.io
 
 theme:
   name: material
+  icon:
+    logo: fontawesome/brands/connectdevelop
+  favicon: images/innovation.png
   font:
     text: Source Sans Pro
     code: Roboto Mono
