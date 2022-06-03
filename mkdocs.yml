@@ -50,6 +50,8 @@ plugins:
       locale: en
       fallback_to_build_date: false
       enable_creation_date: true
+  - git-revision-date:
+      enabled_if_env: CI
 
 markdown_extensions:
   - abbr
