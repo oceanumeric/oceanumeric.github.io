@@ -43,6 +43,8 @@ plugins:
   - search:
       lang: en
   - tags
+  - git-revision-date-localized:
+      type: date
 
 markdown_extensions:
   - abbr
@@ -55,8 +57,8 @@ markdown_extensions:
   - meta
   - md_in_html
   - toc:
-      permalink: true
-      toc_depth: 2
+      # permalink: true
+      toc_depth: 3
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.betterem:
