@@ -43,7 +43,7 @@ plugins:
   - search:
       lang: en
   - tags
-  - git-revision-date
+  # - git-revision-date
   - git-revision-date-localized:
        type: date
        exclude:
