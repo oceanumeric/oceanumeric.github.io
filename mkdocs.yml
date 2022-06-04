@@ -20,6 +20,7 @@ nav:
   - Mathematics:
     - math/index.md
     - probability:
+      - math/prob/history-probability.md
       - math/prob/generating-function.ipynb
 
 theme:
@@ -48,7 +49,7 @@ theme:
     - navigation.indexes
     - navigation.tabs
     - navigation.top
-    - navigation.sections
+    # - navigation.sections
     - navigation.expand
     - toc.follow
     - content.code.annotate
