@@ -12,8 +12,10 @@ nav:
     - blog/index.md
     - 2022:
       - blog/2022/github-pages-mkdocs.md
-  - Life Style:
+  - LifeStyle:
     - lifestyle/index.md
+    - food:
+      - lifestyle/food/balanced-diet.md
 
 theme:
   name: material
