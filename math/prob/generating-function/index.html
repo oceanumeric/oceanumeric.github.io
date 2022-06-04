@@ -338,7 +338,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -382,7 +382,7 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
       
       
       
@@ -441,7 +441,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
@@ -485,10 +485,12 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
       
       
       
+        
+          
         
           
         
@@ -520,6 +522,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/2022/jupyter-notebook-mkdocs/" class="md-nav__link">
+        Using Jupyter Notebook in MkDocs Material
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -544,7 +560,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -588,7 +604,7 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
       
       
       
@@ -760,6 +776,26 @@
     Basic Concepts of Probability
   </a>
   
+    <nav class="md-nav" aria-label="Basic Concepts of Probability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#power-set" class="md-nav__link">
+    Power set
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introducing-generating-function" class="md-nav__link">
+    Introducing Generating Function
+  </a>
+  
 </li>
       
     </ul>
@@ -813,6 +849,26 @@
         <li class="md-nav__item">
   <a href="#basic-concepts-of-probability" class="md-nav__link">
     Basic Concepts of Probability
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Concepts of Probability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#power-set" class="md-nav__link">
+    Power set
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introducing-generating-function" class="md-nav__link">
+    Introducing Generating Function
   </a>
   
 </li>
@@ -1880,39 +1936,24 @@ we put them all in a bag, and then we have only one object to carry, the bag.</e
 <p><em>A generating function is a clothesline on which we hang up a sequence of numbers for display.</em>
 -- Herbert Wilf</p>
 <p>In this post, I will show you how generating function could help us to understand
-probability more intutively.</p>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+probability more intuitively.</p>
 <h2 id="basic-concepts-of-probability">Basic Concepts of Probability<a class="anchor-link" href="#basic-concepts-of-probability">&#182;</a></h2><p>A probability is a number that reflects the chance or likelihood that a 
 particular event will occur. Probabilities can be expressed as proportions 
 that range from 0 to 1, where, roughly speaking, 0 indicates impossibility of 
 the event and 1 indicates certainty.</p>
-<p>??? note</p>
-
-<pre><code>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-massa, nec semper lorem quam in massa.</code></pre>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-
+<p>The concept of probability is built up on the concept of <a href="https://en.wikipedia.org/wiki/Countable_set">countable set</a>. 
+For instance, the probability of rolling any given number for a standard dice is
+$1/6$ as set $S = \{1, 2, 3, 4, 5, 6 \}$ is a countable set and the total number
+of elements is 6. When the random variable is continuous, the concept of probability
+relies on a <a href="https://en.wikipedia.org/wiki/%CE%A3-algebra">$\sigma$-algebra</a> to
+have a measurable space.</p>
+<h3 id="power-set">Power set<a class="anchor-link" href="#power-set">&#182;</a></h3><p>In probability theory, an event is a set of outcomes of an experiment 
+(a subset of the sample space) to which a probability is assigned. For instance,
+an event could be $A= \{3\}$ when the sample space is $S=\{1, 2, 3, 4, 5\}$.
+Assuming each event is independent and happens with the same chance, then we
+could have:
+$$P(A = \{3\}) = \frac{1}{5} = P(A = \{1\}) = P(A = \{2\})$$</p>
+<h2 id="introducing-generating-function">Introducing Generating Function<a class="anchor-link" href="#introducing-generating-function">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1992,7 +2033,7 @@ massa, nec semper lorem quam in massa.</code></pre>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.indexes", "navigation.tabs", "navigation.top", "navigation.sections", "toc.follow", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.indexes", "navigation.tabs", "navigation.top", "navigation.sections", "navigation.expand", "toc.follow", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.7f366e99.min.js"></script>
