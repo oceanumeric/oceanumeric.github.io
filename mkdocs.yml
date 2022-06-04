@@ -12,6 +12,7 @@ nav:
     - blog/index.md
     - 2022:
       - blog/2022/github-pages-mkdocs.md
+      - blog/2022/jupyter-notebook-mkdocs.md
   - LifeStyle:
     - lifestyle/index.md
     - food:
@@ -48,6 +49,7 @@ theme:
     - navigation.tabs
     - navigation.top
     - navigation.sections
+    - navigation.expand
     - toc.follow
     - content.code.annotate
   markdown_extentions:
@@ -77,9 +79,7 @@ plugins:
        locale: en
        fallback_to_build_date: true
        enable_creation_date: false
-  - mkdocs-jupyter:
-      theme: dark
-      include_source: True
+  - mkdocs-jupyter
 
 markdown_extensions:
   - abbr
