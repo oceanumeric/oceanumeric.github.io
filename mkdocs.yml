@@ -1,5 +1,5 @@
 site_name: Innovation Lab
-copyright: 'Copyright &copy; 2022'
+copyright: 'Copyright &copy; 2022 Fei Wang'
 repo_url: https://github.com/oceanumeric/oceanumeric.github.io
 
 nav:
@@ -16,6 +16,10 @@ nav:
     - lifestyle/index.md
     - food:
       - lifestyle/food/balanced-diet.md
+  - Mathematics:
+    - math/index.md
+    - probability:
+      - math/prob/generating-function.ipynb
 
 theme:
   name: material
@@ -23,7 +27,7 @@ theme:
     logo: fontawesome/brands/connectdevelop
   favicon: images/innovation.png
   font:
-    text: Source Sans Pro
+    text: Roboto
     code: Roboto Mono
   palette: 
     - scheme: default
@@ -73,6 +77,9 @@ plugins:
        locale: en
        fallback_to_build_date: true
        enable_creation_date: false
+  - mkdocs-jupyter:
+      theme: dark
+      include_source: True
 
 markdown_extensions:
   - abbr
