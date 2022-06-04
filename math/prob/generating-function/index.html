@@ -377,9 +377,7 @@
   
   
     
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
@@ -480,9 +478,7 @@
   
   
     
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
@@ -599,9 +595,7 @@
   
   
     
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
@@ -706,15 +700,15 @@
   
   
     
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2" type="checkbox" id="__nav_5_2" checked>
       
       
       
+        
+          
         
           
         
@@ -731,6 +725,20 @@
           probability
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../history-probability/" class="md-nav__link">
+        History of Probability
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -782,6 +790,20 @@
           <li class="md-nav__item">
   <a href="#power-set" class="md-nav__link">
     Power set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binomial-theorem" class="md-nav__link">
+    Binomial theorem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#representing-power-set-with-polynomials" class="md-nav__link">
+    Representing power set with polynomials
   </a>
   
 </li>
@@ -857,6 +879,20 @@
           <li class="md-nav__item">
   <a href="#power-set" class="md-nav__link">
     Power set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binomial-theorem" class="md-nav__link">
+    Binomial theorem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#representing-power-set-with-polynomials" class="md-nav__link">
+    Representing power set with polynomials
   </a>
   
 </li>
@@ -1953,9 +1989,200 @@ an event could be $A= \{3\}$ when the sample space is $S=\{1, 2, 3, 4, 5\}$.
 Assuming each event is independent and happens with the same chance, then we
 could have:
 $$P(A = \{3\}) = \frac{1}{5} = P(A = \{1\}) = P(A = \{2\})$$</p>
+<p>How many subsets does a sample space, such as $S=\{1, 2, 3, 4, 5 \}$, have? To
+calculate the number of all subsets, we could simply list them:</p>
+<ul>
+<li>null set $\emptyset$</li>
+<li>subsets with one element: $\{1\}, \{2\}, \{3\}, \cdots$</li>
+<li>subsets with two elements: $\{1, 2\}, \{1, 3\}, \cdots, \{2, 3\}, \cdots$</li>
+<li>subsets with three elements:</li>
+<li>subsets with four elements: </li>
+<li>sample space itself: $S=\{1, 2, 3, 4, 5\}$</li>
+</ul>
+<p>This way of calculating the <a href="https://en.wikipedia.org/wiki/Power_set">power set</a>
+is not efficient. We could design the following algorithm to calculate the 
+total number of subsets:</p>
+<ul>
+<li>construct an indicator function $I_A: S \to \{0, 1\}$, and it indicates 
+whether an element of $S$ belongs to a subset $A$ or not;</li>
+<li>then, we could have a binary number with $N=5$ bits such as $d = 00000$, where
+each bit represents whether an element will be chosen or not</li>
+<li>for instance, a subset $s_2 = \{3, 5\}$ could be represented as $00105$. </li>
+<li>therefore, the total number of subsets is $|S| = 2^N = 2^5$</li>
+</ul>
+<p>Okay, now we know how to calculate the number of power set: $|S| = 2^N$. Let's 
+turn to binomial theorem for a while and see how could connect binomial theory
+with power set. This will lead us to a better understanding of generating 
+function.</p>
+<h3 id="binomial-theorem">Binomial theorem<a class="anchor-link" href="#binomial-theorem">&#182;</a></h3><p>According to binomial theorem, it is possible to expand any nonnegative power 
+of $x + y$ into a sum of the form
+\begin{align}
+(x+y)^n = \binom{n}{0}x^n y^0 + &amp; \binom{n}{1} x^{n-1}y + \binom{n}{2} x^{n-2}y^2 + \cdots \nonumber \\
+&amp; \cdots + \binom{n}{n-1} x^1y^{n-1} + \binom{n}{n} x^0y^n
+\end{align}
+The <a href="https://en.wikipedia.org/wiki/Binomial_theorem">proof</a> for this theorem 
+is easy to follow. Let's go through an example together and see its connection
+with power set.</p>
+<p>Let's expand the following equation:
+\begin{align*}
+(x+y)^3 &amp; = (x+y)(x+y)(x+y) \\
+        &amp; = xxx + xxy + \cdots + yyx + yyy \\
+        &amp; = x^3 + 3x^2y + 3xy^2 + y^3 
+\end{align*}
+The coefficient of $xy^2$ is $3$ which equals $\binom{3}{2}$ because there are
+three <em>events</em> that $x$ was chose and two $y$s were chose: $\{xyy, yxy, yyx\}$,
+corresponding to the three $2$-element subsets of $\{1, 2, 3\}$, namely,
+$$\{2,3\}, \{1,3\}, \{1,2\}$$,
+where each subset specifies the positions of the y in a corresponding string.</p>
+<p>How many elements does the expansion of $(x+y)^3$ have? It has the same number
+of elements with power set $|S|=2^3$. Why? To understand this, we could use
+binary number again.</p>
+<p>For an expansion of $(x+y)^n$, we could map $n$ as the
+number of bit, map $x$ as $0$, and map $y$ as $1$. Instead of seeing an expansion
+as a process of multiplications, we could treat the expansion as a process of
+<em>grouping (or combining)</em> elements.</p>
+<p>See the following expansion,
+\begin{align*}
+(x+y)^3 &amp; = (x+y)(x+y)(x+y) \\
+        &amp; = xxx + xxy + xyx + xyy + yxx + yxy + yyx + yyy \\
+        &amp; = 000 + 001 + 010 + 011 + 100 + 101 + 110 + 111
+\end{align*}</p>
+<p>At this stage, the connection between power set and binomial theorem should be
+very clear.</p>
+<h3 id="representing-power-set-with-polynomials">Representing power set with polynomials<a class="anchor-link" href="#representing-power-set-with-polynomials">&#182;</a></h3><p>Having a grip with the connection between power set and binomial theorem, one
+could represent power set of a sample space with a polynomial.</p>
+<p>With a sample space $S=\{1, 2, 3, 4, 5 \}$, we could use the following
+polynomial to represent its power set:
+$$g(x) = (1+x^1)(1+x^2)(1+x^3)(1+x^4)(1+x^5)$$
+The reason we use the above polynomial to represent power set is that polynomial
+functions have been studied well and many properties are also well known. You
+could also use the following equation to represent the power set
+$$g(x) = (1+x_1)(1+x_2)(1+x_3)(1+x_4)(1+x_5)$$
+In this case $x_i$ is just a dummy variable. If you are confused, see the
+following expansion:
+\begin{align*}
+g(x, y) &amp; = (x+y)^5 \\
+g(x, 1)  &amp; = (1+x)^5 \\
+g(x)    &amp; = (1+x_1)(1+x_2)(1+x_3)(1+x_4)(1+x_5) 
+\end{align*}</p>
+<div class="result">
+    <details class="quote"> 
+        <summary>Question</summary> 
+        <p>
+        <i>
+        Let the 𝑋={1,2,…,2000}. How many subsets 𝑇 of 𝑋 are such that the sum 
+        of the elements of 𝑇 is divisible by 5?
+        </i>
+        </p>
+        <p>
+        To see how polynomials could be used to answer this question that might 
+        look like a mission impossible, you can watch this
+        <a href="https://youtu.be/bOXCLR3Wric">video</a> by legendary 3Blue1Brown. 
+        </p>
+    </details> 
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="introducing-generating-function">Introducing Generating Function<a class="anchor-link" href="#introducing-generating-function">&#182;</a></h2>
 </div>
 </div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-1">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="mi">2</span><span class="o">**</span><span class="mi">5</span>
+</pre></div>
+<div id="cell-1" class="clipboard-copy-txt">2**5</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[1]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>32</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-2">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span>
+</pre></div>
+<div id="cell-2" class="clipboard-copy-txt"></div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
 </div>
 </div>
 </div>
@@ -1992,7 +2219,7 @@ $$P(A = \{3\}) = \frac{1}{5} = P(A = \{1\}) = P(A = \{2\})$$</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Mathematics" rel="prev">
+        <a href="../history-probability/" class="md-footer__link md-footer__link--prev" aria-label="Previous: History of Probability" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -2001,7 +2228,7 @@ $$P(A = \{3\}) = \frac{1}{5} = P(A = \{1\}) = P(A = \{2\})$$</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Mathematics
+              History of Probability
             </div>
           </div>
         </a>
@@ -2033,7 +2260,7 @@ $$P(A = \{3\}) = \frac{1}{5} = P(A = \{1\}) = P(A = \{2\})$$</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.indexes", "navigation.tabs", "navigation.top", "navigation.sections", "navigation.expand", "toc.follow", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.indexes", "navigation.tabs", "navigation.top", "navigation.expand", "toc.follow", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.7f366e99.min.js"></script>
