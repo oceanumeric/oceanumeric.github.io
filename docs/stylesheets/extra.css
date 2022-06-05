@@ -46,6 +46,16 @@
     background-color:#2b2f2b;  /*#303030*/
     color:#e5e4e2;
   }
+  
+.theorembox {
+    border: 1.5px;
+    border-style: solid;
+    border-color: #5c5b5b;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
 
 /* :root > * {
     --md-typeset-a-color: #009999;
