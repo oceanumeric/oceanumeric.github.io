@@ -86,7 +86,7 @@
 
 [data-md-color-scheme="slate"] {
     --md-hue: 170; /* [0, 360] */
-    background-color:#2b2f2b;  /*#303030*/
+    background-color:#252925;  /*#303030*/
     color:#e5e4e2;
   }
 
@@ -251,6 +251,17 @@ font-style: italic;
 }
 .definition:before {
  content: "Definition " counter(definition) ". ";
+     font-weight: bold;
+    font-style: normal;
+}
+.example {
+    counter-increment: example;
+display: block;
+margin: 12px 0;
+font-style: normal;
+}
+.example:before {
+ content: "Example " counter(example) ". ";
      font-weight: bold;
     font-style: normal;
 }
