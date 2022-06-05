@@ -818,6 +818,26 @@
     Introducing Generating Function
   </a>
   
+    <nav class="md-nav" aria-label="Introducing Generating Function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ordinary-generating-function" class="md-nav__link">
+    Ordinary generating function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probability-generating-functions" class="md-nav__link">
+    Probability generating functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -906,6 +926,26 @@
   <a href="#introducing-generating-function" class="md-nav__link">
     Introducing Generating Function
   </a>
+  
+    <nav class="md-nav" aria-label="Introducing Generating Function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ordinary-generating-function" class="md-nav__link">
+    Ordinary generating function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probability-generating-functions" class="md-nav__link">
+    Probability generating functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1962,15 +2002,35 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<head>
+<link rel="stylesheet" href="https://lalten.github.io/lmweb/style/latinmodern-roman.css" type="text/css" charset="utf-8" />
+<style>
+    .md-main {
+        font-family: 'Latin Modern Roman', serif;
+    }
+    .md-content > .md-typeset {
+        font-size: 13pt;
+        font-weight: 500;
+    }
+</style>
+</head>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="generating-function">Generating Function<a class="anchor-link" href="#generating-function">&#182;</a></h1><p>In mathematics, a generating function is a way of encoding an infinite sequence
 of numbers ($a_n$) by treating them as the coefficients of a formal power series.
 It is a very powerful tool to study probability.</p>
-<p><em>A generating function is a device somewhat similar to a bag. Instead of 
+<p>According to George Pólya, a generating function is a device somewhat similar to a bag. Instead of 
 carrying many little objects detachedly, which could be embarrassing, 
-we put them all in a bag, and then we have only one object to carry, the bag.</em>
--- George Pólya</p>
-<p><em>A generating function is a clothesline on which we hang up a sequence of numbers for display.</em>
--- Herbert Wilf</p>
+we put them all in a bag, and then we have only one object to carry, the bag.
+Herbert Wilf states a generating function is a clothesline on which we hang up a sequence of numbers for display.</p>
 <p>In this post, I will show you how generating function could help us to understand
 probability more intuitively.</p>
 <h2 id="basic-concepts-of-probability">Basic Concepts of Probability<a class="anchor-link" href="#basic-concepts-of-probability">&#182;</a></h2><p>A probability is a number that reflects the chance or likelihood that a 
@@ -2016,10 +2076,12 @@ with power set. This will lead us to a better understanding of generating
 function.</p>
 <h3 id="binomial-theorem">Binomial theorem<a class="anchor-link" href="#binomial-theorem">&#182;</a></h3><p>According to binomial theorem, it is possible to expand any nonnegative power 
 of $x + y$ into a sum of the form
-\begin{align}
+\begin{align*}
 (x+y)^n = \binom{n}{0}x^n y^0 + &amp; \binom{n}{1} x^{n-1}y + \binom{n}{2} x^{n-2}y^2 + \cdots \nonumber \\
 &amp; \cdots + \binom{n}{n-1} x^1y^{n-1} + \binom{n}{n} x^0y^n
-\end{align}
+\end{align*}
+,where the coefficient is given by the formula
+$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$
 The <a href="https://en.wikipedia.org/wiki/Binomial_theorem">proof</a> for this theorem 
 is easy to follow. Let's go through an example together and see its connection
 with power set.</p>
@@ -2080,7 +2142,65 @@ g(x)    &amp; = (1+x_1)(1+x_2)(1+x_3)(1+x_4)(1+x_5)
         <a href="https://youtu.be/bOXCLR3Wric">video</a> by legendary 3Blue1Brown. 
         </p>
     </details> 
-</div>
+</div><h2 id="introducing-generating-function">Introducing Generating Function<a class="anchor-link" href="#introducing-generating-function">&#182;</a></h2><p>The general idea of generating function has much wider scope than its 
+applications to probability, which means it as many applications in
+mathematics as a technique. In this post, we will focus on its application
+in <em>Discrete Math</em>.</p>
+<h3 id="ordinary-generating-function">Ordinary generating function<a class="anchor-link" href="#ordinary-generating-function">&#182;</a></h3><p>The ordinary generating function for the sequence 
+$\left\langle a_{0}, a_{1}, a_{2}, a_{3} \ldots\right\rangle$ is the power series:
+$$
+G(x)=a_{0}+a_{1} x+a_{2} x^{2}+a_{3} x^{3}+\cdots .
+$$
+There are a few other kinds of generating functions in common use, but ordinary 
+generating functions are enough to illustrate the power of the idea, 
+so we'll stick to them and from now on, generating function will mean 
+the ordinary kind (MIT, Math <a href="https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/resources/mit6_042jf10_chap12/">6.042J-Chapter 12</a>).</p>
+<p>A generating function is a "formal" power series in the sense that we usually 
+regard $x$ as a placeholder rather than a number. Only in rare cases will 
+we actually evaluate a generating function by letting $x$ take a real number 
+value, so we generally ignore the issue of convergence (ibid).</p>
+<p>We could indicate the correspondence between a sequence and its 
+generating function with a double-sided arrow as follows:
+$$
+\left\langle a_{0}, a_{1}, a_{2}, a_{3}, \ldots\right\rangle \longleftrightarrow a_{0}+a_{1} x+a_{2} x^{2}+a_{3} x^{3}+\cdots
+$$
+For example, here are some sequences and their generating functions:
+$$
+\begin{aligned}
+&amp;\langle 0,0,0,0, \ldots\rangle \longleftrightarrow 0+0 x+0 x^{2}+0 x^{3}+\cdots=0 \\
+&amp;\langle 1,0,0,0, \ldots\rangle \longleftrightarrow 1+0 x+0 x^{2}+0 x^{3}+\cdots=1 \\
+&amp;\langle 3,2,1,0, \ldots\rangle \longleftrightarrow 3+2 x+1 x^{2}+0 x^{3}+\cdots=3+2 x+x^{2}
+\end{aligned}
+$$</p>
+<p>Again, the idea of generating function is very similar to the connection 
+between power set and binomial theorem. The takeaway is that we can use
+polynomials to represent a series of combinations (or a subset of a sample space
+in probability).</p>
+<h3 id="probability-generating-functions">Probability generating functions<a class="anchor-link" href="#probability-generating-functions">&#182;</a></h3><p>Now, we will formally define probability generating function and study its 
+properties and applications. Consider a sequence 
+$\left\{a_{i}: i=0,1,2, \ldots\right\}$ of real numbers: the numbers can 
+be 'parcelled up' in several kinds of 'generating functions'. The ordinary 
+generating function of the sequence is defined as
+$$
+G(s)=\sum_{i=0}^{\infty} a_{i} s^{i}
+$$
+for those values of the parameter $s$ for which the sum converges. For a given 
+sequence, there exists a radius of convergence $R(\geq 0)$ such that the 
+sum converges absolutely if $|s|&lt;R$ and diverges if $|s|&gt;R$. $G(s)$ may be 
+differentiated or integrated term by term any number of times when $|s|&lt;R$.</p>
+<p>For many well-defined sequences, $G(s)$ can be written in closed form, and 
+the individual numbers in the sequence can be recovered either by series 
+expansion or by taking derivatives (Gribakin, 2002, <a href="http://www.am.qub.ac.uk/users/g.gribakin/sor/Chap3.pdf">Chapter 3</a>).</p>
+<p>Consider a discrete random variable $X$, taking non-negative values. Let the probability
+$$
+p_{k}=\mathrm{P}(X=k), \quad k=0,1,2, \ldots
+$$
+(if $X$ takes a finite number of values, we simply attach zero probabilities to those values which cannot occur). The probability generating function ( $\mathrm{PGF})$ of $X$ is defined as
+$$
+G_{X}(s)=\sum_{k=0}^{\infty} p_{k} s^{k}=\mathrm{E}\left(s^{X}\right)
+$$
+Note that $G_{X}(1)=1$, so the series converges absolutely for $|s| \leq 1 .$ Also $G_{X}(0)=p_{0}$.</p>
+
 </div>
 </div>
 </div>
@@ -2091,7 +2211,7 @@ g(x)    &amp; = (1+x_1)(1+x_2)(1+x_3)(1+x_4)(1+x_5)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="introducing-generating-function">Introducing Generating Function<a class="anchor-link" href="#introducing-generating-function">&#182;</a></h2>
+
 </div>
 </div>
 </div>
@@ -2194,7 +2314,7 @@ g(x)    &amp; = (1+x_1)(1+x_2)(1+x_3)(1+x_4)(1+x_5)
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">June 4, 2022</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">June 5, 2022</span>
       
     
   </small>
@@ -2264,6 +2384,12 @@ g(x)    &amp; = (1+x_1)(1+x_2)(1+x_3)(1+x_4)(1+x_5)
     
     
       <script src="../../../assets/javascripts/bundle.7f366e99.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
         <script src="../../../javascripts/headroom.js"></script>
       

@@ -35,8 +35,8 @@
     font-family: sans-serif;
   }
 
-.md-typeset p {
-    font-size: 13pt;
+.md-content > .md-typeset {
+    /* font-size: 12pt; */ 
     line-height: 1.5;
     --md-typeset-a-color: #009999;
 }
