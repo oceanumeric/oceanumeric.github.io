@@ -1,7 +1,7 @@
 ---
 title: Roadmap for Researchers in Innovation
 tags:
-    - Innovation studies
+    - Innovation
     - New scientific fields
     - Specialisms
     - Bibliometrics
@@ -11,36 +11,23 @@ tags:
     .md-content > .md-typeset {
         font-size: 13pt;
     }
+    .md-typeset h2 {
+        margin-top: 1em;  /* keep it 1em for markdown */
+    }
 </style>
 
+## Introduction 
+
 Newcomers in innovation research like me may feel overwhelmed by the knowledge
-booming in this field. I have been searching for a roadmap to navigate for a
-while. Luckily for me, I got one paper that explores the knowledge base of
-innovation: 
+booming in this field. I have been searching for a roadmap to navigate 
+my research work for a while. Luckily for me, I got one paper that 
+explores the knowledge base of innovation (Fagerberg et al 2012). 
+In this post, I will summarize this paper. 
 
-
-Fagerberg, J., Fosaas, M. and Sapprasert, K. (2012). Innovation: Exploring the 
-knowledge base. _Research policy, 41(7)_, 1132-1153.
-[:fontawesome-solid-file-pdf:](https://drive.google.com/file/d/1WnrtUpfPLWq7GIvzSTDrFdiX-n65XoEA/view?usp=sharing) 
-https://doi.org/10.1016/j.respol.2012.03.008
-??? cite "BibTex"
-    ```
-    @article{fagerberg2012innovation,
-    title={Innovation: Exploring the knowledge base},
-    author={Fagerberg, Jan and Fosaas, Morten and Sapprasert, Koson},
-    journal={Research policy},
-    volume={41},
-    number={7},
-    pages={1132--1153},
-    year={2012},
-    publisher={Elsevier}
-    }
-    ```
----
 
 ## Motivation 
 
-Three authors in this paper tried to explore the knowledge base of an emerging
+Authors in this paper tried to explore the knowledge base of an emerging
 discipline, namely "innovations studies", which may be defined as the scholarly
 study of how innovation takes place and what the important explanatory factors
 and economic and social consequences are. 
@@ -103,6 +90,26 @@ means that I will focus on studying innovation in firms and industries.
 This paper can also serve as an example of doing systematic review. In the future,
 I will definitely turn to it when I want to identify the core literature in my
 field. 
+
+## Reference
+
+Fagerberg, J., Fosaas, M. and Sapprasert, K. (2012). Innovation: Exploring the 
+knowledge base. _Research policy, 41(7)_, 1132-1153.
+[:fontawesome-solid-file-pdf:](https://drive.google.com/file/d/1WnrtUpfPLWq7GIvzSTDrFdiX-n65XoEA/view?usp=sharing) 
+https://doi.org/10.1016/j.respol.2012.03.008
+??? cite "BibTex"
+    ```
+    @article{fagerberg2012innovation,
+    title={Innovation: Exploring the knowledge base},
+    author={Fagerberg, Jan and Fosaas, Morten and Sapprasert, Koson},
+    journal={Research policy},
+    volume={41},
+    number={7},
+    pages={1132--1153},
+    year={2012},
+    publisher={Elsevier}
+    }
+    ```
 
 
 In case, you found this post useful, please cite as:
