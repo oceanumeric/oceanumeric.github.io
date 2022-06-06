@@ -8,6 +8,7 @@ nav:
     - readings/index.md
     - 2022:
       - readings/2022/innovation-research-roadmap.md
+      - readings/2022/systematic-review.ipynb
   - Blog: 
     - blog/index.md
     - 2022:
