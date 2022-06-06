@@ -88,6 +88,7 @@
     --md-hue: 170; /* [0, 360] */
     background-color:#252925;  /*#303030*/
     color:#e5e4e2;
+    --md-typeset-a-color: #a3adf7;
   }
 
 /* :root > * {

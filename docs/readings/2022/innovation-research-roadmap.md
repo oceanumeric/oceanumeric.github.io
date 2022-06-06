@@ -7,6 +7,12 @@ tags:
     - Bibliometrics
 ---
 
+<style>
+    .md-content > .md-typeset {
+        font-size: 13pt;
+    }
+</style>
+
 Newcomers in innovation research like me may feel overwhelmed by the knowledge
 booming in this field. I have been searching for a roadmap to navigate for a
 while. Luckily for me, I got one paper that explores the knowledge base of
