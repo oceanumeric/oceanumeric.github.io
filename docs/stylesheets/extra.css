@@ -55,6 +55,33 @@
     .md-typeset {
         margin-left: 170px;
     }
+    .jp-InputArea-prompt {
+        visibility: hidden;
+    } 
+    .jp-OutputArea-prompt {
+        visibility: hidden;  /*disable this to tune the position */
+        background-color:red;
+        position:absolute; 
+        right:0;
+    }
+    .jp-CodeCell > .jp-Cell-inputWrapper {
+        direction: rtl;
+        item-align:left;
+        width:687px;
+    }
+    .jp-CodeCell > .jp-Cell-outputWrapper {
+        direction: rtl;
+        margin-top: -10px;
+        padding-top:0;
+        display: table-cell;
+        text-align: left;
+        item-align: center;
+        vertical-align: middle;
+    }
+    .jp-Cell-outputWrapper > .jp-Cell-outputCollapser {
+        /* background-color:red; */
+        margin-top: -17px;
+    }
 }
 
 @media screen and (min-width: 800px) and (max-width: 960px)  {
@@ -62,6 +89,35 @@
         margin-left: 117px;
         margin-right: 117px;
     }
+}
+
+/* style of jupyter notebook for phone */
+.jp-InputArea-prompt {
+    visibility: hidden;
+} 
+.jp-OutputArea-prompt {
+    visibility: hidden;  /*disable this to tune the position */
+    background-color:red;
+    position:absolute; 
+    right:0;
+}
+.jp-CodeCell > .jp-Cell-inputWrapper {
+    direction: rtl;
+    item-align:left;
+    width:400px;
+}
+.jp-CodeCell > .jp-Cell-outputWrapper {
+    direction: rtl;
+    margin-top: -10px;
+    padding-top:0;
+    display: table-cell;
+    text-align: left;
+    item-align: center;
+    vertical-align: middle;
+}
+.jp-Cell-outputWrapper > .jp-Cell-outputCollapser {
+    /* background-color:red; */
+    margin-top: -17px;
 }
 
 /* @media only screen and (min-width : 768px) and (max-width : 1220px){
@@ -222,13 +278,14 @@
 
 /* theorem and definition */ 
 
-.theorem {
+.md-content > .md-typeset > .theorem {
     counter-increment: theorem;
 display: block;
 margin: 12px 0;
 font-style: italic;
 }
-.theorem:before {
+
+.md-content > .md-typeset > .theorem:before {
  content: "Theorem " counter(theorem) ". ";
      font-weight: bold;
     font-style: normal;
