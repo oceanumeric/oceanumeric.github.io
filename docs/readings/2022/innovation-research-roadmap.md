@@ -1,10 +1,5 @@
 ---
 title: Roadmap for Researchers in Innovation
-tags:
-    - Innovation
-    - New scientific fields
-    - Specialisms
-    - Bibliometrics
 ---
 
 <style>
@@ -115,3 +110,11 @@ https://doi.org/10.1016/j.respol.2012.03.008
 In case, you found this post useful, please cite as:
 ??? cite
     Wang, F. (2022). Roadmap for Researchers in Innovation [web blog]. Retrieved {{ git_site_revision_date_localized }}, from https://oceanumeric.github.io/readings/2022/innovation-research-roadmap/. 
+
+
+<nav class="md-tags"> 
+    <span class="md-tag">Innovation</span> 
+    <span class="md-tag">New scientific fields</span> 
+    <span class="md-tag">Specialisms</span>
+    <span class="md-tag">Bibliometrics</span> 
+</nav>
