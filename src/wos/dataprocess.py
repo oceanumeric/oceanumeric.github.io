@@ -10,10 +10,10 @@ def combine_record_citation():
         - citation.xlsx includes backward citation 
     '''
     innobem = pd.DataFrame()
-    path = '/Users/Michael/Documents/wos/innobem/'
+    path = '/Users/Michael/Downloads/wos2/'
     for i in range(1, 11):
-        record = 'record'+str(i)+'.xls'
-        citation = 'citation'+str(i)+'.xls'
+        record = 'r'+str(i)+'.xls'
+        citation = 'c'+str(i)+'.xls'
         # read file
         record = path + record 
         citation = path + citation
@@ -33,15 +33,13 @@ def combine_record_citation():
     
     innobem.columns = ['wos_id', 'authors', 'full_names', 'title', 'journal',
                        'keywords', 'extra_keywords', 'abstract', 'address',
-                       'affiliation', 'year', 'doi', 'backward_citations', 
-                       'backward_citation_count',]
+                       'affiliation', 'year', 'doi', 'cited_references', 
+                       'cited_references_count',]
     
-    innobem.to_csv('./src/wos/wos_dataset.csv', index=False)
-    
-
-    
+    innobem.to_csv('/Users/Michael/Downloads/wos2/wos2_dataset.csv', index=False)
     
 
+        
 if __name__ == "__main__":
     print(os.getcwd())
     combine_record_citation()
