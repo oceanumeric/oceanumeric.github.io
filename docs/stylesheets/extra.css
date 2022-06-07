@@ -45,7 +45,15 @@
     max-width: 1157px;
 }
 
-@media screen and (min-width: 960px) and (max-width: 1221px)  {
+/* responsive for jupyter notebook  */
+/* @media screen and (min-width: 1220px) {
+    .jp-CodeCell > .jp-Cell-inputWrapper {
+        width:687px;
+    }
+}
+*/ 
+
+@media screen and (min-width: 960px) and (max-width: 1220px)  {
     /* .md-nav--secondary {
         display: none
     } */
@@ -54,33 +62,6 @@
       }
     .md-typeset {
         margin-left: 170px;
-    }
-    .jp-InputArea-prompt {
-        visibility: hidden;
-    } 
-    .jp-OutputArea-prompt {
-        visibility: hidden;  /*disable this to tune the position */
-        background-color:red;
-        position:absolute; 
-        right:0;
-    }
-    .jp-CodeCell > .jp-Cell-inputWrapper {
-        direction: rtl;
-        item-align:left;
-        width:687px;
-    }
-    .jp-CodeCell > .jp-Cell-outputWrapper {
-        direction: rtl;
-        margin-top: -10px;
-        padding-top:0;
-        display: table-cell;
-        text-align: left;
-        item-align: center;
-        vertical-align: middle;
-    }
-    .jp-Cell-outputWrapper > .jp-Cell-outputCollapser {
-        /* background-color:red; */
-        margin-top: -17px;
     }
 }
 
@@ -91,29 +72,31 @@
     }
 }
 
+
+
 /* style of jupyter notebook for phone */
+
+.jp-CodeCell > .jp-Cell-inputWrapper {
+    direction: rtl;
+    width:113%;
+}
+
 .jp-InputArea-prompt {
     visibility: hidden;
 } 
 .jp-OutputArea-prompt {
-    visibility: hidden;  /*disable this to tune the position */
-    background-color:red;
-    position:absolute; 
-    right:0;
+    /* visibility: hidden;  disable this to tune the position */
+    background-color:red; 
+    position:absolute;
+    right: 0;
+    
 }
-.jp-CodeCell > .jp-Cell-inputWrapper {
-    direction: rtl;
-    item-align:left;
-    width:400px;
-}
+
 .jp-CodeCell > .jp-Cell-outputWrapper {
-    direction: rtl;
     margin-top: -10px;
     padding-top:0;
     display: table-cell;
     text-align: left;
-    item-align: center;
-    vertical-align: middle;
 }
 .jp-Cell-outputWrapper > .jp-Cell-outputCollapser {
     /* background-color:red; */
