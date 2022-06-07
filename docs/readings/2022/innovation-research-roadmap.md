@@ -45,7 +45,7 @@ knowledge base in this area.
 The bibliometrics analysis shows that most of the top contributions are books,
 which include those well known ones like _The Theory of Economic Development_ by
 Schumpeter and _The Innovator's Dilemma_ by Christense. 
-![top contributions](../images/fagerberg1.png)
+![top contributions](../images/fagerberg1.png){: .zoom}
 
 This table is very valuable for me as I could read those classical ideas to
 understand innovation in a deep way. 
@@ -54,7 +54,7 @@ understand innovation in a deep way.
 
 Many scholars are interested in innovation. However, the impact of innovation
 study is still small outside of the field of business and economics. 
-![top users](../images/fagerberg2.png)
+![top users](../images/fagerberg2.png){: .zoom}
 
 ### Structure of the knowledge base
 
@@ -66,7 +66,7 @@ clusters:
 * innovation system
 
 Here is the table of core contributions for each cluster. 
-![cluster](../images/fagerberg3.png)
+![cluster](../images/fagerberg3.png){: .zoom}
 
 ### The evolution of the core literature
 
