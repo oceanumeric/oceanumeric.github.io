@@ -15,3 +15,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
     headroom.init();
 });
+
+document.querySelectorAll('.zoom').forEach(item => {
+  item.addEventListener('click', function () {
+      this.classList.toggle('image-zoom-large');
+  })
+});
+
+document.querySelectorAll('.zoom-jupyter').forEach(item => {
+  item.addEventListener('click', function () {
+      this.classList.toggle('image-zoom-jupyter-large');
+  })
+});

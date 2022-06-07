@@ -335,3 +335,51 @@ font-style: normal;
     padding-top: 6px;
     padding-bottom: 6px;
 }
+
+/* zoom image */
+
+/* img {
+    height: auto;
+    width: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px;
+    background-color: #fff;
+} */
+
+/* .shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+} */
+
+/*
+https://github.com/squidfunk/mkdocs-material/issues/1635
+*/
+
+.zoom {
+    transition: transform ease-in-out 0.5s;
+    cursor: zoom-in;
+}
+
+.image-zoom-large {
+    transform: scale(1.5);
+    cursor: zoom-out;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index: 100;
+    position: relative;
+}
+
+.zoom-jupyter {
+    transition: transform ease-in-out 0.5s;
+    cursor: zoom-in;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.image-zoom-jupyter-large {
+    cursor: zoom-out;
+    z-index: 100;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
