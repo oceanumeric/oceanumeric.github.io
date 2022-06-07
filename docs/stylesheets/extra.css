@@ -85,7 +85,7 @@
     visibility: hidden;
 } 
 .jp-OutputArea-prompt {
-    /* visibility: hidden;  disable this to tune the position */
+    visibility: hidden;  /* disable this to tune the position */
     background-color:red; 
     position:absolute;
     right: 0;
