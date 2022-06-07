@@ -23,7 +23,7 @@ nav:
     - math/index.md
     - probability:
       - math/prob/history-probability.md
-      - math/prob/generating-function.md
+      - math/prob/generating-function.ipynb
 
 theme:
   name: material
