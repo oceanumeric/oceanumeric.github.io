@@ -14,7 +14,6 @@ nav:
     - blog/index.md
     - 2022:
       - blog/2022/cocitations-management-journal.ipynb
-      - blog/2022/build-cocitation-network.ipynb
       - blog/2022/github-pages-mkdocs.md
       - blog/2022/jupyter-notebook-mkdocs.md
       - blog/2022/jupyter-demo.ipynb
