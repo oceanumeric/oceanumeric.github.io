@@ -25,7 +25,8 @@ My name is Michael WANG Fei (王斐). I am currently working as a
 [research assistant](https://www.wiwi.uni-frankfurt.de/en/departments/mm/professuren/professur-storz/team/fei-wang.html) at the Chair of Innovation and Entrepreneurship with focus on Japan/East Asia. 
 
 Prior to joining the team of Professor Storz, I worked as a machine learning 
-specialist at [SenseTime](https://www.sensetime.com/en). I Studied Mathematics at UCD and Economics at University of Nottingham, 
+specialist at [SenseTime](https://www.sensetime.com/en). I Studied Mathematics at University
+College Dublin and Economics at University of Nottingham, 
 taught myself computer science by following the instructions from this [website](https://teachyourselfcs.com/).
 
 In this website, you will find different kinds of things about innovation:
