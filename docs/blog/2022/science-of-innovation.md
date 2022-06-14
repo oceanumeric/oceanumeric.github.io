@@ -13,7 +13,7 @@ be used as good analogies to help us to think about those questions.
 
 ##  How does innovation happen?
 
-The first TED talk is called [The history of our world in 18 minutes](https://www.ted.com/talks/david_christian_the_history_of_our_world_in_18_minutes?referrer=playlist-bill_gates_my_13_favorite_tal&autoplay=true).
+The first TED talk is called _The History of Our World in 18 Minutes_.
 In this talk, historian David Christian explains three goldilocks conditions for
 life:
 
@@ -41,7 +41,7 @@ of three conditions:
 
 Of course, all innovation come from human being. However, we still need to figure
 out where innovation come from and when innovation happen. In the second video called 
-[The real relationship between your age and your chance of success](https://www.ted.com/talks/albert_laszlo_barabasi_the_real_relationship_between_your_age_and_your_chance_of_success), 
+_The Real Relationship Between Your Age and Your Chance of Success_, 
 network scientist Albert-László Barabási states the chance of success or being innovative
 depends on personal talents and productivity. 
 
@@ -55,10 +55,10 @@ argued that:
 Therefore, gaining a better performance follows the physical law, whereas having
 success is more like winning a lottery. Therefore, to win a lottery, you need:
 
-* to have some talents to get a lottery (either by creating a firm or inventing a
+1. to have some talents to get a lottery (either by creating a firm or inventing a
 new product or discover something new or publishing a paper)
-* to be productive
-* to have good luck
+2. to be productive
+3. to have good luck
 
 <div style="max-width:854px"><div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://embed.ted.com/talks/lang/en/albert_laszlo_barabasi_the_real_relationship_between_your_age_and_your_chance_of_success" width="854" height="480" style="position:absolute;left:0;top:0;width:100%;height:100%" frameborder="0" scrolling="no" allowfullscreen></iframe></div></div>
 
