@@ -10,8 +10,33 @@ search:
     }
 </style>
 
-## Co-citations of Top Management Journals 
 
+## [Web Scrapping A Summary]
+
+There are many ways to do web scrapping. In this post, I will summarize
+them into three categories and give methods to scrape those different websites. 
+
+<span>
+:octicons-calendar-24: Jun 16, 2022 ·
+:octicons-clock-24: 2 min read
+</span>
+
+[:octicons-arrow-right-24: Continue reading][Web Scrapping A Summary]
+[Web Scrapping A Summary]: 2022/web-scraping-summary.md
+
+
+## [Science of Innovation]
+
+How could we understand innovation in macro and micro level? Two TED talks
+gives very good frameworks for thinking of innovation. 
+
+<span>
+:octicons-calendar-24: Jun 14, 2022 ·
+:octicons-clock-24: 3 min read
+</span>
+
+[:octicons-arrow-right-24: Continue reading][Science of Innovation]
+[Science of Innovation]: 2022/science-of-innovation.md
 
 
 ## [Using Jupyter Notebook in MkDocs]
