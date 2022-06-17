@@ -30,8 +30,79 @@ deliver data to a specific destination program running on another end system.
 
 ## Packet switching 
 
+To send a message from a source end system to a destination end system, the
+source breaks long message into smaller chunks of data known as packets. Between
+source and destination, each packet travels through communication links and
+__packet switches__(for which there are two predominant types, routers and
+link-layer switches).
+
+Most packet switches uses __store-and-forward transmission__ at the inputs to 
+the links. 
+
 
 ## Delay, loss and throughout 
 
+If a source and system or a packet switch is sending a packet of $L$ bits over
+a link with transmission rate $R$ bits/sec, then the time to transmit the
+packet is $L/R$ seconds. Let now consider the general case of sending one
+packet from source to destination over a path consisting of $N$ links each of
+rate $R$. We can calculate the end-to-end delay is:
+
+$$d_{end-to-end} = N \frac{L}{R}$$
+
+In addition to the store-and-forward delays, packets suffer output buffer
+__queuing delays__. When arriving packet finds that the buffer is completely 
+full with other packets waiting for transmission, the __packet loss__ will occur. 
+
+The most important of these delays are the __nodal processing delay, queueing delay__,
+__transmission delay__, and __propagation delay__. 
+
+![nodal-delay](./images/nodal.png)
+
+If we let $d_{proc}, d_{queue}, d_{trans}$ and $d_{prop}$ denote the processing,
+queuing, transmission, and propagation delays, then the total nodal delay is
+given by
+
+$$d_{nodal} = d_{proc} + d_{queue} + d_{trans} + d_{prop}$$
+
+In addition to delay and packet loss, another critical performance measure in
+computer networks is end-to-end throughout. The __instantaneous throughout__
+at any instant of time is the rate (in bits/sec) at which host B is receiving
+the file. 
+
+Therefore, good quality of internet means: low delays and higher throughout rate. 
+
+
 
 ## Protocol layers and their service models 
+
+
+To provide structure to the design of network protocols, network designers 
+organize protocols - and the network hardware and software that implement 
+the protocols - in __layers__. All those layers are encapsulated into a long
+message with different headers. 
+
+![layers](./images/layers.png)
+
+## Traceroute
+
+
+```bash
+traceroute to google.com (216.58.212.142), 30 hops max, 60 byte packets
+ 1  #.#.#.# (my home router)  1.745 ms  1.718 ms  1.708 ms
+ 2  #.#.#.# (my IP)  30.367 ms  3.940 ms  4.112 ms
+ 3  * * *
+ 4  7111a-mx960-01-ae10-1130.fra.unity-media.net (81.210.137.144)  20.118 ms  20.118 ms  20.072 ms
+ 5  de-fra04d-rc1-re0-aorta-net-ae-7-0.aorta.net (84.116.197.245)  23.883 ms  22.485 ms  29.097 ms
+ 6  84.116.190.94 (84.116.190.94)  25.674 ms  13.559 ms  17.805 ms
+ 7  74.125.48.122 (74.125.48.122)  26.587 ms  24.558 ms  34.028 ms
+ 8  * * *
+ 9  108.170.252.1 (108.170.252.1)  33.965 ms 142.250.214.200 (142.250.214.200)  32.011 ms 172.253.71.88 (172.253.71.88)  31.930 ms
+10  108.170.252.18 (108.170.252.18)  33.757 ms 142.250.46.245 (142.250.46.245)  33.806 ms 108.170.252.19 (108.170.252.19)  31.567 ms
+11  ams15s21-in-f14.1e100.net (216.58.212.142)  31.501 ms  26.350 ms  20.266 ms
+```
+
+Here is an example of visualization about how information travels.
+
+![trace-route](./images/traceroute.png)
+
