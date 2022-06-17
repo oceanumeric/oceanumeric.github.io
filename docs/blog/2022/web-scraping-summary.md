@@ -96,6 +96,11 @@ After that, you could use the following function to save your dataset.
 Every time you run `console.save([your_data])`, your browser will automatically
 download the data into a `json` file called `webdata.json`. 
 
+## Javascript framework
+
+If you are seeking for a Javascript framework that provides a high-level API to 
+control Chrome or Chromium over the DevTools Protocol, you can use [Puppeteer](https://pptr.dev/).
+
 __References:__
 <br>
 
