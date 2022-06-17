@@ -106,3 +106,19 @@ Here is an example of visualization about how information travels.
 
 ![trace-route](./images/traceroute.png)
 
+
+__References__
+
+Kurose, J. F., & Ross, K. W. (2022). Computer Networking: A Top-Down Approach
+Eight Edition. _Addision Wesley_.
+
+???cite
+    ```
+    @article{kurose2022computer,
+    title={Computer Networking: A Top-Down Approach Eighth Edition},
+    author={Kurose, James F and Ross, Keith W},
+    journal={Addision Wesley},
+    year={2022}
+    }
+    ```
+
