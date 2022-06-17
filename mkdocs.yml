@@ -23,6 +23,7 @@ nav:
       - blog/2022/jupyter-demo.ipynb
     - Networking:
       - blog/networking/the-internet.md
+      - blog/networking/application-layer.md
   - LifeStyle:
     - lifestyle/index.md
     - food:
