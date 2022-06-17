@@ -38,8 +38,7 @@ was rendered dynamically. Depending on how the data is rendered, you could try:
 
 * copy `cURL` and request it in [postman](https://web.postman.co/), in which
 `Code snippet` could be generated automatically by `postman` for you
-* combine `requests` with [Splash](https://splash.readthedocs.io/en/stable/)
-- a javascript rendering service. 
+* combine `requests` with [Splash](https://splash.readthedocs.io/en/stable/) - a javascript rendering service. 
 * using [Selenium](https://www.selenium.dev/)
 
 I prefer using `Splash` as it allows you to render javascript in `Python`
