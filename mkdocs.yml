@@ -15,6 +15,7 @@ nav:
   - Blog: 
     - blog/index.md
     - 2022:
+      - blog/2022/entrepreneurship-conference.md
       - blog/2022/web-scraping-summary.md
       - blog/2022/science-of-innovation.md
       - blog/2022/cocitations-management-journal.ipynb
