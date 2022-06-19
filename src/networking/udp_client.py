@@ -5,7 +5,8 @@ server_name = '47.108.238.80'
 server_port = 12000
 
 client_socket = socket(AF_INET, SOCK_DGRAM)
-message = input('Input lowercase sentence:')
+
+message = input("Please type in lower case: \n")
 
 client_socket.sendto(message.encode(), (server_name, server_port))
 
