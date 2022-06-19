@@ -172,6 +172,13 @@ When we request, we could use __non-persistent connections__ or __persistent con
 The default mode of HTTP uses persistent connections with pipeline. 
 
 
+## Cookies And Web Caching
+
+Since HTTP is stateless, web servers have to use Cookies to identify users. To
+handle thousands of simultaneous TCP connections, host could also use a
+__Web cache (proxy server)__ to response the request. 
+
+
 
 
 __References__
