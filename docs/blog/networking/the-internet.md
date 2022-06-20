@@ -2,7 +2,7 @@
 title: The Internet 
 ---
 
-## What is the internet? 
+## What Is The Internet? 
 
 The internet is a computer network that interconnects billions of computing
 devices throughout the world. Here is a simplified structure of the internet. 
@@ -28,7 +28,44 @@ how a program running on one end system asks the Internet infrastructure to
 deliver data to a specific destination program running on another end system. 
 
 
-## Packet switching 
+## The 4 Layer Internet Model
+
+The internet was built upon 4 layers mixed with __hardware__ and __software__ 
+infrastructures. Each layer has its own __protocols__ and could only communicate
+with its peer layers. It is also important to know that the _link layer_ sends
+datagram to each other and those link layers work in different ways (such as Wifi
+and Ethernet). However, the modularity design of _network_ and _link layer_ makes
+the 'communication' possible, which we will learn it in more detail later.  
+
+=== "The 4 layer model"
+    ![internet-model](./images/internet-model.png)
+    The link layer follows the physical law about how 'information' (bits) could
+    be transferred. In this series of posts, we will focus on the first three
+    layers - application, transport, and network. 
+
+=== "The network layer"
+    In this layer, we must use the __Internet Protocol (IP)__. 
+
+    - IP makes a best-effort attempt to deliver our datagrams to the other end.
+    But it makes no promises. 
+    - IP datagrams can get lost, can be delivered out of order, and can be
+    corrupted. There are no guarantees. 
+
+=== "IP: the 'thin waist' "
+    ![thin-waist](./images/think-waist.png)
+
+
+=== "Summary"
+    ![summary](./images/internet-summary.png)
+
+
+
+
+
+
+
+
+## Packet Switching 
 
 To send a message from a source end system to a destination end system, the
 source breaks long message into smaller chunks of data known as packets. Between
@@ -40,7 +77,7 @@ Most packet switches uses __store-and-forward transmission__ at the inputs to
 the links. 
 
 
-## Delay, loss and throughout 
+## Delay, Loss and Throughout 
 
 If a source and system or a packet switch is sending a packet of $L$ bits over
 a link with transmission rate $R$ bits/sec, then the time to transmit the
@@ -74,7 +111,7 @@ Therefore, good quality of internet means: low delays and higher throughout rate
 
 
 
-## Protocol layers and their service models 
+## Protocol Layers and Their Service Models 
 
 
 To provide structure to the design of network protocols, network designers 
