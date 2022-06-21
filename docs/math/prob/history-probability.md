@@ -5,14 +5,10 @@ title: History of Probability
 <style>
     [data-md-color-scheme="default"] {
     background-color:#fffff8;
-    .md-content > .md-typeset {
-        color: #16291c;
-    }
-    }
+    } 
     .md-content {
-    font-family: 'Latin Modern Roman', Palatino, Georgia, Cambria, 'Times New Roman', Times, serif;
-    /* background-color:#fffff8; */
-    }
+    font-family: TeX Gyre Schola;
+    } 
     .md-content > .md-typeset {
     font-size: 13pt;
     font-style: normal;
