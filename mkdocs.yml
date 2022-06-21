@@ -35,6 +35,8 @@ nav:
     - probability:
       - math/prob/history-probability.md
       - math/prob/generating-function.ipynb
+    - Fourier Analysis:
+      - math/fourier/complex-numbers.md
 
 theme:
   name: material
