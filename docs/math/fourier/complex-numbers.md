@@ -34,7 +34,7 @@ of $a+bi$ is defined as
 
 $$\overline{a+bi} = a - bi$$
 
-The _norm_ of $a+bi$ is defined to be 
+The _norm (or modulus)_ of $a+bi$ is defined to be 
 
 $$|a+bi| = \sqrt{a^2+b^2}$$
 
@@ -59,7 +59,8 @@ $d: X \times X \to R$ such that for all $x, y, z \in X$, we have:
 
 __Theorem 1.__ For $z,  w \in C$, we have the following inequality:
 
-$$|R(z \overline{w})| \leq |z||w|$$
+1. (Cauchy-Schwarz Inequality) $|R(z \overline{w})| \leq |z||w|$
+2. (Triangle inequality) $|z+w| \leq |z| + |w|$
 
 _Proof._ On the right side, we have
 
@@ -91,6 +92,22 @@ It is easy to show that
 |R(z \overline{w})| \leq |z||w|
 \end{aligned}
 
+For the triangle inequality, we have:
 
+\begin{aligned}
+ |z+w|^2 & = (z+w)(\overline{z} + \overline{w})  \\
+        & = |z|^2 + |w|^2 + w\overline{z} + z\overline{w} \\
+        & = |z|^2 + |w|^2 + w\overline{z} + \overline{(\overline{z})}\overline{w} \\
+        & = |z|^2 + |w|^2 + w\overline{z} + \overline{(\overline{z}w)} \\
+        & = |z|^2 + |w|^2  + 2 R(z\overline{w}) \\
+        & \leq |z|^2 + |w|^2  + 2 |z\overline{w}| \\
+        & = (|z| + |w|)^2 \\
+\implies & |z+w|  \leq |z| + |w|
+\end{aligned}
+
+<span style="float:right">&#9726;</span>
+<br>
+
+For the general case of Cauchy–Schwarz inequality, please read [this paper](https://drive.google.com/file/d/1ofjPMh-006422bzSpeuC1OpNtiy9htSM/view?usp=sharing). 
 
 
