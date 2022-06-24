@@ -57,6 +57,7 @@ For $z, w \in C$, we have:
 * $\overline{z+w} = \overline{z} + \overline{w}$ 
 * $\overline{z\cdot w} = \overline{z} \cdot \overline{w}$ 
 * $|zw| = |z| |w|$ 
+* $z \overline{z} = a^2 + b^2 = |z|^2$
 
 
 __Definition 2.__ Let $X$ be a nonempty set. A _metric_ on $X$ is a function
