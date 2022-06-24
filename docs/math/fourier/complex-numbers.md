@@ -175,3 +175,20 @@ $|L| < |L|$ is a contradiction.
        1. integer $N$
        2. measurement $\epsilon$
 
+__Theorem 3.__ Let $a_n$ and $b_n$ be _sequences_ in $C$, and suppose that
+$\lim_{n \to \infty} a_n = L, \lim_{n\to \infty} b_n = M$, and $c \in C$. Then
+we have that 
+
+1. $\lim_{n \to \infty} c a_ = c L$
+2. $\lim_{n \to \infty} (a_n + b_n) = L + M$
+3. $\lim_{n \to \infty} \overline{a_n} = \overline{L}$
+4. $\lim_{n \to \infty} a_n b_n = LM$ 
+5. if $L \neq  0$, then $\lim_{n \to \infty} \frac{1}{a_n} = \frac{1}{L}$
+6. if $a_n$ is real-valued and $a_n \leq K$ for all $n$, then $\lim_{n \to \infty} a_n = L \leq K$. 
+
+__Theorem 4.__ Let $z_n = x_n + y_n i$ be a _complex sequence_ with real and
+imaginary parts $x_n$ and $y_n$, respectively, and let $L = a + bi \in C$ have
+real and imaginary parts $a$ and $b$, respectively. Then $\lim_{n \to \infty} z_n = L$
+if and only if $\lim_{n \to \infty} x_n = a$ and  $\lim_{n \to \infty} y_n = b$. 
+
+## Completeness In Metric Spaces 
