@@ -15,6 +15,19 @@ title: Complex Numbers
     font-weight: normal;
     text-align:justify;
     }
+    ol {
+    counter-reset: list;
+    }
+    ol > li {
+       list-style: none;
+       position: relative;
+       }
+    ol > li:before {
+       counter-increment: list;
+       content: "(" counter(list, decimal) ") ";
+       position: absolute;
+       left: -1.7em;
+       }
 </style>
 
 
@@ -110,4 +123,55 @@ For the triangle inequality, we have:
 
 For the general case of Cauchy–Schwarz inequality, please read [this paper](https://drive.google.com/file/d/1ofjPMh-006422bzSpeuC1OpNtiy9htSM/view?usp=sharing). 
 
+
+## Sequences in Complex Numbers
+
+__Definition 3.__ For a sequence of complex number $a_n$ and $L \in C$, to say
+that $\lim_{n \to \infty} a_n = L$ means that for every $\epsilon > 0$, there
+exists some $N(\epsilon) \in R$ such that if $n > N(\epsilon)$, then
+$|a_n - L| < \epsilon$. For a given sequence $a_n$, if $\lim_{n \to \infty} a_n =L$
+for some $L \in C$, then we say that $a_n$ _converges_, or is _convergent_;
+otherwise, we say that $a_n$ _diverges_, or _divergent_. 
+
+__Definition 4.__ To say that a nonempty subset $S$ of $C$ is _bounded_ means that
+there exists some $M>0$ such that for $z \in S, |z| < M$. 
+
+__Theorem 2.__ Let $a_n$ be a sequences in $C$.
+
+1. If $a_n$ converges, then $a_n$ is bounded.
+2. If $\lim_{n \to \infty} a_n = L \neq 0$, then there exits some real number
+$K$ such that if $n > K$, then $|a_n| \geq \frac{|L|}{2}$.
+
+_Proof._ 
+
+(1.) If $a_n$ converges, then by definition, we could have some $N(\epsilon)$ 
+such that if $n > N(\epsilon)$, then $|a_n - L| < \epsilon$. Now, choose
+some integer $K > N(1)$, for $n > K$, we know that $|a_n -L| < 1$, which means
+that 
+
+\begin{equation}
+|a_n| \leq |a_n - L| + |L| < |L| + 1 \ \ \ \ \text{(by the triangle inequality)}
+\end{equation}
+
+Therefore, since $\{ |a_1|, \cdots, |a_K| \}$ is a finite set, we see that for
+all $n$, $|a_n| < M$, where $M = \max \{ |a_1|, \cdots, |a_K|, L+1 \}$. 
+
+(2.) We know $\lim_{n \to \infty} a_n = L \neq 0$, we will prove $|a_n| > \frac{|L|}{2}$
+when $n > K$ by contradiction. Let $\epsilon = \frac{|L|}{2} > 0$, since $a_n$
+converges we have $|a_n - L| < \frac{|L|}{2}$ when $n > K$. Now we must have
+$|a_n| \geq \frac{|L|}{2}$, otherwise we will have 
+
+\begin{align}
+|L| = |L - a_n + a_n|  \leq |L-a_n| + |a_n| < \frac{|L|}{2} +  \frac{|L|}{2} = |L|
+\end{align}
+
+$|L| < |L|$ is a contradiction. 
+<span style="float:right">&#9726;</span>
+<br>
+
+??? tip
+       Two dimensions of analysis:
+
+       1. integer $N$
+       2. measurement $\epsilon$
 
