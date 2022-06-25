@@ -11,6 +11,21 @@ search:
 </style>
 
 
+## [Legacies In Leadership]
+
+I haven't thought about leadership before. However, a talk by Lee Kuan Yew gives
+me the inspiration to facing grand challenges for the 21st century. 
+
+<span>
+:octicons-calendar-24: Jun 25, 2022 ·
+:octicons-clock-24: 2 min read
+</span>
+
+[:octicons-arrow-right-24: Continue reading][Legacies In Leadership]
+[Legacies In Leadership]: 2022/legacies-leadership.md
+
+
+
 ## [Web Scrapping A Summary]
 
 There are many ways to do web scrapping. In this post, I will summarize
