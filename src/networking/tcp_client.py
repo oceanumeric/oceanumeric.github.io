@@ -4,11 +4,19 @@ from socket import *
 server_name = '47.108.238.80'
 server_port = 12000
 
-with socket(AF_INET, SOCK_STREAM) as s:  # a tcp connection 
-    # initiate the TCP connection between client and server 
-    s.connect((server_name, server_port))
-    message = input("Please type in lower case: \n")
-    s.send(message.encode())
-    modified_message = s.recv(1024)
-    print(modified_message.decode())
-    s.close()
+client_socket = socket(AF_INET, SOCK_STREAM)
+
+try:
+    client_socket.connect((server_name, server_port))
+except:
+    print("connection failed")
+
+message = input("What's you message: \n")
+
+client_socket.send(message.encode())
+
+reply_message = client_socket.recv(1024)
+
+print('From Server: ', reply_message.decode())
+
+client_socket.close()

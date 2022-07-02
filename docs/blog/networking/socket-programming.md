@@ -98,3 +98,136 @@ mechanism stops the data transfer until the receive buffer is empty.
 This buffer size is controlled by `recvfrom(2048)`. 
 
 ## Socket programming with TCP
+
+Unlike UDP, TCP is a connection-oriented protocol. This means that before the
+client and server can start to send data to each other, they first need to
+handshake and establish a TCP connection. 
+
+![tcp-socket](./images/tcp-two-sockets.png)
+
+=== "tcp_client.py"
+    ```py
+    from socket import *
+
+
+    server_name = '47.108.238.80'
+    server_port = 12000  # make sure you opened this port
+
+    client_socket = socket(AF_INET, SOCK_STREAM)
+
+    try:
+        # create the connect 
+        client_socket.connect((server_name, server_port))
+    except:
+        print("connection failed")
+
+    message = input("What's you message: \n")
+
+    client_socket.send(message.encode())
+
+    reply_message = client_socket.recv(1024)
+
+    print('From Server: ', reply_message.decode())
+
+    client_socket.close()
+    ```
+=== "tcp_server.py"
+    ```py
+    from socket import *
+
+    server_host = 'localhost'  # receive all interface
+    server_port = 12000
+
+    with socket(AF_INET, SOCK_STREAM) as stpc:
+        stpc.bind((server_host, server_port))  # welcoming socket
+        stpc.listen(1)  # listen for TCP connection requests
+        print("The server is ready to receive")
+        while True:
+            connection_socket, addr = stpc.accept()  # create a new socket
+            print(f"Connected by {addr}")
+            message = connection_socket.recv(1024).decode()
+            print(message)
+            modified_message = message.upper()
+            connection_socket.send(modified_message.encode())
+            connection_socket.close()
+    ```
+
+## Opening a port on Linux
+
+Typically, ports identify a specific network service assigned to them. This 
+can be changed by manually configuring the service to use a different port, 
+but in general, the defaults can be used.
+
+The first 1024 ports (Ports 0-1023) are referred to as well-known port 
+numbers and are reserved for the most commonly used services include SSH (port 22), 
+HTTP and HTTPS (port 80 and 443), etc. Port numbers above 1024 are referred to as ephemeral ports.
+
+Among ephemeral ports, Port numbers 1024-49151 are called the Registered/User 
+Ports. The rest of the ports, 49152-65535 are called as Dynamic/Private Ports.
+
+we could use `ss` command to list listening sockets with an open port.
+
+```bash
+ss -lntu
+```
+
+It gives the following results.
+
+```bash
+Netid        State         Recv-Q        Send-Q                    Local Address:Port                Peer Address:Port       Process        
+udp          UNCONN        0             0                    172.25.161.18%eth0:68                       0.0.0.0:*                         
+udp          UNCONN        0             0                             127.0.0.1:323                      0.0.0.0:*                         
+udp          UNCONN        0             0                         127.0.0.53%lo:53                       0.0.0.0:*                         
+udp          UNCONN        0             0                                 [::1]:323                         [::]:*                         
+udp          UNCONN        0             0                                     *:55896                          *:*                         
+udp          UNCONN        0             0                                     *:19286                          *:*                         
+udp          UNCONN        0             0                                     *:22313                          *:*                         
+tcp          LISTEN        0             4096                          127.0.0.1:9090                     0.0.0.0:*                         
+tcp          LISTEN        0             511                           127.0.0.1:9091                     0.0.0.0:*                         
+tcp          LISTEN        0             4096                          127.0.0.1:9092                     0.0.0.0:*                         
+tcp          LISTEN        0             4096                      127.0.0.53%lo:53                       0.0.0.0:*                         
+tcp          LISTEN        0             128                             0.0.0.0:22                       0.0.0.0:*                         
+tcp          LISTEN        0             511                                   *:23426                          *:*                         
+tcp          LISTEN        0             4096                                  *:22313                          *:*                         
+tcp          LISTEN        0             4096                                  *:19286                          *:*                         
+tcp          LISTEN        0             4096                                  *:55896                          *:* 
+```
+
+We can verify whether a port is being used or not.
+
+```bash
+ss -na | grep :4000
+```
+
+If it returns _nothing_, then it means the port is not being used. Otherwise,
+it should return the status of the port.
+
+```bash
+ss -na | grep :55896
+
+udp      UNCONN                 0                   0               *:55896                *:*                                 
+tcp      LISTEN                 0                   4096            *:55896                *:* 
+```
+
+Ubuntu has a firewall called `ufw`, which takes care of these rules for ports 
+and connections, instead of the old `iptables` firewall. If you are a Ubuntu user, 
+you can directly open the port using `ufw`
+
+```sh
+sudo ufw allow 4000
+```
+
+After opening a port, you could test it with `telnet`.
+
+```bash
+telnet 47.108.238.80 12000
+
+Trying 47.108.238.80...
+Connected to 47.108.238.80.
+Escape character is '^]'.
+```
+
+This will open the port `4000`. Now, you could test your `tcp_client.py` and
+`tcp_server.py` from your computer and your server. 
+
+## Creating a Web server 
