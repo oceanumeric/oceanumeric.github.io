@@ -2,17 +2,13 @@ from socket import *
 
 
 server_name = '47.108.238.80'
-server_port = 12001
+server_port = 65432
 
-client_socket = socket(AF_INET, SOCK_STREAM)  # a tcp connection 
-
-# initiate the TCP connection between client and server 
-client_socket.connect((server_name, server_port))
-
-message = input("Please type in lower case: \n")
-
-client_socket.send(message.encode())
-
-modified_message = client_socket.recv(2048)
-
-client_socket.close()
+with socket(AF_INET, SOCK_STREAM) as s:  # a tcp connection 
+    # initiate the TCP connection between client and server 
+    s.connect((server_name, server_port))
+    message = input("Please type in lower case: \n")
+    s.send(message.encode())
+    modified_message = s.recv(1024)
+    print(modified_message)
+    s.close()
