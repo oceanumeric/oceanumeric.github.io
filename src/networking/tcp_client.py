@@ -10,5 +10,5 @@ with socket(AF_INET, SOCK_STREAM) as s:  # a tcp connection
     message = input("Please type in lower case: \n")
     s.send(message.encode())
     modified_message = s.recv(1024)
-    print(modified_message)
+    print(modified_message.decode())
     s.close()

@@ -1,6 +1,6 @@
 from socket import *
 
-server_host = '0.0.0.0'
+server_host = '47.108.238.80'
 server_port = 65432
 
 with socket(AF_INET, SOCK_STREAM) as stpc:
