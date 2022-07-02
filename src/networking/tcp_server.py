@@ -5,7 +5,7 @@ server_port = 65432
 
 with socket(AF_INET, SOCK_STREAM) as stpc:
     stpc.bind((server_host, server_port))  # welcoming socket
-    stpc.listen()  # listen for TCP connection requests
+    stpc.listen(1)  # listen for TCP connection requests
     connection_socket, addr = stpc.accept()  # create a new socket
     print("The server is ready to receive")
     with connection_socket:
