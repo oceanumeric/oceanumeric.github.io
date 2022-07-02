@@ -2,7 +2,7 @@ from socket import *
 
 
 server_name = '47.108.238.80'
-server_port = 65432
+server_port = 12000
 
 with socket(AF_INET, SOCK_STREAM) as s:  # a tcp connection 
     # initiate the TCP connection between client and server 
