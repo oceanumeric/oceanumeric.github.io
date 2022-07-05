@@ -52,7 +52,7 @@ the 'communication' possible, which we will learn it in more detail later.
     corrupted. There are no guarantees. 
 
 === "IP: the 'thin waist' "
-    ![thin-waist](./images/think-waist.png)
+    ![thin-waist](./images/thin-waist.png)
 
 
 === "Summary"

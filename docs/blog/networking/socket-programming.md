@@ -231,3 +231,131 @@ This will open the port `4000`. Now, you could test your `tcp_client.py` and
 `tcp_server.py` from your computer and your server. 
 
 ## Creating a Web server 
+
+In this section, we will create a web server. Before starting it, please be
+aware that __Web is not the Internet__ and please look at the following figure
+again. 
+
+![thin-waist](./images/thin-waist.png)
+
+A web server will:
+
+1. create a connection socket when contacted by a client(browser)
+2. receive the HTTP request from connection
+3. parse the request to determine the specific file 
+4. get the requested file from the server's file system 
+5. create an HTTP response message 
+6. send the response over the TCP connection 
+
+In my server (or host), I put `HelloWorld.html` and `web_server.py` into the
+same directory.
+
+```bash
+.
+├── HelloWorld.html
+└── web_server.py
+```
+
+`HelloWrold.html` is a very simple HTML file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You see me</title>
+</head>
+<body>
+    Hello, World !
+</body>
+</html>
+```
+
+Here is the code of the `web_server.py`:
+
+```python
+#import socket module
+from socket import *
+import sys # In order to terminate the program
+
+
+#Prepare a sever socket
+
+server_host = ''  # receive all interface
+# use localhost for test: server_host = 'localhost'
+server_port = 12000  # TCP connection multiplexing 
+
+with socket(AF_INET, SOCK_STREAM) as socket_server:
+    # override the port
+    socket_server.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)  
+    socket_server.bind((server_host, server_port))  # bind ip + port
+    socket_server.listen(1)
+    print("The server is ready to receive")
+    while True:
+        # create the connection
+        connection_socket, addr = socket_server.accept()  
+        print(f"Connected by {addr}")
+        # connect and send the data 
+        try:
+            message = connection_socket.recv(1024).decode()
+            print(message)
+            # the path is the second part of the header
+            # GET /HelloWorld.html HTTP/1.1
+            file_name = message.split()[1]  # /HelloWorld.html
+            file = open(file_name[1:])  # open HelloWorld.html
+            html_text = file.read()
+            #Send one HTTP header line into socket
+            connection_socket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
+            # send the content to the client 
+            for i in range(0, len(html_text)):
+                connection_socket.send(html_text[i].encode())
+            connection_socket.send("\r\n".encode())
+            connection_socket.close()
+        except IOError:
+            print("IOError")
+            #Send response message for file not found
+            connection_socket.send(
+                "HTTP/1.1 404 Not Found\r\n\r\n".encode()
+                )
+            connection_socket.close()
+            
+sys.exit()  # terminate the program when it stops serving 
+```
+
+Now, I will visit the website from the browser. 
+
+![client](./images/browser-visit.png)
+
+On my server, after _listening_ the request, I got the following requests:
+
+```bash
+root@iZ2vc0ibe0pndu24p4g2j7Z:~/cs144/website# python3 web_server.py
+The server is ready to receive
+Connected by ('8*.1*9.*6.*8', 50722)  # my address and port 
+
+# request by the client's browser 
+GET /HelloWorld.html HTTP/1.1
+Host: 47.108.238.80:12000
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.124 Safari/537.36 Edg/102.0.1245.41
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+```
+
+On my browser, I got the file I requested.
+
+![hello-world](./images/browser-response.png)
+
+
+## UDP Pinger 
+
+
+## Mail Client
+
+
+## Web Proxy
