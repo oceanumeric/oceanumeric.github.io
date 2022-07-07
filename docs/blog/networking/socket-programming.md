@@ -352,7 +352,66 @@ On my browser, I got the file I requested.
 ![hello-world](./images/browser-response.png)
 
 
-## UDP Pinger 
+## UDP Pinger
+
+
+=== "tcp_ping_client.py"
+    ```py
+    """
+    This ping program send 10 ping messages to the target server over UDP
+        - print the Round Trip Time when the corresponding pong 
+        message is returned
+        - timeout = 1 second when no data is received 
+    """
+
+    import time
+    from socket import *
+
+    server_ip = '47.108.238.80'
+    server_port = 12000
+
+    with socket(AF_INET, SOCK_DGRAM) as client_socket:
+        client_socket.settimeout(1)
+        # ping ten times
+        for i in range(10):
+            t0 = time.time()
+            message = 'PING ' + str(i + 1) + " " + str(time.strftime("%H:%M:%S"))
+            client_socket.sendto(message.encode(), (server_ip, server_port))
+            
+            try:
+                data, server = client_socket.recvfrom(1024)
+                data = data.decode()
+                t1 = time.time()
+                rtt = t1 - t0  # round trip time 
+                print(f"Data received - {data}, Round Trip Time: {rtt}")
+            except timeout:
+                print("REQUEST Time Out")
+    ```
+
+=== "udp_ping_server.py"
+    ```py
+    import random
+    from socket import *
+
+
+    # Create a UDP socket
+    serverSocket = socket(AF_INET, SOCK_DGRAM)
+    # Assign IP address and port number to socket
+    serverSocket.bind(('', 12000))
+
+    while True:
+        # Generate random number in the range of 0 to 10
+        rand = random.randint(0, 10)
+        # Receive the client packet along with the address it is coming from
+        message, address = serverSocket.recvfrom(1024)
+        # Capitalize the message from the client
+        message = message.upper()
+        # If rand is less is than 4, we consider the packet lost and do not respond
+        if rand < 4:
+            continue
+        # Otherwise, the server responds
+        serverSocket.sendto(message, address)
+    ```
 
 
 ## Mail Client
