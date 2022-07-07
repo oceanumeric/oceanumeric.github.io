@@ -187,7 +187,7 @@ __Theorem 7.__ Let $a_n$ and $b_n$ be _sequences_ in $C$, and suppose that
 $\lim_{n \to \infty} a_n = L, \lim_{n\to \infty} b_n = M$, and $c \in C$. Then
 we have that 
 
-1. $\lim_{n \to \infty} c a_ = c L$
+1. $\lim_{n \to \infty} c a = c L$
 2. $\lim_{n \to \infty} (a_n + b_n) = L + M$
 3. $\lim_{n \to \infty} \overline{a_n} = \overline{L}$
 4. $\lim_{n \to \infty} a_n b_n = LM$ 
