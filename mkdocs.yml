@@ -38,6 +38,7 @@ nav:
       - math/prob/generating-function.ipynb
     - Fourier Analysis:
       - math/fourier/complex-numbers.md
+      - math/fourier/complex-calculus.md
 
 theme:
   name: material
