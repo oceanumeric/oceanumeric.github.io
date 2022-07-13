@@ -7,6 +7,7 @@ nav:
   - Readings:
     - readings/index.md
     - 2022:
+      - readings/2022/dynamic-management.md
       - readings/2022/innovation-research-roadmap.md
       - readings/2022/systematic-review.ipynb
       - readings/2022/science-endless-frontiers.md
