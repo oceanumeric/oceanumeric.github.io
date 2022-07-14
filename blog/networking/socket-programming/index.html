@@ -229,4 +229,262 @@ Accept-Language: en-US,en<span class=p>;</span><span class=nv>q</span><span clas
         <span class=k>continue</span>
     <span class=c1># Otherwise, the server responds</span>
     <span class=n>serverSocket</span><span class=o>.</span><span class=n>sendto</span><span class=p>(</span><span class=n>message</span><span class=p>,</span> <span class=n>address</span><span class=p>)</span>
-</code></pre></div> </div> </div> </div> <h2 id=mail-client>Mail Client</h2> <h2 id=web-proxy>Web Proxy</h2> <hr> <div class=md-source-file> <small> Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 7, 2022</span> </small> </div> </article> </div> </div> <a href=# class="md-top md-top--hidden md-icon" data-md-component=top> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg> Back to top </a> </main> <footer class=md-footer> <nav class="md-footer__inner md-grid" aria-label=Footer> <a href=../application-layer/ class="md-footer__link md-footer__link--prev" aria-label="Previous: Application Layer" rel=prev> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </div> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Previous </span> Application Layer </div> </div> </a> <a href=../../../lifestyle/ class="md-footer__link md-footer__link--next" aria-label="Next: LifeStyle" rel=next> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Next </span> LifeStyle </div> </div> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg> </div> </a> </nav> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> <div class=md-copyright__highlight> Copyright &copy; 2022 Fei Wang </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../..", "features": ["navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script> <script src=../../../assets/javascripts/bundle.7f366e99.min.js></script> <script src=../../../javascripts/mathjax.min.js></script> <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> <script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script> <script src=../../../javascripts/headroom.min.js></script> <script src=../../../javascripts/activate_headroom.min.js></script> </body> </html>
+</code></pre></div> </div> </div> </div> <h2 id=mail-client>Mail Client</h2> <details class=note><summary>Protocol</summary><p>IMAP, POP, and SMTP use the standard Simple Authentication and Security Layer (SASL), via the native IMAP AUTHENTICATE, POP AUTH, and SMTP AUTH commands, to authenticate users. The SASL XOAUTH2 mechanism enables clients to provide OAuth 2.0 credentials for authentication. The SASL XOAUTH2 protocol documentation describes the SASL XOAUTH2 mechanism in great detail, and libraries and samples which have implemented the protocol are available.</p> <p><strong>Incoming</strong> connections to the IMAP server at <strong>imap.gmail.com:993</strong> and the POP server at pop.gmail.com:995 require SSL. The <strong>outgoing</strong> SMTP server, smtp.gmail.com, requires TLS. Use port <strong>465, or port 587</strong> if your client begins with plain text before issuing the STARTTLS command.</p> </details> <p>First, we will learn how to send emails via <code>telnet</code>.</p> <p><div class=highlight><pre><span></span><code>sudo apt-get install telnet-ssl  <span class=c1># install telnet-ssl </span>
+telnet -z ssl smtp.gmail.com <span class=m>465</span>  <span class=c1># connect with gmail server(port: 465)</span>
+</code></pre></div> The above command will yield the following return.</p> <p><div class=highlight><pre><span></span><code>Trying 173.194.76.109...
+Connected to smtp.gmail.com.
+Escape character is &#39;^]&#39;.
+220 smtp.gmail.com ESMTP g4-xx(a series of code).111 - gsmtp
+</code></pre></div> Now, we can send our email via the command line.</p> <div class=highlight><pre><span></span><code>HELO smtp.gmail.com
+250 smtp.gmail.com at your service
+auth login 
+334 VXNlcm5hbWU6
+bWFoZWVuYW1pbjlAZ21haWwuY29t
+334 UGFzc3dvcmQ6
+enZseXlybGl5bWdvb3lxdw==
+235 2.7.0 Accepted
+mail from: &lt;maheenamin9@gmail.com&gt;
+250 2.1.0 OK g4-xx(a series of code).111 - gsmtp
+rcpt to: &lt;numerical.ocean@gmail.com&gt;
+250 2.1.5 OK g4-xx(a series of code).111 - gsmtp
+Subject: Mail via telnet         
+502 5.5.1 Unrecognized command. g4-xx(a series of code).111 - gsmtp
+Data
+354  Go ahead g4-xx(a series of code).111 - gsmtp
+Subject: Mail via telnet 
+Good afternoon,
+
+Hope this mail finds you well :)
+
+I would like to know whether you enjoyed learning computer networking or not.
+Please let me know! Thanks. 
+
+.
+
+250 2.0.0 OK  1657795912 g4-xx(a series of code).111 - gsmtp
+quit
+221 2.0.0 closing connection g4-xx(a series of code).111 - gsmtp
+Connection closed by foreign host.
+</code></pre></div> <details class=warning><summary>Warning</summary><p>When you want to finish your email, you have to follow the <strong>exact</strong> format like this: <div class=highlight><pre><span></span><code># space
+.
+# space 
+</code></pre></div></p> </details> <p>This is the email I got once it was sent out. </p> <p><img alt=telnet-mail src=../images/telnetmail.png></p> <p>You can also check your email via <code>telnet</code></p> <div class=highlight><pre><span></span><code>telnet -z ssl imap.gmail.com <span class=m>993</span>
+Trying <span class=m>66</span>.102.1.108...
+Connected to imap.gmail.com.
+Escape character is <span class=s1>&#39;^]&#39;</span>.
+* OK Gimap ready <span class=k>for</span> requests from <span class=m>95</span>.222.250.55 n9mb17268880wri
+tag login maheenamin9@gmail.com zvlyyrliymgooyqw
+* CAPABILITY IMAP4rev1 UNSELECT IDLE NAMESPACE QUOTA ID XLIST CHILDREN X-GM-EXT-1 UIDPLUS <span class=nv>COMPRESS</span><span class=o>=</span>DEFLATE ENABLE MOVE CONDSTORE ESEARCH <span class=nv>UTF8</span><span class=o>=</span>ACCEPT LIST-EXTENDED LIST-STATUS LITERAL- SPECIAL-USE <span class=nv>APPENDLIMIT</span><span class=o>=</span><span class=m>35651584</span>
+tag OK maheenamin9@gmail.com authenticated <span class=o>(</span>Success<span class=o>)</span>
+tag list <span class=s2>&quot;&quot;</span> <span class=s2>&quot;*&quot;</span>
+* LIST <span class=o>(</span><span class=se>\H</span>asNoChildren<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;INBOX&quot;</span>
+* LIST <span class=o>(</span><span class=se>\H</span>asChildren <span class=se>\N</span>oselect<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]&quot;</span>
+* LIST <span class=o>(</span><span class=se>\A</span>ll <span class=se>\H</span>asNoChildren<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]/All Mail&quot;</span>
+* LIST <span class=o>(</span><span class=se>\H</span>asNoChildren <span class=se>\T</span>rash<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]/Bin&quot;</span>
+* LIST <span class=o>(</span><span class=se>\D</span>rafts <span class=se>\H</span>asNoChildren<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]/Drafts&quot;</span>
+* LIST <span class=o>(</span><span class=se>\H</span>asNoChildren <span class=se>\I</span>mportant<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]/Important&quot;</span>
+* LIST <span class=o>(</span><span class=se>\H</span>asNoChildren <span class=se>\S</span>ent<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]/Sent Mail&quot;</span>
+* LIST <span class=o>(</span><span class=se>\H</span>asNoChildren <span class=se>\J</span>unk<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]/Spam&quot;</span>
+* LIST <span class=o>(</span><span class=se>\F</span>lagged <span class=se>\H</span>asNoChildren<span class=o>)</span> <span class=s2>&quot;/&quot;</span> <span class=s2>&quot;[Gmail]/Starred&quot;</span>
+tag OK Success
+tag <span class=k>select</span> <span class=s2>&quot;inbox&quot;</span>
+* FLAGS <span class=o>(</span><span class=se>\A</span>nswered <span class=se>\F</span>lagged <span class=se>\D</span>raft <span class=se>\D</span>eleted <span class=se>\S</span>een <span class=nv>$NotPhishing</span> <span class=nv>$Phishing</span><span class=o>)</span>
+* OK <span class=o>[</span>PERMANENTFLAGS <span class=o>(</span><span class=se>\A</span>nswered <span class=se>\F</span>lagged <span class=se>\D</span>raft <span class=se>\D</span>eleted <span class=se>\S</span>een <span class=nv>$NotPhishing</span> <span class=nv>$Phishing</span> <span class=se>\*</span><span class=o>)]</span> Flags permitted.
+* OK <span class=o>[</span>UIDVALIDITY <span class=m>1</span><span class=o>]</span> UIDs valid.
+* <span class=m>4579</span> EXISTS
+* <span class=m>0</span> RECENT
+* OK <span class=o>[</span>UIDNEXT <span class=m>5229</span><span class=o>]</span> Predicted next UID.
+* OK <span class=o>[</span>HIGHESTMODSEQ <span class=m>513664</span><span class=o>]</span>
+tag OK <span class=o>[</span>READ-WRITE<span class=o>]</span> inbox selected. <span class=o>(</span>Success<span class=o>)</span>
+tag fetch <span class=m>3</span> body<span class=o>[</span>header<span class=o>]</span>
+* <span class=m>3</span> FETCH <span class=o>(</span>BODY<span class=o>[</span>HEADER<span class=o>]</span> <span class=o>{</span><span class=m>6489</span><span class=o>}</span>
+Delivered-To: maheenamin9@gmail.com
+Received: by <span class=m>2002</span>:adf:fb82:0:0:0:0:0 with SMTP id a2csp10249006wrr<span class=p>;</span> Sun, <span class=m>10</span>
+Mar <span class=m>2019</span> <span class=m>08</span>:32:16 -0700 <span class=o>(</span>PDT<span class=o>)</span>
+<span class=c1># header is very long, check the box below</span>
+tag OK Success
+tag fetch body<span class=o>[</span>text<span class=o>]</span>
+tag BAD Could not parse <span class=nb>command</span>
+tag fetch <span class=m>3</span> body<span class=o>[</span>text<span class=o>]</span>
+* <span class=m>3</span> FETCH <span class=o>(</span>BODY<span class=o>[</span>TEXT<span class=o>]</span> <span class=o>{</span><span class=m>675</span><span class=o>}</span>
+------<span class=o>=</span>_Part_1811_643965077.1552231934704
+Content-Type: text/plain<span class=p>;</span> <span class=nv>charset</span><span class=o>=</span><span class=s2>&quot;UTF-8&quot;</span>
+
+https://github.com/MAwaisMansoor/String-Library
+
+-- 
+You received this message because you are subscribed to the Google Groups <span class=s2>&quot;oop-ksk&quot;</span> group.
+To unsubscribe from this group and stop receiving emails from it, send an email to oop-ksk+unsubscribe@googlegroups.com.
+To post to this group, send an email to oop-ksk@googlegroups.com.
+To view this discussion on the web, visit https://groups.google.com/d/msgid/oop-ksk/424ac670-0fb3-4c4e-83bc-5564a70d6b8f%40googlegroups.com.
+For more options, visit https://groups.google.com/d/optout.
+
+------<span class=o>=</span>_Part_1811_643965077.1552231934704--
+<span class=o>)</span>
+tag OK Success
+tag search subject <span class=s2>&quot;python&quot;</span>
+* SEARCH <span class=m>1172</span> <span class=m>1731</span> <span class=m>1756</span> <span class=m>2688</span> <span class=m>2918</span> <span class=m>2930</span> <span class=m>3102</span> <span class=m>3338</span> <span class=m>3339</span> <span class=m>3417</span> <span class=m>3437</span> <span class=m>3455</span> <span class=m>3474</span> <span class=m>3485</span> <span class=m>3500</span> <span class=m>3611</span> <span class=m>3613</span> <span class=m>3647</span> <span class=m>3648</span> <span class=m>3649</span> <span class=m>3650</span> <span class=m>3653</span> <span class=m>3693</span> <span class=m>3702</span> <span class=m>3711</span> <span class=m>3713</span> <span class=m>3722</span> <span class=m>3726</span> <span class=m>3737</span> <span class=m>3749</span> <span class=m>3808</span> <span class=m>3813</span> <span class=m>3826</span> <span class=m>3832</span> <span class=m>3833</span> <span class=m>3850</span> <span class=m>3935</span> <span class=m>3957</span> <span class=m>3963</span> <span class=m>3965</span> <span class=m>3974</span> <span class=m>3981</span> <span class=m>3990</span> <span class=m>3992</span> <span class=m>3994</span> <span class=m>4026</span> <span class=m>4049</span> <span class=m>4060</span> <span class=m>4061</span> <span class=m>4065</span> <span class=m>4075</span> <span class=m>4113</span> <span class=m>4129</span> <span class=m>4134</span> <span class=m>4156</span> <span class=m>4158</span> <span class=m>4163</span> <span class=m>4287</span> <span class=m>4288</span> <span class=m>4319</span> <span class=m>4395</span> <span class=m>4475</span> <span class=m>4487</span> <span class=m>4502</span> <span class=m>4513</span> <span class=m>4551</span> <span class=m>4557</span>
+tag OK SEARCH completed <span class=o>(</span>Success<span class=o>)</span>
+tag close
+tag OK Returned to authenticated state. <span class=o>(</span>Success<span class=o>)</span>
+tag <span class=nb>logout</span> 
+* BYE LOGOUT Requested
+tag OK <span class=m>73</span> good day <span class=o>(</span>Success<span class=o>)</span>
+Connection closed by foreign host.
+</code></pre></div> <details class=note><summary>Header Information</summary><div class=highlight><pre><span></span><code>X-Received: by 2002:a0c:b0ea:: with SMTP id p39mr6376271qvc.132.1552231936610;
+Sun, 10 Mar 2019 08:32:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1552231936; cv=none; d=google.com;
+s=arc-20160816;
+b=xxxxx
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+s=arc-20160816; h=list-unsubscribe:list-archive:list-help:list-post:list-id
+:mailing-list:precedence:mime-version:subject:message-id:to:from
+:date:sender:dkim-signature:dkim-signature;
+bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+b=xxxxx
+ARC-Authentication-Results: i=1; mx.google.com; dkim=pass
+header.i=@googlegroups.com header.s=20161025 header.b=Lc2LJXUk; dkim=pass
+header.i=@gmail.com header.s=20161025 header.b=QuOgPomt; spf=pass
+(google.com: domain of
+oop-ksk+bncbc7ptahbzmfrb763stsakgqevmoujfi@googlegroups.com designates
+209.85.220.55 as permitted sender)
+smtp.mailfrom=oop-ksk+bncBC7PTAHBZMFRB763STSAKGQEVMOUJFI@googlegroups.com;
+dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: &lt;oop-ksk+bncBC7PTAHBZMFRB763STSAKGQEVMOUJFI@googlegroups.com&gt;
+Received: from mail-sor-f55.google.com (mail-sor-f55.google.com.
+[209.85.220.55]) by mx.google.com with SMTPS id
+c32sor3474731qve.66.2019.03.10.08.32.15 (Google Transport Security); Sun, 10
+Mar 2019 08:32:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of
+oop-ksk+bncbc7ptahbzmfrb763stsakgqevmoujfi@googlegroups.com designates
+209.85.220.55 as permitted sender) client-ip=209.85.220.55;
+Authentication-Results: mx.google.com; dkim=pass header.i=@googlegroups.com
+header.s=20161025 header.b=Lc2LJXUk; dkim=pass header.i=@gmail.com
+header.s=20161025 header.b=QuOgPomt; spf=pass (google.com: domain of
+oop-ksk+bncbc7ptahbzmfrb763stsakgqevmoujfi@googlegroups.com designates
+209.85.220.55 as permitted sender)
+smtp.mailfrom=oop-ksk+bncBC7PTAHBZMFRB763STSAKGQEVMOUJFI@googlegroups.com;
+dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=googlegroups.com;
+s=20161025; h=sender:date:from:to:message-id:subject:mime-version
+:x-original-sender:precedence:mailing-list:list-id:list-post
+:list-help:list-archive:list-unsubscribe;
+bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+b=xxxxx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+h=date:from:to:message-id:subject:mime-version:x-original-sender
+:precedence:mailing-list:list-id:list-post:list-help:list-archive
+:list-unsubscribe; bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+b=xxxxx
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net;
+s=20161025; h=sender:x-gm-message-state:date:from:to:message-id:subject
+:mime-version:x-original-sender:precedence:mailing-list:list-id
+:x-spam-checked-in-group:list-post:list-help:list-archive :list-unsubscribe;
+bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+b=xxxxx
+Sender: oop-ksk@googlegroups.com
+X-Gm-Message-State: APjAAAWs+1zp0nrnRdunPamnrC+ffME1/F8+Ui9Oz6zqGCVw5lcKrn2c
+acW0cg+84v5c134uack+K08=
+X-Google-Smtp-Source: APXvYqz2zAeLw+iHcwG4FxGivK6djVyMIpUZUJUtY4LshD9FwI3knXRxx3PX/b7Xj91r2hbwq/HmMg==
+X-Received: by 2002:a0c:afb6:: with SMTP id s51mr22588424qvc.34.1552231935689;
+Sun, 10 Mar 2019 08:32:15 -0700 (PDT)
+X-BeenThere: oop-ksk@googlegroups.com
+Received: by 2002:ac8:2b0a:: with SMTP id 10ls3446195qtu.3.gmail; Sun, 10 Mar
+2019 08:32:15 -0700 (PDT)
+X-Received: by 2002:aed:3e97:: with SMTP id
+n23mr22657590qtf.201.1552231935362; Sun, 10 Mar 2019 08:32:15 -0700 (PDT)
+Date: Sun, 10 Mar 2019 08:32:14 -0700 (PDT)
+From: AWAIS MANSOOR &lt;awaismansoor4444@gmail.com&gt;
+To: oop-ksk &lt;oop-ksk@googlegroups.com&gt;
+Message-Id: &lt;424ac670-0fb3-4c4e-83bc-5564a70d6b8f@googlegroups.com&gt;
+Subject: MY SOLUTION FOR STRING LIBRARY
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+boundary=&quot;----=_Part_1811_643965077.1552231934704&quot;
+X-Original-Sender: awaismansoor4444@gmail.com
+Precedence: list
+Mailing-list: list oop-ksk@googlegroups.com; contact
+oop-ksk+owners@googlegroups.com
+List-ID: &lt;oop-ksk.googlegroups.com&gt;
+X-Spam-Checked-In-Group: oop-ksk@googlegroups.com
+X-Google-Group-Id: 859334527471
+List-Post: &lt;https://groups.google.com/group/oop-ksk/post&gt;,
+&lt;mailto:oop-ksk@googlegroups.com&gt;
+List-Help: &lt;https://groups.google.com/support/&gt;,
+&lt;mailto:oop-ksk+help@googlegroups.com&gt;
+List-Archive: &lt;https://groups.google.com/group/oop-ksk
+List-Unsubscribe: &lt;mailto:googlegroups-manage+859334527471+unsubscribe@googlegroups.com&gt;,
+&lt;https://groups.google.com/group/oop-ksk/subscribe&gt;
+)
+</code></pre></div> </details> <p>Put everything into a python script. </p> <div class=highlight><pre><span></span><code><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>Basic operation of SMTP</span>
+<span class=sd>    Alice&#39;s agent send email to her mail server</span>
+<span class=sd>    Alice&#39;s mail server send it to Bob&#39;s mail server</span>
+<span class=sd>    Bob&#39;s mail server send email to Bob&#39;s agent</span>
+
+<span class=sd>username-encode: bWFoZWVuYW1pbjlAZ21haWwuY29t</span>
+<span class=sd>password-encode: enZseXlybGl5bWdvb3lxdw==</span>
+<span class=sd>&quot;&quot;&quot;</span>
+<span class=kn>from</span> <span class=nn>socket</span> <span class=kn>import</span> <span class=o>*</span> 
+<span class=kn>import</span> <span class=nn>ssl</span>
+<span class=kn>import</span> <span class=nn>base64</span>
+
+
+<span class=n>buffer_size</span> <span class=o>=</span> <span class=mi>2048</span>
+<span class=n>mail_server</span> <span class=o>=</span> <span class=s2>&quot;smtp.gmail.com&quot;</span>
+<span class=n>port</span> <span class=o>=</span> <span class=mi>465</span>  <span class=c1># ssl, 587 for TSL </span>
+
+<span class=c1># create the client socket</span>
+<span class=n>client_socket</span> <span class=o>=</span> <span class=n>socket</span><span class=p>(</span><span class=n>AF_INET</span><span class=p>,</span> <span class=n>SOCK_STREAM</span><span class=p>)</span>  <span class=c1># tcp connection </span>
+<span class=n>client_socket</span><span class=o>.</span><span class=n>settimeout</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span>
+<span class=n>ssl_socket</span> <span class=o>=</span> <span class=n>ssl</span><span class=o>.</span><span class=n>wrap_socket</span><span class=p>(</span><span class=n>client_socket</span><span class=p>)</span>
+<span class=n>ssl_socket</span><span class=o>.</span><span class=n>connect</span><span class=p>((</span><span class=n>mail_server</span><span class=p>,</span> <span class=n>port</span><span class=p>))</span>
+
+
+<span class=k>def</span> <span class=nf>recv_msg</span><span class=p>():</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=k>return</span> <span class=n>ssl_socket</span><span class=o>.</span><span class=n>recv</span><span class=p>(</span><span class=n>buffer_size</span><span class=p>)</span><span class=o>.</span><span class=n>decode</span><span class=p>()</span>
+    <span class=k>except</span> <span class=n>timeout</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;Time is out&quot;</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>send_msg</span><span class=p>(</span><span class=n>message</span><span class=p>,</span> <span class=n>expect_return_msg</span><span class=o>=</span><span class=kc>True</span><span class=p>):</span>
+    <span class=n>ssl_socket</span><span class=o>.</span><span class=n>send</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=n>message</span><span class=si>}</span><span class=se>\r\n</span><span class=s2>&quot;</span><span class=o>.</span><span class=n>encode</span><span class=p>())</span>
+    <span class=k>if</span> <span class=n>expect_return_msg</span><span class=p>:</span>
+        <span class=n>recv</span> <span class=o>=</span> <span class=n>recv_msg</span><span class=p>()</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>recv</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>helo</span><span class=p>():</span>
+    <span class=k>return</span> <span class=n>send_msg</span><span class=p>(</span><span class=s2>&quot;HELO Michael&quot;</span><span class=p>)</span>  <span class=c1># EHLO also works </span>
+
+
+<span class=k>def</span> <span class=nf>login</span><span class=p>(</span><span class=n>username</span><span class=p>,</span> <span class=n>password</span><span class=p>):</span>
+    <span class=n>login_info</span> <span class=o>=</span> <span class=s2>&quot;</span><span class=se>\x00</span><span class=s2>&quot;</span><span class=o>+</span><span class=n>username</span><span class=o>+</span><span class=s2>&quot;</span><span class=se>\x00</span><span class=s2>&quot;</span><span class=o>+</span><span class=n>password</span>
+    <span class=n>base64_info</span> <span class=o>=</span> <span class=n>base64</span><span class=o>.</span><span class=n>b64encode</span><span class=p>(</span><span class=n>login_info</span><span class=o>.</span><span class=n>encode</span><span class=p>())</span>
+    <span class=n>auth_msg</span> <span class=o>=</span> <span class=s2>&quot;AUTH PLAIN &quot;</span> <span class=o>+</span> <span class=n>base64_info</span><span class=o>.</span><span class=n>decode</span><span class=p>()</span>
+    <span class=n>send_msg</span><span class=p>(</span><span class=n>auth_msg</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>quit</span><span class=p>():</span>
+    <span class=k>return</span> <span class=n>send_msg</span><span class=p>(</span><span class=s2>&quot;QUIT&quot;</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>send_mail</span><span class=p>(</span><span class=n>msg</span><span class=p>,</span> <span class=n>from_addr</span><span class=p>,</span> <span class=n>to_addr</span><span class=p>):</span>
+    <span class=n>send_msg</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;MAIL FROM:&lt;</span><span class=si>{</span><span class=n>from_addr</span><span class=si>}</span><span class=s2>&gt;&quot;</span><span class=p>)</span>
+    <span class=n>send_msg</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;RCPT TO:&lt;</span><span class=si>{</span><span class=n>to_addr</span><span class=si>}</span><span class=s2>&gt;&quot;</span><span class=p>)</span>
+    <span class=n>send_msg</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;DATA&quot;</span><span class=p>)</span>
+    <span class=n>send_msg</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;SUBJECT: I love computer networks!</span><span class=se>\r\n</span><span class=s2>&quot;</span><span class=p>,</span>
+                                <span class=n>expect_return_msg</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+    <span class=n>send_msg</span><span class=p>(</span><span class=n>msg</span><span class=p>,</span> <span class=n>expect_return_msg</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+    <span class=n>send_msg</span><span class=p>(</span><span class=s2>&quot;.&quot;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&quot;__main__&quot;</span><span class=p>:</span>
+    <span class=n>helo</span><span class=p>()</span>
+    <span class=n>login</span><span class=p>(</span><span class=s2>&quot;maheenamin9@gmail.com&quot;</span><span class=p>,</span> <span class=s2>&quot;zvlyyrliymgooyqw&quot;</span><span class=p>)</span>
+    <span class=n>send_mail</span><span class=p>(</span><span class=s2>&quot;This is a mail from a Python client :)&quot;</span><span class=p>,</span>
+              <span class=s2>&quot;maheenamin9@gmail.com&quot;</span><span class=p>,</span>
+              <span class=s2>&quot;numerical.ocean@gmail.com&quot;</span><span class=p>)</span>
+    <span class=n>quit</span><span class=p>()</span>
+</code></pre></div> <h2 id=web-proxy>Web Proxy</h2> <hr> <div class=md-source-file> <small> Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 14, 2022</span> </small> </div> </article> </div> </div> <a href=# class="md-top md-top--hidden md-icon" data-md-component=top> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg> Back to top </a> </main> <footer class=md-footer> <nav class="md-footer__inner md-grid" aria-label=Footer> <a href=../application-layer/ class="md-footer__link md-footer__link--prev" aria-label="Previous: Application Layer" rel=prev> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </div> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Previous </span> Application Layer </div> </div> </a> <a href=../../../lifestyle/ class="md-footer__link md-footer__link--next" aria-label="Next: LifeStyle" rel=next> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Next </span> LifeStyle </div> </div> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg> </div> </a> </nav> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> <div class=md-copyright__highlight> Copyright &copy; 2022 Fei Wang </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../..", "features": ["navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script> <script src=../../../assets/javascripts/bundle.7f366e99.min.js></script> <script src=../../../javascripts/mathjax.min.js></script> <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> <script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script> <script src=../../../javascripts/headroom.min.js></script> <script src=../../../javascripts/activate_headroom.min.js></script> </body> </html>
