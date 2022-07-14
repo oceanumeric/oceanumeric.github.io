@@ -241,7 +241,7 @@ auth login
 334 VXNlcm5hbWU6
 bWFoZWVuYW1pbjlAZ21haWwuY29t
 334 UGFzc3dvcmQ6
-enZseXlybGl5bWdvb3lxdw==
+# this should be password part 
 235 2.7.0 Accepted
 mail from: &lt;maheenamin9@gmail.com&gt;
 250 2.1.0 OK g4-xx(a series of code).111 - gsmtp
@@ -423,7 +423,7 @@ List-Unsubscribe: &lt;mailto:googlegroups-manage+859334527471+unsubscribe@google
 <span class=sd>    Bob&#39;s mail server send email to Bob&#39;s agent</span>
 
 <span class=sd>username-encode: bWFoZWVuYW1pbjlAZ21haWwuY29t</span>
-<span class=sd>password-encode: enZseXlybGl5bWdvb3lxdw==</span>
+<span class=sd>password-encode: </span>
 <span class=sd>&quot;&quot;&quot;</span>
 <span class=kn>from</span> <span class=nn>socket</span> <span class=kn>import</span> <span class=o>*</span> 
 <span class=kn>import</span> <span class=nn>ssl</span>
@@ -482,7 +482,7 @@ List-Unsubscribe: &lt;mailto:googlegroups-manage+859334527471+unsubscribe@google
 
 <span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&quot;__main__&quot;</span><span class=p>:</span>
     <span class=n>helo</span><span class=p>()</span>
-    <span class=n>login</span><span class=p>(</span><span class=s2>&quot;maheenamin9@gmail.com&quot;</span><span class=p>,</span> <span class=s2>&quot;zvlyyrliymgooyqw&quot;</span><span class=p>)</span>
+    <span class=n>login</span><span class=p>(</span><span class=s2>&quot;maheenamin9@gmail.com&quot;</span><span class=p>,</span> <span class=s2>&quot;password&quot;</span><span class=p>)</span>
     <span class=n>send_mail</span><span class=p>(</span><span class=s2>&quot;This is a mail from a Python client :)&quot;</span><span class=p>,</span>
               <span class=s2>&quot;maheenamin9@gmail.com&quot;</span><span class=p>,</span>
               <span class=s2>&quot;numerical.ocean@gmail.com&quot;</span><span class=p>)</span>
