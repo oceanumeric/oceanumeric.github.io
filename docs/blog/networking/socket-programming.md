@@ -416,5 +416,305 @@ On my browser, I got the file I requested.
 
 ## Mail Client
 
+??? note "Protocol"
+    IMAP, POP, and SMTP use the standard Simple Authentication and Security Layer 
+    (SASL), via the native IMAP AUTHENTICATE, POP AUTH, and SMTP AUTH commands, to authenticate users. The SASL XOAUTH2 mechanism enables clients to provide OAuth 2.0 credentials for authentication. The SASL XOAUTH2 protocol documentation describes the SASL XOAUTH2 mechanism in great detail, and libraries and samples which have implemented the protocol are available.
+
+    __Incoming__ connections to the IMAP server at __imap.gmail.com:993__ and the POP server at pop.gmail.com:995 require SSL. The __outgoing__ SMTP server, smtp.gmail.com, requires TLS. Use port __465, or port 587__ if your client begins with plain text before issuing the STARTTLS command.
+
+First, we will learn how to send emails via `telnet`.
+
+```bash
+sudo apt-get install telnet-ssl  # install telnet-ssl 
+telnet -z ssl smtp.gmail.com 465  # connect with gmail server(port: 465)
+```
+The above command will yield the following return.
+
+```
+Trying 173.194.76.109...
+Connected to smtp.gmail.com.
+Escape character is '^]'.
+220 smtp.gmail.com ESMTP g4-xx(a series of code).111 - gsmtp
+```
+Now, we can send our email via the command line.
+
+```
+HELO smtp.gmail.com
+250 smtp.gmail.com at your service
+auth login 
+334 VXNlcm5hbWU6
+bWFoZWVuYW1pbjlAZ21haWwuY29t
+334 UGFzc3dvcmQ6
+enZseXlybGl5bWdvb3lxdw==
+235 2.7.0 Accepted
+mail from: <maheenamin9@gmail.com>
+250 2.1.0 OK g4-xx(a series of code).111 - gsmtp
+rcpt to: <numerical.ocean@gmail.com>
+250 2.1.5 OK g4-xx(a series of code).111 - gsmtp
+Subject: Mail via telnet         
+502 5.5.1 Unrecognized command. g4-xx(a series of code).111 - gsmtp
+Data
+354  Go ahead g4-xx(a series of code).111 - gsmtp
+Subject: Mail via telnet 
+Good afternoon,
+
+Hope this mail finds you well :)
+
+I would like to know whether you enjoyed learning computer networking or not.
+Please let me know! Thanks. 
+
+.
+
+250 2.0.0 OK  1657795912 g4-xx(a series of code).111 - gsmtp
+quit
+221 2.0.0 closing connection g4-xx(a series of code).111 - gsmtp
+Connection closed by foreign host.
+```
+
+??? warning
+    When you want to finish your email, you have to follow the __exact__ format
+    like this:
+    ```
+    # space
+    .
+    # space 
+    ```
+
+This is the email I got once it was sent out. 
+
+![telnet-mail](./images/telnetmail.png)
+
+You can also check your email via `telnet`
+
+```bash
+telnet -z ssl imap.gmail.com 993
+Trying 66.102.1.108...
+Connected to imap.gmail.com.
+Escape character is '^]'.
+* OK Gimap ready for requests from 95.222.250.55 n9mb17268880wri
+tag login maheenamin9@gmail.com zvlyyrliymgooyqw
+* CAPABILITY IMAP4rev1 UNSELECT IDLE NAMESPACE QUOTA ID XLIST CHILDREN X-GM-EXT-1 UIDPLUS COMPRESS=DEFLATE ENABLE MOVE CONDSTORE ESEARCH UTF8=ACCEPT LIST-EXTENDED LIST-STATUS LITERAL- SPECIAL-USE APPENDLIMIT=35651584
+tag OK maheenamin9@gmail.com authenticated (Success)
+tag list "" "*"
+* LIST (\HasNoChildren) "/" "INBOX"
+* LIST (\HasChildren \Noselect) "/" "[Gmail]"
+* LIST (\All \HasNoChildren) "/" "[Gmail]/All Mail"
+* LIST (\HasNoChildren \Trash) "/" "[Gmail]/Bin"
+* LIST (\Drafts \HasNoChildren) "/" "[Gmail]/Drafts"
+* LIST (\HasNoChildren \Important) "/" "[Gmail]/Important"
+* LIST (\HasNoChildren \Sent) "/" "[Gmail]/Sent Mail"
+* LIST (\HasNoChildren \Junk) "/" "[Gmail]/Spam"
+* LIST (\Flagged \HasNoChildren) "/" "[Gmail]/Starred"
+tag OK Success
+tag select "inbox"
+* FLAGS (\Answered \Flagged \Draft \Deleted \Seen $NotPhishing $Phishing)
+* OK [PERMANENTFLAGS (\Answered \Flagged \Draft \Deleted \Seen $NotPhishing $Phishing \*)] Flags permitted.
+* OK [UIDVALIDITY 1] UIDs valid.
+* 4579 EXISTS
+* 0 RECENT
+* OK [UIDNEXT 5229] Predicted next UID.
+* OK [HIGHESTMODSEQ 513664]
+tag OK [READ-WRITE] inbox selected. (Success)
+tag fetch 3 body[header]
+* 3 FETCH (BODY[HEADER] {6489}
+Delivered-To: maheenamin9@gmail.com
+Received: by 2002:adf:fb82:0:0:0:0:0 with SMTP id a2csp10249006wrr; Sun, 10
+Mar 2019 08:32:16 -0700 (PDT)
+# header is very long, check the box below
+tag OK Success
+tag fetch body[text]
+tag BAD Could not parse command
+tag fetch 3 body[text]
+* 3 FETCH (BODY[TEXT] {675}
+------=_Part_1811_643965077.1552231934704
+Content-Type: text/plain; charset="UTF-8"
+
+https://github.com/MAwaisMansoor/String-Library
+
+-- 
+You received this message because you are subscribed to the Google Groups "oop-ksk" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to oop-ksk+unsubscribe@googlegroups.com.
+To post to this group, send an email to oop-ksk@googlegroups.com.
+To view this discussion on the web, visit https://groups.google.com/d/msgid/oop-ksk/424ac670-0fb3-4c4e-83bc-5564a70d6b8f%40googlegroups.com.
+For more options, visit https://groups.google.com/d/optout.
+
+------=_Part_1811_643965077.1552231934704--
+)
+tag OK Success
+tag search subject "python"
+* SEARCH 1172 1731 1756 2688 2918 2930 3102 3338 3339 3417 3437 3455 3474 3485 3500 3611 3613 3647 3648 3649 3650 3653 3693 3702 3711 3713 3722 3726 3737 3749 3808 3813 3826 3832 3833 3850 3935 3957 3963 3965 3974 3981 3990 3992 3994 4026 4049 4060 4061 4065 4075 4113 4129 4134 4156 4158 4163 4287 4288 4319 4395 4475 4487 4502 4513 4551 4557
+tag OK SEARCH completed (Success)
+tag close
+tag OK Returned to authenticated state. (Success)
+tag logout 
+* BYE LOGOUT Requested
+tag OK 73 good day (Success)
+Connection closed by foreign host.
+```
+
+??? note "Header Information"
+    ```
+    X-Received: by 2002:a0c:b0ea:: with SMTP id p39mr6376271qvc.132.1552231936610;
+    Sun, 10 Mar 2019 08:32:16 -0700 (PDT)
+    ARC-Seal: i=1; a=rsa-sha256; t=1552231936; cv=none; d=google.com;
+    s=arc-20160816;
+    b=xxxxx
+    ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+    s=arc-20160816; h=list-unsubscribe:list-archive:list-help:list-post:list-id
+    :mailing-list:precedence:mime-version:subject:message-id:to:from
+    :date:sender:dkim-signature:dkim-signature;
+    bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+    b=xxxxx
+    ARC-Authentication-Results: i=1; mx.google.com; dkim=pass
+    header.i=@googlegroups.com header.s=20161025 header.b=Lc2LJXUk; dkim=pass
+    header.i=@gmail.com header.s=20161025 header.b=QuOgPomt; spf=pass
+    (google.com: domain of
+    oop-ksk+bncbc7ptahbzmfrb763stsakgqevmoujfi@googlegroups.com designates
+    209.85.220.55 as permitted sender)
+    smtp.mailfrom=oop-ksk+bncBC7PTAHBZMFRB763STSAKGQEVMOUJFI@googlegroups.com;
+    dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+    Return-Path: <oop-ksk+bncBC7PTAHBZMFRB763STSAKGQEVMOUJFI@googlegroups.com>
+    Received: from mail-sor-f55.google.com (mail-sor-f55.google.com.
+    [209.85.220.55]) by mx.google.com with SMTPS id
+    c32sor3474731qve.66.2019.03.10.08.32.15 (Google Transport Security); Sun, 10
+    Mar 2019 08:32:16 -0700 (PDT)
+    Received-SPF: pass (google.com: domain of
+    oop-ksk+bncbc7ptahbzmfrb763stsakgqevmoujfi@googlegroups.com designates
+    209.85.220.55 as permitted sender) client-ip=209.85.220.55;
+    Authentication-Results: mx.google.com; dkim=pass header.i=@googlegroups.com
+    header.s=20161025 header.b=Lc2LJXUk; dkim=pass header.i=@gmail.com
+    header.s=20161025 header.b=QuOgPomt; spf=pass (google.com: domain of
+    oop-ksk+bncbc7ptahbzmfrb763stsakgqevmoujfi@googlegroups.com designates
+    209.85.220.55 as permitted sender)
+    smtp.mailfrom=oop-ksk+bncBC7PTAHBZMFRB763STSAKGQEVMOUJFI@googlegroups.com;
+    dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+    DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=googlegroups.com;
+    s=20161025; h=sender:date:from:to:message-id:subject:mime-version
+    :x-original-sender:precedence:mailing-list:list-id:list-post
+    :list-help:list-archive:list-unsubscribe;
+    bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+    b=xxxxx
+    DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+    h=date:from:to:message-id:subject:mime-version:x-original-sender
+    :precedence:mailing-list:list-id:list-post:list-help:list-archive
+    :list-unsubscribe; bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+    b=xxxxx
+    X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net;
+    s=20161025; h=sender:x-gm-message-state:date:from:to:message-id:subject
+    :mime-version:x-original-sender:precedence:mailing-list:list-id
+    :x-spam-checked-in-group:list-post:list-help:list-archive :list-unsubscribe;
+    bh=RJHIse6xKbEmXaAsr4R9XJwMIJWaJLIGoak4HA4wHgo=;
+    b=xxxxx
+    Sender: oop-ksk@googlegroups.com
+    X-Gm-Message-State: APjAAAWs+1zp0nrnRdunPamnrC+ffME1/F8+Ui9Oz6zqGCVw5lcKrn2c
+    acW0cg+84v5c134uack+K08=
+    X-Google-Smtp-Source: APXvYqz2zAeLw+iHcwG4FxGivK6djVyMIpUZUJUtY4LshD9FwI3knXRxx3PX/b7Xj91r2hbwq/HmMg==
+    X-Received: by 2002:a0c:afb6:: with SMTP id s51mr22588424qvc.34.1552231935689;
+    Sun, 10 Mar 2019 08:32:15 -0700 (PDT)
+    X-BeenThere: oop-ksk@googlegroups.com
+    Received: by 2002:ac8:2b0a:: with SMTP id 10ls3446195qtu.3.gmail; Sun, 10 Mar
+    2019 08:32:15 -0700 (PDT)
+    X-Received: by 2002:aed:3e97:: with SMTP id
+    n23mr22657590qtf.201.1552231935362; Sun, 10 Mar 2019 08:32:15 -0700 (PDT)
+    Date: Sun, 10 Mar 2019 08:32:14 -0700 (PDT)
+    From: AWAIS MANSOOR <awaismansoor4444@gmail.com>
+    To: oop-ksk <oop-ksk@googlegroups.com>
+    Message-Id: <424ac670-0fb3-4c4e-83bc-5564a70d6b8f@googlegroups.com>
+    Subject: MY SOLUTION FOR STRING LIBRARY
+    MIME-Version: 1.0
+    Content-Type: multipart/mixed;
+    boundary="----=_Part_1811_643965077.1552231934704"
+    X-Original-Sender: awaismansoor4444@gmail.com
+    Precedence: list
+    Mailing-list: list oop-ksk@googlegroups.com; contact
+    oop-ksk+owners@googlegroups.com
+    List-ID: <oop-ksk.googlegroups.com>
+    X-Spam-Checked-In-Group: oop-ksk@googlegroups.com
+    X-Google-Group-Id: 859334527471
+    List-Post: <https://groups.google.com/group/oop-ksk/post>,
+    <mailto:oop-ksk@googlegroups.com>
+    List-Help: <https://groups.google.com/support/>,
+    <mailto:oop-ksk+help@googlegroups.com>
+    List-Archive: <https://groups.google.com/group/oop-ksk
+    List-Unsubscribe: <mailto:googlegroups-manage+859334527471+unsubscribe@googlegroups.com>,
+    <https://groups.google.com/group/oop-ksk/subscribe>
+    )
+    ```
+
+Put everything into a python script. 
+
+```py
+"""
+Basic operation of SMTP
+    Alice's agent send email to her mail server
+    Alice's mail server send it to Bob's mail server
+    Bob's mail server send email to Bob's agent
+    
+username-encode: bWFoZWVuYW1pbjlAZ21haWwuY29t
+password-encode: enZseXlybGl5bWdvb3lxdw==
+"""
+from socket import * 
+import ssl
+import base64
+
+
+buffer_size = 2048
+mail_server = "smtp.gmail.com"
+port = 465  # ssl, 587 for TSL 
+
+# create the client socket
+client_socket = socket(AF_INET, SOCK_STREAM)  # tcp connection 
+client_socket.settimeout(5)
+ssl_socket = ssl.wrap_socket(client_socket)
+ssl_socket.connect((mail_server, port))
+
+
+def recv_msg():
+    try:
+        return ssl_socket.recv(buffer_size).decode()
+    except timeout:
+        print("Time is out")
+        
+
+def send_msg(message, expect_return_msg=True):
+    ssl_socket.send(f"{message}\r\n".encode())
+    if expect_return_msg:
+        recv = recv_msg()
+        print(recv)
+    
+    
+def helo():
+    return send_msg("HELO Michael")  # EHLO also works 
+
+
+def login(username, password):
+    login_info = "\x00"+username+"\x00"+password
+    base64_info = base64.b64encode(login_info.encode())
+    auth_msg = "AUTH PLAIN " + base64_info.decode()
+    send_msg(auth_msg)
+    
+
+def quit():
+    return send_msg("QUIT")
+
+
+def send_mail(msg, from_addr, to_addr):
+    send_msg(f"MAIL FROM:<{from_addr}>")
+    send_msg(f"RCPT TO:<{to_addr}>")
+    send_msg(f"DATA")
+    send_msg(f"SUBJECT: I love computer networks!\r\n",
+                                expect_return_msg=False)
+    send_msg(msg, expect_return_msg=False)
+    send_msg(".")
+    
+    
+if __name__ == "__main__":
+    helo()
+    login("maheenamin9@gmail.com", "zvlyyrliymgooyqw")
+    send_mail("This is a mail from a Python client :)",
+              "maheenamin9@gmail.com",
+              "numerical.ocean@gmail.com")
+    quit()
+```
 
 ## Web Proxy
