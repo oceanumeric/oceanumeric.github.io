@@ -445,7 +445,7 @@ auth login
 334 VXNlcm5hbWU6
 bWFoZWVuYW1pbjlAZ21haWwuY29t
 334 UGFzc3dvcmQ6
-enZseXlybGl5bWdvb3lxdw==
+# this should be password part 
 235 2.7.0 Accepted
 mail from: <maheenamin9@gmail.com>
 250 2.1.0 OK g4-xx(a series of code).111 - gsmtp
@@ -651,7 +651,7 @@ Basic operation of SMTP
     Bob's mail server send email to Bob's agent
     
 username-encode: bWFoZWVuYW1pbjlAZ21haWwuY29t
-password-encode: enZseXlybGl5bWdvb3lxdw==
+password-encode: 
 """
 from socket import * 
 import ssl
@@ -710,7 +710,7 @@ def send_mail(msg, from_addr, to_addr):
     
 if __name__ == "__main__":
     helo()
-    login("maheenamin9@gmail.com", "zvlyyrliymgooyqw")
+    login("maheenamin9@gmail.com", "password")
     send_mail("This is a mail from a Python client :)",
               "maheenamin9@gmail.com",
               "numerical.ocean@gmail.com")
