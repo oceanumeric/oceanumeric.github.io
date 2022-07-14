@@ -24,6 +24,9 @@ nav:
       - blog/2022/github-pages-mkdocs.md
       - blog/2022/jupyter-notebook-mkdocs.md
       - blog/2022/jupyter-demo.ipynb
+    - DataScience:
+      - blog/datascience/intro.ipynb
+      - blog/datascience/collection.ipynb
     - Networking:
       - blog/networking/the-internet.md
       - blog/networking/application-layer.md
