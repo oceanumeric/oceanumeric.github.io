@@ -85,6 +85,9 @@ for my jupyter notebook.
 ```html
 <head>
 <style>
+    @media screen and (min-width: 960px) and (max-width: 1221px) {
+        text-align:justify;
+    }
     [data-md-color-scheme="default"] {
         /* only change colors when it is in light mode */
         background-color:#fffff8;
@@ -101,7 +104,18 @@ for my jupyter notebook.
         font-size: 13pt;
         font-style: normal;
         font-weight: normal;
-        text-align:justify;
+    }
+    .md-content > .md-typeset h2 {
+        margin-top: 0;
+    }
+    .md-typeset h2 {
+        margin:0;
+        }
+    .jupyter-wrapper table.dataframe tr, .jupyter-wrapper table.dataframe th, .jupyter-wrapper table.dataframe td {
+        text-align:left;
+    }
+    .jupyter-wrapper table.dataframe {
+        table-layout: auto;
     }
 </style>
 </head>

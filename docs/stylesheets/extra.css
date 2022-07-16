@@ -141,6 +141,8 @@
     margin-top: -17px;
 }
 
+
+
 /* @media only screen and (min-width : 768px) and (max-width : 1220px){
     .md-grid {
         max-width: 700px;
@@ -421,3 +423,4 @@ https://github.com/squidfunk/mkdocs-material/issues/1635
     left: 50%;
     transform: translateX(-50%);
 }
+
