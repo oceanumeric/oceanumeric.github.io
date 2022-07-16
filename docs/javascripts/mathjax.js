@@ -13,4 +13,11 @@ window.MathJax = {
 
 document$.subscribe(() => { 
   MathJax.typesetPromise()
-})
+}); 
+
+if (window.MathJax) {
+  MathJax.Hub.Queue(
+    ["resetEquationNumbers",MathJax.InputJax.TeX],
+    ["Typeset",MathJax.Hub]
+  );
+};
