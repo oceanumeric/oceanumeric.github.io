@@ -122,6 +122,7 @@
 .jp-InputArea-prompt {
     visibility: hidden;
 } 
+
 .jp-OutputArea-prompt {
     visibility: hidden;  /* disable this to tune the position */
     background-color:red; 
@@ -141,6 +142,32 @@
     margin-top: -17px;
 }
 
+
+/* Jupyter code block expand and collapse*/
+.expandClass {
+    border: 1.5px solid #7D838A;
+    color: #7D838A;
+    border-radius: 3px;
+    padding-left:2px;
+    padding-right:2px;
+    margin-right:3px;
+    }
+.active, .expandClass:hover{
+    background: #7D838A;
+    color:white;
+}
+.jupyter-wrapper  .highlight-ipynb {
+    display:none;
+}
+.zeroclipboard-container {
+    position: relative !important;
+    float:right;
+    background-color:#F5F5F5;
+}
+
+.jupyter-wrapper .CodeMirror.cm-s-jupyter {
+    background-color: #F5F5F5 !important;
+}
 
 
 /* @media only screen and (min-width : 768px) and (max-width : 1220px){

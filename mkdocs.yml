@@ -90,6 +90,7 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - javascripts/headroom.js
   - javascripts/activate_headroom.js
+  - javascripts/code_expand_collapse.js
 
 
 plugins:
