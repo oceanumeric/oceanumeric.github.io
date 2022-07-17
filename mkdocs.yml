@@ -16,6 +16,7 @@ nav:
   - Blog: 
     - blog/index.md
     - 2022:
+      - blog/2022/jupyter-style.ipynb
       - blog/2022/legacies-leadership.md
       - blog/2022/entrepreneurship-conference.md
       - blog/2022/web-scraping-summary.md
