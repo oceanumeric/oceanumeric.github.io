@@ -27,6 +27,7 @@ nav:
     - DataScience:
       - blog/datascience/intro.ipynb
       - blog/datascience/collection.ipynb
+      - blog/datascience/value.ipynb
     - Networking:
       - blog/networking/the-internet.md
       - blog/networking/application-layer.md
