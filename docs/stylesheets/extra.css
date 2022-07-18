@@ -162,12 +162,10 @@
 .zeroclipboard-container {
     position: relative !important;
     float:right;
-    background-color:#F5F5F5;
-}
 
-.jupyter-wrapper .CodeMirror.cm-s-jupyter {
+/* .jupyter-wrapper .CodeMirror.cm-s-jupyter {
     background-color: #F5F5F5 !important;
-}
+} */
 
 
 /* @media only screen and (min-width : 768px) and (max-width : 1220px){
