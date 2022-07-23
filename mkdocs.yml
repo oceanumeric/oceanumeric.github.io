@@ -34,6 +34,9 @@ nav:
       - blog/networking/the-internet.md
       - blog/networking/application-layer.md
       - blog/networking/socket-programming.md
+    - Animation:
+      - blog/animation/intro.md
+      - blog/animation/scene-and-mobject.md
   - LifeStyle:
     - lifestyle/index.md
     - food:
