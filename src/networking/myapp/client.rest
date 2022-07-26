@@ -1,0 +1,11 @@
+GET http://localhost:3000
+
+
+### 
+POST http://localhost:3000/api/notes
+Content-Type: application/json
+
+{
+    "content": "Test a POST API with clients",
+    "important": true
+}
