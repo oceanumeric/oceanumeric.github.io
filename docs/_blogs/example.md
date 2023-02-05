@@ -2,7 +2,7 @@
 title: An Example Post
 subtitle: Here is some extra detail about the post.
 layout: blog_default
-date: 2022-02-05
+date: 2022-02-04
 keywords: blogging, writing
 published: true
 ---

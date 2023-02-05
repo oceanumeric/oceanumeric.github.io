@@ -23,7 +23,9 @@ title: blog
         probability,
         math,
         mathematics,
-        probabilistic reasoning
+        probabilistic reasoning,
+        Python, R, Programming,
+        Jupyter, JAX, Pytorch
     '>
   <meta name='author' content='Michael Wang Fei'>
 
@@ -44,7 +46,8 @@ title: blog
             </div>
         </div>
         <div id='posts' class='section'>
-            {% for post in site.blogs %}
+            {% assign sorted = site.blogs | sort: 'date' | reverse %}
+            {% for post in sorted %}
                 <div class='post-row'>
                     <p class='post-title'>
                         <a href="{{ post.url }}">
