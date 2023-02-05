@@ -35,12 +35,16 @@ layout: default
   </title>
   <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
   <link rel="stylesheet" href="{{ "/css/blog.css" | prepend: site.baseurl }}">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
     {% include nav.html %}
     <div id="landing">
-        <h1>Tags</h1>
+        <h1>
+          Tags
+          <i class="fa fa-tags"></i>
+        </h1>
         {% include collect_tags.html %}
         {% for tag in tags %}
         <a class="post-tag"

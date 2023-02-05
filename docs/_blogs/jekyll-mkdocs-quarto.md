@@ -4,7 +4,7 @@ subtitle: What are the best tools to write and publish scientific or research bl
 layout: blog_default
 date: 2022-02-05
 keywords: blogging, writing, Jekyll, Mkdocs, Quarto, Jupyter, Notebook, R Markdown, Python, R, Hexo, Hugo 
-tags: post tool github-page
+tags: post tool github-page jekyll
 published: true
 ---
 
