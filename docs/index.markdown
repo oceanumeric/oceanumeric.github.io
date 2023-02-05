@@ -24,6 +24,9 @@ title: Michael Wang Fei's Homepage
 				<a href='/teaching'>Teaching</a>
 			</li>
 			<li>
+				<a href='/tags'>Tags</a>
+			</li>
+			<li>
 				<a href='https://github.com/oceanumeric' target='_blank'>Code</a>
 			</li>
             <li>

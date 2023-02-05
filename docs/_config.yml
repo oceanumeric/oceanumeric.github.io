@@ -39,6 +39,12 @@ collections:
   blogs:
     output: true
     permalink: /:collection/:title
+  
+  tags:
+    output: true
+    permalink: /:collection/:title
+
+
 
 katex:
   js_path: "assets"  # Path used to search for katex.min.js

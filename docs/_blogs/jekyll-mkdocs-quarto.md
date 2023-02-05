@@ -1,9 +1,10 @@
 ---
 title: "Scientific Blogs: Jekyll, Mkdocs, R-Markdown or Quarto"
-subtitle: What are the best tools to write and publish scientific or research blogs? I end up using Jekyll with Katex rendering on server side. 
+subtitle: What are the best tools to write and publish scientific or research blogs? I end up using Jekyll with Katex rendering on server-side. 
 layout: blog_default
 date: 2022-02-05
 keywords: blogging, writing, Jekyll, Mkdocs, Quarto, Jupyter, Notebook, R Markdown, Python, R, Hexo, Hugo 
+tags: post tool github-page
 published: true
 ---
 
@@ -115,7 +116,67 @@ sudo cp apt_inst.cpython-38-x86_64-linux-gnu.so apt_inst.so
 
 - Step 3: Create a repository called `<your-github-username>.github.io` 
 
+- Step 4: Clone your repository and create a folder called `docs` within
+this repository
 
+```bash
+cd github-repository
+# you can call it something else, but docs is a good folder name 
+mkdir docs 
+cd docs 
+# create the jekyll website
+jekyll new . 
+```
 
+- Step 5: Understand the structure of your website
+
+Generally, you have two kinds of folders:
+
+1. folders with underscore like `_layouts`
+2. folders without underscore like `images` and `assets` 
+
+```bash
+.
+├── index.markdown  # home page - index 
+├── _config.yml  # manager the configure options 
+├── Gemfile  # manager the ruby environment 
+├── Gemfile.lock  # lock the environment 
+├── 404.html
+├── about.markdown  # another landing page if you need it
+├── assets  # js file 
+│   └── katex.min.js
+├── css  # css files 
+│   ├── blog.css
+│   ├── main.css
+│   ├── markdown.css
+│   └── trac.css
+├── images  # images for your website 
+│   ├── blog
+│   │   ├── mkdocs1.png
+│   │   └── mkdocs2.png
+│   ├── favicon.png
+│   └── inclusion-exclusion.png
+├── blog  # blog section 
+│   └── index.html
+├── _blogs  # all blogs 
+│   ├── example.md
+│   └── jekyll-mkdocs-quarto.md
+├── _bibliography
+│   └── references.bib
+├── _includes  # header and nav templates 
+│   ├── header.html
+│   └── nav.html
+├── _layouts  # layout template for different sections 
+│   ├── blog_default.html
+│   └── default.html
+└── _site  # built site contents goes into this folder
+```
+
+Let's say you want to build up a section or portfolio for your
+website called `teaching` section. Then you need:
+
+1. `teaching` folder to set up the landing page
+2. `_teaching` folder to store different contents
+3. a html file in `_layout` folder if you want a different layout 
 
 
