@@ -79,6 +79,7 @@ cite another one {% cite vaswani2017attention %}
 
 <div class='figure'>
     <img src="/images/inclusion-exclusion.png"
+         alt="A demo figure"
          style="width: 60%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 1.</span> Diagram of rejection sampling. The 
