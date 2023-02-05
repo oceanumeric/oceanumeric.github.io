@@ -96,8 +96,8 @@ GEM
     webrick (1.8.1)
 
 PLATFORMS
+  bundle lock -unknown
   x86_64-linux
-  bundle lock --add-platform ruby
 
 DEPENDENCIES
   http_parser.rb (~> 0.6.0)
