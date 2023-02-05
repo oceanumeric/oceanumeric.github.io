@@ -27,8 +27,95 @@ material theme. Why?
 
 First, the performance score of Mkdocs with material theme is not very good.
 Even though it does have fantastic plugins like `mkdocs-jupyter`, it makes
-the website and each post become heavy. 
+the website and each post become heavy. The following figure gives
+the lighthouse performance score of landing page of my old website built
+with Mkdocs Material. 
 
-## Mkdocs Material vs. Jekyll 
+<div class='figure'>
+    <img src="/images/blog/mkdocs1.png"
+         alt="Screenshot of performance score"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> Performance Score for
+        Mkdocs Material
+    </div>
+</div>
 
-hello 
+Things get worse when I tried to write a mathematical blogs. Figure 2 speaks 
+for itself. 
+
+<div class='figure'>
+    <img src="/images/blog/mkdocs2.png"
+         alt="Screenshot of performance score for a math post"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Performance Score for
+        a Mathematical Post Made by Mkdocs Material
+    </div>
+</div>
+
+## Rendering math fast 
+
+Since many of my posts include lots of math equations. I have to make sure
+the page will be rendered smoothly. With `Jupyter Notebook`, only `MathJax 2.7`
+is supported, which makes it very slow when your post grows bigger. For example,
+no one could finish reading [this post](https://nbviewer.org/github/oceanumeric/Applied-Mathematics/blob/main/volume1/Linear-Systems-and-Floating-Point-Arithmetic.ipynb){:target="_blank"} without
+being distracted. 
+
+I have tried to build up my own framework by leveraging `nbconvert`, which
+does have some functions to make the post become clean, such as hiding
+`In[], Out[]` in the post, providing `copy button` for the code block. However,
+keeping the style consistent and pre-rendering math equation become very
+difficult and time consuming. I did manage to render math equations on the
+server side by using `mathjax-node-page`(here is the [repo](https://github.com/oceanumeric/nbtransfer){:target="_blank"}
+if you want to do the same thing.). It turned out this issue is more
+general than I thought {% cite fedorin joashc%}. 
+
+Regards rendering math online, there are many options. Readers are recommended
+checking those [demos](https://bourne2learn.com/math/){:target="_blank"}. In
+the end, I was nudged to chose Jekyll because of the plugin 
+[jekyll-katex](https://github.com/linjer/jekyll-katex){:target="_blank"} 
+allows me to render math on server-side easily. The theme of this blog was
+taken from Gundersen's blog {% cite Gundersen %}.  
+
+
+
+## Set up the website
+
+Unlike python's community, the tutorial documents for setting up
+a website with `Github Pages` are not very easy to follow. It took me
+a while to set up this website. Since all static site generators
+are to organize files and templates, one has to understand how `Jekyll`
+organize your markdown files and templates of themes. Now, let's generate
+a static website step by step. 
+
+- Step 1: Check ruby version `ruby -v` and make sure ruby installed
+
+- Step 2: Install Jekyll `gem install bundler jekyll`; if you see errors like 
+followings:
+
+```
+ModuleNotFoundError: No module named 'apt_pkg'
+ModuleNotFoundError: No module named 'apt_inst'
+```
+This means you need link your packages:
+
+
+```bash 
+# go to the package folder
+cd /usr/lib/python3/dist-packages
+# check apt_pkg version
+ls -l | grep apt_pkg
+# check apt_inst version
+ls -l | grep apt_inst
+# link the package for your version
+sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
+sudo cp apt_inst.cpython-38-x86_64-linux-gnu.so apt_inst.so
+```
+
+- Step 3: Create a repository called `<your-github-username>.github.io` 
+
+
+
+
+
