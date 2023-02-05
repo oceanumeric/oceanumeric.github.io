@@ -9,6 +9,9 @@ jobs:
   jekyll:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: setup github actions 
         uses: actions/checkout@v2
@@ -27,4 +30,5 @@ jobs:
       - name: 🚀 deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
