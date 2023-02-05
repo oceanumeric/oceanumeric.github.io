@@ -96,7 +96,8 @@ GEM
     webrick (1.8.1)
 
 PLATFORMS
-  bundle lock -unknown
+  bundle lock --add-platform x86_64-darwin-19
+  bundle lock --add-platform ruby
   x86_64-linux
 
 DEPENDENCIES
