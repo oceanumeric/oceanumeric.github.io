@@ -16,13 +16,9 @@ jobs:
       - name: setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1
+          ruby-version: 3.1.2
 
       - name: install dependencies & build site
-        run: |
-          bundle lock --add-platform ruby
-          bundle lock --add-platform x86_64-linux
-          bundle lock --add-platform x86_64-darwin-19
         uses: limjh16/jekyll-action-ts@v2
         with:
           enable_cache: true
