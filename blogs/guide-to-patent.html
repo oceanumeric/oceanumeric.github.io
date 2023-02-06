@@ -4,7 +4,7 @@
     <html lang="en">
   <head>
     <title>
-      Yet Another Guide to Working with Patent Data
+      Yet Another Guide to Working with EPO Patent Data
     </title>
     <meta charset='UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,7 +25,7 @@
           mathematics,
           probabilistic reasoning
       '>
-      <meta name='keywords' content='patent analystics, EPO, PATSTAT, USPTO'>
+      <meta name='keywords' content='patent analytic, EPO, PATSTAT, USPTO'>
       <link rel="stylesheet" href="/css/main.css">
       <link rel="stylesheet" href="/css/blog.css">
       <link rel="stylesheet" href="/css/markdown.css">
@@ -36,20 +36,20 @@
       <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
       <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
       <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Yet Another Guide to Working with Patent Data</title>
+<title>Yet Another Guide to Working with EPO Patent Data</title>
 <meta name="generator" content="Jekyll v4.3.2" />
-<meta property="og:title" content="Yet Another Guide to Working with Patent Data" />
+<meta property="og:title" content="Yet Another Guide to Working with EPO Patent Data" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. However, PATSTAT is not free and one has to pay for it. Even you had bought PATSTAT, you still need a guide to working with it." />
-<meta property="og:description" content="The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. However, PATSTAT is not free and one has to pay for it. Even you had bought PATSTAT, you still need a guide to working with it." />
+<meta name="description" content="The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the updated PATSTAT database free and use it whenever you want." />
+<meta property="og:description" content="The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the updated PATSTAT database free and use it whenever you want." />
 <link rel="canonical" href="https://oceanumeric.github.io//blogs/guide-to-patent" />
 <meta property="og:url" content="https://oceanumeric.github.io//blogs/guide-to-patent" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-02-06T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Yet Another Guide to Working with Patent Data" />
+<meta property="twitter:title" content="Yet Another Guide to Working with EPO Patent Data" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-06T00:00:00+00:00","datePublished":"2023-02-06T00:00:00+00:00","description":"The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. However, PATSTAT is not free and one has to pay for it. Even you had bought PATSTAT, you still need a guide to working with it.","headline":"Yet Another Guide to Working with Patent Data","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blogs/guide-to-patent"},"url":"https://oceanumeric.github.io//blogs/guide-to-patent"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-06T00:00:00+00:00","datePublished":"2023-02-06T00:00:00+00:00","description":"The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the updated PATSTAT database free and use it whenever you want.","headline":"Yet Another Guide to Working with EPO Patent Data","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blogs/guide-to-patent"},"url":"https://oceanumeric.github.io//blogs/guide-to-patent"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -72,8 +72,8 @@
 
     <div class='front-matter'>
         <div class='wrap'>
-            <h1>Yet Another Guide to Working with Patent Data</h1>
-            <h4>It took me a whilte to get into patent analytics, which is a 'wild' world. I hope my guide for patent analytics could help you to nagivate through.</h4>
+            <h1>Yet Another Guide to Working with EPO Patent Data</h1>
+            <h4>It took me a while to get into patent analytics, which is a 'wild' world. I hope my guide for patent analytics could help you to navigate through.</h4>
             <div class='bylines'>
                 <div class='byline'>
                     
@@ -100,14 +100,12 @@
         <p>The first question came to my mind was “<em>where should I start?</em>” when I
 wanted to do patent analytics for my research project. Like everyone, I
 ended up with Google or ChatGPT (if you got a chance to ask there). I found 
-out that the EPO Worldwide Patent Statistical Database (PATSTAT) 
+out that the EPO Worldwide Patent Statistical Database (<a href="https://www.epo.org/searching-for-patents/business/patstat.html" target="_blank">PATSTAT</a>)
 is one of the most widely used patent databases for researchers and business
-analytics. However, PATSTAT is not free and one has to pay for it. Even
-you had bought PATSTAT, you still need a guide to working with it.</p>
-
-<p>Reading this guide will save you days to working with patent data. hello hsdg</p>
-
-<p>sd shdg sdg sdg hello heds shdg</p>
+analytics. Right now users could get access to PATSTAT online free for one month.
+Since most people need to use this database longer than one month,
+this guide will cover how you could access the updated PATSTAT database free and
+use it whenever you want.</p>
 
 <ul>
   <li><a href="#knowing-the-data">Knowing the data</a></li>
@@ -117,7 +115,7 @@ you had bought PATSTAT, you still need a guide to working with it.</p>
 <h2 id="knowing-the-data">Knowing the data</h2>
 
 <p>Paper by <a class="citation" href="#kang2016patstat">(Kang &amp; Tarasconi, 2016)</a> presented the examples of frequently used patent
-statistics explained in the following table.</p>
+statistics in the following table.</p>
 
 <table>
   <thead>
@@ -175,13 +173,13 @@ statistics explained in the following table.</p>
 made a summary as follows:</p>
 
 <ul>
-  <li>advantage
+  <li>Advantage:
     <ul>
       <li>Databases based on and linkable to PATSTAT have been produced by other institutions</li>
-      <li>In comparing the characteristics of PATSTAT with the NBER Patent Database of the US Patent data, PATSTAT provides information that are not available in the other two databases such as priority and continuing applications.</li>
+      <li>In comparing the characteristics of PATSTAT with the NBER Patent Database of the US Patent data, PATSTAT provides information that are not available in the other two databases such as priority and continuing applications</li>
     </ul>
   </li>
-  <li>disadvantage
+  <li>Disadvantage:
     <ul>
       <li>There is a large proportion of missing information in inventors’ geographic data</li>
       <li>PATSTAT has a European-centered bias</li>
@@ -192,9 +190,9 @@ made a summary as follows:</p>
 <p>There are three most critical issues that users must recognize when planning to use PATSTAT  <a class="citation" href="#kang2016patstat">(Kang &amp; Tarasconi, 2016)</a>:</p>
 
 <ol>
-  <li>users need to harmonize names of applicants and inventors; for example, Toyota Motor Corporation appears as “Toyota Motor Corporation,” “Toyota Motor Co,” “Toyota Jidosha Kabushiki Kaisha” (“Jidosha” and “Kabushiki Kaisha” mean a car and a corporation in Japanese, respectively), “Toyota Jidosha K. K.,” and so on.</li>
-  <li>users need to be aware of the case that one entity can appear with different names in patent documents.</li>
-  <li>users need to understand how EPO records and tracks its documents, especially when those documents are from different patent offices, such as USPTO.</li>
+  <li>Users need to harmonize names of applicants and inventors; for example, Toyota Motor Corporation appears as “Toyota Motor Corporation,” “Toyota Motor Co,” “Toyota Jidosha Kabushiki Kaisha” (“Jidosha” and “Kabushiki Kaisha” mean a car and a corporation in Japanese, respectively), “Toyota Jidosha K. K.,” and so on.</li>
+  <li>Users need to be aware of the case that one entity can appear with different names in patent documents.</li>
+  <li>Users need to understand how EPO records and tracks its documents, especially when those documents are from different patent offices, such as USPTO.</li>
 </ol>
 
 <p>With those background information, I believe you are well prepared to start working
@@ -202,10 +200,39 @@ with some datasets now.</p>
 
 <h2 id="getting-the-dataset">Getting the dataset</h2>
 
+<p>If you want to do some quick search, please try <a href="https://worldwide.espacenet.com/" target="_blank">Espacenet</a>,
+which uses the same database with PATSTAT. However, as we have mentioned, there
+are name issues in this database. Moreover, you cannot do multiple searches
+by using <code class="language-plaintext highlighter-rouge">SQL</code>, <code class="language-plaintext highlighter-rouge">R</code> or <code class="language-plaintext highlighter-rouge">Python</code> with Espacenet. PATSTAT does support SQL queries
+<a class="citation" href="#de2014introduction">(De Rassenfosse et al., 2014)</a>, but it is very time consuming to extract information
+you want. So, where and how could get the dataset then?</p>
+
+<p>The starting point is <a href="https://www.oecd.org/sti/inno/intellectual-property-statistics-and-analysis.htm" target="_blank">OECD Harmonized Applicant Names (HAN) Database</a>, which is free for non-commercial use after filling in 
+a <a href="https://forms.office.com/pages/responsepage.aspx?id=1MdBrGEfDUaw9PySWitHHKuxmuqpz_9KusL7-G1D6wFUOEU0OVBYVk5QTzROVlBTSUtBUUREWVhHTiQlQCN0PWcu" target="_blank">short online form</a>.</p>
+
+<p>The OECD HAN database provides a grouping of patent applicant’s names which has been elaborated
+with business register data. The names of patent applicants were originally extracted from European Patent
+Office’s (EPO) Worldwide Statistical Patent Database (PATSTAT, Spring 2022). The database also includes
+the list of patent documents filed to the EPO, the US Patent and Trademarks Office (USPTO) or through the
+Patent Co-operation Treaty (PCT).</p>
+
+<p>Since applicants’ names are not consistent (such as Volkswagen Group vs. Volkswagen Shanghai),
+OECD patent research group cleaned/harmonized names by matching against company
+names from business register data - ORBIS database from Bureau van Dijk (see OECD’s <a href="/pdfs/OECD HAN Database - August 2022.pdf" target="_blank">methodology report</a>).</p>
+
+<p>We have two databases storing different names: PATSTAT and ORBIS.</p>
+
+<p>The OECD HAN database, August 2022 (the most updated version I downloaded), 
+consists of 4 distinct tables presented in flat files (UTF-8 format, columns separated using the pipe “|” character). 
+Applicant’s identifiers from the last editions of PATSTAT are linked to 
+<em>4,191,007</em> unique HAN_id, and <em>4,576,705</em> unique HARM_id.</p>
+
+
     </div>
     <div id='bibliography'>
         <div class='wrap'>
-            <ol class="bibliography"><li><span id="kang2016patstat">Kang, B., &amp; Tarasconi, G. (2016). PATSTAT revisited: Suggestions for better usage. <i>World Patent Information</i>, <i>46</i>, 56–63.</span></li></ol>
+            <ol class="bibliography"><li><span id="de2014introduction">De Rassenfosse, G., Dernis, H., &amp; Boedt, G. (2014). An introduction to the Patstat database with example queries. <i>Australian Economic Review</i>, <i>47</i>(3), 395–408.</span></li>
+<li><span id="kang2016patstat">Kang, B., &amp; Tarasconi, G. (2016). PATSTAT revisited: Suggestions for better usage. <i>World Patent Information</i>, <i>46</i>, 56–63.</span></li></ol>
         </div>
     </div>
 </div>
