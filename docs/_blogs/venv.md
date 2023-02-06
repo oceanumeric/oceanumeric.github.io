@@ -1,7 +1,7 @@
 ---
 title: Create a Virtual Environment
 subtitle: Quick guide on how to create a virtual environment in Python
-layout: math_page_template
+layout: blog_default
 date: 2022-10-17
 keywords: Python, Virtual Environment
 published: true

@@ -294,5 +294,6 @@ learned to do this with the following post:
 - [Automated Jekyll blog tags](https://rfong.github.io/rflog/2020/02/28/jekyll-tags/){:target="_blank"}
 - [Jekyll Tags on Github Pages](https://longqian.me/2017/02/09/github-jekyll-tag/){:target="_blank"}
 
+> only use lowercase for tags in the post!
 
 {% endkatexmm %}
