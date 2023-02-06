@@ -57,6 +57,8 @@ for itself.
 
 ## Rendering math fast 
 
+{% katexmm %}
+
 Since many of my posts include lots of math equations. I have to make sure
 the page will be rendered smoothly. With `Jupyter Notebook`, only `MathJax 2.7`
 is supported, which makes it very slow when your post grows bigger. For example,
@@ -78,6 +80,50 @@ the end, I was nudged to chose Jekyll because of the plugin
 [jekyll-katex](https://github.com/linjer/jekyll-katex){:target="_blank"} 
 allows me to render math on server-side easily. The theme of this blog was
 taken from Gundersen's blog {% cite Gundersen %}.  
+
+Here are some examples of rendering math equations in the post. 
+
+__Variance of the sum of multiple random variables.__ For random variables $X_i$
+we have:
+
+$$\text{Var}\left(\sum_{i=1}^{n}X_{i}\right)=\sum_{i=1}^{n}\sum_{j=1}^{n}\text{Cov}\left(X_{i},X_{j}\right)$$
+
+Using the decomposition formula of variance, we have
+
+$${\rm var} \left( \sum_{i=1}^{n} X_i \right) = E \left( \left[ \sum_{i=1}^{n} X_i \right]^2 \right) - \left[ E\left( \sum_{i=1}^{n} X_i \right) \right]^2$$
+
+Now note that $(\sum_{i=1}^{n} a_i)^2 = \sum_{i=1}^{n} \sum_{j=1}^{n} a_i a_j$, 
+which is clear if you think about what you're doing when you calculate 
+
+$$(a_1+...+a_n) \cdot (a_1+...+a_n),$$
+
+by hand. Therefore,
+
+$$E \left( \left[ \sum_{i=1}^{n} X_i \right]^2 \right) = E \left( \sum_{i=1}^{n} \sum_{j=1}^{n} X_i X_j \right) = \sum_{i=1}^{n} \sum_{j=1}^{n} E(X_i X_j)$$
+
+similarly,
+
+$$\left[ E\left( \sum_{i=1}^{n} X_i \right) \right]^2 = \left[ \sum_{i=1}^{n} E(X_i) \right]^2 = \sum_{i=1}^{n} \sum_{j=1}^{n} E(X_i) E(X_j)
+$$
+
+So,
+
+$${\rm var} \left( \sum_{i=1}^{n} X_i \right) = \sum_{i=1}^{n} \sum_{j=1}^{n} \big( E(X_i X_j)-E(X_i) E(X_j) \big) = \sum_{i=1}^{n} \sum_{j=1}^{n} {\rm cov}(X_i, X_j)$$
+
+__Pairwise independence.__ In general:
+
+$$\text{Var}\left(\sum_{i=1}^{n}X_{i}\right)=\sum_{i=1}^{n}\sum_{j=1}^{n}\text{Cov}\left(X_{i},X_{j}\right)$$
+
+If $X_i$ and $X_j$ are independent then $\mathbb{E}X_{i}X_{j}=\mathbb{E}X_{i}\mathbb{E}X_{j}$
+and consequently
+
+$$\text{Cov}\left(X_{i},X_{j}\right):=\mathbb{E}X_{i}X_{j}-\mathbb{E}X_{i}\mathbb{E}X_{j}=0
+$$
+
+This leads to:
+
+$$\text{Var}\left(\sum_{i=1}^{n}X_{i}\right)=\sum_{i=1}^{n}\text{Var}X_{i}
+$$
 
 
 
@@ -180,3 +226,5 @@ website called `teaching` section. Then you need:
 3. a html file in `_layout` folder if you want a different layout 
 
 
+
+{% endkatexmm %}
