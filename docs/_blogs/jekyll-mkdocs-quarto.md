@@ -1,10 +1,10 @@
 ---
-title: "Scientific Blogs: Jekyll, Mkdocs, R-Markdown or Quarto"
+title: "Scientific Blogs: Jekyll, Mkdocs, R-Markdown or Quarto?"
 subtitle: What are the best tools to write and publish scientific or research blogs? I end up using Jekyll with Katex rendering on server-side. 
 layout: blog_default
 date: 2023-02-05
 keywords: blogging, writing, Jekyll, Mkdocs, Quarto, Jupyter, Notebook, R Markdown, Python, R, Hexo, Hugo 
-tags: post tool github-page jekyll
+tags: website-tool github-page jekyll mkdocs
 published: true
 ---
 
@@ -269,6 +269,19 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
 ```
+
+After comitting and pushing, your website should be posted. The following is 
+the performance score of this post. 
+
+
+<div class='figure'>
+    <img src="/images/blog/jekyll-post-performance.png"
+         alt="Screenshot of performance of this post"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Performance Score of This Post
+    </div>
+</div>
 
 
 

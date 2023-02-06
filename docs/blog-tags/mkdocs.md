@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: tool"
-tag: tool
+title: "Tag: mkdocs"
+tag: mkdocs
 robots: noindex
 ---
