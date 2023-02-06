@@ -110,9 +110,33 @@ h1 {
   line-height: 1.6em;
   text-decoration: none;
 }
+
+.img-left {
+  float: left;
+  width: 49%;
+}
+.img-right {
+  float: right;
+  width: 49%;
+}
+
+table {
+  font-size: 14px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-top: 2px solid black;
+  border-bottom: 1px solid black;
+}
+table thead > tr > th {
+  border-bottom: 1px solid black;
+  padding: 0 8px;
+}
+table td {
+  text-align: center;
+}
 .article {
-  font-size: 16px;
-  line-height: 1.6em;
+  font-size: 17px;
+  line-height: 1.7em;
   color: rgba(0, 0, 0, 0.8);
   margin-top: 50px;
   margin-bottom: 50px;
@@ -138,7 +162,7 @@ h1 {
   padding-top: 15px;
   display: inline-block;
   font-size: 13px;
-  line-heigh: 1.2em;
+  line-height: 1.2em;
 }
 .article .figure .caption-label {
   font-weight: bold;
@@ -161,6 +185,11 @@ h1 {
   margin: 33px auto;
   width: 70px;
 }
+.katex{
+  font-size: 16px !important;
+  color: rgba(0, 0, 0, 0.9);;
+}
+
 #bibliography {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
