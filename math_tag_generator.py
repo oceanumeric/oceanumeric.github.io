@@ -13,9 +13,9 @@ No plugins required.
 import glob
 import os
 
-post_dir = '_cs/'
+post_dir = '_math/'
 draft_dir = '_drafts/'
-tag_dir = 'cs-tags/'
+tag_dir = 'math-tags/'
 
 filenames = glob.glob(post_dir + '*md')
 filenames = filenames + glob.glob(draft_dir + '*md')
@@ -56,7 +56,7 @@ if not os.path.exists(tag_dir):
 for tag in total_tags:
     tag_filename = tag_dir + tag.replace(' ', '_') + '.md'
     f = open(tag_filename, 'a')
-    write_str = '---\nlayout: cs_tagpage\ntitle: \"Tag: ' + tag + '\"\ntag: ' + tag + '\nrobots: noindex\n---\n'
+    write_str = '---\nlayout: math_tagpage\ntitle: \"Tag: ' + tag + '\"\ntag: ' + tag + '\nrobots: noindex\n---\n'
     f.write(write_str)
     f.close()
 print("Tags generated, count", total_tags.__len__())
