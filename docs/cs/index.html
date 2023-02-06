@@ -1,5 +1,5 @@
 ---
-title: blog
+title: Computer Science
 ---
 
 <!DOCTYPE html>
@@ -12,13 +12,10 @@ title: blog
     {% include nav.html %}
     <div id='blog' class='wrap'>
         <div id='intro'>
-            <div class='quote'>
-                <p>I hear and I forget. I see and I remember. I do and I understand.
-                     - <a href='https://english.stackexchange.com/questions/226886/origin-of-i-hear-and-i-forget-i-see-and-i-remember-i-do-and-i-understand' target='_blank'>Confucius</a></p>
-            </div>
+            "Hello World!"
         </div>
         <div id='posts' class='section'>
-            {% assign sorted = site.blogs | sort: 'date' | reverse %}
+            {% assign sorted = site.cs | sort: 'date' | reverse %}
             {% for post in sorted %}
                 <div class='post-row'>
                     <p class='post-title'>

@@ -1,5 +1,5 @@
 ---
-title: blog tags 
+title: computer science tags 
 ---
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ title: blog tags
     <div id='blog' class='wrap'>
         <h1>Tag: {{ page.tag }}</h1>
         <div id='posts' class='section'>
-            {% assign sorted = site.blogs | sort: 'date' | reverse %}
+            {% assign sorted = site.cs | sort: 'date' | reverse %}
             {% for post in sorted %}
                 {% if post.tags contains page.tag %}
                     <div class='post-row'>

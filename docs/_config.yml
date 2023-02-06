@@ -40,6 +40,10 @@ collections:
     output: true
     permalink: /:collection/:title
   
+  cs:
+    output: true
+    permalink: /:collection/:title
+  
   tags:
     output: true
     permalink: /:collection/:title
