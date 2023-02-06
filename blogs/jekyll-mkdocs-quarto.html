@@ -321,6 +321,55 @@ website called <code class="language-plaintext highlighter-rouge">teaching</code
   <li>a html file in <code class="language-plaintext highlighter-rouge">_layout</code> folder if you want a different layout</li>
 </ol>
 
+<p>To learn how this website was built, please visit my <a href="https://github.com/oceanumeric/oceanumeric.github.io" target="_blank">repo</a>.</p>
+
+<ul>
+  <li>
+    <p>Step 6: Install plugins and configure them in <code class="language-plaintext highlighter-rouge">_config.yml</code> file.</p>
+  </li>
+  <li>
+    <p>Step 7: Set up CICD (Github Actions)</p>
+  </li>
+</ul>
+
+<p>Here is my CICD file in <code class="language-plaintext highlighter-rouge">.github/workflows</code>:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Build and Deploy My Jekyll Site to GitHub Pages</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">main</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">jekyll</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+
+    <span class="na">permissions</span><span class="pi">:</span>
+      <span class="na">contents</span><span class="pi">:</span> <span class="s">write</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">📂 setup github actions</span> 
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      
+      <span class="c1"># setup ruby environment </span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">💎 setup ruby</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">ruby/setup-ruby@v1</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">ruby-version</span><span class="pi">:</span> <span class="s">3.1.2</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">🔨 install dependencies &amp; build site</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">limjh16/jekyll-action-ts@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">enable_cache</span><span class="pi">:</span> <span class="no">true</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">🚀 deploy</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">peaceiris/actions-gh-pages@v3</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">github_token</span><span class="pi">:</span> <span class="s">$</span>
+          <span class="na">publish_dir</span><span class="pi">:</span> <span class="s">./_site</span>
+</code></pre></div></div>
+
 
     </div>
     <div id='bibliography'>
