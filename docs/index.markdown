@@ -17,12 +17,6 @@ title: Michael Wang Fei's Homepage
             <li>
 				<a href='/math'>Mathematics</a>
 			</li>
-            <li>
-				<a href='/cs'>Computer Science</a>
-			</li>
-            <li>
-				<a href='/teaching'>Teaching</a>
-			</li>
 			<li>
 				<a href='/tags'>Tags</a>
 			</li>

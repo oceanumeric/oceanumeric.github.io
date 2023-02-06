@@ -40,7 +40,7 @@ collections:
     output: true
     permalink: /:collection/:title
   
-  cs:
+  math:
     output: true
     permalink: /:collection/:title
   
