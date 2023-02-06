@@ -12,16 +12,16 @@ title: Michael Wang Fei's Homepage
 		<h1>Numerical Ocean</h1>
 		<ul id='links'>
 			<li>
-				<a href='/blog'>Blog</a>
+				<a href='/blog'>blog</a>
 			</li>
             <li>
-				<a href='/math'>Mathematics</a>
+				<a href='/math'>math</a>
 			</li>
 			<li>
-				<a href='/tags'>Tags</a>
+				<a href='/tags'>tags</a>
 			</li>
 			<li>
-				<a href='https://github.com/oceanumeric' target='_blank'>Code</a>
+				<a href='https://github.com/oceanumeric' target='_blank'>code</a>
 			</li>
             <li>
             <a href='https://www.linkedin.com/in/fei-michael-wang-b4252159/' target='_blank'>LinkedIn</a>
