@@ -134,7 +134,7 @@ a website with `Github Pages` are not very easy to follow. It took me
 a while to set up this website. Since all static site generators
 are to organize files and templates, one has to understand how `Jekyll`
 organize your markdown files and templates of themes. Now, let's generate
-a static website step by step. 
+a static website step by step.
 
 - Step 1: Check ruby version `ruby -v` and make sure ruby installed
 
