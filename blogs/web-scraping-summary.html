@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Web Scraping: A Summary
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='webscraping python javascript'>
+      <link rel="stylesheet" href="/css/main.css">
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Web Scraping: A Summary</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Web Scraping: A Summary" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="There are many ways to do web scrapping. In this post, I will summarize them into three categories and give methods to scrape those different websites:" />
+<meta property="og:description" content="There are many ways to do web scrapping. In this post, I will summarize them into three categories and give methods to scrape those different websites:" />
+<link rel="canonical" href="https://oceanumeric.github.io//blogs/web-scraping-summary" />
+<meta property="og:url" content="https://oceanumeric.github.io//blogs/web-scraping-summary" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-18T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Web Scraping: A Summary" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-18T00:00:00+00:00","datePublished":"2022-10-18T00:00:00+00:00","description":"There are many ways to do web scrapping. In this post, I will summarize them into three categories and give methods to scrape those different websites:","headline":"Web Scraping: A Summary","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blogs/web-scraping-summary"},"url":"https://oceanumeric.github.io//blogs/web-scraping-summary"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Mathematics</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Web Scraping: A Summary</h1>
+            <h4>After scraped a fair amount of websites, I wrote down what I have learned.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/webscraping">webscraping</a>, 
+                            
+                            <a href="/blog-tags/python">python</a>, 
+                            
+                            <a href="/blog-tags/javascript">javascript</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>18 October 2022</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>There are many ways to do web scrapping. In this post, I will summarize
+them into three categories and give methods to scrape those different websites:</p>
+
+<ul>
+  <li><a href="#methods-for-static-websites">methods for static websites</a></li>
+  <li><a href="#methods-for-dynamic-websites">methods for dynamic websites</a></li>
+  <li><a href="#methods-for-single-page-application-websites">methods for single-page application websites</a></li>
+</ul>
+
+<h2 id="methods-for-static-websites">Methods for static websites</h2>
+
+<p>If the website you want to scrape is a static one, you could just use <code class="language-plaintext highlighter-rouge">requests</code>
+and <code class="language-plaintext highlighter-rouge">BeautifulSoup</code>. The starting function could be like the following one.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+
+<span class="k">def</span> <span class="nf">url_to_soup</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">HEADERS</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># you may turn verify to False might unblock multiple requests
+</span>        <span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>  <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+        <span class="n">page</span><span class="p">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s">"utf-8"</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">page</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">page</span><span class="p">.</span><span class="n">content</span><span class="p">,</span> <span class="s">"lxml"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">soup</span>
+    <span class="k">except</span> <span class="n">requests</span><span class="p">.</span><span class="n">exceptions</span><span class="p">.</span><span class="nb">ConnectionError</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Connection refused: "</span><span class="o">+</span><span class="n">url</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="methods-for-dynamic-websites">Methods for dynamic websites</h2>
+
+<p>If the website you want to scrape is a dynamic one, you need to inspect 
+<code class="language-plaintext highlighter-rouge">Network</code> via <code class="language-plaintext highlighter-rouge">Developer Tools</code> in your browser and figure out how the data
+was rendered dynamically. Depending on how the data is rendered, you could try:</p>
+
+<ul>
+  <li>copy <code class="language-plaintext highlighter-rouge">cURL</code> and request it in <a href="https://web.postman.co/" target="_blank">postman</a>, in which
+<code class="language-plaintext highlighter-rouge">Code snippet</code> could be generated automatically by <code class="language-plaintext highlighter-rouge">postman</code> for you</li>
+  <li>combine <code class="language-plaintext highlighter-rouge">requests</code> with <a href="https://splash.readthedocs.io/en/stable/" target="_blank">Splash</a> - a javascript rendering service.</li>
+  <li>using <a href="https://www.selenium.dev/" target="_blank">Selenium</a></li>
+</ul>
+
+<p>I prefer using <code class="language-plaintext highlighter-rouge">Splash</code> as it allows you to render javascript in <code class="language-plaintext highlighter-rouge">Python</code>
+environment. For instance,</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"http://localhost:8050/render.html"</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s">"url"</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="s">"wait"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">content</span><span class="p">,</span> <span class="s">"html.parser"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="methods-for-single-page-application-websites">Methods for single-page application websites</h2>
+
+<p>For the single-page application websites, you need to write a <code class="language-plaintext highlighter-rouge">javascript</code>
+script and add it into <code class="language-plaintext highlighter-rouge">Sources</code> of developer tools of your browser as it
+is shown in the following figure.</p>
+
+<div class="figure">
+    <img src="/images/blog/snippet.png" alt="A screenshot of developer tools" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> Screenshot of Developer Tool
+    </div>
+</div>
+
+<p>In this example, the function <code class="language-plaintext highlighter-rouge">getData</code> was rendered from the website we want 
+to scrape. Once it was rendered, then we could call it directly from <code class="language-plaintext highlighter-rouge">Console</code>
+and get the data we want.</p>
+
+<p>After that, you could use the following function to save your dataset.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">console</span><span class="p">){</span>
+    <span class="c1">// define a function </span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">save</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">filename</span><span class="p">){</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Console.save: No data</span><span class="dl">'</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// file name = 'webdata.json' </span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">filename</span><span class="p">)</span> <span class="nx">filename</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">webdata.json</span><span class="dl">'</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">data</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">object</span><span class="dl">"</span><span class="p">){</span>
+            <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="c1">// create a blob object to save data </span>
+        <span class="kd">var</span> <span class="nx">blob</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Blob</span><span class="p">([</span><span class="nx">data</span><span class="p">],</span> <span class="p">{</span><span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">text/json</span><span class="dl">'</span><span class="p">}),</span>
+            <span class="nx">e</span>    <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="dl">'</span><span class="s1">MouseEvents</span><span class="dl">'</span><span class="p">),</span>
+            <span class="nx">a</span>    <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">)</span>
+
+        <span class="nx">a</span><span class="p">.</span><span class="nx">download</span> <span class="o">=</span> <span class="nx">filename</span>
+        <span class="nx">a</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">createObjectURL</span><span class="p">(</span><span class="nx">blob</span><span class="p">)</span>
+        <span class="nx">a</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">downloadurl</span> <span class="o">=</span>  <span class="p">[</span><span class="dl">'</span><span class="s1">text/json</span><span class="dl">'</span><span class="p">,</span> 
+                                    <span class="nx">a</span><span class="p">.</span><span class="nx">download</span><span class="p">,</span> <span class="nx">a</span><span class="p">.</span><span class="nx">href</span><span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="dl">'</span><span class="s1">:</span><span class="dl">'</span><span class="p">)</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">initMouseEvent</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nb">window</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> 
+                            <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">null</span><span class="p">)</span>
+        <span class="nx">a</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">})(</span><span class="nx">console</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Every time you run <code class="language-plaintext highlighter-rouge">console.save([your_data])</code>, your browser will automatically
+download the data into a <code class="language-plaintext highlighter-rouge">json</code> file called <code class="language-plaintext highlighter-rouge">webdata.json</code>.</p>
+
+<h2 id="javascript-framework">Javascript framework</h2>
+
+<p>If you are seeking for a Javascript framework that provides a high-level API to 
+control Chrome or Chromium over the DevTools Protocol, you can use <a href="https://pptr.dev/" target="_blank">Puppeteer</a>.</p>
+
+<p><strong>References:</strong>
+<br /></p>
+
+<p>[1] <a href="http://bgrins.github.io/devtools-snippets/#console-save" target="_blank">DevTools Snippets</a><br />
+[2] <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" target="_blank">Web APIs Blob</a><br />
+[3] <a href="https://scrapism.lav.io/scraping-xhr/" target="_blank">Scraping XHR</a><br /></p>
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>
