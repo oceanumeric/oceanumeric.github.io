@@ -5,7 +5,7 @@ layout: blog_default
 date: 2023-02-06
 keywords: patent analystics, EPO, PATSTAT, USPTO
 published: true
-tags: patent patstat api 
+tags: patent patstat api
 ---
 
 The first question came to my mind was "_where should I start?_" when I
@@ -18,7 +18,7 @@ you had bought PATSTAT, you still need a guide to working with it.
 
 Reading this guide will save you days to working with patent data. hello hsdg
 
-sdg 
+sd shdg sdg sdg hello heds shdg 
 
 - [Knowing the data](#knowing-the-data)
 - [Getting the dataset](#getting-the-dataset)

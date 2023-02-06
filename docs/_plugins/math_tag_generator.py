@@ -59,4 +59,4 @@ for tag in total_tags:
     write_str = '---\nlayout: math_tagpage\ntitle: \"Tag: ' + tag + '\"\ntag: ' + tag + '\nrobots: noindex\n---\n'
     f.write(write_str)
     f.close()
-print("Tags generated, count", total_tags.__len__())
+print("Tags generated, count----:", total_tags.__len__())
