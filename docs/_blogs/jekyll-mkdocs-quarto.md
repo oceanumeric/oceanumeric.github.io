@@ -225,6 +225,51 @@ website called `teaching` section. Then you need:
 2. `_teaching` folder to store different contents
 3. a html file in `_layout` folder if you want a different layout 
 
+To learn how this website was built, please visit my [repo](https://github.com/oceanumeric/oceanumeric.github.io){:target="_blank"}. 
+
+- Step 6: Install plugins and configure them in `_config.yml` file. 
+
+- Step 7: Set up CICD (Github Actions)
+
+Here is my CICD file in `.github/workflows`: 
+
+```yml
+name: Build and Deploy My Jekyll Site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  jekyll:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📂 setup github actions 
+        uses: actions/checkout@v2
+      
+      # setup ruby environment 
+      - name: 💎 setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+
+      - name: 🔨 install dependencies & build site
+        uses: limjh16/jekyll-action-ts@v2
+        with:
+          enable_cache: true
+
+      - name: 🚀 deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+```
+
 
 
 {% endkatexmm %}
