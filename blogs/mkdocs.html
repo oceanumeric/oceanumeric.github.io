@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Github Pages with Mkdocs
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='blogging, writing, Mkdocs, Mkdocs-material'>
+      <link rel="stylesheet" href="/css/main.css">
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Github Pages with Mkdocs</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Github Pages with Mkdocs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you want to create a website with MkDocs Material and host it on Github Pages, you could follow the instructions in this post:" />
+<meta property="og:description" content="If you want to create a website with MkDocs Material and host it on Github Pages, you could follow the instructions in this post:" />
+<link rel="canonical" href="https://oceanumeric.github.io//blogs/mkdocs" />
+<meta property="og:url" content="https://oceanumeric.github.io//blogs/mkdocs" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-19T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Github Pages with Mkdocs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-19T00:00:00+00:00","datePublished":"2022-10-19T00:00:00+00:00","description":"If you want to create a website with MkDocs Material and host it on Github Pages, you could follow the instructions in this post:","headline":"Github Pages with Mkdocs","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blogs/mkdocs"},"url":"https://oceanumeric.github.io//blogs/mkdocs"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Mathematics</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Github Pages with Mkdocs</h1>
+            <h4>I used Mkdocs to build my webiste for a while before switching to Jekyll.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/mkdocs">mkdocs</a>, 
+                            
+                            <a href="/blog-tags/github-page">github-page</a>, 
+                            
+                            <a href="/blog-tags/website-tool">website-tool</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>19 October 2022</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>If you want to create a website with <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank">MkDocs Material</a> and host it on Github Pages,
+you could follow the instructions in this post:</p>
+
+<ul>
+  <li><a href="#setup">Setup</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#create-a-website">Create a website</a></li>
+  <li><a href="#publish-it-on-github-pages">Publish it on Github Pages</a></li>
+  <li><a href="#customize-your-website">Customize Your website</a></li>
+</ul>
+
+<p>This post assumes that you know how to use <code class="language-plaintext highlighter-rouge">Git</code> and <code class="language-plaintext highlighter-rouge">Github</code>.</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>Please make sure you have <code class="language-plaintext highlighter-rouge">Python</code> and <code class="language-plaintext highlighter-rouge">VS Code</code>installed. Now, we will setup
+the environment and install the essential packages.</p>
+
+<h3 id="create-an-virtual-environment">Create An Virtual Environment</h3>
+
+<p>If you have multiple versions of python, you need set python path first</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Library/Frameworks/Python.framework/Versions/3.x/bin:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>   
+<span class="nb">export </span>PATH
+</code></pre></div></div>
+<p>where <code class="language-plaintext highlighter-rouge">3.x = 3.7 or 3.8 or 3.9</code>, then you could install <code class="language-plaintext highlighter-rouge">virtualenv</code> with <code class="language-plaintext highlighter-rouge">pip3</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--upgrade</span> pip
+pip3 <span class="nb">install </span>virtualenv
+which virtualenv  <span class="c"># check the version of your virtualenv</span>
+which python3  <span class="c"># check the version of your python3</span>
+</code></pre></div></div>
+<p>After installing <code class="language-plaintext highlighter-rouge">virtualenv</code>, you could navigate to your working directory and 
+create your virtual environment.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>virtualenv <span class="nt">-p</span> /Library/Frameworks/Python.framework/Versions/3.9/bin/python3 venv
+</code></pre></div></div>
+<p>It’s better to call it <code class="language-plaintext highlighter-rouge">venv</code>, so you could configure your <code class="language-plaintext highlighter-rouge">.gitignore</code> file automatically. 
+Once you created it, then you could activate it.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source </span>venv/bin/activate
+</code></pre></div></div>
+<p>You could also set the alias to your virtual environment.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">alias </span><span class="nv">blogenv</span><span class="o">=</span><span class="s2">"source venv/bin/activate"</span>
+</code></pre></div></div>
+<p>Then every time you type <code class="language-plaintext highlighter-rouge">blogenv</code>, your virtual environment will be activated.</p>
+
+<h3 id="install-mkdocs-material">Install MkDocs Material</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>mkdocs-material
+</code></pre></div></div>
+
+<p>Now, we need to freeze our dependencies.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip freeze <span class="o">&gt;</span> requirements.txt
+</code></pre></div></div>
+
+<h2 id="create-a-website">Create a website</h2>
+
+<p>After setting up the environment and installing essential packages, we could
+make our websites.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdocs new <span class="nb">.</span>
+</code></pre></div></div>
+<p>This gives the following structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+├─ docs/
+│  └─ index.md
+└─ mkdocs.yml
+</code></pre></div></div>
+
+<p>You can check your website locally:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdocs serve
+</code></pre></div></div>
+
+<h2 id="publish-it-on-github-pages">Publish it on Github pages</h2>
+
+<p>In your folder cloned from <code class="language-plaintext highlighter-rouge">Github</code>, it should look like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+├── LICENSE
+├── README.md
+├── docs
+│   ├── blog
+│   ├── index.md
+│   ├── javascripts
+│   └── stylesheets
+├── mkdocs.yml
+├── requirements.txt
+└── venv
+    ├── bin
+    ├── lib
+    └── pyvenv.cfg
+</code></pre></div></div>
+
+<p>Here is my <code class="language-plaintext highlighter-rouge">configuration ymal</code> file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">site_name</span><span class="pi">:</span> <span class="s">Innovation Lab</span>
+
+<span class="na">theme</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">material</span>
+  <span class="na">font</span><span class="pi">:</span>
+    <span class="na">text</span><span class="pi">:</span> <span class="s">Source Sans Pro</span>
+    <span class="na">code</span><span class="pi">:</span> <span class="s">Roboto Mono</span>
+  <span class="na">palette</span><span class="pi">:</span> 
+    <span class="pi">-</span> <span class="na">scheme</span><span class="pi">:</span> <span class="s">default</span>
+      <span class="c1"># primary: teal</span>
+      <span class="na">toggle</span><span class="pi">:</span>
+        <span class="na">icon</span><span class="pi">:</span> <span class="s">material/toggle-switch</span> 
+        <span class="na">name</span><span class="pi">:</span> <span class="s">Switch to dark mode</span>
+    <span class="pi">-</span> <span class="na">scheme</span><span class="pi">:</span> <span class="s">slate</span> 
+      <span class="c1"># primary: teal</span>
+      <span class="na">toggle</span><span class="pi">:</span>
+        <span class="na">icon</span><span class="pi">:</span> <span class="s">material/toggle-switch-off-outline</span>
+        <span class="na">name</span><span class="pi">:</span> <span class="s">Switch to light mode</span>
+  <span class="na">features</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">navigation.instant</span>
+    <span class="pi">-</span> <span class="s">navigation.tabs</span>
+    <span class="c1"># - toc.follow</span>
+    <span class="pi">-</span> <span class="s">content.code.annotate</span>
+  <span class="na">markdown_extentions</span><span class="pi">:</span>  <span class="c1"># do not move this outside</span>
+    <span class="pi">-</span> <span class="na">pymdownx.highlight</span><span class="pi">:</span>  <span class="c1"># it is very senstive to indention </span>
+        <span class="na">anchor_linenums</span><span class="pi">:</span> <span class="no">false</span>
+
+
+<span class="na">extra_css</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">stylesheets/extra.css</span>
+
+<span class="na">extra_javascript</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s1">'</span><span class="s">javascripts/headroom.js'</span>
+  <span class="pi">-</span> <span class="s1">'</span><span class="s">javascripts/activate_headroom.js'</span>
+
+
+<span class="na">plugins</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">search</span><span class="pi">:</span>
+      <span class="na">lang</span><span class="pi">:</span> <span class="s">en</span>
+
+<span class="na">markdown_extensions</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">abbr</span>
+  <span class="pi">-</span> <span class="s">admonition</span>
+  <span class="pi">-</span> <span class="s">attr_list</span>
+  <span class="pi">-</span> <span class="s">def_list</span>
+  <span class="pi">-</span> <span class="s">footnotes</span>
+  <span class="pi">-</span> <span class="s">meta</span>
+  <span class="pi">-</span> <span class="s">md_in_html</span>
+  <span class="pi">-</span> <span class="na">toc</span><span class="pi">:</span>
+      <span class="na">permalink</span><span class="pi">:</span> <span class="no">true</span>
+      <span class="na">toc_depth</span><span class="pi">:</span> <span class="m">2</span>
+  <span class="pi">-</span> <span class="na">pymdownx.arithmatex</span><span class="pi">:</span>
+      <span class="na">generic</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="pi">-</span> <span class="na">pymdownx.betterem</span><span class="pi">:</span>
+      <span class="na">smart_enable</span><span class="pi">:</span> <span class="s">all</span>
+  <span class="pi">-</span> <span class="s">pymdownx.caret</span>
+  <span class="pi">-</span> <span class="s">pymdownx.details</span>
+  <span class="pi">-</span> <span class="na">pymdownx.emoji</span><span class="pi">:</span>
+      <span class="na">emoji_generator</span><span class="pi">:</span> <span class="kt">!!python/name:materialx.emoji.to_svg</span>
+      <span class="na">emoji_index</span><span class="pi">:</span> <span class="kt">!!python/name:materialx.emoji.twemoji</span>
+  <span class="pi">-</span> <span class="s">pymdownx.inlinehilite</span>
+  <span class="pi">-</span> <span class="s">pymdownx.keys</span>
+  <span class="pi">-</span> <span class="na">pymdownx.magiclink</span><span class="pi">:</span>
+      <span class="na">repo_url_shorthand</span><span class="pi">:</span> <span class="no">true</span>
+      <span class="na">user</span><span class="pi">:</span> <span class="s">squidfunk</span>
+      <span class="na">repo</span><span class="pi">:</span> <span class="s">mkdocs-material</span>
+  <span class="pi">-</span> <span class="s">pymdownx.mark</span>
+  <span class="pi">-</span> <span class="s">pymdownx.smartsymbols</span>
+  <span class="pi">-</span> <span class="na">pymdownx.superfences</span><span class="pi">:</span>
+      <span class="na">custom_fences</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">mermaid</span>
+          <span class="na">class</span><span class="pi">:</span> <span class="s">mermaid</span>
+          <span class="na">format</span><span class="pi">:</span> <span class="kt">!!python/name:pymdownx.superfences.fence_code_format</span>
+  <span class="pi">-</span> <span class="na">pymdownx.tasklist</span><span class="pi">:</span>
+      <span class="na">custom_checkbox</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="pi">-</span> <span class="s">pymdownx.tilde</span>
+
+<span class="na">nav</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">Home</span><span class="pi">:</span> <span class="s">index.md</span>
+  <span class="pi">-</span> <span class="na">Readings</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">readings/index.md</span>
+  <span class="pi">-</span> <span class="na">Blog</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">2022</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">blog/2022/github-pages-mkdocs.md</span>
+  <span class="pi">-</span> <span class="na">Life Style</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">lifestyle/index.md</span>
+</code></pre></div></div>
+
+<p>When you publish it on the <code class="language-plaintext highlighter-rouge">Github Pages</code>, you need to create a <code class="language-plaintext highlighter-rouge">CI-CD</code> file like
+the following one:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Publish website via GitHub Pages</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">master</span> 
+      <span class="pi">-</span> <span class="s">main</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">deploy</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout Master</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      <span class="pi">-</span> <span class="na">name </span><span class="pi">:</span> <span class="s">Set up python </span><span class="m">3.9</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-python@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">python-version</span><span class="pi">:</span> <span class="m">3.9</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">python -m pip install --upgrade pip</span>
+          <span class="s">pip install -r requirements.txt</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Deploy</span>
+        <span class="na">run </span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">git pull</span>
+          <span class="s">mkdocs gh-deploy</span>
+</code></pre></div></div>
+
+<p>Please choose <code class="language-plaintext highlighter-rouge">gh-pages</code> branch to publish your website.</p>
+
+<h2 id="customize-your-website">Customize Your Website</h2>
+
+<p>If you want to change the layout and design of MkDocs material, you could 
+read the official <a href="https://squidfunk.github.io/mkdocs-material/reference/" target="_blank">documentation</a>.
+Here is my customized <code class="language-plaintext highlighter-rouge">css</code> file.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.md-grid</span> <span class="p">{</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">1157px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@media</span> <span class="n">screen</span> <span class="n">and</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">960px</span><span class="p">)</span> <span class="n">and</span> <span class="p">(</span><span class="n">max-width</span><span class="p">:</span> <span class="m">1221px</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="c">/* .md-nav--secondary {
+        display: none
+    } */</span>
+    <span class="nc">.md-tabs</span> <span class="p">{</span>
+        <span class="nl">display</span><span class="p">:</span> <span class="nb">block</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="nc">.md-typeset</span> <span class="p">{</span>
+        <span class="nl">margin-left</span><span class="p">:</span> <span class="m">170px</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@media</span> <span class="n">screen</span> <span class="n">and</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">800px</span><span class="p">)</span> <span class="n">and</span> <span class="p">(</span><span class="n">max-width</span><span class="p">:</span> <span class="m">960px</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nc">.md-typeset</span> <span class="p">{</span>
+        <span class="nl">margin-left</span><span class="p">:</span> <span class="m">117px</span><span class="p">;</span>
+        <span class="nl">margin-right</span><span class="p">:</span> <span class="m">117px</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c">/* @media only screen and (min-width : 768px) and (max-width : 1220px){
+    .md-grid {
+        max-width: 700px;
+    }
+} */</span>
+
+<span class="c">/* ul.navbar-nav:nth-child(1) &gt; li:nth-child(1) {
+    display: none;
+} */</span>
+
+
+<span class="nc">.md-typeset</span> <span class="nt">p</span> <span class="p">{</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">14pt</span><span class="p">;</span>
+    <span class="nl">line-height</span><span class="p">:</span> <span class="m">1.5</span><span class="p">;</span>
+    <span class="py">--md-typeset-a-color</span><span class="p">:</span> <span class="m">#009999</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">[</span><span class="nt">data-md-color-scheme</span><span class="o">=</span><span class="s1">"slate"</span><span class="o">]</span> <span class="p">{</span>
+    <span class="py">--md-hue</span><span class="p">:</span> <span class="m">170</span><span class="p">;</span> <span class="c">/* [0, 360] */</span>
+    <span class="nl">background-color</span><span class="p">:</span><span class="m">#2b2f2b</span><span class="p">;</span>  <span class="c">/*#303030*/</span>
+    <span class="nl">color</span><span class="p">:</span><span class="m">#e5e4e2</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="c">/* :root &gt; * {
+    --md-typeset-a-color: #009999;
+} */</span>
+
+<span class="nc">.animated</span> <span class="p">{</span>
+    <span class="nl">-webkit-animation-duration</span><span class="p">:</span> <span class="m">.5s</span><span class="p">;</span>
+    <span class="nl">-moz-animation-duration</span><span class="p">:</span> <span class="m">.5s</span><span class="p">;</span>
+    <span class="nl">-o-animation-duration</span><span class="p">:</span> <span class="m">.5s</span><span class="p">;</span>
+    <span class="nl">animation-duration</span><span class="p">:</span> <span class="m">.5s</span><span class="p">;</span>
+    <span class="nl">-webkit-animation-fill-mode</span><span class="p">:</span> <span class="nb">both</span><span class="p">;</span>
+    <span class="nl">-moz-animation-fill-mode</span><span class="p">:</span> <span class="nb">both</span><span class="p">;</span>
+    <span class="nl">-o-animation-fill-mode</span><span class="p">:</span> <span class="nb">both</span><span class="p">;</span>
+    <span class="nl">animation-fill-mode</span><span class="p">:</span> <span class="nb">both</span><span class="p">;</span>
+    <span class="py">will-change</span><span class="p">:</span> <span class="n">transform</span><span class="p">,</span> <span class="n">opacity</span>
+<span class="p">}</span>
+
+<span class="nc">.animated.slideDown</span> <span class="p">{</span>
+    <span class="nl">-webkit-animation-name</span><span class="p">:</span> <span class="n">slideDown</span><span class="p">;</span>
+    <span class="nl">-moz-animation-name</span><span class="p">:</span> <span class="n">slideDown</span><span class="p">;</span>
+    <span class="nl">-o-animation-name</span><span class="p">:</span> <span class="n">slideDown</span><span class="p">;</span>
+    <span class="nl">animation-name</span><span class="p">:</span> <span class="n">slideDown</span>
+<span class="p">}</span>
+
+<span class="nc">.animated.slideUp</span> <span class="p">{</span>
+    <span class="nl">-webkit-animation-name</span><span class="p">:</span> <span class="n">slideUp</span><span class="p">;</span>
+    <span class="nl">-moz-animation-name</span><span class="p">:</span> <span class="n">slideUp</span><span class="p">;</span>
+    <span class="nl">-o-animation-name</span><span class="p">:</span> <span class="n">slideUp</span><span class="p">;</span>
+    <span class="nl">animation-name</span><span class="p">:</span> <span class="n">slideUp</span>
+<span class="p">}</span>
+
+<span class="k">@-webkit-keyframes</span> <span class="n">slideUp</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@-moz-keyframes</span> <span class="n">slideUp</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@-o-keyframes</span> <span class="n">slideUp</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@keyframes</span> <span class="n">slideUp</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nc">.animated.slideUp</span> <span class="p">{</span>
+    <span class="nl">-webkit-animation-name</span><span class="p">:</span> <span class="n">slideUp</span><span class="p">;</span>
+    <span class="nl">-moz-animation-name</span><span class="p">:</span> <span class="n">slideUp</span><span class="p">;</span>
+    <span class="nl">-o-animation-name</span><span class="p">:</span> <span class="n">slideUp</span><span class="p">;</span>
+    <span class="nl">animation-name</span><span class="p">:</span> <span class="n">slideUp</span>
+<span class="p">}</span>
+
+<span class="k">@-webkit-keyframes</span> <span class="n">slideDown</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@-moz-keyframes</span> <span class="n">slideDown</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@-o-keyframes</span> <span class="n">slideDown</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@keyframes</span> <span class="n">slideDown</span> <span class="p">{</span>
+    <span class="err">0</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-100%</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="err">100</span><span class="o">%</span> <span class="p">{</span>
+        <span class="nl">transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nc">.animated.slideDown</span> <span class="p">{</span>
+    <span class="nl">-webkit-animation-name</span><span class="p">:</span> <span class="n">slideDown</span><span class="p">;</span>
+    <span class="nl">-moz-animation-name</span><span class="p">:</span> <span class="n">slideDown</span><span class="p">;</span>
+    <span class="nl">-o-animation-name</span><span class="p">:</span> <span class="n">slideDown</span><span class="p">;</span>
+    <span class="nl">animation-name</span><span class="p">:</span> <span class="n">slideDown</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>I also used <code class="language-plaintext highlighter-rouge">JavaScript</code> to hide the nav bar when you scroll down. You could do
+it too by following this <a href="https://gist.github.com/oceanumeric/023f85b8040f2e8b6503da1dd30f5d9d" target="_blank">Link</a>.</p>
+
+<p>Here is the <code class="language-plaintext highlighter-rouge">css variables</code> that allow you to change color for different components.</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">////</span>
+<span class="c1">/// Copyright (c) 2016-2022 Martin Donath &lt;martin.donath@squidfunk.com&gt;</span>
+<span class="c1">///</span>
+<span class="c1">/// Permission is hereby granted, free of charge, to any person obtaining a</span>
+<span class="c1">/// copy of this software and associated documentation files (the "Software"),</span>
+<span class="c1">/// to deal in the Software without restriction, including without limitation</span>
+<span class="c1">/// the rights to use, copy, modify, merge, publish, distribute, sublicense,</span>
+<span class="c1">/// and/or sell copies of the Software, and to permit persons to whom the</span>
+<span class="c1">/// Software is furnished to do so, subject to the following conditions:</span>
+<span class="c1">///</span>
+<span class="c1">/// The above copyright notice and this permission notice shall be included in</span>
+<span class="c1">/// all copies or substantial portions of the Software.</span>
+<span class="c1">///</span>
+<span class="c1">/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1">/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1">/// FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL</span>
+<span class="c1">/// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1">/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING</span>
+<span class="c1">/// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER</span>
+<span class="c1">/// DEALINGS</span>
+<span class="c1">////</span>
+
+<span class="c1">// ----------------------------------------------------------------------------</span>
+<span class="c1">// Rules</span>
+<span class="c1">// ----------------------------------------------------------------------------</span>
+
+<span class="c1">// Color variables</span>
+<span class="nd">:root</span> <span class="p">{</span>
+  <span class="k">@extend</span> <span class="nv">%root</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ----------------------------------------------------------------------------</span>
+
+<span class="c1">// Allow to explicitly use color schemes in nested content</span>
+<span class="o">[</span><span class="nt">data-md-color-scheme</span><span class="o">=</span><span class="s2">"default"</span><span class="o">]</span> <span class="p">{</span>
+  <span class="k">@extend</span> <span class="nv">%root</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ----------------------------------------------------------------------------</span>
+<span class="c1">// Placeholders</span>
+<span class="c1">// ----------------------------------------------------------------------------</span>
+
+<span class="c1">// Default theme, i.e. light mode</span>
+<span class="nv">%root</span> <span class="p">{</span>
+
+  <span class="c1">// Default color shades</span>
+  <span class="na">--md-default-fg-color</span><span class="p">:</span>               <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.87</span><span class="p">);</span>
+  <span class="na">--md-default-fg-color--light</span><span class="p">:</span>        <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.54</span><span class="p">);</span>
+  <span class="na">--md-default-fg-color--lighter</span><span class="p">:</span>      <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.32</span><span class="p">);</span>
+  <span class="na">--md-default-fg-color--lightest</span><span class="p">:</span>     <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.07</span><span class="p">);</span>
+  <span class="na">--md-default-bg-color</span><span class="p">:</span>               <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-default-bg-color--light</span><span class="p">:</span>        <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.7</span><span class="p">);</span>
+  <span class="na">--md-default-bg-color--lighter</span><span class="p">:</span>      <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.3</span><span class="p">);</span>
+  <span class="na">--md-default-bg-color--lightest</span><span class="p">:</span>     <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.12</span><span class="p">);</span>
+
+  <span class="c1">// Primary color shades</span>
+  <span class="na">--md-primary-fg-color</span><span class="p">:</span>               <span class="nf">hsla</span><span class="p">(</span><span class="si">#{</span><span class="nf">hex2hsl</span><span class="p">(</span><span class="nv">$clr-indigo-500</span><span class="p">)</span><span class="si">}</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-primary-fg-color--light</span><span class="p">:</span>        <span class="nf">hsla</span><span class="p">(</span><span class="si">#{</span><span class="nf">hex2hsl</span><span class="p">(</span><span class="nv">$clr-indigo-400</span><span class="p">)</span><span class="si">}</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-primary-fg-color--dark</span><span class="p">:</span>         <span class="nf">hsla</span><span class="p">(</span><span class="si">#{</span><span class="nf">hex2hsl</span><span class="p">(</span><span class="nv">$clr-indigo-700</span><span class="p">)</span><span class="si">}</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-primary-bg-color</span><span class="p">:</span>               <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-primary-bg-color--light</span><span class="p">:</span>        <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.7</span><span class="p">);</span>
+
+  <span class="c1">// Accent color shades</span>
+  <span class="na">--md-accent-fg-color</span><span class="p">:</span>                <span class="nf">hsla</span><span class="p">(</span><span class="si">#{</span><span class="nf">hex2hsl</span><span class="p">(</span><span class="nv">$clr-indigo-a200</span><span class="p">)</span><span class="si">}</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-accent-fg-color--transparent</span><span class="p">:</span>   <span class="nf">hsla</span><span class="p">(</span><span class="si">#{</span><span class="nf">hex2hsl</span><span class="p">(</span><span class="nv">$clr-indigo-a200</span><span class="p">)</span><span class="si">}</span><span class="o">,</span> <span class="m">0</span><span class="mi">.1</span><span class="p">);</span>
+  <span class="na">--md-accent-bg-color</span><span class="p">:</span>                <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-accent-bg-color--light</span><span class="p">:</span>         <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.7</span><span class="p">);</span>
+
+  <span class="c1">// Code color shades</span>
+  <span class="na">--md-code-fg-color</span><span class="p">:</span>                  <span class="nf">hsla</span><span class="p">(</span><span class="m">200</span><span class="o">,</span> <span class="m">18%</span><span class="o">,</span> <span class="m">26%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-code-bg-color</span><span class="p">:</span>                  <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">96%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+
+  <span class="c1">// Code highlighting color shades</span>
+  <span class="na">--md-code-hl-color</span><span class="p">:</span>                  <span class="nf">hsla</span><span class="p">(</span><span class="si">#{</span><span class="nf">hex2hsl</span><span class="p">(</span><span class="nv">$clr-yellow-a200</span><span class="p">)</span><span class="si">}</span><span class="o">,</span> <span class="m">0</span><span class="mi">.5</span><span class="p">);</span>
+  <span class="na">--md-code-hl-number-color</span><span class="p">:</span>           <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">67%</span><span class="o">,</span> <span class="m">50%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-code-hl-special-color</span><span class="p">:</span>          <span class="nf">hsla</span><span class="p">(</span><span class="m">340</span><span class="o">,</span> <span class="m">83%</span><span class="o">,</span> <span class="m">47%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-code-hl-function-color</span><span class="p">:</span>         <span class="nf">hsla</span><span class="p">(</span><span class="m">291</span><span class="o">,</span> <span class="m">45%</span><span class="o">,</span> <span class="m">50%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-code-hl-constant-color</span><span class="p">:</span>         <span class="nf">hsla</span><span class="p">(</span><span class="m">250</span><span class="o">,</span> <span class="m">63%</span><span class="o">,</span> <span class="m">60%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-code-hl-keyword-color</span><span class="p">:</span>          <span class="nf">hsla</span><span class="p">(</span><span class="m">219</span><span class="o">,</span> <span class="m">54%</span><span class="o">,</span> <span class="m">51%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-code-hl-string-color</span><span class="p">:</span>           <span class="nf">hsla</span><span class="p">(</span><span class="m">150</span><span class="o">,</span> <span class="m">63%</span><span class="o">,</span> <span class="m">30%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-code-hl-name-color</span><span class="p">:</span>             <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-code-fg-color</span><span class="p">);</span>
+  <span class="na">--md-code-hl-operator-color</span><span class="p">:</span>         <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-fg-color--light</span><span class="p">);</span>
+  <span class="na">--md-code-hl-punctuation-color</span><span class="p">:</span>      <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-fg-color--light</span><span class="p">);</span>
+  <span class="na">--md-code-hl-comment-color</span><span class="p">:</span>          <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-fg-color--light</span><span class="p">);</span>
+  <span class="na">--md-code-hl-generic-color</span><span class="p">:</span>          <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-fg-color--light</span><span class="p">);</span>
+  <span class="na">--md-code-hl-variable-color</span><span class="p">:</span>         <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-fg-color--light</span><span class="p">);</span>
+
+  <span class="c1">// Typeset color shades</span>
+  <span class="na">--md-typeset-color</span><span class="p">:</span>                  <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-fg-color</span><span class="p">);</span>
+
+  <span class="c1">// Typeset `a` color shades</span>
+  <span class="na">--md-typeset-a-color</span><span class="p">:</span>                <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-primary-fg-color</span><span class="p">);</span>
+
+  <span class="c1">// Typeset `mark` color shades</span>
+  <span class="na">--md-typeset-mark-color</span><span class="p">:</span>             <span class="nf">hsla</span><span class="p">(</span><span class="si">#{</span><span class="nf">hex2hsl</span><span class="p">(</span><span class="nv">$clr-yellow-a200</span><span class="p">)</span><span class="si">}</span><span class="o">,</span> <span class="m">0</span><span class="mi">.5</span><span class="p">);</span>
+
+  <span class="c1">// Typeset `del` and `ins` color shades</span>
+  <span class="na">--md-typeset-del-color</span><span class="p">:</span>              <span class="nf">hsla</span><span class="p">(</span><span class="m">6</span><span class="o">,</span> <span class="m">90%</span><span class="o">,</span> <span class="m">60%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.15</span><span class="p">);</span>
+  <span class="na">--md-typeset-ins-color</span><span class="p">:</span>              <span class="nf">hsla</span><span class="p">(</span><span class="m">150</span><span class="o">,</span> <span class="m">90%</span><span class="o">,</span> <span class="m">44%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.15</span><span class="p">);</span>
+
+  <span class="c1">// Typeset `kbd` color shades</span>
+  <span class="na">--md-typeset-kbd-color</span><span class="p">:</span>              <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">98%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-typeset-kbd-accent-color</span><span class="p">:</span>       <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-typeset-kbd-border-color</span><span class="p">:</span>       <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">72%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+
+  <span class="c1">// Typeset `table` color shades</span>
+  <span class="na">--md-typeset-table-color</span><span class="p">:</span>            <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.12</span><span class="p">);</span>
+
+  <span class="c1">// Admonition color shades</span>
+  <span class="na">--md-admonition-fg-color</span><span class="p">:</span>            <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-fg-color</span><span class="p">);</span>
+  <span class="na">--md-admonition-bg-color</span><span class="p">:</span>            <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">md-default-bg-color</span><span class="p">);</span>
+
+  <span class="c1">// Footer color shades</span>
+  <span class="na">--md-footer-fg-color</span><span class="p">:</span>                <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+  <span class="na">--md-footer-fg-color--light</span><span class="p">:</span>         <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.7</span><span class="p">);</span>
+  <span class="na">--md-footer-fg-color--lighter</span><span class="p">:</span>       <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">100%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.3</span><span class="p">);</span>
+  <span class="na">--md-footer-bg-color</span><span class="p">:</span>                <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.87</span><span class="p">);</span>
+  <span class="na">--md-footer-bg-color--dark</span><span class="p">:</span>          <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.32</span><span class="p">);</span>
+
+  <span class="c1">// Shadow depth 1</span>
+  <span class="na">--md-shadow-z1</span><span class="p">:</span>
+    <span class="m">0</span> <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">4px</span><span class="p">)</span><span class="si">}</span> <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">10px</span><span class="p">)</span><span class="si">}</span> <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.05</span><span class="p">)</span><span class="o">,</span>
+    <span class="m">0</span> <span class="m">0</span>              <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">1px</span><span class="p">)</span><span class="si">}</span>  <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.1</span><span class="p">);</span>
+
+  <span class="c1">// Shadow depth 2</span>
+  <span class="na">--md-shadow-z2</span><span class="p">:</span>
+    <span class="m">0</span> <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">4px</span><span class="p">)</span><span class="si">}</span> <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">10px</span><span class="p">)</span><span class="si">}</span> <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.1</span><span class="p">)</span><span class="o">,</span>
+    <span class="m">0</span> <span class="m">0</span>              <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">1px</span><span class="p">)</span><span class="si">}</span>  <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.25</span><span class="p">);</span>
+
+  <span class="c1">// Shadow depth 3</span>
+  <span class="na">--md-shadow-z3</span><span class="p">:</span>
+    <span class="m">0</span> <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">4px</span><span class="p">)</span><span class="si">}</span> <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">10px</span><span class="p">)</span><span class="si">}</span> <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.2</span><span class="p">)</span><span class="o">,</span>
+    <span class="m">0</span> <span class="m">0</span>              <span class="si">#{</span><span class="nf">px2rem</span><span class="p">(</span><span class="m">1px</span><span class="p">)</span><span class="si">}</span>  <span class="nf">hsla</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0%</span><span class="o">,</span> <span class="m">0</span><span class="mi">.35</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="render-math-equations">Render Math Equations</h3>
+
+<p>A random variable <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span></span></span></span> is continuous if its distribution function <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mi>X</mi><mo>≤</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F(x) = P(X \leq x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span> 
+can be written as</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><msubsup><mo>∫</mo><mrow><mo>−</mo><mi mathvariant="normal">∞</mi></mrow><mi>x</mi></msubsup><mi>f</mi><mo stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mi>d</mi><mi>u</mi></mrow><annotation encoding="application/x-tex">
+F(x) = \int_{-\infty}^x f(u) d u
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.384573em;vertical-align:-0.970281em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011249999999999316em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.414292em;"><span style="top:-1.7880500000000001em;margin-left:-0.44445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">∞</span></span></span></span><span style="top:-3.8129000000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.970281em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mclose">)</span><span class="mord mathdefault">d</span><span class="mord mathdefault">u</span></span></span></span></span></p>
+
+<p>for some integrable <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>R</mi><mo>→</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mi mathvariant="normal">∞</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f: R \to [0, \infty)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">∞</span><span class="mclose">)</span></span></span></span>. The function <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span> is 
+called the <em>probability density function</em> of the continuous random variable <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span></span></span></span>.
+For instance, the probability density function of the normal distribution is</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><msup><mi>e</mi><mrow><mo>−</mo><mfrac><mrow><mo stretchy="false">(</mo><mi>x</mi><mo>−</mo><mi>μ</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac></mrow></msup></mrow><annotation encoding="application/x-tex">f(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{- \frac{(x-\mu)^2}{2 \sigma^2}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.25909em;vertical-align:-0.93em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.154946em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9550540000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.740108em;"><span style="top:-2.9890000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-2.915054em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702 c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14 c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54 c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10 s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429 c69,-144,104.5,-217.7,106.5,-221 l0 -0 c5.3,-9.3,12,-14,20,-14 H400000v40H845.2724 s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7 c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z M834 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.08494599999999997em;"><span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.93em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.32909em;"><span style="top:-3.4534200000000004em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.250957142857143em;"><span style="top:-2.5061857142857145em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9384399999999999em;"><span style="top:-2.93844em;margin-right:0.1em;"><span class="pstrut" style="height:2.64444em;"></span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.5020714285714285em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight">x</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">μ</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.04844em;"><span style="top:-3.04844em;margin-right:0.1em;"><span class="pstrut" style="height:2.64444em;"></span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.49381428571428565em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p>For the following multivariate linear regression model,</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right" columnspacing=""><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>y</mi><mn>1</mn></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>y</mi><mn>2</mn></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>y</mi><mi>t</mi></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>y</mi><mi>N</mi></msub></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><mo>=</mo><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mn>12</mn></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo lspace="0em" rspace="0em">⋯</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mn>22</mn></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo lspace="0em" rspace="0em">⋯</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mrow><mi>t</mi><mn>2</mn></mrow></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo lspace="0em" rspace="0em">⋯</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mrow><mi>t</mi><mi>k</mi></mrow></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mrow><mi>N</mi><mn>2</mn></mrow></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo lspace="0em" rspace="0em">⋯</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mrow><mi>N</mi><mi>k</mi></mrow></msub></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>β</mi><mn>1</mn></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>β</mi><mn>2</mn></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>β</mi><mi>t</mi></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>β</mi><mi>k</mi></msub></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><mo>+</mo><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>u</mi><mn>1</mn></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>u</mi><mn>2</mn></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>u</mi><mi>t</mi></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi><mi mathvariant="normal">⋮</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>u</mi><mi>N</mi></msub></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+    \begin{bmatrix}
+        y_1 \\
+        y_2 \\
+        \vdots \\
+        y_t \\
+        \vdots  \\ 
+        y_N
+    \end{bmatrix} = \begin{bmatrix}
+        1 &amp; x_{12} &amp; \cdots &amp; x_{1k} \\
+        1 &amp; x_{22} &amp; \cdots &amp; x_{2k} \\
+        \vdots &amp; \vdots &amp; \vdots \\
+        1 &amp; x_{t2} &amp; \cdots &amp; x_{tk} \\ 
+        \vdots &amp; \vdots &amp; \vdots \\
+        1 &amp; x_{N2} &amp; \cdots &amp; x_{Nk} 
+    \end{bmatrix} \begin{bmatrix}
+        \beta_1 \\ 
+        \beta_2 \\
+        \vdots \\
+        \beta_t \\ 
+        \vdots \\
+        \beta_k
+    \end{bmatrix} + \begin{bmatrix}
+        u_1 \\
+        u_2 \\
+        \vdots \\
+        u_t \\
+        \vdots  \\ 
+        u_N
+    \end{bmatrix}
+\end{aligned}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:8.82em;vertical-align:-4.16em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.66em;"><span style="top:-6.66em;"><span class="pstrut" style="height:6.51em;"></span><span class="mord"><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎣</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎡</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.51em;"><span style="top:-7.357500000000001em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-6.1575em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.2975em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-3.0975000000000006em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.2375000000000005em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-0.037500000000000255em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.01em;"><span></span></span></span></span></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎦</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎤</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎣</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎡</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.51em;"><span style="top:-7.357500000000001em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord">1</span></span></span><span style="top:-6.1575em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord">1</span></span></span><span style="top:-4.2975em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-3.0975000000000006em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord">1</span></span></span><span style="top:-1.2375000000000005em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-0.037500000000000255em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.01em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.51em;"><span style="top:-7.357500000000001em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-6.1575em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.2975em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-3.0975000000000006em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.2375000000000005em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-0.037500000000000255em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.01em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.51em;"><span style="top:-7.357500000000001em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="minner">⋯</span></span></span><span style="top:-6.1575em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="minner">⋯</span></span></span><span style="top:-4.2975em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-3.0975000000000006em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="minner">⋯</span></span></span><span style="top:-1.2375000000000005em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-0.037500000000000255em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="minner">⋯</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.01em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.51em;"><span style="top:-6.670000000000001em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-5.47em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:0.6500000000000006em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.010000000000001em;"><span></span></span></span></span></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎦</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎤</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎣</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎡</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.51em;"><span style="top:-7.357500000000001em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-6.1575em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.2975em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-3.0975000000000006em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.05278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.2375000000000005em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-0.037500000000000255em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.05278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.01em;"><span></span></span></span></span></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎦</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎤</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎣</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎢</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎡</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.51em;"><span style="top:-7.357500000000001em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-6.1575em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.2975em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-3.0975000000000006em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.2375000000000005em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord">⋮</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span><span style="top:-0.037500000000000255em;"><span class="pstrut" style="height:3.6875em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.01em;"><span></span></span></span></span></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.458970000000001em;"><span style="top:0.1500399999999994em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎦</span></span></span><span style="top:-0.9999600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-1.5959600000000007em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.191960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-2.787960000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.3839600000000005em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-3.9799600000000006em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-4.57596em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.17196em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-5.217950000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎥</span></span></span><span style="top:-6.458970000000001em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎤</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9500599999999997em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.16em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p>or simply:</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right" columnspacing=""><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>Y</mi><mo>=</mo><mi>X</mi><mi>β</mi><mo>+</mo><mi>u</mi></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+    Y = X \beta + u 
+\end{aligned}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5000000000000002em;vertical-align:-0.5000000000000002em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1em;"><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5000000000000002em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p>where, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span> is a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N \times 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> vector, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span></span></span></span> is a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>×</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">N \times k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> matrix, and 
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05278em;">β</span></span></span></span> is a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k \times 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> vector.</p>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>
