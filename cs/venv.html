@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Create a Virtual Environment
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='Python, Virtual Environment'>
+      <link rel="stylesheet" href="/css/main.css">
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Create a Virtual Environment</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Create a Virtual Environment" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Here are the commands to create a virtual environment in Python:" />
+<meta property="og:description" content="Here are the commands to create a virtual environment in Python:" />
+<link rel="canonical" href="https://oceanumeric.github.io//cs/venv" />
+<meta property="og:url" content="https://oceanumeric.github.io//cs/venv" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-17T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Create a Virtual Environment" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-17T00:00:00+00:00","datePublished":"2022-10-17T00:00:00+00:00","description":"Here are the commands to create a virtual environment in Python:","headline":"Create a Virtual Environment","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//cs/venv"},"url":"https://oceanumeric.github.io//cs/venv"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/cs'>Computer Science</a></li>
+        <li><a href='/math'>Mathematics</a></li>
+        <li><a href='/teaching'>Teaching</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Create a Virtual Environment</h1>
+            <h4>Quick guide on how to create a virtual environment in Python</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/cs-tags/python">python</a>, 
+                            
+                            <a href="/cs-tags/venv">venv</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>17 October 2022</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>Here are the commands to create a virtual environment in Python:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> venv myvenv
+</code></pre></div></div>
+
+<p>After than, you can do:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source </span>myvenv/bin/activate
+</code></pre></div></div>
+
+<p>On Ubuntu, sometimes (very rarely) you need to do this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> venv <span class="nt">--without-pip</span> myvenv
+</code></pre></div></div>
+
+<p>After than, you can do:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source </span>myvenv/bin/activate
+</code></pre></div></div>
+
+<h3 id="install-packages">Install packages</h3>
+
+<p>please check <code class="language-plaintext highlighter-rouge">pip</code> path first:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which pip
+</code></pre></div></div>
+
+<p>If your pip path is within the virtual environment, then you can do</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>If not, please run</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-m</span> pip <span class="nb">install</span>
+</code></pre></div></div>
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>
