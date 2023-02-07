@@ -150,7 +150,8 @@ instead of `Appln_id`.
 | 14           | 14            | 336903179      | WO               | WO2011112122        |
 | 14           | 14            | 363622722      | WO               | WO2012064218        |
 
-For `US8668089`, the following search result was returned by Espacenet. 
+Let's search for `US8668089` - the first entry with `HAN_ID=4`.
+The following search result was returned by Espacenet. 
 
 <div class='figure'>
     <img src="/images/blog/US8668089.png"
@@ -229,6 +230,17 @@ priority.
 One has to be very __careful__ when you are working with patent data because 
 you might have different _reference IDs_ pointing to the same patent. Therefore,
 it is better to work only on granted patents unless you want to do patent
-analysis based on application documents. 
+analysis based on application documents. Having a grip on it by looking
+at the Figure 4. 
+
+<div class='figure'>
+    <img src="/images/blog/patent-searching-results.png"
+         alt="Searching results illustated for US8668089"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The complexity of
+        a patent file. 
+    </div>
+</div>
 
 
