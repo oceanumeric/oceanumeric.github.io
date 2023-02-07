@@ -108,8 +108,8 @@ be matched. Figure 1 gives the illustration.
 
 ### OECD HAN database structure 
 
-Figure 2 gives OECD HAN database structure (please open it and check the zoomed version
- with the new tab by right-click).
+Figure 2 gives OECD HAN database structure (open the zoomed version 
+with the new tab by right-click).
 
 
 <div class='figure'>
