@@ -25,6 +25,10 @@
 <lastmod>2022-11-03T00:00:00+00:00</lastmod>
 </url>
 <url>
+<loc>https://oceanumeric.github.io//blogs/data-science-environment</loc>
+<lastmod>2023-01-07T00:00:00+00:00</lastmod>
+</url>
+<url>
 <loc>https://oceanumeric.github.io//blogs/jekyll-mkdocs-quarto</loc>
 <lastmod>2023-02-05T00:00:00+00:00</lastmod>
 </url>
@@ -37,6 +41,12 @@
 </url>
 <url>
 <loc>https://oceanumeric.github.io//blog-tags/api.html</loc>
+</url>
+<url>
+<loc>https://oceanumeric.github.io//blog-tags/data-science.html</loc>
+</url>
+<url>
+<loc>https://oceanumeric.github.io//blog-tags/docker.html</loc>
 </url>
 <url>
 <loc>https://oceanumeric.github.io//blog-tags/github-page.html</loc>
@@ -78,6 +88,9 @@
 <loc>https://oceanumeric.github.io//blog-tags/python.html</loc>
 </url>
 <url>
+<loc>https://oceanumeric.github.io//blog-tags/r.html</loc>
+</url>
+<url>
 <loc>https://oceanumeric.github.io//blog-tags/stata.html</loc>
 </url>
 <url>
@@ -91,6 +104,6 @@
 </url>
 <url>
 <loc>https://oceanumeric.github.io//pdfs/OECD%20HAN%20Database%20-%20August%202022.pdf</loc>
-<lastmod>2023-02-07T11:14:04+00:00</lastmod>
+<lastmod>2023-02-07T13:53:56+00:00</lastmod>
 </url>
 </urlset>
