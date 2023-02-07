@@ -328,7 +328,10 @@ docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class=
   <li>step 2: open another terminal and check the running containers</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># list current containers </span>
+docker ps
+<span class="c"># to stop a contaier</span>
+docker stop &lt;container-name&gt;
 </code></pre></div></div>
 
 <p>It will show I have a container called <code class="language-plaintext highlighter-rouge">notebook2</code> running and could be interacted.
@@ -341,7 +344,34 @@ Then run the following command gives us another terminal:</p>
 </code></pre></div></div>
 <p>Notice the user ID is the same one as we are interacting with the same container.</p>
 
-<h4 id="using-it-as-a-computation-station-and-save-and-access-files-locally">Using it as a computation station and save and access files locally</h4>
+<p>If you want to run <code class="language-plaintext highlighter-rouge">Jupyter Notebook</code> within this container, we need to 
+run the container with forwarding the tcp/ip port.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+        <span class="nt">-it</span> <span class="nt">--rm</span> <span class="se">\</span>
+        <span class="nt">-p</span> 9999:9999 <span class="se">\</span>
+        <span class="nt">--name</span> notebook2 <span class="se">\</span>
+        jupyter/datascience-notebook start.sh bash
+Entered start.sh with args: bash
+Executing the <span class="nb">command</span>: bash
+<span class="o">(</span>base<span class="o">)</span> jovyan@3fe799dcc78f:~<span class="nv">$ </span>jupyter notebook <span class="nt">--port</span> 9999 
+
+<span class="c"># you may run</span>
+jupyter notebook <span class="nt">--ip</span> 0.0.0.0 <span class="nt">--port</span> 9999 <span class="nt">--no-browser</span> <span class="nt">--allow-root</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Note: the backslash allows us to put a command over multiple lines for 
+readability. On Windows powershell you should replace this with backticks.</li>
+  <li><code class="language-plaintext highlighter-rouge">--rm</code> remove the container when finished.</li>
+  <li><code class="language-plaintext highlighter-rouge">-p 9999:9999</code> linking port 9999 of the host system (your local machine) to port 9999 of the container.</li>
+  <li>jupyter/datascience-notebook: the name of the image</li>
+  <li><code class="language-plaintext highlighter-rouge">start.sh bash</code> is option for the image to start it with bash (default is jupyter-lab)</li>
+  <li>for jupyter, <code class="language-plaintext highlighter-rouge">--ip</code> is to set up the ip address, <code class="language-plaintext highlighter-rouge">--port</code> for port number, <code class="language-plaintext highlighter-rouge">--allow-root</code> allows 
+user to access the root filers.</li>
+</ul>
+
+<h4 id="using-it-with-accessing-files-locally">Using it with accessing files locally</h4>
 
 <p>Most time, we want to use this container as a computation station and
 save and access local files with no restriction. Then we need to run</p>
@@ -359,25 +389,49 @@ Executing the <span class="nb">command</span>: bash
 </span>blogenv  Dockerfile  docs  LICENSE  notebooks  README.md
 <span class="o">(</span>base<span class="o">)</span> jovyan@2623ed260b84:~/work<span class="nv">$ </span>
 </code></pre></div></div>
-<p>You can see my local files are shown within the container.</p>
+<p>You can see my local files are shown within the container. If you are using
+<code class="language-plaintext highlighter-rouge">ssh</code> or doing remote development with <code class="language-plaintext highlighter-rouge">VS Code</code>, you should link the port
+whenever you want to run jupyter notebook.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p 8888:8888 --name notebook -v "${PWD}":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes  -it jupyter/datascience-notebook
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run \
+        -it --rm \
+        -p 7171:7171 \ 
+        --name notebook2 \
+        -v "${PWD}":/home/jovyan/work \
+        jupyter/datascience-notebook start.sh bash
+Entered start.sh with args: bash
+Executing the command: bash
+(base) jovyan@3fe799dcc78f:~$ jupyter notebook --port 7171 --no-browser
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --rm -p 8888:8888 --name notebook -v "${PWD}":/home/jovyan/work jupyter/datascience-notebook
+<h4 id="start-the-jupyter-directly">Start the jupyter directly</h4>
+
+<p>Most of time, you just need to start the jupyter lab or notebook directly.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+	<span class="nt">--rm</span> <span class="nt">-p</span> 5657:5657 <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">JUPYTER_TOKEN</span><span class="o">=</span>haha <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">JUPYTER_PORT</span><span class="o">=</span>5657 <span class="se">\</span>
+    <span class="nt">--name</span> notebook2 <span class="se">\</span>
+	jupyter/datascience-notebook 
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d --rm -p 8888:8888 -e JUPYTER_TOKEN=letmein --name notebook -v "${PWD}":/home/jovyan/work jupyter/datascience-notebook
+<p>The above command does not allow users to access the local files. Instead, 
+we need to run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+	<span class="nt">--rm</span> <span class="nt">-p</span> 5657:5657 <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">JUPYTER_TOKEN</span><span class="o">=</span>haha <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">JUPYTER_PORT</span><span class="o">=</span>5657 <span class="se">\</span>
+    <span class="nt">--name</span> notebook2 <span class="se">\</span>
+    <span class="nt">-v</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span><span class="s2">"</span>:/home/jovyan/work <span class="se">\</span>
+	jupyter/datascience-notebook
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm --shm-size=8gb -p 7070:7070
-</code></pre></div></div>
+<p>For more configurations, please read <a href="https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html?highlight=JUPYTER_PORT#additional-runtime-configurations" target="_blank">Jupyter Docker Stacks Documentation</a>.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --ipc=host  -it --rm  -p 8888:8888
-</code></pre></div></div>
+<h2 id="using">Using</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter notebook --ip 0.0.0.0 --port=8888 --no-browser --allow-root
-</code></pre></div></div>
 
     </div>
     <div id='bibliography'>
