@@ -344,6 +344,63 @@ docker run \
 
 For more configurations, please read [Jupyter Docker Stacks Documentation](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html?highlight=JUPYTER_PORT#additional-runtime-configurations){:target="_blank"}. 
 
-## Using 
+## Using datascience-notebook image as a server
+
+To automate what we did, we could use `jupyter/datascience-notebook` image
+as a server keep running and we could use it anytime and anywhere we want.
+With [jupyter extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter){:target="_blank"} 
+and [Remote-SHH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh){:target="_blank"} of
+VS Code, I managed to build a server:
+
+- step 1: create a jupyter server 
+
+```bash
+# you can change the port, but make sure three ports are the same one
+docker run \
+	--rm -p 5657:5657 \
+    -e JUPYTER_TOKEN=your_own_token \
+    -e JUPYTER_PORT=5657 \
+    --name notebook2 \
+    -v "${PWD}":/home/jovyan/work \
+	jupyter/datascience-notebook
+```
+
+Now copy the link first. Then wShortcut CTRL + SHIFT + P (Windows) or Command + SHIFT + P (macOS), type
+`specify`, you should see the following window popped up. 
+
+
+<div class='figure'>
+    <img src="/images/blog/jupyter-server.png"
+         alt="Screenshot of VS Code"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span>
+        Screenshot of VS Code
+    </div>
+</div>
+
+Enter the link and token by following instructions, you have a data-science
+server with all essential packages now. 
+
+Here is my server: 
+
+```bash
+CONTAINER ID   IMAGE                          CREATED       STATUS                 PORTS                   
+db7537048e58   jupyter/datascience-notebook   4 hours ago   Up 4 hours (healthy)   0.0.0.0:8888->8888/tcp
+```
+
+If you want to want to install new packages while your sever is running, you
+could run 
+
+```bash
+# check your container name name docker ps
+# mine is called notebook
+# docker exec -it notebook /bin/bash
+docker exec -it <container-name> /bin/bash
+```
+
+ENJOY! :)
+
+
 
 
