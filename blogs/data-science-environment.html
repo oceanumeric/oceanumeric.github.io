@@ -450,8 +450,8 @@ VS Code, I managed to build a server:</p>
 </ul>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># you can change the port, but make sure three ports are the same one</span>
-docker run <span class="se">\</span>
-	<span class="nt">--rm</span> <span class="nt">-p</span> 5657:5657 <span class="se">\</span>
+docker run <span class="nt">-d</span> <span class="se">\</span>
+    <span class="nt">--rm</span> <span class="nt">-p</span> 5657:5657 <span class="se">\</span>
     <span class="nt">-e</span> <span class="nv">JUPYTER_TOKEN</span><span class="o">=</span>your_own_token <span class="se">\</span>
     <span class="nt">-e</span> <span class="nv">JUPYTER_PORT</span><span class="o">=</span>5657 <span class="se">\</span>
     <span class="nt">--name</span> notebook2 <span class="se">\</span>
@@ -459,8 +459,9 @@ docker run <span class="se">\</span>
 	jupyter/datascience-notebook
 </code></pre></div></div>
 
-<p>Now copy the link first. Then wShortcut CTRL + SHIFT + P (Windows) or Command + SHIFT + P (macOS), type
-<code class="language-plaintext highlighter-rouge">specify</code>, you should see the following window popped up.</p>
+<p>We now run our docker in the background (with <code class="language-plaintext highlighter-rouge">-d</code> detached option).</p>
+
+<p>Now copy the link first(should be localhost:5657 or your-ip-address:5657). Then wShortcut CTRL + SHIFT + P (Windows) or Command + SHIFT + P (macOS), type <code class="language-plaintext highlighter-rouge">specify</code>, you should see the following window popped up.</p>
 
 <div class="figure">
     <img src="/images/blog/jupyter-server.png" alt="Screenshot of VS Code" style="width: 80%; display: block; margin: 0 auto;" />
