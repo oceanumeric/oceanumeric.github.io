@@ -111,6 +111,7 @@ goes wrong, we have to halt our project.</p>
   <li><a href="#the-ideal-environment">The ideal environment</a></li>
   <li><a href="#build-a-docker-image">Build a docker image</a></li>
   <li><a href="#using-datascience-notebook-image">Using datascience-notebook image</a></li>
+  <li><a href="#using-datascience-notebook-image-as-a-server">Using datascience-notebook image as a server</a></li>
 </ul>
 
 <h2 id="an-unpleasant-experience">An unpleasant experience</h2>
@@ -263,6 +264,12 @@ and <a href="https://hub.docker.com/r/jupyter/r-notebook" target="_blank">r-note
 With those images, you can customize or build new images based on them.</p>
 
 <h2 id="using-datascience-notebook-image">Using datascience-notebook image</h2>
+
+<ul>
+  <li><a href="#using-it-without-accessing-local-files-an-isolated-container">without accessing local files</a></li>
+  <li><a href="#using-it-with-accessing-files-locally">with accessing local files</a></li>
+  <li><a href="#start-the-jupyter-directly">start jupyter from container directly</a></li>
+</ul>
 
 <p>Since <code class="language-plaintext highlighter-rouge">datascience-notebook</code> image has been downloaded (pulled) 10M+, I will
 just use this image instead of building my own programming environment. When 
@@ -430,7 +437,58 @@ we need to run:</p>
 
 <p>For more configurations, please read <a href="https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html?highlight=JUPYTER_PORT#additional-runtime-configurations" target="_blank">Jupyter Docker Stacks Documentation</a>.</p>
 
-<h2 id="using">Using</h2>
+<h2 id="using-datascience-notebook-image-as-a-server">Using datascience-notebook image as a server</h2>
+
+<p>To automate what we did, we could use <code class="language-plaintext highlighter-rouge">jupyter/datascience-notebook</code> image
+as a server keep running and we could use it anytime and anywhere we want.
+With <a href="https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter" target="_blank">jupyter extension</a> 
+and <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh" target="_blank">Remote-SHH extension</a> of
+VS Code, I managed to build a server:</p>
+
+<ul>
+  <li>step 1: create a jupyter server</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># you can change the port, but make sure three ports are the same one</span>
+docker run <span class="se">\</span>
+	<span class="nt">--rm</span> <span class="nt">-p</span> 5657:5657 <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">JUPYTER_TOKEN</span><span class="o">=</span>your_own_token <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">JUPYTER_PORT</span><span class="o">=</span>5657 <span class="se">\</span>
+    <span class="nt">--name</span> notebook2 <span class="se">\</span>
+    <span class="nt">-v</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span><span class="s2">"</span>:/home/jovyan/work <span class="se">\</span>
+	jupyter/datascience-notebook
+</code></pre></div></div>
+
+<p>Now copy the link first. Then wShortcut CTRL + SHIFT + P (Windows) or Command + SHIFT + P (macOS), type
+<code class="language-plaintext highlighter-rouge">specify</code>, you should see the following window popped up.</p>
+
+<div class="figure">
+    <img src="/images/blog/jupyter-server.png" alt="Screenshot of VS Code" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span>
+        Screenshot of VS Code
+    </div>
+</div>
+
+<p>Enter the link and token by following instructions, you have a data-science
+server with all essential packages now.</p>
+
+<p>Here is my server:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONTAINER ID   IMAGE                          CREATED       STATUS                 PORTS                   
+db7537048e58   jupyter/datascience-notebook   4 hours ago   Up 4 hours <span class="o">(</span>healthy<span class="o">)</span>   0.0.0.0:8888-&gt;8888/tcp
+</code></pre></div></div>
+
+<p>If you want to want to install new packages while your sever is running, you
+could run</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># check your container name name docker ps</span>
+<span class="c"># mine is called notebook</span>
+<span class="c"># docker exec -it notebook /bin/bash</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> &lt;container-name&gt; /bin/bash
+</code></pre></div></div>
+
+<p>ENJOY! :)</p>
 
 
     </div>
