@@ -330,7 +330,8 @@ instead of <code class="language-plaintext highlighter-rouge">Appln_id</code>.</
   </tbody>
 </table>
 
-<p>For <code class="language-plaintext highlighter-rouge">US8668089</code>, the following search result was returned by Espacenet.</p>
+<p>Let’s search for <code class="language-plaintext highlighter-rouge">US8668089</code> - the first entry with <code class="language-plaintext highlighter-rouge">HAN_ID=4</code>.
+The following search result was returned by Espacenet.</p>
 
 <div class="figure">
     <img src="/images/blog/US8668089.png" alt="Searching results for US8668089" style="width: 100%; display: block; margin: 0 auto;" />
@@ -418,7 +419,16 @@ priority.</li>
 <p>One has to be very <strong>careful</strong> when you are working with patent data because 
 you might have different <em>reference IDs</em> pointing to the same patent. Therefore,
 it is better to work only on granted patents unless you want to do patent
-analysis based on application documents.</p>
+analysis based on application documents. Having a grip on it by looking
+at the Figure 4.</p>
+
+<div class="figure">
+    <img src="/images/blog/patent-searching-results.png" alt="Searching results illustated for US8668089" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 4.</span> The complexity of
+        a patent file. 
+    </div>
+</div>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
@@ -437,4 +447,19 @@ analysis based on application documents.</p>
     </div>
 </div>
 </body>
+<script>
+var lis = document.getElementsByClassName("footnotes")
+for (let i = 0; i < lis.length; i++){
+    var li_tag = lis[i].getElementsByTagName('li')
+
+    for (let j = 0; j < li_tag.length; j++) {
+        li_tag[j].setAttribute('role', 'link')
+    }
+    var a_tag = lis[i].getElementsByTagName('a')
+
+    for (let k = 0; k < a_tag.length; k++) {
+        a_tag[k].setAttribute('role', 'link')
+    }
+}
+</script>
 </html>
