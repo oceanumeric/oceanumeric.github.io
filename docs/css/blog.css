@@ -190,6 +190,12 @@ table td {
   color: rgba(0, 0, 0, 0.9);;
 }
 
+.footnotes {
+  margin-top: 100px;
+  font-size: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 #bibliography {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }

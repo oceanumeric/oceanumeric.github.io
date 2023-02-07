@@ -109,7 +109,18 @@ be matched. Figure 1 gives the illustration.
 ### OECD HAN database structure 
 
 Figure 2 gives OECD HAN database structure (open the zoomed version 
-with the new tab by right-click).
+with the new tab by right-click). It has four tables: `HAN_PERSON`, `HAN_NAMES`,
+`HARM_NAMES`, and `HAN_PATENTS`. We will use one patent file as an example to
+walk through those tables. Notice that there are around 18 million rows in
+`HAN_PATENTS` table, which accounts for around 18% of EPO's total patent document.[^1]
+This means the OECD HAN database has a European-centered bias. This is partly
+due to the ORBIS database which has more register information for European firms.
+We will discuss how to get and analyze patent data for Chinese firms in the
+coming sections of this post. 
+
+
+[^1]:there are more than 100 million patent documents from leading industrialized and developing countries in EPO's database.
+
 
 
 <div class='figure'>
@@ -122,5 +133,102 @@ with the new tab by right-click).
         table which include all cleaned names.
     </div>
 </div>
+
+Now, we chose the first six records (or entries) from `HAN_PATENTS` table and search
+those patents from EPO's [Espacenet](https://worldwide.espacenet.com/?locale=en_EP).
+In the `HAN_PATENTS` table, the variable `Appln_id` refers to the patent application
+identifier in PATSTAT database. You can use it to retreat the document if you
+can access to PATSTAT database. When we search in Espacenet, we use `Patent_number`
+instead of `Appln_id`. 
+
+| HAN_ID <int> | HARM_ID <int> | Appln_id <int> | Publn_auth <chr> | Patent_number <chr> |
+|--------------|---------------|----------------|------------------|---------------------|
+| 4            | 4             | 311606173      | US               | US8668089           |
+| 7            | 7             | 439191607      | US               | US9409947           |
+| 7            | 7             | 518367793      | US               | US10836794          |
+| 10           | 10            | 365204276      | US               | US8513480           |
+| 14           | 14            | 336903179      | WO               | WO2011112122        |
+| 14           | 14            | 363622722      | WO               | WO2012064218        |
+
+For `US8668089`, the following search result was returned by Espacenet. 
+
+<div class='figure'>
+    <img src="/images/blog/US8668089.png"
+         alt="Searching results for US8668089"
+         style="width: 100%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Espacenet's searching
+        returned result that includes patent name, inventor, applicant, CPC classes,
+        and publication information and priority date. 
+    </div>
+</div>
+
+To understand meaning of those dates, code and numbers, we need to learn some
+legal terms in the field of patent analytics. 
+
+- Patent __application__:  The __formal "paperwork"__ filed by an applicant, 
+(or by a patent attorney or patent agent on the applicant’s behalf)
+seeking to obtain a patent for a specific invention. There are
+several parts to a patent application, for example the
+description and the claims. In the above example, the patent file called 
+_System Crate, in Particular for Transporting Fresh Fish_ is the formal 'paperwork'. 
+
+- Patent __priority__:  The priority date is the first date of filing of a 
+patent application. It is essential for determining whether any subsequent application for the
+same invention can still be assessed as novel. It also makes it possible to
+determine whether the subject-matter of a patent application is prior art
+on a particular date. The priority date is, however, not necessarily the same as the filing date.
+    - in our case, the priority date is __2006-05-29__.
+    - if another firm filed the patent application with the similar idea later than 2006-05-29, the subsequent
+    application will be assessed as non-novel. 
+    - understanding priority and prior arts can be tricky, please read my conversation with 
+    [ChatGPT](https://oceanumeric.github.io/blogs/talk-with-chatGPT-about-patent){:target="_blank"}. 
+
+- Patent __publication__: The first patent publication is often 
+the __published patent application__, EPO offices published the patent file 
+to the public 18 months after a priority date. USPTO has different rules.
+In this example, the publication date is 2010-04-22 (that's why publication
+number starts `US2010....(A1)`) The code `A1` in the publication number refers to patent application publication kind.
+Sometimes, firms might update the application and they will republish it again
+with the same name, then A2 will be used in the publication code. Those kind code
+(as explained in the next bullet point) have slight different meanings
+in different patent office (but ideas behind those code are same). 
+
+- Patent publication __kind code__: A code which includes 1 or 2 letters and in many cases a
+number, used to distinguish the kind of published patent
+document. For example, the publication of an application used in EPO for a
+patent with or without a search report, and the level of the
+publication:
+    - A1: European patent application published with European search report
+    - A2: European patent application published without European search report (search report not available at publication date)
+    - A3: document Separate publication of the European search report
+    - A4: document Supplementary search report
+    - B1: European patent specification (granted patent)
+    - B2: New European patent specification (amended specification after opposition procedure)
+
+- Patent application __claims__: The part of the patent that defines the scope of the legal
+protection sought for the invention. 
+
+- Patent __granted__: the patent was granted on 2014-03-11 for our example
+_System Crate, in Particular for Transporting Fresh Fish_, with a new 
+document number `US8668089 (B2)`. 
+
+- Patent __citation(s)__: A patent document cited. Citations are not only added by the
+patent applicant but also by the examiners of the patent
+application. Patents citations may be added during the
+different steps of the granting process (search report,
+examination, third party observations, opposition) and thus
+added to the patent data.
+
+- Simple patent __family__: All documents sharing exactly the same set of priorities.
+
+- Patent __family__: All documents sharing directly or indirectly at least one
+priority.
+
+
+One has to be very __careful__ when you are working with patent data because 
+you might have different _reference IDs_ pointing to the same patent. Therefore,
+it is better to work only on granted patents unless you want to do patent
+analysis based on application documents. 
 
 
