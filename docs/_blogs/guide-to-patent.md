@@ -79,10 +79,48 @@ Since applicants' names are not consistent (such as Volkswagen Group vs. Volkswa
 OECD patent research group cleaned/harmonized names by matching against company
 names from business register data - ORBIS database from Bureau van Dijk (see OECD's [methodology report](/pdfs/OECD HAN Database - August 2022.pdf){:target="_blank"}). 
 
-We have two databases storing different names: PATSTAT and ORBIS. 
+We have two databases storing different names: PATSTAT and ORBIS. It turned
+out that there are _more_ firms in PATSTAT. Therefore, some firms cannot be
+matched against company names from ORBIS database. The OECD HAN database, August 2022 (the most updated version I downloaded) has two unique identifiers:
 
-The OECD HAN database, August 2022 (the most updated version I downloaded), 
-consists of 4 distinct tables presented in flat files (UTF-8 format, columns separated using the pipe “|” character). 
-Applicant’s identifiers from the last editions of PATSTAT are linked to 
-_4,191,007_ unique HAN_id, and _4,576,705_ unique HARM_id.
+- HAN_id, the number of HAN_id is 4,191,007, which is linked to names that could be matched with ORBIS database
+- HARM_id, the number of HARM_id is 4,576,705 (less than that of HAN_id), which is linked to names grouped based on similarity
+
+For instance, if both Volkswagen Group and Volkswagen Shanghai can be matched with
+ORBIS database, two HAN_ids will be assigned to them. For names that are similar
+with each other, such as "Volksgen (missing 'w') Shanghai", it will be grouped
+as Volkswagen Shanghai and only one unique HAN_id will be assigned. 
+
+For HARM_id, unique identifiers are the super set, which not only include
+firms that are matched with ORBIS database but also those that cannot
+be matched. Figure 1 gives the illustration. 
+
+<div class='figure'>
+    <img src="/images/blog/oecd-han-illustrate1.png"
+         alt="OECD HAN database illustration"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> Relationship
+        of HAN_id and HARM_id. 
+    </div>
+</div>
+
+
+### OECD HAN database structure 
+
+Figure 2 gives OECD HAN database structure (please open it and check the zoomed version
+ with the new tab by right-click).
+
+
+<div class='figure'>
+    <img src="/images/blog/oecd-han-database.png"
+         alt="OECD HAN database illustration"
+         style="width: 100%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> OECD HAN database structure:
+        there are four tables, in which HAN_PERSON is the correspondence
+        table which include all cleaned names.
+    </div>
+</div>
+
 
