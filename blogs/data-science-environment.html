@@ -106,6 +106,15 @@ has this kind of experience). To do data analysis with open source ecosystem,
 we rely on so many packages. If anything in this long chain of dependence
 goes wrong, we have to halt our project.</p>
 
+<ul>
+  <li><a href="#an-unpleasant-experience">An unpleasant experience</a></li>
+  <li><a href="#the-ideal-environment">The ideal environment</a></li>
+  <li><a href="#build-a-docker-image">Build a docker image</a></li>
+  <li><a href="#using-datascience-notebook-image">Using datascience-notebook image</a></li>
+</ul>
+
+<h2 id="an-unpleasant-experience">An unpleasant experience</h2>
+
 <p>Personally, I have to set up different kinds of programming environment
 for different projects. For example, you might need a programming environment
 with GPUs, you might need a programming environment that allows you to do
@@ -143,7 +152,214 @@ that could be:</p>
   <li>used locally or remotely as a server</li>
 </ul>
 
-<h2 id="the-ideal">The ideal</h2>
+<h2 id="the-ideal-environment">The ideal environment</h2>
+
+<p>The idea working environment for data scientists should be of accessible,
+reusable, having no trouble of installing most of packages, and could
+be updated for new projects. To have this idea working environment, we could
+buy a laptop or server and install everything we need and do not install
+other softwares that are not needed for data analysis.</p>
+
+<p>However, I do not have money for this. Even I had money to buy all those
+hardwares, it is time consuming to switch between them. Therefore, we need
+Docker.</p>
+
+<h2 id="build-a-docker-image">Build a docker image</h2>
+
+<p>With Docker installed, we can create a <code class="language-plaintext highlighter-rouge">Dockerfile</code> to create an image.
+For instance, the following one is taken from <a href="https://github.com/jupyter/docker-stacks/blob/main/docker-stacks-foundation/Dockerfile" target="_blank">Jupyter development team</a>. I think knowing 
+how to build a docker image is quite essential for being a data scientist or data
+engineer. We will walk through the following Dockerfile and explain what 
+it does.</p>
+
+<div class="language-docker highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is just an example, do not run it! </span>
+<span class="c"># Copyright (c) Jupyter Development Team.</span>
+<span class="c"># Distributed under the terms of the Modified BSD License.</span>
+
+<span class="c">################ Setup a base operating system ###########</span>
+<span class="c"># Ubuntu 22.04 (jammy)</span>
+<span class="c"># https://hub.docker.com/_/ubuntu/tags?page=1&amp;name=jammy</span>
+<span class="c"># choose ubuntu:22.04 as base operating system </span>
+<span class="k">ARG</span><span class="s"> ROOT_CONTAINER=ubuntu:22.04</span>
+
+<span class="k">FROM</span><span class="s"> $ROOT_CONTAINER</span>
+
+<span class="c"># add docker user information</span>
+<span class="c"># ARG - define arguments build-time variables. </span>
+<span class="c"># you can set up user id otherwise everytime you run docker you will have</span>
+<span class="c"># different ids, such as root@71b22c5215f2; root@79a18ea42f06; </span>
+<span class="k">LABEL</span><span class="s"> maintainer="Jupyter Project &lt;jupyter@googlegroups.com&gt;"</span>
+
+<span class="c"># you will see this user when you run docker container </span>
+<span class="k">ARG</span><span class="s"> NB_USER="jovyan"</span>
+<span class="k">ARG</span><span class="s"> NB_UID="1000"</span>
+<span class="k">ARG</span><span class="s"> NB_GID="100"</span>
+
+<span class="c"># running shell </span>
+<span class="c"># This setting prevents errors in a pipeline from being masked.</span>
+<span class="c"># image you apt-get install, but error was not returned </span>
+<span class="k">SHELL</span><span class="s"> ["/bin/bash", "-o", "pipefail", "-c"]</span>
+
+<span class="c"># set up the user for Ubuntu</span>
+<span class="c"># meaning we will install all softwares in our Ubuntu image as root user </span>
+<span class="k">USER</span><span class="s"> root</span>
+
+<span class="c"># envrironment variable for installation </span>
+<span class="c"># we do not need to interact during installing process such as answering [y/n]</span>
+<span class="k">ENV</span><span class="s"> DEBIAN_FRONTEND noninteractive</span>
+
+<span class="c">################### Install Softwares in Ubutun #########################</span>
+<span class="c"># if you have ever used Ubuntun</span>
+<span class="k">RUN </span>apt-get update <span class="nt">--yes</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    <span class="c"># - apt-get upgrade is run to patch known vulnerabilities in apt-get packages as</span>
+    <span class="c">#   the ubuntu base image is rebuilt too seldom sometimes (less than once a month)</span>
+    apt-get upgrade --yes &amp;&amp; \
+    apt-get install --yes --no-install-recommends \
+    # - bzip2 is necessary to extract the micromamba executable.
+    bzip2 \
+    p7zip-full \
+    ca-certificates \
+    locales \
+    sudo \
+    # - tini is installed as a helpful container entrypoint that reaps zombie
+    <span class="c">#   processes and such of the actual executable we want to start, see</span>
+    <span class="c">#   https://github.com/krallin/tini#why-tini for details.</span>
+    tini \
+    wget &amp;&amp; \
+    apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/* &amp;&amp; \
+    echo "en_US.UTF-8 UTF-8" &gt; /etc/locale.gen &amp;&amp; \
+    locale-gen
+
+
+<span class="c"># Configure environment</span>
+<span class="k">ENV</span><span class="s"> CONDA_DIR=/opt/conda \</span>
+    SHELL=/bin/bash \
+    NB_USER="${NB_USER}" \
+    NB_UID=${NB_UID} \
+    NB_GID=${NB_GID} \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8
+<span class="k">ENV</span><span class="s"> PATH="${CONDA_DIR}/bin:${PATH}" \</span>
+    HOME="/home/${NB_USER}"
+
+# Copy a script that we will use to correct permissions after running certain commands
+<span class="k">COPY</span><span class="s"> fix-permissions /usr/local/bin/fix-permissions</span>
+<span class="k">RUN </span><span class="nb">chmod </span>a+rx /usr/local/bin/fix-permissions
+
+<span class="c"># Enable prompt color in the skeleton .bashrc before creating the default NB_USER</span>
+<span class="c"># hadolint ignore=SC2016</span>
+<span class="c"># .........</span>
+<span class="c"># .........</span>
+<span class="c"># more comannd</span>
+</code></pre></div></div>
+
+<p>The original <code class="language-plaintext highlighter-rouge">Dockerfile</code> is very long, we will not discuss everything here.
+Once the operating system and dependencies become complex, we could reply
+on images built by others. Jupyter development team has built several 
+images, such as <a href="https://hub.docker.com/r/jupyter/datascience-notebook" target="_blank">datascience-notebook</a>,
+<a href="https://hub.docker.com/r/jupyter/tensorflow-notebook" target="_blank">tensorflow-notebook</a>, 
+and <a href="https://hub.docker.com/r/jupyter/r-notebook" target="_blank">r-notebook</a>. 
+With those images, you can customize or build new images based on them.</p>
+
+<h2 id="using-datascience-notebook-image">Using datascience-notebook image</h2>
+
+<p>Since <code class="language-plaintext highlighter-rouge">datascience-notebook</code> image has been downloaded (pulled) 10M+, I will
+just use this image instead of building my own programming environment. When 
+you are using this image, you have two ways to run it:</p>
+
+<ul>
+  <li>use it as an isolated container and save all files within this container</li>
+  <li>use it as a computation station and save and access files locally</li>
+</ul>
+
+<p>Before we run everything, make sure you pulled the image by running
+<code class="language-plaintext highlighter-rouge">docker pull jupyter/datascience-notebook</code>.</p>
+
+<h4 id="using-it-without-accessing-local-files-an-isolated-container">Using it without accessing local files (an isolated container)</h4>
+
+<p>You could skip this section as most users need to access the local files
+from their own computer (or whatever working station) and interact with
+the container. The following command will not allow you read a local file
+and analyze your data. You have to download everything within it
+after running the container (see you clone a git repository within it
+and work on it).</p>
+
+<p>For the scenario one, we could run</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -it means iteractive with terminal</span>
+<span class="c"># --rm means removing container after exit</span>
+<span class="c"># start.sh set up the starting point</span>
+<span class="c"># default one is jupyter lab </span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> jupyter/datascience-notebook start.sh bash
+</code></pre></div></div>
+
+<p>Once you run it, you should get</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Entered start.sh with args: bash
+Executing the command: bash
+(base) jovyan@72e83ed33c2f:~$ 
+</code></pre></div></div>
+
+<p>With the username ‘jovyang’ (username set in the Dockerfile) and id as
+<code class="language-plaintext highlighter-rouge">72e83ed33c2f</code> and dollar sign $, now you are having a <code class="language-plaintext highlighter-rouge">Ubuntu</code> system
+with all essential packages installed.</p>
+
+<p>As the following code shows, there are no extra files in our container.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>base<span class="o">)</span> jovyan@72e83ed33c2f:~<span class="nv">$ </span><span class="nb">ls
+</span>work
+<span class="o">(</span>base<span class="o">)</span> jovyan@72e83ed33c2f:~<span class="nv">$ </span><span class="nb">cd </span>work
+<span class="o">(</span>base<span class="o">)</span> jovyan@72e83ed33c2f:~/work<span class="nv">$ </span><span class="nb">ls</span>
+<span class="o">(</span>base<span class="o">)</span> jovyan@72e83ed33c2f:~/work<span class="nv">$ </span>
+</code></pre></div></div>
+
+<p>Sometime you need to open multiple terminal windows, you can do this:</p>
+
+<ul>
+  <li>step 1: run a container</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># the start.sh bash is option only for jupyter/datascience-notebook image</span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="nt">--name</span> notebook2 jupyter/datascience-notebook start.sh bash
+</code></pre></div></div>
+
+<ul>
+  <li>step 2: open another terminal and check the running containers</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
+</code></pre></div></div>
+
+<p>It will show I have a container called <code class="language-plaintext highlighter-rouge">notebook2</code> running and could be interacted.
+Then run the following command gives us another terminal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">exec</span> <span class="nt">-it</span> notebook2 /bin/bash
+<span class="o">(</span>base<span class="o">)</span> jovyan@20a1058c5415:~<span class="nv">$ </span>
+<span class="c"># turn it off</span>
+<span class="nb">exit</span> 
+</code></pre></div></div>
+<p>Notice the user ID is the same one as we are interacting with the same container.</p>
+
+<h4 id="using-it-as-a-computation-station-and-save-and-access-files-locally">Using it as a computation station and save and access files locally</h4>
+
+<p>Most time, we want to use this container as a computation station and
+save and access local files with no restriction. Then we need to run</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># you can call whatever youu want --name &lt;your name&gt;</span>
+<span class="c"># -v meaning we now links current folder (${PWD}) with jovyan/work</span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="nt">--name</span> notebook2 <span class="nt">-v</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span><span class="s2">"</span>:/home/jovyan/work jupyter/datascience-notebook start.sh bash
+
+Entered start.sh with args: bash
+Executing the <span class="nb">command</span>: bash
+<span class="o">(</span>base<span class="o">)</span> jovyan@2623ed260b84:~<span class="nv">$ </span><span class="nb">ls
+</span>work
+<span class="o">(</span>base<span class="o">)</span> jovyan@2623ed260b84:~<span class="nv">$ </span><span class="nb">cd </span>work
+<span class="o">(</span>base<span class="o">)</span> jovyan@2623ed260b84:~/work<span class="nv">$ </span><span class="nb">ls
+</span>blogenv  Dockerfile  docs  LICENSE  notebooks  README.md
+<span class="o">(</span>base<span class="o">)</span> jovyan@2623ed260b84:~/work<span class="nv">$ </span>
+</code></pre></div></div>
+<p>You can see my local files are shown within the container.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p 8888:8888 --name notebook -v "${PWD}":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes  -it jupyter/datascience-notebook
 </code></pre></div></div>
