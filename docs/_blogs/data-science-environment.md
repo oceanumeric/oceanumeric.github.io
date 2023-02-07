@@ -361,8 +361,8 @@ VS Code, I managed to build a server:
 
 ```bash
 # you can change the port, but make sure three ports are the same one
-docker run \
-	--rm -p 5657:5657 \
+docker run -d \
+    --rm -p 5657:5657 \
     -e JUPYTER_TOKEN=your_own_token \
     -e JUPYTER_PORT=5657 \
     --name notebook2 \
@@ -370,8 +370,9 @@ docker run \
 	jupyter/datascience-notebook
 ```
 
-Now copy the link first. Then wShortcut CTRL + SHIFT + P (Windows) or Command + SHIFT + P (macOS), type
-`specify`, you should see the following window popped up. 
+We now run our docker in the background (with `-d` detached option).
+
+Now copy the link first(should be localhost:5657 or your-ip-address:5657). Then wShortcut CTRL + SHIFT + P (Windows) or Command + SHIFT + P (macOS), type `specify`, you should see the following window popped up. 
 
 
 <div class='figure'>
