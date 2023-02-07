@@ -19,6 +19,7 @@ goes wrong, we have to halt our project.
 - [The ideal environment](#the-ideal-environment)
 - [Build a docker image](#build-a-docker-image)
 - [Using datascience-notebook image](#using-datascience-notebook-image)
+- [Using datascience-notebook image as a server](#using-datascience-notebook-image-as-a-server)
 
 ## An unpleasant experience 
 
@@ -173,6 +174,10 @@ With those images, you can customize or build new images based on them.
 
 
 ## Using datascience-notebook image
+
+- [without accessing local files](#using-it-without-accessing-local-files-an-isolated-container)
+- [with accessing local files](#using-it-with-accessing-files-locally)
+- [start jupyter from container directly](#start-the-jupyter-directly)
 
 Since `datascience-notebook` image has been downloaded (pulled) 10M+, I will
 just use this image instead of building my own programming environment. When 
