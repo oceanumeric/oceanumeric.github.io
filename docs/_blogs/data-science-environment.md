@@ -238,7 +238,10 @@ docker run -it --rm --name notebook2 jupyter/datascience-notebook start.sh bash
 - step 2: open another terminal and check the running containers
 
 ```bash
+# list current containers 
 docker ps
+# to stop a contaier
+docker stop <container-name>
 ```
 
 It will show I have a container called `notebook2` running and could be interacted.
@@ -252,8 +255,33 @@ exit
 ```
 Notice the user ID is the same one as we are interacting with the same container. 
 
+If you want to run `Jupyter Notebook` within this container, we need to 
+run the container with forwarding the tcp/ip port.
 
-#### Using it as a computation station and save and access files locally
+```bash
+docker run \
+        -it --rm \
+        -p 9999:9999 \
+        --name notebook2 \
+        jupyter/datascience-notebook start.sh bash
+Entered start.sh with args: bash
+Executing the command: bash
+(base) jovyan@3fe799dcc78f:~$ jupyter notebook --port 9999 
+
+# you may run
+jupyter notebook --ip 0.0.0.0 --port 9999 --no-browser --allow-root
+```
+
+- Note: the backslash allows us to put a command over multiple lines for 
+readability. On Windows powershell you should replace this with backticks.
+- `--rm` remove the container when finished.
+- `-p 9999:9999` linking port 9999 of the host system (your local machine) to port 9999 of the container.
+- jupyter/datascience-notebook: the name of the image
+- `start.sh bash` is option for the image to start it with bash (default is jupyter-lab)
+- for jupyter, `--ip` is to set up the ip address, `--port` for port number, `--allow-root` allows 
+user to access the root filers. 
+
+#### Using it with accessing files locally
 
 Most time, we want to use this container as a computation station and
 save and access local files with no restriction. Then we need to run
@@ -272,32 +300,50 @@ work
 blogenv  Dockerfile  docs  LICENSE  notebooks  README.md
 (base) jovyan@2623ed260b84:~/work$ 
 ``` 
-You can see my local files are shown within the container. 
-
-
-
-
+You can see my local files are shown within the container. If you are using
+`ssh` or doing remote development with `VS Code`, you should link the port
+whenever you want to run jupyter notebook. 
 
 ```
-docker run -p 8888:8888 --name notebook -v "${PWD}":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes  -it jupyter/datascience-notebook
+docker run \
+        -it --rm \
+        -p 7171:7171 \ 
+        --name notebook2 \
+        -v "${PWD}":/home/jovyan/work \
+        jupyter/datascience-notebook start.sh bash
+Entered start.sh with args: bash
+Executing the command: bash
+(base) jovyan@3fe799dcc78f:~$ jupyter notebook --port 7171 --no-browser
 ```
 
-```
-docker run -it --rm -p 8888:8888 --name notebook -v "${PWD}":/home/jovyan/work jupyter/datascience-notebook
+#### Start the jupyter directly
+
+Most of time, you just need to start the jupyter lab or notebook directly. 
+
+```bash
+docker run \
+	--rm -p 5657:5657 \
+    -e JUPYTER_TOKEN=haha \
+    -e JUPYTER_PORT=5657 \
+    --name notebook2 \
+	jupyter/datascience-notebook 
 ```
 
-```
-docker run -d --rm -p 8888:8888 -e JUPYTER_TOKEN=letmein --name notebook -v "${PWD}":/home/jovyan/work jupyter/datascience-notebook
+The above command does not allow users to access the local files. Instead, 
+we need to run:
+
+```bash
+docker run \
+	--rm -p 5657:5657 \
+    -e JUPYTER_TOKEN=haha \
+    -e JUPYTER_PORT=5657 \
+    --name notebook2 \
+    -v "${PWD}":/home/jovyan/work \
+	jupyter/datascience-notebook
 ```
 
-```
-docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm --shm-size=8gb -p 7070:7070
-```
+For more configurations, please read [Jupyter Docker Stacks Documentation](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html?highlight=JUPYTER_PORT#additional-runtime-configurations){:target="_blank"}. 
 
-```
-docker run --ipc=host  -it --rm  -p 8888:8888
-```
+## Using 
 
-```
-jupyter notebook --ip 0.0.0.0 --port=8888 --no-browser --allow-root
-```
+
