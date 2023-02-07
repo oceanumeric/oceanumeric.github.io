@@ -239,7 +239,8 @@ at the Figure 4.
          style="width: 80%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 4.</span> The complexity of
-        a patent file. 
+        a patent file; read the granted patent file <a href="/pdfs/US_8668089_B2.pdf" target="_blank">[pdf]</a>
+        to have a big picture of this patent file.
     </div>
 </div>
 
