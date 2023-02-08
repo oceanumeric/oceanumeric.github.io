@@ -20,12 +20,17 @@ use it whenever you want.
 
 - [Knowing the data](#knowing-the-data)
 - [Getting the dataset](#getting-the-dataset)
+- [Understanding OECD HAN database structure](#understanding-oecd-han-database-structure)
 
 
 ## Knowing the data 
 
 Paper by {% cite kang2016patstat %} presented the examples of frequently used patent
 statistics in the following table.  
+
+<div class="table-caption">
+<span class="table-caption-label">Table 1.</span> What we can do with patent information {% cite kang2016patstat %}. 
+</div>
 
 | Analysis 	| Patent statistics 	| Purposes 	|
 |---	|---	|---	|
@@ -75,46 +80,27 @@ Office’s (EPO) Worldwide Statistical Patent Database (PATSTAT, Spring 2022). T
 the list of patent documents filed to the EPO, the US Patent and Trademarks Office (USPTO) or through the
 Patent Co-operation Treaty (PCT). 
 
-Since applicants' names are not consistent (such as Volkswagen Group vs. Volkswagen Shanghai),
-OECD patent research group cleaned/harmonized names by matching against company
-names from business register data - ORBIS database from Bureau van Dijk (see OECD's [methodology report](/pdfs/OECD HAN Database - August 2022.pdf){:target="_blank"}). 
+Since applicants' names could have some level of similairity  but still refers to the different entity (such as Volkswagen Group vs. Volkswagen Shanghai), we need to identify
+those entities by matching the official business register database. OECD patent research group cleaned/harmonized names by matching against company
+names from business register data - ORBIS database from Bureau van Dijk. 
 
-We have two databases storing different names: PATSTAT and ORBIS. It turned
-out that there are _more_ firms in PATSTAT. Therefore, some firms cannot be
-matched against company names from ORBIS database. The OECD HAN database, August 2022 (the most updated version I downloaded) has two unique identifiers:
+Sometimes, names have typos but computer could not identify those names as 
+the same entity such as "Volksgen (missing 'w') Shanghai". For cases like
+this, we need to clean and harmonized names again. 
 
-- HAN_id, the number of HAN_id is 4,191,007, which is linked to names that could be matched with ORBIS database
-- HARM_id, the number of HARM_id is 4,576,705 (less than that of HAN_id), which is linked to names grouped based on similarity
-
-For instance, if both Volkswagen Group and Volkswagen Shanghai can be matched with
-ORBIS database, two HAN_ids will be assigned to them. For names that are similar
-with each other, such as "Volksgen (missing 'w') Shanghai", it will be grouped
-as Volkswagen Shanghai and only one unique HAN_id will be assigned. 
-
-For HARM_id, unique identifiers are the super set, which not only include
-firms that are matched with ORBIS database but also those that cannot
-be matched. Figure 1 gives the illustration. 
-
-<div class='figure'>
-    <img src="/images/blog/oecd-han-illustrate1.png"
-         alt="OECD HAN database illustration"
-         style="width: 60%; display: block; margin: 0 auto;"/>
-    <div class='caption'>
-        <span class='caption-label'>Figure 1.</span> Relationship
-        of HAN_id and HARM_id. 
-    </div>
-</div>
+Please read OECD's [methodology report](/pdfs/OECD HAN Database - August 2022.pdf){:target="_blank"} to know how they clean, harmonize and consolidate applicant
+names.  
 
 
-### OECD HAN database structure 
+## Understanding OECD HAN database structure 
 
-Figure 2 gives OECD HAN database structure (open the zoomed version 
+Figure 1 gives OECD HAN database structure (open the zoomed version 
 with the new tab by right-click). It has four tables: `HAN_PERSON`, `HAN_NAMES`,
 `HARM_NAMES`, and `HAN_PATENTS`. We will use one patent file as an example to
 walk through those tables. Notice that there are around 18 million rows in
 `HAN_PATENTS` table, which accounts for around 18% of EPO's total patent document.[^1]
 This means the OECD HAN database has a European-centered bias. This is partly
-due to the ORBIS database which has more register information for European firms.
+due to the useage of ORBIS database in the matching process,  which has more register information for European firms.
 We will discuss how to get and analyze patent data for Chinese firms in the
 coming sections of this post. 
 
@@ -128,18 +114,22 @@ coming sections of this post.
          alt="OECD HAN database illustration"
          style="width: 100%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 2.</span> OECD HAN database structure:
+        <span class='caption-label'>Figure 1.</span> OECD HAN database structure:
         there are four tables, in which HAN_PERSON is the correspondence
         table which include all cleaned names.
     </div>
 </div>
 
 Now, we chose the first six records (or entries) from `HAN_PATENTS` table and search
-those patents from EPO's [Espacenet](https://worldwide.espacenet.com/?locale=en_EP).
+those patents from EPO's [Espacenet](https://worldwide.espacenet.com/?locale=en_EP){:target="_blank"}.
 In the `HAN_PATENTS` table, the variable `Appln_id` refers to the patent application
 identifier in PATSTAT database. You can use it to retreat the document if you
 can access to PATSTAT database. When we search in Espacenet, we use `Patent_number`
 instead of `Appln_id`. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 2.</span> First six rows of HAN_PATENTS, which starts at HAN_ID = 4. 
+</div>
 
 | HAN_ID <int> | HARM_ID <int> | Appln_id <int> | Publn_auth <chr> | Patent_number <chr> |
 |--------------|---------------|----------------|------------------|---------------------|
@@ -158,7 +148,7 @@ The following search result was returned by Espacenet.
          alt="Searching results for US8668089"
          style="width: 100%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 3.</span> Espacenet's searching
+        <span class='caption-label'>Figure 2.</span> Espacenet's searching
         returned result that includes patent name, inventor, applicant, CPC classes,
         and publication information and priority date. 
     </div>
@@ -234,14 +224,86 @@ analysis based on application documents. Having a grip on it by looking
 at the Figure 4. 
 
 <div class='figure'>
-    <img src="/images/blog/patent-searching-results.png"
+    <img src="/images/blog/patent-search-illustration.webp"
          alt="Searching results illustated for US8668089"
          style="width: 80%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> The complexity of
+        <span class='caption-label'>Figure 3.</span> The complexity of
         a patent file; read the granted patent file <a href="/pdfs/US_8668089_B2.pdf" target="_blank">[pdf]</a>
         to have a big picture of this patent file.
     </div>
 </div>
 
+It makes sense for a firm to file a patent in different judicial offices, therefore
+you see the patent in Figure 3 with publication number US2010096288(A1) was granted
+in different offices and then different document numbers such as `US8668089(B2)`,
+`EP2024242(B1)`. This might lead to the issue of overcounting patents if we
+do not search cautiously. 
 
+Let's review the first from `HAN_PATENTS`, which we have extracted the
+patent document for the first entry with patent number of `US8668089`. Notice that the starting entry in `HAN_PATENTs` table is at `HAN_ID=4` 
+instead of 1, this means for companies with `HAN_ID=1` (or 2-3), 
+there is no patent information for them.
+
+| HAN_ID <int> | HARM_ID <int> | Appln_id <int> | Publn_auth <chr> | Patent_number <chr> |
+|--------------|---------------|----------------|------------------|---------------------|
+| __4__           | 4             | 311606173      | US               | __US8668089__          |
+
+
+Table 3 presents the first seven rows of `HAN_PERSON`. Compared with Table 2,
+it starts at `HAN_ID=1`, this means some names picked by algorithms do not have
+patent files even though they have unique person IDs. In this table, `Person_id`
+refers to applicant's unique identifier from PATSTAT. This table is of little
+misleading as many of them are firms' names. So, be aware that `Person_name_clean`
+refers to the harmonised applicant name. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 3.</span> First seven rows of HAN_PERSON, which starts at HAN_ID = 1. 
+</div>
+
+| HAN_ID | HARM_ID | Person_id |               Person_name_clean | Person_ctry_code | Matched |
+|-------:|--------:|----------:|--------------------------------:|-----------------:|--------:|
+|  <int> |   <int> |     <int> |                           <chr> |            <chr> |   <int> |
+|      1 |       1 |  15164069 | & HAMBOURG NIENDORF             |               DE |       0 |
+|      2 |       2 |  30816597 | & KK                            |               JP |       0 |
+|      3 |       3 |  67383967 |           “ASTRONIT” CLOSE CORP |               RU |       0 |
+|      3 |       3 |  47772459 |           “ASTRONIT” CLOSE CORP |               RU |       0 |
+|      __4__ |       4 |  __47210990__ |             __“DEUTSCHE SEE” GMBH__ |               __DE__ |       0 |
+|      5 |       5 |  47367244 |  “EFIRNOIE” OPEN JOINT STOCK CO |               RU |       0 |
+|      5 |       5 |  64495153 |  “EFIRNOIE” OPEN JOINT STOCK CO |               RU |       0 |
+
+
+For the first four rows,
+here are possible reasons why they are included in Table 3 but not in Table 2:
+
+- _HAMBOURG NIENDORF_ is a place, somehow PATSTAT identifies it as applicant; this
+might be due to the misspecification of software or human beings; for instance, somehow 
+a name of place was filled or saved in the place setted for applicant.
+- _&KK_, this misspecification is very likely caused by the algorithm which might treat
+any strings after `&` as a name
+- _“ASTRONIT” CLOSE CORP_, this one has two different `Person_id` but same `HAN_ID`
+because the name is same but applicant identifiers are different. 
+
+
+__Differences between `HAN_ID` and `HARM_ID`__. In Table 4, we have selected four names with same `HAN_ID` but different `HARM_ID`s. This shows that `HAN_ID` was
+grouped based on further harmonized process. Clearly, _“PERMNEFTEMASHREMONT” PUBLIC JOINT STOCK CO_ is very likely to referring the same entity with _PUBLIC JOINT STOCK CO “PERMNEFTEMASHREMONT”_. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 4.</span> The selected rows from `HAN_PERSON`
+database. 
+</div>
+
+
+| HAN_ID | HARM_ID | Person_id |                           Person_name_clean | Person_ctry_code | Matched |
+|-------:|--------:|----------:|--------------------------------------------:|-----------------:|--------:|
+|  <int> |   <int> |     <int> |                                       <chr> |            <chr> |   <int> |
+|      6 |       6 |  67613311 |             “EUROSTANDART” LTD LIABILITY CO |               RU |       0 |
+|      7 |       7 |  53655360 |                                  “IVIX” LTD |               RU |       0 |
+|      8 |       8 |  48761393 | “PERMNEFTEMASHREMONT” PUBLIC JOINT STOCK CO |               RU |       1 |
+|      8 |       8 |  64875050 | “PERMNEFTEMASHREMONT” PUBLIC JOINT STOCK CO |               RU |       1 |
+|      8 | 2462366 |  48754911 | PUBLIC JOINT STOCK CO “PERMNEFTEMASHREMONT” |               RU |       1 |
+|      8 | 2462366 |  64543597 | PUBLIC JOINT STOCK CO “PERMNEFTEMASHREMONT” |               RU |       1 |
+
+
+In the next section, we will do a case study to link a small dataset with
+OECD HAN datasets and try to answer some interesting analytical questions. 

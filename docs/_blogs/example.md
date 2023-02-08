@@ -96,6 +96,21 @@ cite another one {% cite vaswani2017attention %}
 ### Tables
 
 
+<div class="table-caption">
+<span class="table-caption-label">Table 1.</span> First six rows of HAN_PATENTS, which starts at HAN_ID = 4. 
+</div>
+
+| HAN_ID <int> | HARM_ID <int> | Appln_id <int> | Publn_auth <chr> | Patent_number <chr> |
+|--------------|---------------|----------------|------------------|---------------------|
+| __4__           | 4             | 311606173      | US               | __US8668089__          |
+| 7            | 7             | 439191607      | US               | US9409947           |
+| 7            | 7             | 518367793      | US               | US10836794          |
+| 10           | 10            | 365204276      | US               | US8513480           |
+| 14           | 14            | 336903179      | WO               | WO2011112122        |
+| 14           | 14            | 363622722      | WO               | WO2012064218        |
+
+
+
 
 
 {% endkatexmm %}

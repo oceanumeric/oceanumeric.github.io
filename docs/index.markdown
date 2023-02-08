@@ -6,6 +6,9 @@ layout: default
 title: Michael Wang Fei's Homepage
 ---
 
+<header>
+<link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
+</header>
 
 <body>
 	<div id='landing'>
