@@ -399,7 +399,7 @@ han_names %>%
 
 When we query with `AIRBUS DEFENCE`, we got more than 10 results shown in Table 7. This shows the challenging part of doing patent analysis[^3].
 
-[^3]: actually this kind of problem is very common in business analyst
+[^3]: actually this kind of problem is very common in business analytics or any text analysis related to identifying entities' names. 
 
 <div class="table-caption">
 <span class="table-caption-label">Table 7.</span> The results of the above query
