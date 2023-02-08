@@ -676,6 +676,192 @@ study:</p>
   </li>
 </ul>
 
+<h3 id="read-the-dataset">Read the dataset</h3>
+
+<p>Table 5 gives the top rows of our dataset <code class="language-plaintext highlighter-rouge">german_firms.csv</code>, which
+has firms’ native names and international names. We will use the column
+of <code class="language-plaintext highlighter-rouge">name_international</code> as native times might have special german 
+characters like ö or ü.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 5.</span> Top rows
+of German firms dataset.
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">name_native</th>
+      <th style="text-align: center">name_international</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Airbus Defence and Space GmbH</td>
+      <td style="text-align: center">Airbus Defence and Space GmbH</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">EurA AG</td>
+      <td style="text-align: center">EurA AG</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">TuTech Innovation GmbH</td>
+      <td style="text-align: center">TuTech Innovation GmbH</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">FFT Produktionssysteme GmbH &amp; Co. KG.</td>
+      <td style="text-align: center">FFT Produktionssysteme GmbH &amp; Co. KG.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Diehl Aviation Laupheim GmbH</td>
+      <td style="text-align: center">Diehl Aviation Laupheim GmbH</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Table 6 gives the top rows of <code class="language-plaintext highlighter-rouge">HAN_NAMES</code>. Our goal is to extract
+<code class="language-plaintext highlighter-rouge">HAN_ID</code> based on the value of <code class="language-plaintext highlighter-rouge">Clean_name</code>. For instance, we
+will try to find <code class="language-plaintext highlighter-rouge">Airbus Defence and Space GmbH</code> in <code class="language-plaintext highlighter-rouge">HAN_NAMES</code>.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 6.</span> Top rows
+of `HAN_NAMES`.
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">HAN_ID</th>
+      <th style="text-align: center">Clean_name</th>
+      <th style="text-align: center">Person_ctry_code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">&amp; HAMBOURG NIENDORF</td>
+      <td style="text-align: center">DE</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">&amp; KK</td>
+      <td style="text-align: center">JP</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">“ASTRONIT” CLOSE CORP</td>
+      <td style="text-align: center">RU</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">“DEUTSCHE SEE” GMBH</td>
+      <td style="text-align: center">DE</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">“EFIRNOIE” OPEN JOINT STOCK CO</td>
+      <td style="text-align: center">RU</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notice that all names in <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> are of upper case, we need
+to convert our german firms’ names into upper cases too. Then 
+we can do our query.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># query</span><span class="w">
+</span><span class="n">airbus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">toupper</span><span class="p">(</span><span class="s1">'Airbus Defence and Space GmbH'</span><span class="p">)</span><span class="w">
+</span><span class="n">han_names</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">Clean_name</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="n">airbus</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The above code returns nothing as we could not find the <em>exact</em> match.
+Therefore, we need to query with less characters.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># query</span><span class="w">
+</span><span class="n">airbus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">toupper</span><span class="p">(</span><span class="s1">'Airbus Defence'</span><span class="p">)</span><span class="w">
+</span><span class="n">han_names</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">Clean_name</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="n">airbus</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>When we query with <code class="language-plaintext highlighter-rouge">AIRBUS DEFENCE</code>, we got more than 10 results shown in Table 7. This shows the challenging part of doing patent analysis<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 7.</span> The results of the above query
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">HAN_ID</th>
+      <th style="text-align: right">Clean_name</th>
+      <th style="text-align: center">Person_ctry_code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">53993</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE</td>
+      <td style="text-align: center">FR</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">60513</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE GMBH</td>
+      <td style="text-align: center">DE</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">60514</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE LTD</td>
+      <td style="text-align: center">GB</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">61747</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE GMBH</td>
+      <td style="text-align: center">DD</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">61749</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE SAS</td>
+      <td style="text-align: center">FR</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">62421</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE LTD</td>
+      <td style="text-align: center">FI</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">62422</td>
+      <td style="text-align: right">AIRBUS DEFENCE ANG SPACE GMBH</td>
+      <td style="text-align: center">DE</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">68676</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE GMBH</td>
+      <td style="text-align: center">GB</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">81263</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE NETHERLANDS BV</td>
+      <td style="text-align: center">NL</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">3637004</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; SPACE</td>
+      <td style="text-align: center">DE</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">4401227</td>
+      <td style="text-align: right">AIRBUS DEFENCE ANS SPACE GMBH</td>
+      <td style="text-align: center">DE</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">4527012</td>
+      <td style="text-align: right">AIRBUS DEFENCE &amp; AIR SPACE GMBH</td>
+      <td style="text-align: center">DE</td>
+    </tr>
+  </tbody>
+</table>
+
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
@@ -683,6 +869,9 @@ study:</p>
     </li>
     <li id="fn:2" role="doc-endnote">
       <p><code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> include both patent application documents (A1 or A2) and granted patents (B1 or B2), therefore we need to figure out how to extract granted patents. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>actually this kind of problem is very common in business analyst <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>
