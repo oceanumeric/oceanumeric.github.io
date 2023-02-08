@@ -167,6 +167,14 @@ table td {
 .article .figure .caption-label {
   font-weight: bold;
 }
+.article .table-caption {
+  margin-top: -10px;
+  font-size: 13px;
+  text-align: center !important;
+}
+.article .table-caption-label {
+  font-weight: bold;
+}
 .article .footnote {
   line-height: 0;
 }
@@ -265,5 +273,6 @@ hr {
 @media screen and (max-width: 700px) {
   body {
     margin: 0 7px;
+    padding-left: 13px;
   }
 }

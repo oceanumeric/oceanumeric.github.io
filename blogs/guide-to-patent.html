@@ -26,7 +26,6 @@
           probabilistic reasoning
       '>
       <meta name='keywords' content='patent analytic, EPO, PATSTAT, USPTO'>
-      <link rel="stylesheet" href="/css/main.css">
       <link rel="stylesheet" href="/css/blog.css">
       <link rel="stylesheet" href="/css/markdown.css">
       <link rel="stylesheet" href="/css/trac.css">
@@ -112,12 +111,17 @@ use it whenever you want.</p>
 <ul>
   <li><a href="#knowing-the-data">Knowing the data</a></li>
   <li><a href="#getting-the-dataset">Getting the dataset</a></li>
+  <li><a href="#understanding-oecd-han-database-structure">Understanding OECD HAN database structure</a></li>
 </ul>
 
 <h2 id="knowing-the-data">Knowing the data</h2>
 
 <p>Paper by <a class="citation" href="#kang2016patstat">(Kang &amp; Tarasconi, 2016)</a> presented the examples of frequently used patent
 statistics in the following table.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 1.</span> What we can do with patent information <a class="citation" href="#kang2016patstat">(Kang &amp; Tarasconi, 2016)</a>. 
+</div>
 
 <table>
   <thead>
@@ -218,63 +222,48 @@ Office’s (EPO) Worldwide Statistical Patent Database (PATSTAT, Spring 2022). T
 the list of patent documents filed to the EPO, the US Patent and Trademarks Office (USPTO) or through the
 Patent Co-operation Treaty (PCT).</p>
 
-<p>Since applicants’ names are not consistent (such as Volkswagen Group vs. Volkswagen Shanghai),
-OECD patent research group cleaned/harmonized names by matching against company
-names from business register data - ORBIS database from Bureau van Dijk (see OECD’s <a href="/pdfs/OECD HAN Database - August 2022.pdf" target="_blank">methodology report</a>).</p>
+<p>Since applicants’ names could have some level of similairity  but still refers to the different entity (such as Volkswagen Group vs. Volkswagen Shanghai), we need to identify
+those entities by matching the official business register database. OECD patent research group cleaned/harmonized names by matching against company
+names from business register data - ORBIS database from Bureau van Dijk.</p>
 
-<p>We have two databases storing different names: PATSTAT and ORBIS. It turned
-out that there are <em>more</em> firms in PATSTAT. Therefore, some firms cannot be
-matched against company names from ORBIS database. The OECD HAN database, August 2022 (the most updated version I downloaded) has two unique identifiers:</p>
+<p>Sometimes, names have typos but computer could not identify those names as 
+the same entity such as “Volksgen (missing ‘w’) Shanghai”. For cases like
+this, we need to clean and harmonized names again.</p>
 
-<ul>
-  <li>HAN_id, the number of HAN_id is 4,191,007, which is linked to names that could be matched with ORBIS database</li>
-  <li>HARM_id, the number of HARM_id is 4,576,705 (less than that of HAN_id), which is linked to names grouped based on similarity</li>
-</ul>
+<p>Please read OECD’s <a href="/pdfs/OECD HAN Database - August 2022.pdf" target="_blank">methodology report</a> to know how they clean, harmonize and consolidate applicant
+names.</p>
 
-<p>For instance, if both Volkswagen Group and Volkswagen Shanghai can be matched with
-ORBIS database, two HAN_ids will be assigned to them. For names that are similar
-with each other, such as “Volksgen (missing ‘w’) Shanghai”, it will be grouped
-as Volkswagen Shanghai and only one unique HAN_id will be assigned.</p>
+<h2 id="understanding-oecd-han-database-structure">Understanding OECD HAN database structure</h2>
 
-<p>For HARM_id, unique identifiers are the super set, which not only include
-firms that are matched with ORBIS database but also those that cannot
-be matched. Figure 1 gives the illustration.</p>
-
-<div class="figure">
-    <img src="/images/blog/oecd-han-illustrate1.png" alt="OECD HAN database illustration" style="width: 60%; display: block; margin: 0 auto;" />
-    <div class="caption">
-        <span class="caption-label">Figure 1.</span> Relationship
-        of HAN_id and HARM_id. 
-    </div>
-</div>
-
-<h3 id="oecd-han-database-structure">OECD HAN database structure</h3>
-
-<p>Figure 2 gives OECD HAN database structure (open the zoomed version 
+<p>Figure 1 gives OECD HAN database structure (open the zoomed version 
 with the new tab by right-click). It has four tables: <code class="language-plaintext highlighter-rouge">HAN_PERSON</code>, <code class="language-plaintext highlighter-rouge">HAN_NAMES</code>,
 <code class="language-plaintext highlighter-rouge">HARM_NAMES</code>, and <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code>. We will use one patent file as an example to
 walk through those tables. Notice that there are around 18 million rows in
 <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> table, which accounts for around 18% of EPO’s total patent document.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>
 This means the OECD HAN database has a European-centered bias. This is partly
-due to the ORBIS database which has more register information for European firms.
+due to the useage of ORBIS database in the matching process,  which has more register information for European firms.
 We will discuss how to get and analyze patent data for Chinese firms in the
 coming sections of this post.</p>
 
 <div class="figure">
     <img src="/images/blog/oecd-han-database.png" alt="OECD HAN database illustration" style="width: 100%; display: block; margin: 0 auto;" />
     <div class="caption">
-        <span class="caption-label">Figure 2.</span> OECD HAN database structure:
+        <span class="caption-label">Figure 1.</span> OECD HAN database structure:
         there are four tables, in which HAN_PERSON is the correspondence
         table which include all cleaned names.
     </div>
 </div>
 
 <p>Now, we chose the first six records (or entries) from <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> table and search
-those patents from EPO’s <a href="https://worldwide.espacenet.com/?locale=en_EP">Espacenet</a>.
+those patents from EPO’s <a href="https://worldwide.espacenet.com/?locale=en_EP" target="_blank">Espacenet</a>.
 In the <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> table, the variable <code class="language-plaintext highlighter-rouge">Appln_id</code> refers to the patent application
 identifier in PATSTAT database. You can use it to retreat the document if you
 can access to PATSTAT database. When we search in Espacenet, we use <code class="language-plaintext highlighter-rouge">Patent_number</code>
 instead of <code class="language-plaintext highlighter-rouge">Appln_id</code>.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 2.</span> First six rows of HAN_PATENTS, which starts at HAN_ID = 4. 
+</div>
 
 <table>
   <thead>
@@ -338,7 +327,7 @@ The following search result was returned by Espacenet.</p>
 <div class="figure">
     <img src="/images/blog/US8668089.png" alt="Searching results for US8668089" style="width: 100%; display: block; margin: 0 auto;" />
     <div class="caption">
-        <span class="caption-label">Figure 3.</span> Espacenet's searching
+        <span class="caption-label">Figure 2.</span> Espacenet's searching
         returned result that includes patent name, inventor, applicant, CPC classes,
         and publication information and priority date. 
     </div>
@@ -425,14 +414,230 @@ analysis based on application documents. Having a grip on it by looking
 at the Figure 4.</p>
 
 <div class="figure">
-    <img src="/images/blog/patent-searching-results.png" alt="Searching results illustated for US8668089" style="width: 80%; display: block; margin: 0 auto;" />
+    <img src="/images/blog/patent-search-illustration.webp" alt="Searching results illustated for US8668089" style="width: 80%; display: block; margin: 0 auto;" />
     <div class="caption">
-        <span class="caption-label">Figure 4.</span> The complexity of
+        <span class="caption-label">Figure 3.</span> The complexity of
         a patent file; read the granted patent file <a href="/pdfs/US_8668089_B2.pdf" target="_blank">[pdf]</a>
         to have a big picture of this patent file.
     </div>
 </div>
 
+<p>It makes sense for a firm to file a patent in different judicial offices, therefore
+you see the patent in Figure 3 with publication number US2010096288(A1) was granted
+in different offices and then different document numbers such as <code class="language-plaintext highlighter-rouge">US8668089(B2)</code>,
+<code class="language-plaintext highlighter-rouge">EP2024242(B1)</code>. This might lead to the issue of overcounting patents if we
+do not search cautiously.</p>
+
+<p>Let’s review the first from <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code>, which we have extracted the
+patent document for the first entry with patent number of <code class="language-plaintext highlighter-rouge">US8668089</code>. Notice that the starting entry in <code class="language-plaintext highlighter-rouge">HAN_PATENTs</code> table is at <code class="language-plaintext highlighter-rouge">HAN_ID=4</code> 
+instead of 1, this means for companies with <code class="language-plaintext highlighter-rouge">HAN_ID=1</code> (or 2-3), 
+there is no patent information for them.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>HAN_ID <int></int></th>
+      <th>HARM_ID <int></int></th>
+      <th>Appln_id <int></int></th>
+      <th>Publn_auth <chr></chr></th>
+      <th>Patent_number <chr></chr></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>4</strong></td>
+      <td>4</td>
+      <td>311606173</td>
+      <td>US</td>
+      <td><strong>US8668089</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Table 3 presents the first seven rows of <code class="language-plaintext highlighter-rouge">HAN_PERSON</code>. Compared with Table 2,
+it starts at <code class="language-plaintext highlighter-rouge">HAN_ID=1</code>, this means some names picked by algorithms do not have
+patent files even though they have unique person IDs. In this table, <code class="language-plaintext highlighter-rouge">Person_id</code>
+refers to applicant’s unique identifier from PATSTAT. This table is of little
+misleading as many of them are firms’ names. So, be aware that <code class="language-plaintext highlighter-rouge">Person_name_clean</code>
+refers to the harmonised applicant name.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 3.</span> First seven rows of HAN_PERSON, which starts at HAN_ID = 1. 
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">HAN_ID</th>
+      <th style="text-align: right">HARM_ID</th>
+      <th style="text-align: right">Person_id</th>
+      <th style="text-align: right">Person_name_clean</th>
+      <th style="text-align: right">Person_ctry_code</th>
+      <th style="text-align: right">Matched</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><int></int></td>
+      <td style="text-align: right"><int></int></td>
+      <td style="text-align: right"><int></int></td>
+      <td style="text-align: right"><chr></chr></td>
+      <td style="text-align: right"><chr></chr></td>
+      <td style="text-align: right"><int></int></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">15164069</td>
+      <td style="text-align: right">&amp; HAMBOURG NIENDORF</td>
+      <td style="text-align: right">DE</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">30816597</td>
+      <td style="text-align: right">&amp; KK</td>
+      <td style="text-align: right">JP</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">67383967</td>
+      <td style="text-align: right">“ASTRONIT” CLOSE CORP</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">47772459</td>
+      <td style="text-align: right">“ASTRONIT” CLOSE CORP</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><strong>4</strong></td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right"><strong>47210990</strong></td>
+      <td style="text-align: right"><strong>“DEUTSCHE SEE” GMBH</strong></td>
+      <td style="text-align: right"><strong>DE</strong></td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">47367244</td>
+      <td style="text-align: right">“EFIRNOIE” OPEN JOINT STOCK CO</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">64495153</td>
+      <td style="text-align: right">“EFIRNOIE” OPEN JOINT STOCK CO</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For the first four rows,
+here are possible reasons why they are included in Table 3 but not in Table 2:</p>
+
+<ul>
+  <li><em>HAMBOURG NIENDORF</em> is a place, somehow PATSTAT identifies it as applicant; this
+might be due to the misspecification of software or human beings; for instance, somehow 
+a name of place was filled or saved in the place setted for applicant.</li>
+  <li><em>&amp;KK</em>, this misspecification is very likely caused by the algorithm which might treat
+any strings after <code class="language-plaintext highlighter-rouge">&amp;</code> as a name</li>
+  <li><em>“ASTRONIT” CLOSE CORP</em>, this one has two different <code class="language-plaintext highlighter-rouge">Person_id</code> but same <code class="language-plaintext highlighter-rouge">HAN_ID</code>
+because the name is same but applicant identifiers are different.</li>
+</ul>
+
+<p><strong>Differences between <code class="language-plaintext highlighter-rouge">HAN_ID</code> and <code class="language-plaintext highlighter-rouge">HARM_ID</code></strong>. In Table 4, we have selected four names with same <code class="language-plaintext highlighter-rouge">HAN_ID</code> but different <code class="language-plaintext highlighter-rouge">HARM_ID</code>s. This shows that <code class="language-plaintext highlighter-rouge">HAN_ID</code> was
+grouped based on further harmonized process. Clearly, <em>“PERMNEFTEMASHREMONT” PUBLIC JOINT STOCK CO</em> is very likely to referring the same entity with <em>PUBLIC JOINT STOCK CO “PERMNEFTEMASHREMONT”</em>.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 4.</span> The selected rows from `HAN_PERSON`
+database. 
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">HAN_ID</th>
+      <th style="text-align: right">HARM_ID</th>
+      <th style="text-align: right">Person_id</th>
+      <th style="text-align: right">Person_name_clean</th>
+      <th style="text-align: right">Person_ctry_code</th>
+      <th style="text-align: right">Matched</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><int></int></td>
+      <td style="text-align: right"><int></int></td>
+      <td style="text-align: right"><int></int></td>
+      <td style="text-align: right"><chr></chr></td>
+      <td style="text-align: right"><chr></chr></td>
+      <td style="text-align: right"><int></int></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">67613311</td>
+      <td style="text-align: right">“EUROSTANDART” LTD LIABILITY CO</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">7</td>
+      <td style="text-align: right">7</td>
+      <td style="text-align: right">53655360</td>
+      <td style="text-align: right">“IVIX” LTD</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">48761393</td>
+      <td style="text-align: right">“PERMNEFTEMASHREMONT” PUBLIC JOINT STOCK CO</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">64875050</td>
+      <td style="text-align: right">“PERMNEFTEMASHREMONT” PUBLIC JOINT STOCK CO</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">2462366</td>
+      <td style="text-align: right">48754911</td>
+      <td style="text-align: right">PUBLIC JOINT STOCK CO “PERMNEFTEMASHREMONT”</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">2462366</td>
+      <td style="text-align: right">64543597</td>
+      <td style="text-align: right">PUBLIC JOINT STOCK CO “PERMNEFTEMASHREMONT”</td>
+      <td style="text-align: right">RU</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the next section, we will do a case study to link a small dataset with
+OECD HAN datasets and try to answer some interesting analytical questions.</p>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
