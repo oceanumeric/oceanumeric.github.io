@@ -3,12 +3,10 @@ title: tags
 layout: default
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% include header.html %}
-</head>
-
+<header>
+    <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
+</header>
+        
 
 <body>
     {% include nav.html %}
@@ -36,4 +34,3 @@ layout: default
         {% endfor %}
 </div>
 </body>
-</html>
