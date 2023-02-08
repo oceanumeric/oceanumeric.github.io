@@ -237,20 +237,21 @@ cite another one <a class="citation" href="#vaswani2017attention">(Vaswani et al
         </div>
     </div>
 </div>
-</body>
+<script src="/assets/js/codeCopy.js"></script>
 <script>
-var lis = document.getElementsByClassName("footnotes")
-for (let i = 0; i < lis.length; i++){
-    var li_tag = lis[i].getElementsByTagName('li')
-
-    for (let j = 0; j < li_tag.length; j++) {
-        li_tag[j].setAttribute('role', 'link')
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
     }
-    var a_tag = lis[i].getElementsByTagName('a')
-
-    for (let k = 0; k < a_tag.length; k++) {
-        a_tag[k].setAttribute('role', 'link')
-    }
-}
-</script>
+    </script>
+</body>
 </html>

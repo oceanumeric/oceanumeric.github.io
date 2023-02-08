@@ -871,7 +871,7 @@ Therefore, we need to query with less characters.</p>
       <p><code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> include both patent application documents (A1 or A2) and granted patents (B1 or B2), therefore we need to figure out how to extract granted patents. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:3" role="doc-endnote">
-      <p>actually this kind of problem is very common in business analyst <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <p>actually this kind of problem is very common in business analytics or any text analysis related to identifying entities’ names. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>
@@ -884,20 +884,21 @@ Therefore, we need to query with less characters.</p>
         </div>
     </div>
 </div>
-</body>
+<script src="/assets/js/codeCopy.js"></script>
 <script>
-var lis = document.getElementsByClassName("footnotes")
-for (let i = 0; i < lis.length; i++){
-    var li_tag = lis[i].getElementsByTagName('li')
-
-    for (let j = 0; j < li_tag.length; j++) {
-        li_tag[j].setAttribute('role', 'link')
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
     }
-    var a_tag = lis[i].getElementsByTagName('a')
-
-    for (let k = 0; k < a_tag.length; k++) {
-        a_tag[k].setAttribute('role', 'link')
-    }
-}
-</script>
+    </script>
+</body>
 </html>

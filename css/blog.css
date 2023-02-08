@@ -134,6 +134,22 @@ table thead > tr > th {
 table td {
   text-align: center;
 }
+
+.article .copy-button {
+  position: absolute;
+  opacity: 0;
+  margin-left: 46%;
+  margin-top: 1px;
+}
+
+.highlight:hover > .copy-button {
+  opacity: 1;
+}
+
+.highlight > .copy-button:active {
+  opacity: 1;
+}
+
 .article {
   font-size: 17px;
   line-height: 1.7em;
@@ -275,4 +291,23 @@ hr {
     margin: 0 7px;
     padding-left: 13px;
   }
+  .article .copy-button {
+    position: absolute;
+    opacity: 0;
+    margin-left: 87%;
+  }
 }
+
+
+@media screen and (max-width: 900px) and (min-width: 700px){
+  body {
+    margin: 0 7px;
+    padding-left: 13px;
+  }
+  .article .copy-button {
+    position: absolute;
+    opacity: 0;
+    margin-left: 77%;
+  }
+}
+
