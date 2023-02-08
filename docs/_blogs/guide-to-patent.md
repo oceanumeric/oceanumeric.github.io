@@ -21,6 +21,7 @@ use it whenever you want.
 - [Knowing the data](#knowing-the-data)
 - [Getting the dataset](#getting-the-dataset)
 - [Understanding OECD HAN database structure](#understanding-oecd-han-database-structure)
+- [A case study with OECD HAN datasets](#a-case-study-with-oecd-han-datasets)
 
 
 ## Knowing the data 
@@ -307,3 +308,41 @@ database.
 
 In the next section, we will do a case study to link a small dataset with
 OECD HAN datasets and try to answer some interesting analytical questions. 
+
+## A case study with OECD HAN datasets 
+
+{% katexmm %}
+
+From now on, we will only work on three datasets: `HAN_NAMES`, `HAN_PERSON` and `HAN_PATENTS`
+as those two datasets include all information we need. With those two datasets
+we will try to do patent analysis for some german firms from information 
+and communication technology industry. Here are components of this case
+study: 
+
+- Inputs:
+    - dataset 1: a sample of German firms, size $N=246$
+    - dataset 2: `HAN_PERSON`, size $N = 7,740,824$
+    - dataset 3: `HAN_NAMES`, size $N=4, 191,007$
+    - dataset 4: `HAN_PATENTS`, size $N=18,355,687$
+- Goal:
+    - match names of those german firms with `HAN_NAMES` and then find their 
+    _granted_ patents from `HAN_PATENTS`[^2]
+- Actions:
+    - read dataset 1 and 3
+    - try to find out whether firms from dataset 1 are included in dataset 3 or not 
+    - if it was included, then use `HAN_ID` to extract patents for corresponding firms
+    from dataset 4 
+- Outcomes:
+    - a patent analytical report
+
+
+[^2]: `HAN_PATENTS` include both patent application documents (A1 or A2) and granted patents (B1 or B2), therefore we need to figure out how to extract granted patents. 
+
+
+
+
+
+
+
+
+{% endkatexmm %}
