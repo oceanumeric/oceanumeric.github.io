@@ -110,6 +110,7 @@ use it whenever you want.</p>
   <li><a href="#knowing-the-data">Knowing the data</a></li>
   <li><a href="#getting-the-dataset">Getting the dataset</a></li>
   <li><a href="#understanding-oecd-han-database-structure">Understanding OECD HAN database structure</a></li>
+  <li><a href="#a-case-study-with-oecd-han-datasets">A case study with OECD HAN datasets</a></li>
 </ul>
 
 <h2 id="knowing-the-data">Knowing the data</h2>
@@ -636,10 +637,52 @@ database.
 
 <p>In the next section, we will do a case study to link a small dataset with
 OECD HAN datasets and try to answer some interesting analytical questions.</p>
+
+<h2 id="a-case-study-with-oecd-han-datasets">A case study with OECD HAN datasets</h2>
+
+<p>From now on, we will only work on three datasets: <code class="language-plaintext highlighter-rouge">HAN_NAMES</code>, <code class="language-plaintext highlighter-rouge">HAN_PERSON</code> and <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code>
+as those two datasets include all information we need. With those two datasets
+we will try to do patent analysis for some german firms from information 
+and communication technology industry. Here are components of this case
+study:</p>
+
+<ul>
+  <li>Inputs:
+    <ul>
+      <li>dataset 1: a sample of German firms, size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>246</mn></mrow><annotation encoding="application/x-tex">N=246</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">4</span><span class="mord">6</span></span></span></span></li>
+      <li>dataset 2: <code class="language-plaintext highlighter-rouge">HAN_PERSON</code>, size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>7</mn><mo separator="true">,</mo><mn>740</mn><mo separator="true">,</mo><mn>824</mn></mrow><annotation encoding="application/x-tex">N = 7,740,824</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">7</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">7</span><span class="mord">4</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">8</span><span class="mord">2</span><span class="mord">4</span></span></span></span></li>
+      <li>dataset 3: <code class="language-plaintext highlighter-rouge">HAN_NAMES</code>, size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>4</mn><mo separator="true">,</mo><mn>191</mn><mo separator="true">,</mo><mn>007</mn></mrow><annotation encoding="application/x-tex">N=4, 191,007</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mord">9</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mord">0</span><span class="mord">7</span></span></span></span></li>
+      <li>dataset 4: <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code>, size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>18</mn><mo separator="true">,</mo><mn>355</mn><mo separator="true">,</mo><mn>687</mn></mrow><annotation encoding="application/x-tex">N=18,355,687</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord">8</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">3</span><span class="mord">5</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">6</span><span class="mord">8</span><span class="mord">7</span></span></span></span></li>
+    </ul>
+  </li>
+  <li>Goal:
+    <ul>
+      <li>match names of those german firms with <code class="language-plaintext highlighter-rouge">HAN_NAMES</code> and then find their 
+  <em>granted</em> patents from <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code><sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup></li>
+    </ul>
+  </li>
+  <li>Actions:
+    <ul>
+      <li>read dataset 1 and 3</li>
+      <li>try to find out whether firms from dataset 1 are included in dataset 3 or not</li>
+      <li>if it was included, then use <code class="language-plaintext highlighter-rouge">HAN_ID</code> to extract patents for corresponding firms
+  from dataset 4</li>
+    </ul>
+  </li>
+  <li>Outcomes:
+    <ul>
+      <li>a patent analytical report</li>
+    </ul>
+  </li>
+</ul>
+
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
       <p>there are more than 100 million patent documents from leading industrialized and developing countries in EPO’s database. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p><code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> include both patent application documents (A1 or A2) and granted patents (B1 or B2), therefore we need to figure out how to extract granted patents. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>
