@@ -294,7 +294,6 @@ grouped based on further harmonized process. Clearly, _“PERMNEFTEMASHREMONT”
 database. 
 </div>
 
-
 | HAN_ID | HARM_ID | Person_id |                           Person_name_clean | Person_ctry_code | Matched |
 |-------:|--------:|----------:|--------------------------------------------:|-----------------:|--------:|
 |  <int> |   <int> |     <int> |                                       <chr> |            <chr> |   <int> |
@@ -337,6 +336,100 @@ study:
 
 
 [^2]: `HAN_PATENTS` include both patent application documents (A1 or A2) and granted patents (B1 or B2), therefore we need to figure out how to extract granted patents. 
+
+
+### Read the dataset
+
+Table 5 gives the top rows of our dataset `german_firms.csv`, which
+has firms' native names and international names. We will use the column
+of `name_international` as native times might have special german 
+characters like ö or ü. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 5.</span> Top rows
+of German firms dataset.
+</div>
+
+
+|              name_native              |             name_international             |
+|:-------------------------------------:|:-------------------------------------:|
+|     Airbus Defence and Space GmbH     |     Airbus Defence and Space GmbH     |
+|                EurA AG                |                EurA AG                |
+|        TuTech Innovation GmbH         |        TuTech Innovation GmbH         |
+| FFT Produktionssysteme GmbH & Co. KG. | FFT Produktionssysteme GmbH & Co. KG. |
+|     Diehl Aviation Laupheim GmbH      |     Diehl Aviation Laupheim GmbH      |
+
+Table 6 gives the top rows of `HAN_NAMES`. Our goal is to extract
+`HAN_ID` based on the value of `Clean_name`. For instance, we
+will try to find `Airbus Defence and Space GmbH` in `HAN_NAMES`. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 6.</span> Top rows
+of `HAN_NAMES`.
+</div>
+
+| HAN_ID |           Clean_name           | Person_ctry_code |
+|:------:|:------------------------------:|:----------------:|
+|   1    |      & HAMBOURG NIENDORF       |        DE        |
+|   2    |              & KK              |        JP        |
+|   3    |     “ASTRONIT” CLOSE CORP      |        RU        |
+|   4    |      “DEUTSCHE SEE” GMBH       |        DE        |
+|   5    | “EFIRNOIE” OPEN JOINT STOCK CO |        RU        |
+
+Notice that all names in `HAN_PATENTS` are of upper case, we need
+to convert our german firms' names into upper cases too. Then 
+we can do our query. 
+
+```r
+# query
+airbus <- toupper('Airbus Defence and Space GmbH')
+han_names %>%
+    .[Clean_name %like% airbus]
+```
+
+The above code returns nothing as we could not find the _exact_ match.
+Therefore, we need to query with less characters. 
+
+```r
+# query
+airbus <- toupper('Airbus Defence')
+han_names %>%
+    .[Clean_name %like% airbus]
+```
+
+When we query with `AIRBUS DEFENCE`, we got more than 10 results shown in Table 7. This shows the challenging part of doing patent analysis[^3].
+
+[^3]: actually this kind of problem is very common in business analyst
+
+<div class="table-caption">
+<span class="table-caption-label">Table 7.</span> The results of the above query
+</div>
+
+|HAN_ID  |                            Clean_name| Person_ctry_code |
+|:-------|-------------------------------------:|:----------------:|
+|53993   |                AIRBUS DEFENCE & SPACE|        FR        |
+|60513   |           AIRBUS DEFENCE & SPACE GMBH|        DE        |
+|60514   |            AIRBUS DEFENCE & SPACE LTD|        GB        |
+|61747   |           AIRBUS DEFENCE & SPACE GMBH|        DD        |
+|61749   |            AIRBUS DEFENCE & SPACE SAS|        FR        |
+|62421   |            AIRBUS DEFENCE & SPACE LTD|        FI        |
+|62422   |         AIRBUS DEFENCE ANG SPACE GMBH|        DE        |
+|68676   |           AIRBUS DEFENCE & SPACE GMBH|        GB        |
+|81263   | AIRBUS DEFENCE & SPACE NETHERLANDS BV|        NL        |
+|3637004 |                AIRBUS DEFENCE & SPACE|        DE        |
+|4401227 |         AIRBUS DEFENCE ANS SPACE GMBH|        DE        |
+|4527012 |       AIRBUS DEFENCE & AIR SPACE GMBH|        DE        |
+
+
+
+
+
+
+
+
+
+
+
 
 
 
