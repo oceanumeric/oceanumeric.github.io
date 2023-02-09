@@ -19,9 +19,6 @@ codeBlocks.forEach(function (codeBlock) {
     setTimeout(function () {
       copyButton.innerText = 'Copy';
     }, fourSeconds);
-    setTimeout(function () {
-
-    })
   });
 });
 
