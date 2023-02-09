@@ -456,16 +456,69 @@ airbus_han_ids
 #[1] 60513 62422 3637004 4401227 4527012
 ```
 
-With the `airbus_han_ids`, we will extract patents from `HAN_PATENTS` dataset. Then we found 1219 patents which 
+With the `airbus_han_ids`, we will extract patents from `HAN_PATENTS` dataset. Then we found 1219 patent documents which are applied in 
+different countries. When we use patent counting to measure how innovative of a firm is, we should be aware of the 
+issue of over counting {% cite webb2005analysing %}. 
 
+<div class="table-caption">
+<span class="table-caption-label">Table 9.</span> Patent distribution for Airbus Defence (DE)
+</div>
 
 Office | EP  | US  | WO | total
 |:---:|:---:|:--:|:---:|
 Number | 716 | 415 | 88 | 1219
 
 
+In total, we got 1219 patent documents from different patent offices.
+However, the same patent could be filed in different offices. In our 
+case, we need to check whether there are duplicates for our entity -
+_AIRBUS DEFENCE AND SPACE GMBH_. For instance, among 1219 patents,
+document `US2017113777` refers to the patent application document
+that the firm filed in USPTO whereas document `EP3162699` refers to
+the patent application file and granted patent document by EPO. However,
+both patent documents are recorded in `HAN_PATENTS` dataset. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 10.</span> Some of duplicated patents 
+</div>
+
+| HAN_ID | HARM_ID | Appln_id  | Publn_auth |Patent_number | Search_link|
+|:------:|:-------:|:---------:|:----------:|:-------------:|:----------:|
+| 60513  |  60513  | 470692725 |     EP     |EP3162699     |[Espacenet](https://worldwide.espacenet.com/searchResults?query=EP+3162699+B1){:target="_blank"}
+| 60513  |  60513  | 477856200 |     US     |US2017113777  |[Espacenet](https://worldwide.espacenet.com/searchResults?ST=singleline&locale=en_EP&submitted=true&DB=&query=US2017113777%0D%0A){:target="_blank"}
+
+Table 10 only shows two of those duplicates, there might be more. However,
+it is not practical to go through all those patent numbers and search them
+one by one and then check whether there are some duplicates or not. For now,
+we will only use patents from EPO. This should be a safe choice as EPO
+normally grant less patents with stricter rules (see group 1 in Table 11). 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 11.</span> Some of duplicated patents with kind code 
+</div>
+
+| HAN_ID  | Publn_auth |Patent_number | Kind_code| Group |
+|:------:|:----------:|:-------------:|:-------------|:-------------:|
+| 60513   |     US     |US9308691     | B2 (granted) | 1 |
+| 60513  |    EP     |EP2689872     | A3 (application+search report) | 1| 
+| 60513   |     US     |US10703486    | B2 (granted) | 2| 
+| 60513    |      EP     |EP3219614     | B1 (granted) | 2| 
+| 60513  |     US     |US2017165795  | A1 (application)| 3 | 
+| Not in the database |     EP     |EP3181711| B1 (granted)| 3| 
 
 
+For our patent analysis, we need to make sure:
+
+- Within one patent office (say EPO):
+    - patents are not over counted
+    - patents are not under counted
+- Cross patent offices (say USPTO and EPO):
+    - patents are not over counted
+    - patents are not under counted
+
+If we only use patents from EPO, patents might be under counted overall as it
+is possible that firms got granted patents from USPTO but either not applied for EPO or applied but rejected. With all those trade-offs, the best decision 
+is to be of under counted rather than over counted. 
 
 
 
