@@ -486,9 +486,16 @@ could run</p>
 <span class="c"># mine is called notebook</span>
 <span class="c"># docker exec -it notebook /bin/bash</span>
 docker <span class="nb">exec</span> <span class="nt">-it</span> &lt;container-name&gt; /bin/bash
+<span class="o">(</span>base<span class="o">)</span> jovyan@db7537048e58:~<span class="nv">$ </span>
 </code></pre></div></div>
 
-<p>ENJOY! :)</p>
+<p>The <code class="language-plaintext highlighter-rouge">(base)</code> is environment is Anaconda’s default environment. Although I am
+not a big fan of conda environment (it messed up quite often many years ago
+when I tried up), it does manage packages very well. For instance, 
+<a href="https://cran.r-project.org/web/packages/SPARQL/index.html" target="_blank">SPARQL</a> cannot be installed via <code class="language-plaintext highlighter-rouge">install.packages('SPARQL')</code>,
+but it can via <code class="language-plaintext highlighter-rouge">conda install -c conda-forge r-sparql</code>.</p>
+
+<p>ENJOY :)</p>
 
 
     </div>
