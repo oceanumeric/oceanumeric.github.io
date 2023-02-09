@@ -10,14 +10,14 @@ window.addEventListener('scroll', function(e){
   }
   scroll_position = (document.body.getBoundingClientRect()).top;
 
-  setTimeout(() => {
-    scroll_up_count = 0;
-    let back_to_top = document.getElementById("back-top");
-    back_to_top.setAttribute("hidden", "hidden");
-  }, "6000")
-
-  if (scroll_up_count > 10) {
-    let back_to_top = document.getElementById("back-top");
-    back_to_top.removeAttribute("hidden");
+  let back_to_top = document.getElementById("back-top");
+  if (scroll_up_count > 5) {
+    this.setTimeout(()=>{
+      back_to_top.removeAttribute("hidden");
+      console.log(scroll_up_count);
+      scroll_up_count = 0;
+    }, "1000")
   }
+  back_to_top.setAttribute("hidden", "hidden");
 });
+
