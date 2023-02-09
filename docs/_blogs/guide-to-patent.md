@@ -263,7 +263,7 @@ refers to the harmonised applicant name.
 </div>
 
 | HAN_ID | HARM_ID | Person_id |               Person_name_clean | Person_ctry_code | Matched |
-|-------:|--------:|----------:|--------------------------------:|-----------------:|--------:|
+|:-------:|:--------:|:----------:|--------------------------------:|:-----------------:|:--------:|
 |  <int> |   <int> |     <int> |                           <chr> |            <chr> |   <int> |
 |      1 |       1 |  15164069 | & HAMBOURG NIENDORF             |               DE |       0 |
 |      2 |       2 |  30816597 | & KK                            |               JP |       0 |
@@ -295,7 +295,7 @@ database.
 </div>
 
 | HAN_ID | HARM_ID | Person_id |                           Person_name_clean | Person_ctry_code | Matched |
-|-------:|--------:|----------:|--------------------------------------------:|-----------------:|--------:|
+|:-------:|:--------:|:----------:|--------------------------------:|:-----------------:|:--------:|
 |  <int> |   <int> |     <int> |                                       <chr> |            <chr> |   <int> |
 |      6 |       6 |  67613311 |             “EUROSTANDART” LTD LIABILITY CO |               RU |       0 |
 |      7 |       7 |  53655360 |                                  “IVIX” LTD |               RU |       0 |
@@ -397,7 +397,9 @@ han_names %>%
     .[Clean_name %like% airbus]
 ```
 
-When we query with `AIRBUS DEFENCE`, we got more than 10 results shown in Table 7. This shows the challenging part of doing patent analysis[^3].
+When we query with `AIRBUS DEFENCE`, we got more than 10 results shown in Table 7. This shows the challenging part of doing patent analysis[^3]. Have a look at the one with `HAN_ID=62422`, you will realize that why we could not find anything when we use `'AIRBUS DEFENCE AND SPACE GMBH'` to do query because there is no '_AND_' but
+an '_ANG_'. Moreover, we have same firm registered in different
+countries. 
 
 [^3]: actually this kind of problem is very common in business analytics or any text analysis related to identifying entities' names. 
 
@@ -406,14 +408,14 @@ When we query with `AIRBUS DEFENCE`, we got more than 10 results shown in Table 
 </div>
 
 |HAN_ID  |                            Clean_name| Person_ctry_code |
-|:-------|-------------------------------------:|:----------------:|
+|:-------:|:-------------------------------------|:----------------:|
 |53993   |                AIRBUS DEFENCE & SPACE|        FR        |
 |60513   |           AIRBUS DEFENCE & SPACE GMBH|        DE        |
 |60514   |            AIRBUS DEFENCE & SPACE LTD|        GB        |
 |61747   |           AIRBUS DEFENCE & SPACE GMBH|        DD        |
 |61749   |            AIRBUS DEFENCE & SPACE SAS|        FR        |
 |62421   |            AIRBUS DEFENCE & SPACE LTD|        FI        |
-|62422   |         AIRBUS DEFENCE ANG SPACE GMBH|        DE        |
+|_62422_   |         _AIRBUS DEFENCE ANG SPACE GMBH_|        _DE_        |
 |68676   |           AIRBUS DEFENCE & SPACE GMBH|        GB        |
 |81263   | AIRBUS DEFENCE & SPACE NETHERLANDS BV|        NL        |
 |3637004 |                AIRBUS DEFENCE & SPACE|        DE        |
@@ -421,13 +423,45 @@ When we query with `AIRBUS DEFENCE`, we got more than 10 results shown in Table 
 |4527012 |       AIRBUS DEFENCE & AIR SPACE GMBH|        DE        |
 
 
+Since we only want German firms, we will query with the
+extra row filter by setting `Person_ctry_code == 'DE'`. This
+gives us the following results, which means we will use all 
+those five `HAN_IDs` to extract patent information for Airbus Defence and Space GmbH. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 8.</span> The results for querying German firms
+</div>
+
+| HAN_ID  |Clean_name                      | Person_ctry_code |
+|:-------:|:-------------------------------|:----------------:|
+|  60513  |AIRBUS DEFENCE & SPACE GMBH     |        DE        |
+|  62422  |AIRBUS DEFENCE ANG SPACE GMBH   |        DE        |
+| 3637004 |AIRBUS DEFENCE & SPACE          |        DE        |
+| 4401227 |AIRBUS DEFENCE ANS SPACE GMBH   |        DE        |
+| 4527012 |AIRBUS DEFENCE & AIR SPACE GMBH |        DE        |
+
+By the way, thought I like `Python` a lot, I have to admit that
+the workflow of doing data analysis with packages like `data.table`
+or `tidyverse` is much better in `R` community when your dataset is quite organized
+and cleaned. The pipe function `%>%` is one of my favorite. 
+
+```r
+# query
+airbus <- toupper('Airbus Defence')
+han_names %>%
+    .[Person_ctry_code == 'DE'] %>%
+    .[Clean_name %like% airbus] %>%
+    .[,HAN_ID] -> airbus_han_ids
+airbus_han_ids
+#[1] 60513 62422 3637004 4401227 4527012
+```
+
+With the `airbus_han_ids`, we will extract patents from `HAN_PATENTS` dataset. Then we found 1219 patents which 
 
 
-
-
-
-
-
+Office | EP  | US  | WO | total
+|:---:|:---:|:--:|:---:|
+Number | 716 | 415 | 88 | 1219
 
 
 
