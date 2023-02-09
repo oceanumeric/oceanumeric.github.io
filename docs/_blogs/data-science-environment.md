@@ -403,9 +403,16 @@ could run
 # mine is called notebook
 # docker exec -it notebook /bin/bash
 docker exec -it <container-name> /bin/bash
+(base) jovyan@db7537048e58:~$ 
 ```
 
-ENJOY! :)
+The `(base)` is environment is Anaconda's default environment. Although I am
+not a big fan of conda environment (it messed up quite often many years ago
+when I tried up), it does manage packages very well. For instance, 
+[SPARQL](https://cran.r-project.org/web/packages/SPARQL/index.html){:target="_blank"} cannot be installed via `install.packages('SPARQL')`,
+but it can via `conda install -c conda-forge r-sparql`. 
+
+ENJOY :) 
 
 
 
