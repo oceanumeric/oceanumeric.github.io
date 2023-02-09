@@ -22,6 +22,9 @@ use it whenever you want.
 - [Getting the dataset](#getting-the-dataset)
 - [Understanding OECD HAN database structure](#understanding-oecd-han-database-structure)
 - [A case study with OECD HAN datasets](#a-case-study-with-oecd-han-datasets)
+    - [Read the dataset](#read-the-dataset)
+    - [Search for granted patents](#search-for-granted-patents)
+    - [Linked open EP data](#linked-open-ep-data)
 
 
 ## Knowing the data 
@@ -469,7 +472,7 @@ Office | EP  | US  | WO | total
 Number | 716 | 415 | 88 | 1219
 
 
-In total, we got 1219 patent documents from different patent offices.
+__Over counted or under counted?__ In total, we got 1219 patent documents from different patent offices.
 However, the same patent could be filed in different offices. In our 
 case, we need to check whether there are duplicates for our entity -
 _AIRBUS DEFENCE AND SPACE GMBH_. For instance, among 1219 patents,
@@ -509,16 +512,83 @@ normally grant less patents with stricter rules (see group 1 in Table 11).
 
 For our patent analysis, we need to make sure:
 
-- Within one patent office (say EPO):
+- within one patent office (say EPO):
     - patents are not over counted
     - patents are not under counted
-- Cross patent offices (say USPTO and EPO):
+- across patent offices (say USPTO and EPO):
     - patents are not over counted
     - patents are not under counted
 
 If we only use patents from EPO, patents might be under counted overall as it
 is possible that firms got granted patents from USPTO but either not applied for EPO or applied but rejected. With all those trade-offs, the best decision 
 is to be of under counted rather than over counted. 
+
+In Table 11, there is one entry marked as _'Not in the database'_, this shows
+the bias[^4] of OECD HAN database as `EP3181711` was granted by EPO and also
+published as `US2017165795`. However, only one of them is included in the
+database as shown in Table 11. 
+
+[^4]: it is unavoidable for having bias when you work with millions of documents; as long as it is not systematic it should be okay. 
+
+
+__Using EPO patents.__ By using EPO patent numbers, we can avoid the issue of
+over count across patent offices with the risk of under count. However,
+we have not solved the issue of over count within EPO as we can see in Table 12 that shows not all patents from `HAN_PATENTS` were granted. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 12.</span> Selected patents for Airbus defence (DE) from EPO 
+</div>
+
+| HAN_ID | HARM_ID | Appln_id | Publn_auth | Patent_number | Granted |
+|:------:|:-------:|:--------:|:----------:|:-------------:|:-------------:|
+| 60513  |  60513  |   213    |     EP     |   EP2030891   | No |
+| 60513  |  60513  |  65448   |     EP     |   EP2025928   | No |
+| 60513  |  60513  |  156990  |     EP     |   EP1920908   | Yes |
+| 60513  |  60513  |  161551  |     EP     |   EP1972896   | Yes |
+| 60513  |  60513  |  173385  |     EP     |   EP2134522   | Yes |
+| 60513  |  60513  |  173386  |     EP     |   EP2136979   | Yes |
+
+
+### Search for granted patents 
+
+If you have registered PATSTAT online database (free trial for one month) or 
+bought the database, you can extract more information from it based on
+`Appln_id` which is the unique identifier used in PATSTAT. For instance,
+
+```sql
+SELECT * FROM tls211_pat_publn  -- tls211_pat_publn is the publication table
+WHERE appln_id = 156990  -- third row from Table 12
+```
+With the above query, I got the following results. 
+
+| pat_publn_id | publn_kind | appln_id | publn_date | publn_first_grant |
+|:------------:|:----------:|:--------:|:----------:|:-----------------:|
+|  277148936   |     A1     |  156990  | 2008-05-14 |         N         |
+|  437725522   |     B1     |  156990  | 2015-04-08 |         Y         |
+
+This tells us whether the patent was granted or not. However, we need to
+extract this kind of information with thousands of entries (if not millions).
+Right now, I could not find a way from PATSTAT online to do this (please email
+to me if you knew how to do it, thanks in advance). 
+
+To search for the granted information in a programming environment,
+we need an API. Luckily, EPO provides this kind of APIs:
+
+- one is  called
+[Open Patent Services](https://www.epo.org/searching-for-patents/data/web-services/ops_de.html){:target="_blank"}
+    - use this when you want to search or query from scratch
+- the other one is called [Linked open EP data](https://www.epo.org/searching-for-patents/data/linked-open-data.html)
+    - use this when you already have patent numbers 
+    - there is no search API endpoint from this open service
+
+Since we have patent numbers and application IDs from OECD HAN database,
+we will use Linked open EP data. 
+
+### Linked open EP data 
+
+According to EPO, "Linked open data offers you new ways of combining
+patent data and non-patent data in your work". Linked open EP data can be queried, retrieved and viewed using standardized web technologies like HTTP,
+URI and SPARQL. SPARQL is the standardized query language for RDF, in the same way that SQL is the standardized query language for relational databases. 
 
 
 
