@@ -38,7 +38,7 @@ plugins:
 collections:
   blogs:
     output: true
-    permalink: /:collection/:title
+    permalink: /:collection/:title  # or :year/:month/:day/:title/
   
   math:
     output: true
