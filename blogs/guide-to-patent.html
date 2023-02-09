@@ -925,7 +925,13 @@ and cleaned. The pipe function <code class="language-plaintext highlighter-rouge
 </span><span class="c1">#[1] 60513 62422 3637004 4401227 4527012</span><span class="w">
 </span></code></pre></div></div>
 
-<p>With the <code class="language-plaintext highlighter-rouge">airbus_han_ids</code>, we will extract patents from <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> dataset. Then we found 1219 patents which</p>
+<p>With the <code class="language-plaintext highlighter-rouge">airbus_han_ids</code>, we will extract patents from <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> dataset. Then we found 1219 patent documents which are applied in 
+different countries. When we use patent counting to measure how innovative of a firm is, we should be aware of the 
+issue of over counting <a class="citation" href="#webb2005analysing">(Webb et al., 2005)</a>.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 9.</span> Patent distribution for Airbus Defence (DE)
+</div>
 
 <table>
   <thead>
@@ -948,6 +954,137 @@ and cleaned. The pipe function <code class="language-plaintext highlighter-rouge
   </tbody>
 </table>
 
+<p>In total, we got 1219 patent documents from different patent offices.
+However, the same patent could be filed in different offices. In our 
+case, we need to check whether there are duplicates for our entity -
+<em>AIRBUS DEFENCE AND SPACE GMBH</em>. For instance, among 1219 patents,
+document <code class="language-plaintext highlighter-rouge">US2017113777</code> refers to the patent application document
+that the firm filed in USPTO whereas document <code class="language-plaintext highlighter-rouge">EP3162699</code> refers to
+the patent application file and granted patent document by EPO. However,
+both patent documents are recorded in <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> dataset.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 10.</span> Some of duplicated patents 
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">HAN_ID</th>
+      <th style="text-align: center">HARM_ID</th>
+      <th style="text-align: center">Appln_id</th>
+      <th style="text-align: center">Publn_auth</th>
+      <th style="text-align: center">Patent_number</th>
+      <th style="text-align: center">Search_link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">470692725</td>
+      <td style="text-align: center">EP</td>
+      <td style="text-align: center">EP3162699</td>
+      <td style="text-align: center"><a href="https://worldwide.espacenet.com/searchResults?query=EP+3162699+B1" target="_blank">Espacenet</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">477856200</td>
+      <td style="text-align: center">US</td>
+      <td style="text-align: center">US2017113777</td>
+      <td style="text-align: center"><a href="https://worldwide.espacenet.com/searchResults?ST=singleline&amp;locale=en_EP&amp;submitted=true&amp;DB=&amp;query=US2017113777%0D%0A" target="_blank">Espacenet</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Table 10 only shows two of those duplicates, there might be more. However,
+it is not practical to go through all those patent numbers and search them
+one by one and then check whether there are some duplicates or not. For now,
+we will only use patents from EPO. This should be a safe choice as EPO
+normally grant less patents with stricter rules (see group 1 in Table 11).</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 11.</span> Some of duplicated patents with kind code 
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">HAN_ID</th>
+      <th style="text-align: center">Publn_auth</th>
+      <th style="text-align: center">Patent_number</th>
+      <th style="text-align: left">Kind_code</th>
+      <th style="text-align: center">Group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">US</td>
+      <td style="text-align: center">US9308691</td>
+      <td style="text-align: left">B2 (granted)</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">EP</td>
+      <td style="text-align: center">EP2689872</td>
+      <td style="text-align: left">A3 (application+search report)</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">US</td>
+      <td style="text-align: center">US10703486</td>
+      <td style="text-align: left">B2 (granted)</td>
+      <td style="text-align: center">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">EP</td>
+      <td style="text-align: center">EP3219614</td>
+      <td style="text-align: left">B1 (granted)</td>
+      <td style="text-align: center">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">60513</td>
+      <td style="text-align: center">US</td>
+      <td style="text-align: center">US2017165795</td>
+      <td style="text-align: left">A1 (application)</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Not in the database</td>
+      <td style="text-align: center">EP</td>
+      <td style="text-align: center">EP3181711</td>
+      <td style="text-align: left">B1 (granted)</td>
+      <td style="text-align: center">3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For our patent analysis, we need to make sure:</p>
+
+<ul>
+  <li>Within one patent office (say EPO):
+    <ul>
+      <li>patents are not over counted</li>
+      <li>patents are not under counted</li>
+    </ul>
+  </li>
+  <li>Cross patent offices (say USPTO and EPO):
+    <ul>
+      <li>patents are not over counted</li>
+      <li>patents are not under counted</li>
+    </ul>
+  </li>
+</ul>
+
+<p>If we only use patents from EPO, patents might be under counted overall as it
+is possible that firms got granted patents from USPTO but either not applied for EPO or applied but rejected. With all those trade-offs, the best decision 
+is to be of under counted rather than over counted.</p>
+
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
@@ -966,7 +1103,8 @@ and cleaned. The pipe function <code class="language-plaintext highlighter-rouge
     <div id='bibliography'>
         <div class='wrap'>
             <ol class="bibliography"><li><span id="de2014introduction">De Rassenfosse, G., Dernis, H., &amp; Boedt, G. (2014). An introduction to the Patstat database with example queries. <i>Australian Economic Review</i>, <i>47</i>(3), 395–408.</span></li>
-<li><span id="kang2016patstat">Kang, B., &amp; Tarasconi, G. (2016). PATSTAT revisited: Suggestions for better usage. <i>World Patent Information</i>, <i>46</i>, 56–63.</span></li></ol>
+<li><span id="kang2016patstat">Kang, B., &amp; Tarasconi, G. (2016). PATSTAT revisited: Suggestions for better usage. <i>World Patent Information</i>, <i>46</i>, 56–63.</span></li>
+<li><span id="webb2005analysing">Webb, C., Dernis, H., Harhoff, D., &amp; Hoisl, K. (2005). <i>Analysing European and international patent citations: A set of EPO patent database building blocks</i>.</span></li></ol>
         </div>
     </div>
 </div>
