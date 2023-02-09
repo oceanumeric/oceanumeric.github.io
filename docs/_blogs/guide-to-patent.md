@@ -15,7 +15,7 @@ out that the EPO Worldwide Patent Statistical Database ([PATSTAT](https://www.ep
 is one of the most widely used patent databases for researchers and business
 analytics. Right now users could get access to PATSTAT online free for one month.
 Since most people need to use this database longer than one month,
-this guide will cover how you could access the updated PATSTAT database free and
+this guide will cover how you could access the PATSTAT database for __free__ and
 use it whenever you want. 
 
 - [Knowing the data](#knowing-the-data)
@@ -225,7 +225,7 @@ One has to be very __careful__ when you are working with patent data because
 you might have different _reference IDs_ pointing to the same patent. Therefore,
 it is better to work only on granted patents unless you want to do patent
 analysis based on application documents. Having a grip on it by looking
-at the Figure 4. 
+at the Figure 3. 
 
 <div class='figure'>
     <img src="/images/blog/patent-search-illustration.webp"
@@ -323,17 +323,16 @@ study:
 
 - Inputs:
     - dataset 1: a sample of German firms, size $N=246$
-    - dataset 2: `HAN_PERSON`, size $N = 7,740,824$
-    - dataset 3: `HAN_NAMES`, size $N=4, 191,007$
-    - dataset 4: `HAN_PATENTS`, size $N=18,355,687$
+    - dataset 2: `HAN_NAMES`, size $N=4,191,007$
+    - dataset 3: `HAN_PATENTS`, size $N=18,355,687$
 - Goal:
     - match names of those german firms with `HAN_NAMES` and then find their 
     _granted_ patents from `HAN_PATENTS`[^2]
 - Actions:
-    - read dataset 1 and 3
-    - try to find out whether firms from dataset 1 are included in dataset 3 or not 
+    - read dataset 1 and 2
+    - try to find out whether firms from dataset 1 are included in dataset 2 or not 
     - if it was included, then use `HAN_ID` to extract patents for corresponding firms
-    from dataset 4 
+    from dataset 3
 - Outcomes:
     - a patent analytical report
 
@@ -345,7 +344,7 @@ study:
 
 Table 5 gives the top rows of our dataset `german_firms.csv`, which
 has firms' native names and international names. We will use the column
-of `name_international` as native times might have special german 
+of `name_international` as native names might have special german 
 characters like ö or ü. 
 
 <div class="table-caption">
@@ -384,7 +383,7 @@ to convert our german firms' names into upper cases too. Then
 we can do our query. 
 
 ```r
-# query
+# Code Block 1. query names in han_names 
 airbus <- toupper('Airbus Defence and Space GmbH')
 han_names %>%
     .[Clean_name %like% airbus]
@@ -394,7 +393,7 @@ The above code returns nothing as we could not find the _exact_ match.
 Therefore, we need to query with less characters. 
 
 ```r
-# query
+# Code Block 2. query names in han_names with less characters   
 airbus <- toupper('Airbus Defence')
 han_names %>%
     .[Clean_name %like% airbus]
@@ -449,7 +448,7 @@ or `tidyverse` is much better in `R` community when your dataset is quite organi
 and cleaned. The pipe function `%>%` is one of my favorite. 
 
 ```r
-# query
+# Code-Block 3. Filter and extract han_ids for Airbus Defence
 airbus <- toupper('Airbus Defence')
 han_names %>%
     .[Person_ctry_code == 'DE'] %>%
@@ -457,11 +456,21 @@ han_names %>%
     .[,HAN_ID] -> airbus_han_ids
 airbus_han_ids
 #[1] 60513 62422 3637004 4401227 4527012
+
+# Code-Block 4. Count patents for different offices 
+han_patents %>%
+    .[HAN_ID %in% airbus_han_ids] %>%
+    .[, .N, by=Publn_auth] -> foo
+    transform(adorn_totals(foo)) %>%
+    transpose() %>%
+    row_to_names(row_number=1)
 ```
 
 With the `airbus_han_ids`, we will extract patents from `HAN_PATENTS` dataset. Then we found 1219 patent documents which are applied in 
 different countries. When we use patent counting to measure how innovative of a firm is, we should be aware of the 
 issue of over counting {% cite webb2005analysing %}. 
+
+
 
 <div class="table-caption">
 <span class="table-caption-label">Table 9.</span> Patent distribution for Airbus Defence (DE)
@@ -478,7 +487,7 @@ case, we need to check whether there are duplicates for our entity -
 _AIRBUS DEFENCE AND SPACE GMBH_. For instance, among 1219 patents,
 document `US2017113777` refers to the patent application document
 that the firm filed in USPTO whereas document `EP3162699` refers to
-the patent application file and granted patent document by EPO. However,
+the __same__ patent application file and granted patent document by EPO. However,
 both patent documents are recorded in `HAN_PATENTS` dataset. 
 
 <div class="table-caption">
@@ -511,7 +520,6 @@ normally grant less patents with stricter rules (see group 1 in Table 11).
 
 
 For our patent analysis, we need to make sure:
-
 - within one patent office (say EPO):
     - patents are not over counted
     - patents are not under counted
@@ -520,11 +528,11 @@ For our patent analysis, we need to make sure:
     - patents are not under counted
 
 If we only use patents from EPO, patents might be under counted overall as it
-is possible that firms got granted patents from USPTO but either not applied for EPO or applied but rejected. With all those trade-offs, the best decision 
+is possible that firms got granted patents from USPTO but did not filed patent application to EPO or applied but rejected. With all those trade-offs, the best decision 
 is to be of under counted rather than over counted. 
 
-In Table 11, there is one entry marked as _'Not in the database'_, this shows
-the bias[^4] of OECD HAN database as `EP3181711` was granted by EPO and also
+In Table 11, there is one entry marked as 'Not in the database', this shows
+the bias[^4] of OECD HAN database because `EP3181711` was granted by EPO and also
 published as `US2017165795`. However, only one of them is included in the
 database as shown in Table 11. 
 
@@ -533,7 +541,7 @@ database as shown in Table 11.
 
 __Using EPO patents.__ By using EPO patent numbers, we can avoid the issue of
 over count across patent offices with the risk of under count. However,
-we have not solved the issue of over count within EPO as we can see in Table 12 that shows not all patents from `HAN_PATENTS` were granted. 
+we have not solved the issue of over count within EPO. Table 12 shows not all patents from `HAN_PATENTS` were granted. 
 
 <div class="table-caption">
 <span class="table-caption-label">Table 12.</span> Selected patents for Airbus defence (DE) from EPO 
@@ -548,6 +556,43 @@ we have not solved the issue of over count within EPO as we can see in Table 12 
 | 60513  |  60513  |  173385  |     EP     |   EP2134522   | Yes |
 | 60513  |  60513  |  173386  |     EP     |   EP2136979   | Yes |
 
+__Summary.__ At this stage, let's summarize what have done. 
+
+```r
+# Code-Block 5. Summary of analysis until now
+# read dataset 1, 2, and 3 
+de_firms <- fread('work/notebooks/patent/data/orbis_de_matched_l.csv')
+han_names <- fread('work/notebooks/patent/data/202208_HAN_NAMES.txt')
+han_patents <- fread('work/notebooks/patent/data/202208_HAN_PATENTS.txt')
+
+# filter out germany firms from han_names 
+# by setting Person_ctry_code == 'DE'
+# match names "AIRBUS DEFENCE" and get their HAN_ID
+airbus <- toupper('Airbus Defence')
+han_names %>%
+    .[Person_ctry_code == 'DE'] %>%
+    .[Clean_name %like% airbus] %>%
+    .[,HAN_ID] -> airbus_han_ids
+
+# calcualte the summary statistics for AIRBUS DEFENCE
+han_patents %>%
+    .[HAN_ID %in% airbus_han_ids] %>%
+    .[, .N, by=Publn_auth] -> foo
+    transform(adorn_totals(foo)) %>%
+    transpose() %>%
+    row_to_names(row_number=1)
+
+# focusing on patents from EPO
+# filter with condition Publn_auth == 'EP'
+han_patents %>%
+    .[HAN_ID %in% airbus_han_ids] %>%
+    .[Publn_auth == 'EP'] -> airbus_ep_patents
+```
+
+With all patent documents of AIRBUS DEFENCE AND SPACE GMBH from EPO we 
+ready to figure out how to search for granted patents. The input for 
+the next step should be `airbus_ep_patents`, which is a table with 
+$716$ rows as shown in Table 12. 
 
 ### Search for granted patents 
 
@@ -577,18 +622,22 @@ we need an API. Luckily, EPO provides this kind of APIs:
 - one is  called
 [Open Patent Services](https://www.epo.org/searching-for-patents/data/web-services/ops_de.html){:target="_blank"}
     - use this when you want to search or query from scratch
+    - use this when you want to extract information from major patent office
 - the other one is called [Linked open EP data](https://www.epo.org/searching-for-patents/data/linked-open-data.html)
-    - use this when you already have patent numbers 
-    - there is no search API endpoint from this open service
+    - use this when you already have patent numbers with `EP` format
+    - for non-EP documents (such as `US10703486`), coverage is limited to basic patent identification information
+    - there is no search API endpoint from this open service, but one can search or query with [SPARQL](https://en.wikipedia.org/wiki/SPARQL){:target="_blank"}, we will learn how to do this in this post
 
-Since we have patent numbers and application IDs from OECD HAN database,
-we will use Linked open EP data. 
+Since we use __only EPO patents__ and  have patent numbers and application IDs from OECD HAN database, we will use Linked open EP data. 
 
 ### Linked open EP data 
 
 According to EPO, "Linked open data offers you new ways of combining
 patent data and non-patent data in your work". Linked open EP data can be queried, retrieved and viewed using standardized web technologies like HTTP,
-URI and SPARQL. SPARQL is the standardized query language for RDF, in the same way that SQL is the standardized query language for relational databases. 
+URI and SPARQL. SPARQL is the standardized query language for RDF, in the same way that SQL is the standardized query language for relational databases.
+
+__Back to our case.__ As we have stated from the last section, we want to
+search for granted patents based on 
 
 
 
