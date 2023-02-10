@@ -240,8 +240,8 @@ names.</p>
 
 <h2 id="understanding-oecd-han-database-structure">Understanding OECD HAN database structure</h2>
 
-<p>Figure 1 gives OECD HAN database structure (open the zoomed version 
-with the new tab by right-click). It has four tables: <code class="language-plaintext highlighter-rouge">HAN_PERSON</code>, <code class="language-plaintext highlighter-rouge">HAN_NAMES</code>,
+<p>Figure 1 gives OECD HAN database structure (open the zoomed version
+for more details). It has four tables: <code class="language-plaintext highlighter-rouge">HAN_PERSON</code>, <code class="language-plaintext highlighter-rouge">HAN_NAMES</code>,
 <code class="language-plaintext highlighter-rouge">HARM_NAMES</code>, and <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code>. We will use one patent file as an example to
 walk through those tables. Notice that there are around 18 million rows in
 <code class="language-plaintext highlighter-rouge">HAN_PATENTS</code> table, which accounts for around 18% of EPO’s total patent document.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>
@@ -251,7 +251,7 @@ We will discuss how to get and analyze patent data for Chinese firms in the
 coming sections of this post.</p>
 
 <div class="figure">
-    <img src="/images/blog/oecd-han-database.png" alt="OECD HAN database illustration" style="width: 100%; display: block; margin: 0 auto;" />
+    <img src="/images/blog/oecd-han-database.png" alt="OECD HAN database illustration" class="zoom-img" style="width:100%" />
     <div class="caption">
         <span class="caption-label">Figure 1.</span> OECD HAN database structure:
         there are four tables, in which HAN_PERSON is the correspondence
@@ -1269,7 +1269,8 @@ we need an API. Luckily, EPO provides this kind of APIs:</p>
     <ul>
       <li>use this when you already have patent numbers with <code class="language-plaintext highlighter-rouge">EP</code> format</li>
       <li>for non-EP documents (such as <code class="language-plaintext highlighter-rouge">US10703486</code>), coverage is limited to basic patent identification information</li>
-      <li>there is no search API endpoint from this open service, but one can search or query with <a href="https://en.wikipedia.org/wiki/SPARQL" target="_blank">SPARQL</a>, we will learn how to do this in this post</li>
+      <li>there is no search API endpoint from this open service, but one can search or query with <a href="https://en.wikipedia.org/wiki/SPARQL" target="_blank">SPARQL</a> if you knew SPARQL well (it is not recommend using
+  it as it is not very stable when I test it).</li>
     </ul>
   </li>
 </ul>
@@ -1292,6 +1293,81 @@ Please read the following documents from EPO:</p>
   <li><a href="https://data.epo.org/linked-data/documentation/api-overview.html" target="_blank">API Overview</a></li>
   <li><a href="https://data.epo.org/linked-data/documentation/api-reference.html" target="_blank">API Reference</a></li>
 </ul>
+
+<p>The idea behind API is very intuitive. For each URL, you have an endpoint
+which returns the specific results. For instance, the following link returns
+all patents with publication numbers as input:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://data.epo.org/linked-data/data/publication/{st3Code}/{publicationNumber}
+
+# st3Code is two-letter codes of countries 
+# publicaionNumber is just publication number
+
+# try this one in your browser 
+# https://data.epo.org/linked-data/data/publication/EP/1048543
+</code></pre></div></div>
+
+<p>with publication number (<code class="language-plaintext highlighter-rouge">Panten_number</code> in our database), we can just
+extract all relevant information from linked database of EPO. Code-Block 6
+gives the sample code in R to extract all publications for patent EP1972896.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Code-Block 6. API request</span><span class="w">
+</span><span class="n">request</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="s1">'https://data.epo.org/linked-data/data/publication/EP/1972896.json'</span><span class="p">)</span><span class="w">
+</span><span class="n">response</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">content</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"UTF-8"</span><span class="p">)</span><span class="w">
+</span><span class="n">json</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fromJSON</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># make a table with selected variables</span><span class="w">
+</span><span class="n">json</span><span class="o">&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"katex"</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"katex-mathml"</span><span class="o">&gt;&lt;</span><span class="n">math</span><span class="w"> </span><span class="n">xmlns</span><span class="o">=</span><span class="s2">"http://www.w3.org/1998/Math/MathML"</span><span class="o">&gt;&lt;</span><span class="n">semantics</span><span class="o">&gt;&lt;</span><span class="n">mrow</span><span class="o">&gt;&lt;</span><span class="n">mi</span><span class="o">&gt;</span><span class="n">r</span><span class="o">&lt;/</span><span class="n">mi</span><span class="o">&gt;&lt;</span><span class="n">mi</span><span class="o">&gt;</span><span class="n">e</span><span class="o">&lt;/</span><span class="n">mi</span><span class="o">&gt;&lt;</span><span class="n">mi</span><span class="o">&gt;</span><span class="n">s</span><span class="o">&lt;/</span><span class="n">mi</span><span class="o">&gt;&lt;</span><span class="n">mi</span><span class="o">&gt;</span><span class="n">u</span><span class="o">&lt;/</span><span class="n">mi</span><span class="o">&gt;&lt;</span><span class="n">mi</span><span class="o">&gt;</span><span class="n">l</span><span class="o">&lt;/</span><span class="n">mi</span><span class="o">&gt;&lt;</span><span class="n">mi</span><span class="o">&gt;</span><span class="n">t</span><span class="o">&lt;/</span><span class="n">mi</span><span class="o">&gt;&lt;/</span><span class="n">mrow</span><span class="o">&gt;&lt;</span><span class="n">annotation</span><span class="w"> </span><span class="n">encoding</span><span class="o">=</span><span class="s2">"application/x-tex"</span><span class="o">&gt;</span><span class="n">result</span><span class="o">&lt;/</span><span class="n">annotation</span><span class="o">&gt;&lt;/</span><span class="n">semantics</span><span class="o">&gt;&lt;/</span><span class="n">math</span><span class="o">&gt;&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"katex-html"</span><span class="w"> </span><span class="n">aria</span><span class="o">-</span><span class="n">hidden</span><span class="o">=</span><span class="s2">"true"</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"base"</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"strut"</span><span class="w"> </span><span class="n">style</span><span class="o">=</span><span class="s2">"height:0.69444em;vertical-align:0em;"</span><span class="o">&gt;&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"mord mathdefault"</span><span class="w"> </span><span class="n">style</span><span class="o">=</span><span class="s2">"margin-right:0.02778em;"</span><span class="o">&gt;</span><span class="n">r</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"mord mathdefault"</span><span class="o">&gt;</span><span class="n">e</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"mord mathdefault"</span><span class="o">&gt;</span><span class="n">s</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"mord mathdefault"</span><span class="o">&gt;</span><span class="n">u</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"mord mathdefault"</span><span class="w"> </span><span class="n">style</span><span class="o">=</span><span class="s2">"margin-right:0.01968em;"</span><span class="o">&gt;</span><span class="n">l</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"mord mathdefault"</span><span class="o">&gt;</span><span class="n">t</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;/</span><span class="n">span</span><span class="o">&gt;</span><span class="n">items</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="w">
+        </span><span class="n">`_about`</span><span class="p">,</span><span class="w"> 
+        </span><span class="n">publicationDate</span><span class="p">,</span><span class="w"> 
+        </span><span class="n">application.applicationNumber</span><span class="p">,</span><span class="w">
+        </span><span class="n">publicationKind.label</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">rename</span><span class="p">(</span><span class="n">Link</span><span class="o">=</span><span class="n">`_about`</span><span class="p">,</span><span class="w"> </span><span class="n">Publication_date</span><span class="o">=</span><span class="n">publicationDate</span><span class="p">,</span><span class="w"> 
+        </span><span class="n">Application_number</span><span class="o">=</span><span class="n">application.applicationNumber</span><span class="p">,</span><span class="w"> 
+        </span><span class="n">Kind_code</span><span class="o">=</span><span class="n">publicationKind.label</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Table 13 gives the results of Code-Block 6, which shows the key information
+we care: whether the patent is granted or not, which is indicated by
+the kind code. The rule of finding granted patents is to filter 
+out <code class="language-plaintext highlighter-rouge">B1</code> or <code class="language-plaintext highlighter-rouge">B2</code> from kind code.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 13.</span> Returned results from
+EPO's publication API.
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Link</th>
+      <th style="text-align: center">Publication_date</th>
+      <th style="text-align: center">Application_number</th>
+      <th style="text-align: center">Kind_code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="http://data.epo.org/linked-data/data/publication/EP/1972896/A2/-" target="_blank">EP/1972896/A2/</a></td>
+      <td style="text-align: center">Wed, 24 Sep 2008</td>
+      <td style="text-align: center">08004318</td>
+      <td style="text-align: center">A2</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://data.epo.org/linked-data/data/publication/EP/1972896/A3/-" target="_blank">EP/1972896/A3/-</a></td>
+      <td style="text-align: center">Wed, 07 Nov 2012</td>
+      <td style="text-align: center">08004318</td>
+      <td style="text-align: center">A3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://data.epo.org/linked-data/data/publication/EP/1972896/B1/-" target="_blank">EP/1972896/B1/-</a></td>
+      <td style="text-align: center">Wed, 06 May 2015</td>
+      <td style="text-align: center">08004318</td>
+      <td style="text-align: center">B1</td>
+    </tr>
+  </tbody>
+</table>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
@@ -1351,6 +1427,28 @@ hidden
             a_tag[k].setAttribute('role', 'link')
         }
     }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
     </script>
 </body>
 </html>
