@@ -701,7 +701,74 @@ EPO's publication API.
 |[EP/1972896/A3/-](http://data.epo.org/linked-data/data/publication/EP/1972896/A3/-){:target="_blank"} | Wed, 07 Nov 2012 |      08004318      |    A3     |
 |[EP/1972896/B1/-](http://data.epo.org/linked-data/data/publication/EP/1972896/B1/-){:target="_blank"}  | Wed, 06 May 2015 |      08004318      |    B1     |
 
+With the right algorithm as shown in Code-Block 7, we can extract 
+all patent information for `AIRBUS DEFENCE AND SPACE GMBH`. 
 
+
+```r
+# Code-Block 7. Functions to extract patent information
+construct_url <- function(patent_number) {
+    pub_link = 'https://data.epo.org/linked-data/data/publication/EP/'
+    patent_number <- gsub('EP', '', patent_number)
+    pn <- str_trim(patent_number)
+    link <- paste(pub_link, pn, '.json', sep="")
+
+    return(link)
+}
+
+get_publications <- function(url) {
+    # initialize df
+    df0 <- data.frame(
+            link=character(),
+            pub_date=character(),
+            appln_number=character(),
+            kind_code=character(),
+            stringsAsFactors = FALSE
+        )
+    # set up headers 
+    request <- GET(
+        url,
+        add_headers(
+            Host = "data.epo.org",
+            `User-Agent` = "Chrome/88.0.4324.188"
+        )
+    )
+
+    print(status_code(request))
+    if (status_code(request) == 200) {
+        response <- content(request, as = "text", encoding = "UTF-8")
+        json <- fromJSON(response, flatten = TRUE)
+
+        if (length(json$result$items) == 0){
+            return(df0)
+        } else {
+            json$result$items %>%
+            select(
+                `_about`, 
+                publicationDate, 
+                application.applicationNumber,
+                publicationKind.label) %>%
+            rename(link=`_about`, pub_date=publicationDate, 
+                appln_number=application.applicationNumber, 
+                kind_code=publicationKind.label) -> df
+
+                return(df)
+        }
+    } else {
+        return(df0)
+    }
+
+    return(df0)
+}
+
+get_granted <- function(url, kind='B1') {
+    df <- get_publications(url)
+    df %>%
+        filter(kind_code == kind) -> granted
+    
+    return(granted)
+}
+```
 
 
 
