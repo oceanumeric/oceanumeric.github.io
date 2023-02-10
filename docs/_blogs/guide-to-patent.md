@@ -701,133 +701,22 @@ EPO's publication API
 |[EP/1972896/A3/-](http://data.epo.org/linked-data/data/publication/EP/1972896/A3/-){:target="_blank"} | Wed, 07 Nov 2012 |      08004318      |    A3     |
 |[EP/1972896/B1/-](http://data.epo.org/linked-data/data/publication/EP/1972896/B1/-){:target="_blank"}  | Wed, 06 May 2015 |      08004318      |    B1     |
 
-With the right algorithm as shown in Code-Block 7, we can extract 
-all patent information for `AIRBUS DEFENCE AND SPACE GMBH`. 
-
-
-```r
-# Code-Block 7. Functions to extract patent information
-construct_url <- function(patent_number) {
-    pub_link = 'https://data.epo.org/linked-data/data/publication/EP/'
-    patent_number <- gsub('EP', '', patent_number)
-    pn <- str_trim(patent_number)
-    link <- paste(pub_link, pn, '.json', sep="")
-
-    return(link)
-}
-
-get_publications <- function(url) {
-    # initialize df
-    df0 <- data.frame(
-            link=character(),
-            pub_date=character(),
-            appln_number=character(),
-            kind_code=character(),
-            stringsAsFactors = FALSE
-        )
-    # set up headers 
-    request <- GET(
-        url,
-        add_headers(
-            Host = "data.epo.org",
-            `User-Agent` = "Chrome/88.0.4324.188"
-        )
-    )
-
-    print(status_code(request))
-    if (status_code(request) == 200) {
-        response <- content(request, as = "text", encoding = "UTF-8")
-        json <- fromJSON(response, flatten = TRUE)
-
-        if (length(json$result$items) == 0){
-            return(df0)
-        } else {
-            json$result$items %>%
-            select(
-                publicationDate, 
-                application.applicationNumber,
-                publicationKind.label) %>%
-            rename(pub_date=publicationDate, 
-                appln_number=application.applicationNumber, 
-                kind_code=publicationKind.label) -> df
-
-                return(df)
-        }
-    } else {
-        return(df0)
-    }
-
-    return(df0)
-}
-
-get_granted <- function(url, kind='B1') {
-    df <- get_publications(url)
-    df %>%
-        filter(kind_code == kind) -> granted
-    
-    return(granted)
-}
-
-
-# initialize the dataframe 
-foo <- data.frame(
-    granted = integer(),
-    pub_date = character(),
-    appln_number = character(),
-    kind_code = character()
-)
-airbus_granted <- cbind(airbus_ep_patents, foo)
-
-# extract patent information
-for (i in 1:nrow(airbus_granted)){
-    print(paste('request-----------:', i))
-    flush.console()
-    Sys.sleep(0.5)
-    pn <- airbus_granted[i, Patent_number]
-    url <- construct_url(pn)
-    gdf <- get_granted(url)
-    if (dim(gdf)[1] == 0) {
-        airbus_granted[i, 'granted'] <- 0
-    } else {
-        airbus_granted[i, 'granted'] <- 1
-        airbus_granted[i, 'pub_date'] <- gdf[1, 'pub_date']
-        airbus_granted[i, 'appln_number'] <- gdf[1, 'appln_number']
-        airbus_granted[i, 'kind_code'] <- gdf[1, 'kind_code']
-    }
-}
-```
-
-To extract patent information for 716 patent numbers of Airbus company, it
+With the right algorithm as shown in [Code-Block 7](https://gist.github.com/oceanumeric/51ab6c7f28b3df244bf6d773c35d003f){:target="_blank"}, we can extract 
+all patent information for `AIRBUS DEFENCE AND SPACE GMBH`. To extract patent information for 716 patent numbers of Airbus company, it
 takes around 6 minutes and 38 seconds. It could be speeded up if
 we set a smaller value of `Sys.sleep()`. 
 
 
-<div class="table-caption">
-<span class="table-caption-label">Table 14.</span> Share of granted patents
-for Airbus (DE)
-</div>
-
-| granted |  N  | share |
-|:-------:|:---:|:-----:|
-|    0-No    | 178 |  24.86%  |
-|    1-Yes    | 538 |  75.14%   |
-|  Total  | 716 |  100%  |
-
-
-
-
 <div class='figure'>
-    <img src="/images/blog/airbus_patent.webp"
+    <img src="/images/blog/airbus_summary.webp"
          alt="Airbus patents distribution"
-         style="width: 60%; display: block; margin: 0 auto;"/>
+         style="width: 100%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> Espacenet's searching
-        returned result that includes patent name, inventor, applicant, CPC classes,
-        and publication information and priority date. 
+        <span class='caption-label'>Figure 4.</span> Summary of granted
+        patents of Airbus Defence; the total granted patents drops after
+        2019 is probably because of Covid-19 pandemic. 
     </div>
 </div>
-
-
 
 
 
