@@ -634,10 +634,27 @@ Since we use __only EPO patents__ and  have patent numbers and application IDs f
 
 According to EPO, "Linked open data offers you new ways of combining
 patent data and non-patent data in your work". Linked open EP data can be queried, retrieved and viewed using standardized web technologies like HTTP,
-URI and SPARQL. SPARQL is the standardized query language for RDF, in the same way that SQL is the standardized query language for relational databases.
+URI and [SPARQL](https://en.wikipedia.org/wiki/SPARQL){:target="_blank"}.
 
 __Back to our case.__ As we have stated from the last section, we want to
-search for granted patents based on 
+search for granted patents based on `Patent_number`. Those patent numbers we 
+have are publication numbers. Therefore, we should use APIs for publications.
+Please read the following documents from EPO:
+
+- [Coverage of linked open EP data](https://data.epo.org/linked-data/documentation/data-coverage.html){:target="_blank"}
+- [API Overview](https://data.epo.org/linked-data/documentation/api-overview.html){:target="_blank"}
+- [API Reference](https://data.epo.org/linked-data/documentation/api-reference.html){:target="_blank"}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
