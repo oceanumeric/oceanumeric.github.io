@@ -78,6 +78,9 @@ cite another one {% cite vaswani2017attention %}
 
 ### Figures
 
+#### Without zoom 
+
+
 <div class='figure'>
     <img src="/images/inclusion-exclusion.png"
          alt="A demo figure"
@@ -92,6 +95,20 @@ cite another one {% cite vaswani2017attention %}
     </div>
 </div>
 
+
+#### With zoom 
+
+<div class='figure'>
+    <img src="/images/blog/oecd-han-database.png"
+         alt="OECD HAN database illustration" class="zoom-img"
+         style="width:100%"
+         />
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> OECD HAN database structure:
+        there are four tables, in which HAN_PERSON is the correspondence
+        table which include all cleaned names.
+    </div>
+</div>
 
 ### Tables
 

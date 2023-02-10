@@ -98,8 +98,8 @@ names.
 
 ## Understanding OECD HAN database structure 
 
-Figure 1 gives OECD HAN database structure (open the zoomed version 
-with the new tab by right-click). It has four tables: `HAN_PERSON`, `HAN_NAMES`,
+Figure 1 gives OECD HAN database structure (open the zoomed version
+for more details). It has four tables: `HAN_PERSON`, `HAN_NAMES`,
 `HARM_NAMES`, and `HAN_PATENTS`. We will use one patent file as an example to
 walk through those tables. Notice that there are around 18 million rows in
 `HAN_PATENTS` table, which accounts for around 18% of EPO's total patent document.[^1]
@@ -115,8 +115,9 @@ coming sections of this post.
 
 <div class='figure'>
     <img src="/images/blog/oecd-han-database.png"
-         alt="OECD HAN database illustration"
-         style="width: 100%; display: block; margin: 0 auto;"/>
+         alt="OECD HAN database illustration" class="zoom-img"
+         style="width:100%"
+         />
     <div class='caption'>
         <span class='caption-label'>Figure 1.</span> OECD HAN database structure:
         there are four tables, in which HAN_PERSON is the correspondence
@@ -626,7 +627,8 @@ we need an API. Luckily, EPO provides this kind of APIs:
 - the other one is called [Linked open EP data](https://www.epo.org/searching-for-patents/data/linked-open-data.html)
     - use this when you already have patent numbers with `EP` format
     - for non-EP documents (such as `US10703486`), coverage is limited to basic patent identification information
-    - there is no search API endpoint from this open service, but one can search or query with [SPARQL](https://en.wikipedia.org/wiki/SPARQL){:target="_blank"}, we will learn how to do this in this post
+    - there is no search API endpoint from this open service, but one can search or query with [SPARQL](https://en.wikipedia.org/wiki/SPARQL){:target="_blank"} if you knew SPARQL well (it is not recommend using
+    it as it is not very stable when I test it).  
 
 Since we use __only EPO patents__ and  have patent numbers and application IDs from OECD HAN database, we will use Linked open EP data. 
 
@@ -645,7 +647,57 @@ Please read the following documents from EPO:
 - [API Overview](https://data.epo.org/linked-data/documentation/api-overview.html){:target="_blank"}
 - [API Reference](https://data.epo.org/linked-data/documentation/api-reference.html){:target="_blank"}
 
+The idea behind API is very intuitive. For each URL, you have an endpoint
+which returns the specific results. For instance, the following link returns
+all patents with publication numbers as input:
 
+```
+https://data.epo.org/linked-data/data/publication/{st3Code}/{publicationNumber}
+
+# st3Code is two-letter codes of countries 
+# publicaionNumber is just publication number
+
+# try this one in your browser 
+# https://data.epo.org/linked-data/data/publication/EP/1048543
+```
+
+with publication number (`Panten_number` in our database), we can just
+extract all relevant information from linked database of EPO. Code-Block 6
+gives the sample code in R to extract all publications for patent EP1972896.
+
+```r
+# Code-Block 6. API request
+request <- GET('https://data.epo.org/linked-data/data/publication/EP/1972896.json')
+response <- content(request, as = "text", encoding = "UTF-8")
+json <- fromJSON(response, flatten = TRUE)
+
+# make a table with selected variables
+json$result$items %>%
+    select(
+        `_about`, 
+        publicationDate, 
+        application.applicationNumber,
+        publicationKind.label) %>%
+    rename(Link=`_about`, Publication_date=publicationDate, 
+        Application_number=application.applicationNumber, 
+        Kind_code=publicationKind.label)
+```
+
+Table 13 gives the results of Code-Block 6, which shows the key information
+we care: whether the patent is granted or not, which is indicated by
+the kind code. The rule of finding granted patents is to filter 
+out `B1` or `B2` from kind code. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 13.</span> Returned results from
+EPO's publication API.
+</div>
+
+|Link                                                             | Publication_date | Application_number | Kind_code |
+|:----------------------------------------------------------------|:----------------:|:------------------:|:---------:|
+|[EP/1972896/A2/](http://data.epo.org/linked-data/data/publication/EP/1972896/A2/-){:target="_blank"} | Wed, 24 Sep 2008 |      08004318      |    A2     |
+|[EP/1972896/A3/-](http://data.epo.org/linked-data/data/publication/EP/1972896/A3/-){:target="_blank"} | Wed, 07 Nov 2012 |      08004318      |    A3     |
+|[EP/1972896/B1/-](http://data.epo.org/linked-data/data/publication/EP/1972896/B1/-){:target="_blank"}  | Wed, 06 May 2015 |      08004318      |    B1     |
 
 
 
