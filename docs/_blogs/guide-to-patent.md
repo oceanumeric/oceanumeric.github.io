@@ -665,11 +665,13 @@ with publication number (`Panten_number` in our database), we can just
 extract all relevant information from linked database of EPO. Code-Block 6
 gives the sample code in R to extract all publications for patent EP1972896.
 
+{% endkatexmm %}
+
 ```r
 # Code-Block 6. API request
 request <- GET('https://data.epo.org/linked-data/data/publication/EP/1972896.json')
 response <- content(request, as = "text", encoding = "UTF-8")
-json <- fromJSON(response, flatten = TRUE)
+json<- fromJSON(response, flatten = TRUE)
 
 # make a table with selected variables
 json$result$items %>%
@@ -713,4 +715,3 @@ EPO's publication API.
 
 
 
-{% endkatexmm %}
