@@ -661,7 +661,7 @@ https://data.epo.org/linked-data/data/publication/{st3Code}/{publicationNumber}
 # https://data.epo.org/linked-data/data/publication/EP/1048543
 ```
 
-with publication number (`Panten_number` in our database), we can just
+With publication number (`Panten_number` in our database), we can just
 extract all relevant information from linked database of EPO. Code-Block 6
 gives the sample code in R to extract all publications for patent EP1972896.
 
@@ -692,7 +692,7 @@ out `B1` or `B2` from kind code.
 
 <div class="table-caption">
 <span class="table-caption-label">Table 13.</span> Returned results from
-EPO's publication API.
+EPO's publication API
 </div>
 
 |Link                                                             | Publication_date | Application_number | Kind_code |
@@ -744,11 +744,10 @@ get_publications <- function(url) {
         } else {
             json$result$items %>%
             select(
-                `_about`, 
                 publicationDate, 
                 application.applicationNumber,
                 publicationKind.label) %>%
-            rename(link=`_about`, pub_date=publicationDate, 
+            rename(pub_date=publicationDate, 
                 appln_number=application.applicationNumber, 
                 kind_code=publicationKind.label) -> df
 
@@ -768,12 +767,65 @@ get_granted <- function(url, kind='B1') {
     
     return(granted)
 }
+
+
+# initialize the dataframe 
+foo <- data.frame(
+    granted = integer(),
+    pub_date = character(),
+    appln_number = character(),
+    kind_code = character()
+)
+airbus_granted <- cbind(airbus_ep_patents, foo)
+
+# extract patent information
+for (i in 1:nrow(airbus_granted)){
+    print(paste('request-----------:', i))
+    flush.console()
+    Sys.sleep(0.5)
+    pn <- airbus_granted[i, Patent_number]
+    url <- construct_url(pn)
+    gdf <- get_granted(url)
+    if (dim(gdf)[1] == 0) {
+        airbus_granted[i, 'granted'] <- 0
+    } else {
+        airbus_granted[i, 'granted'] <- 1
+        airbus_granted[i, 'pub_date'] <- gdf[1, 'pub_date']
+        airbus_granted[i, 'appln_number'] <- gdf[1, 'appln_number']
+        airbus_granted[i, 'kind_code'] <- gdf[1, 'kind_code']
+    }
+}
 ```
 
+To extract patent information for 716 patent numbers of Airbus company, it
+takes around 6 minutes and 38 seconds. It could be speeded up if
+we set a smaller value of `Sys.sleep()`. 
+
+
+<div class="table-caption">
+<span class="table-caption-label">Table 14.</span> Share of granted patents
+for Airbus (DE)
+</div>
+
+| granted |  N  | share |
+|:-------:|:---:|:-----:|
+|    0-No    | 178 |  24.86%  |
+|    1-Yes    | 538 |  75.14%   |
+|  Total  | 716 |  100%  |
 
 
 
 
+<div class='figure'>
+    <img src="/images/blog/airbus_patent.webp"
+         alt="Airbus patents distribution"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Espacenet's searching
+        returned result that includes patent name, inventor, applicant, CPC classes,
+        and publication information and priority date. 
+    </div>
+</div>
 
 
 
