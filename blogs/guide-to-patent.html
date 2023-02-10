@@ -1307,7 +1307,7 @@ all patents with publication numbers as input:</p>
 # https://data.epo.org/linked-data/data/publication/EP/1048543
 </code></pre></div></div>
 
-<p>with publication number (<code class="language-plaintext highlighter-rouge">Panten_number</code> in our database), we can just
+<p>With publication number (<code class="language-plaintext highlighter-rouge">Panten_number</code> in our database), we can just
 extract all relevant information from linked database of EPO. Code-Block 6
 gives the sample code in R to extract all publications for patent EP1972896.</p>
 
@@ -1335,7 +1335,7 @@ out <code class="language-plaintext highlighter-rouge">B1</code> or <code class=
 
 <div class="table-caption">
 <span class="table-caption-label">Table 13.</span> Returned results from
-EPO's publication API.
+EPO's publication API
 </div>
 
 <table>
@@ -1368,6 +1368,145 @@ EPO's publication API.
     </tr>
   </tbody>
 </table>
+
+<p>With the right algorithm as shown in Code-Block 7, we can extract 
+all patent information for <code class="language-plaintext highlighter-rouge">AIRBUS DEFENCE AND SPACE GMBH</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Code-Block 7. Functions to extract patent information</span><span class="w">
+</span><span class="n">construct_url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">patent_number</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">pub_link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'https://data.epo.org/linked-data/data/publication/EP/'</span><span class="w">
+    </span><span class="n">patent_number</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s1">'EP'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="n">patent_number</span><span class="p">)</span><span class="w">
+    </span><span class="n">pn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">str_trim</span><span class="p">(</span><span class="n">patent_number</span><span class="p">)</span><span class="w">
+    </span><span class="n">link</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">pub_link</span><span class="p">,</span><span class="w"> </span><span class="n">pn</span><span class="p">,</span><span class="w"> </span><span class="s1">'.json'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="w">
+
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">link</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">get_publications</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="c1"># initialize df</span><span class="w">
+    </span><span class="n">df0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+            </span><span class="n">link</span><span class="o">=</span><span class="n">character</span><span class="p">(),</span><span class="w">
+            </span><span class="n">pub_date</span><span class="o">=</span><span class="n">character</span><span class="p">(),</span><span class="w">
+            </span><span class="n">appln_number</span><span class="o">=</span><span class="n">character</span><span class="p">(),</span><span class="w">
+            </span><span class="n">kind_code</span><span class="o">=</span><span class="n">character</span><span class="p">(),</span><span class="w">
+            </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+        </span><span class="p">)</span><span class="w">
+    </span><span class="c1"># set up headers </span><span class="w">
+    </span><span class="n">request</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="w">
+        </span><span class="n">url</span><span class="p">,</span><span class="w">
+        </span><span class="n">add_headers</span><span class="p">(</span><span class="w">
+            </span><span class="n">Host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data.epo.org"</span><span class="p">,</span><span class="w">
+            </span><span class="n">`User-Agent`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Chrome/88.0.4324.188"</span><span class="w">
+        </span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+
+    </span><span class="n">print</span><span class="p">(</span><span class="n">status_code</span><span class="p">(</span><span class="n">request</span><span class="p">))</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status_code</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">response</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">content</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"UTF-8"</span><span class="p">)</span><span class="w">
+        </span><span class="n">json</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fromJSON</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">json</span><span class="o">$</span><span class="n">result</span><span class="o">$</span><span class="n">items</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">){</span><span class="w">
+            </span><span class="nf">return</span><span class="p">(</span><span class="n">df0</span><span class="p">)</span><span class="w">
+        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="n">json</span><span class="o">$</span><span class="n">result</span><span class="o">$</span><span class="n">items</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+            </span><span class="n">select</span><span class="p">(</span><span class="w">
+                </span><span class="n">publicationDate</span><span class="p">,</span><span class="w"> 
+                </span><span class="n">application.applicationNumber</span><span class="p">,</span><span class="w">
+                </span><span class="n">publicationKind.label</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+            </span><span class="n">rename</span><span class="p">(</span><span class="n">pub_date</span><span class="o">=</span><span class="n">publicationDate</span><span class="p">,</span><span class="w"> 
+                </span><span class="n">appln_number</span><span class="o">=</span><span class="n">application.applicationNumber</span><span class="p">,</span><span class="w"> 
+                </span><span class="n">kind_code</span><span class="o">=</span><span class="n">publicationKind.label</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df</span><span class="w">
+
+                </span><span class="nf">return</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nf">return</span><span class="p">(</span><span class="n">df0</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">df0</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">get_granted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="w"> </span><span class="n">kind</span><span class="o">=</span><span class="s1">'B1'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_publications</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="w">
+    </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+        </span><span class="n">filter</span><span class="p">(</span><span class="n">kind_code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">kind</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">granted</span><span class="w">
+    
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">granted</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span><span class="c1"># initialize the dataframe </span><span class="w">
+</span><span class="n">foo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+    </span><span class="n">granted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">integer</span><span class="p">(),</span><span class="w">
+    </span><span class="n">pub_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">character</span><span class="p">(),</span><span class="w">
+    </span><span class="n">appln_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">character</span><span class="p">(),</span><span class="w">
+    </span><span class="n">kind_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">character</span><span class="p">()</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">airbus_granted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cbind</span><span class="p">(</span><span class="n">airbus_ep_patents</span><span class="p">,</span><span class="w"> </span><span class="n">foo</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># extract patent information</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">nrow</span><span class="p">(</span><span class="n">airbus_granted</span><span class="p">)){</span><span class="w">
+    </span><span class="n">print</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s1">'request-----------:'</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">))</span><span class="w">
+    </span><span class="n">flush.console</span><span class="p">()</span><span class="w">
+    </span><span class="n">Sys.sleep</span><span class="p">(</span><span class="m">0.5</span><span class="p">)</span><span class="w">
+    </span><span class="n">pn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">airbus_granted</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">Patent_number</span><span class="p">]</span><span class="w">
+    </span><span class="n">url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">construct_url</span><span class="p">(</span><span class="n">pn</span><span class="p">)</span><span class="w">
+    </span><span class="n">gdf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_granted</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">gdf</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">airbus_granted</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">'granted'</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">airbus_granted</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">'granted'</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w">
+        </span><span class="n">airbus_granted</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">'pub_date'</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gdf</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s1">'pub_date'</span><span class="p">]</span><span class="w">
+        </span><span class="n">airbus_granted</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">'appln_number'</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gdf</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s1">'appln_number'</span><span class="p">]</span><span class="w">
+        </span><span class="n">airbus_granted</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">'kind_code'</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gdf</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s1">'kind_code'</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>To extract patent information for 716 patent numbers of Airbus company, it
+takes around 6 minutes and 38 seconds. It could be speeded up if
+we set a smaller value of <code class="language-plaintext highlighter-rouge">Sys.sleep()</code>.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 14.</span> Share of granted patents
+for Airbus (DE)
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">granted</th>
+      <th style="text-align: center">N</th>
+      <th style="text-align: center">share</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">0-No</td>
+      <td style="text-align: center">178</td>
+      <td style="text-align: center">24.86%</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">1-Yes</td>
+      <td style="text-align: center">538</td>
+      <td style="text-align: center">75.14%</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Total</td>
+      <td style="text-align: center">716</td>
+      <td style="text-align: center">100%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="figure">
+    <img src="/images/blog/airbus_patent.webp" alt="Airbus patents distribution" style="width: 60%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 4.</span> Espacenet's searching
+        returned result that includes patent name, inventor, applicant, CPC classes,
+        and publication information and priority date. 
+    </div>
+</div>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
