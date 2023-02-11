@@ -8,6 +8,7 @@ published: true
 tags: patent patstat api python r
 ---
 
+
 The first question came to my mind was "_where should I start?_" when I
 wanted to do patent analytics for my research project. Like everyone, I
 ended up with Google or ChatGPT (if you got a chance to ask there). I found 
