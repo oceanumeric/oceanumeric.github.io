@@ -84,7 +84,11 @@
                             
                             <a href="/blog-tags/patstat">patstat</a>, 
                             
-                            <a href="/blog-tags/api">api</a>
+                            <a href="/blog-tags/api">api</a>, 
+                            
+                            <a href="/blog-tags/python">python</a>, 
+                            
+                            <a href="/blog-tags/r">r</a>
                             
                         </span>
                     
@@ -1394,7 +1398,7 @@ It breaks down technologies into eight sections with
 several hierarchical sub-levels. The IPC system has
 approximately 75,000 subdivisions and is updated on
 an annual basis. Further information on the IPC system
-is available at <a href="https://www.wipo.int/edocs/pubdocs/en/wipo-guide-ipc-2022-en-guide-to-the-international-patent-classification-2022.pdf" target="_blank">WIPO’s IPC Guide</a>.</p>
+is available at <a href="https://ipcpub.wipo.int/?notion=scheme&amp;version=20230101&amp;symbol=none&amp;menulang=en&amp;lang=en&amp;viewmode=f&amp;fipcpc=no&amp;showdeleted=yes&amp;indexes=no&amp;headings=yes&amp;notes=yes&amp;direction=o2n&amp;initial=A&amp;cwid=none&amp;tree=no&amp;searchmode=smart" target="_blank">WIPO’s IPC Guide</a>.</p>
 
 <p><strong>Cooperative Patent Classification (CPC).</strong> The Cooperative Patent Classification (CPC) system
 builds on the IPC system and provides a more granular
@@ -1404,6 +1408,58 @@ times a year. It is used by more than 30 patent offices
 worldwide. Detailed information about the CPC system
 is available at <a href="https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html" target="_blank">USPTO’s CPC Lookup page</a>.</p>
 
+<p>With the program in <a href="https://gist.github.com/oceanumeric/1a23ef7f8cd99653eb26f6d7882023ed" target="_blank">Code-Block 8</a>, we will calculate
+how many IPC classes that Airbus Defence (DE) applied for and what 
+are the most frequent ones in terms of level 1, 2 and 3. For IPC,
+level 1 classification has 8 categories:</p>
+
+<ul>
+  <li>A: Human Necessities</li>
+  <li>B: Performing Operations, Transporting</li>
+  <li>C: Chemistry, Metallurgy</li>
+  <li>D: Textiles, Paper</li>
+  <li>E: Fixed Constructions</li>
+  <li>F: Mechanical Engineering, Lighting, Heating, Weapons</li>
+  <li>G: Physics</li>
+  <li>H: Electricity</li>
+</ul>
+
+<p>Level 2 of IPC gives more details of top level, for instance, <code class="language-plaintext highlighter-rouge">B06</code> is 
+everything about cleaning and <code class="language-plaintext highlighter-rouge">H04</code> is about electronic communication
+technique. Within each sub-level, you have sub-level too. Let’s go through
+a case with IPC number <em>H04H 60/18</em> on copying information:</p>
+
+<ul>
+  <li>H04H: BROADCAST COMMUNICATION
+    <ul>
+      <li>H04H 60: 	Arrangements for broadcast applications with a direct linkage to broadcast information or to broadcast space-time; Broadcast-related systems
+        <ul>
+          <li>H04H 60/09: Arrangements for device control with a direct linkage to broadcast information or to broadcast space-time; Arrangements for control of broadcast-related services
+            <ul>
+              <li>H04H 60/14: Arrangements for conditional access to broadcast information or to broadcast-related services
+                <ul>
+                  <li>H04H 60/18: on copying information</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>Where could we get the information of IPC or CPC symbols without looking
+up one by one? The answer is again <a href="https://data.epo.org/linked-data/documentation/api-reference.html" target=":_blank">Linked Open EP data</a>.</p>
+
+<div class="figure">
+    <img src="/images/blog/airbus_ipc_top.png" alt="Airbus patents distribution" style="width: 60%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 4.</span> Summary of granted
+        patents of Airbus Defence; the decline in recent years can be explained with the fact that the application and granting procedures may
+take several years before a patent is granted, similar to many other fields of technology.
+    </div>
+</div>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
