@@ -151,7 +151,7 @@ table td {
 }
 
 .article {
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.7em;
   color: rgba(0, 0, 0, 0.9);
   margin-top: 50px;
@@ -290,6 +290,9 @@ hr {
   body {
     margin: 0 7px;
     padding-left: 13px;
+  }
+  .article{
+    font-size: 16px; 
   }
   .article .copy-button {
     position: absolute;
