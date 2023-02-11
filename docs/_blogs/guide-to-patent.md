@@ -713,10 +713,32 @@ we set a smaller value of `Sys.sleep()`.
          style="width: 100%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 4.</span> Summary of granted
-        patents of Airbus Defence; the total granted patents drops after
-        2019 is probably because of Covid-19 pandemic. 
+        patents of Airbus Defence; the decline in recent years can be explained with the fact that the application and granting procedures may
+take several years before a patent is granted, similar to many other fields of technology.
     </div>
 </div>
+
+With 538 granted patents of
+Airbus Defence and Space company, we will search for their classifications
+and try to find out the field of strategic orientation of this firm. 
+
+__International Patent Classification (IPC).__ The International Patent Classification (IPC) system
+is a hierarchical patent classification system which is
+used by more than 100 patent offices on all continents.
+It breaks down technologies into eight sections with
+several hierarchical sub-levels. The IPC system has
+approximately 75,000 subdivisions and is updated on
+an annual basis. Further information on the IPC system
+is available at [WIPO's IPC Guide](https://www.wipo.int/edocs/pubdocs/en/wipo-guide-ipc-2022-en-guide-to-the-international-patent-classification-2022.pdf){:target="_blank"}.
+
+__Cooperative Patent Classification (CPC).__ The Cooperative Patent Classification (CPC) system
+builds on the IPC system and provides a more granular
+and detailed classification structure. The CPC system
+has more than 250,000 subdivisions and is updated four
+times a year. It is used by more than 30 patent offices
+worldwide. Detailed information about the CPC system
+is available at [USPTO's CPC Lookup page](https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html){:target="_blank"}.
+
 
 
 
