@@ -4,7 +4,9 @@ import time
 import requests
 import pandas as pd
 import numpy as np
-
+from collections import Counter
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 # Global variables
@@ -74,16 +76,26 @@ def ipc_collection(ipc_sum):
     Input: pandas df column sum such as df['ipc'].sum()
     Output: a list of all ipc tags
     """
-    ipc_sum = ipc_sum.ipc_sum.replace("'", "")
+    ipc_sum = ipc_sum.replace("'", "")
     ipc_sum = ipc_sum[1:].replace('[', '')
     ipc_sum = ipc_sum.replace(']', ",")
     ipc_list = ipc_sum.split(',')
     ipc_list = ipc_list[:-1]
     
+    ipc_list = [x.strip() for x in ipc_list]
+    
     return ipc_list
     
-    
 
+def get_top_ipc(ipc_list):
+    """
+    extract top ipc class for a ipc_list
+    """
+    top_ipc = [x[0] for x in ipc_list]
+    top_ipc_sub = [x[:4] for x in ipc_list]
+    
+    return top_ipc, top_ipc_sub
+    
 
 if __name__ == "__main__":
     # -------- test key functions -------- 

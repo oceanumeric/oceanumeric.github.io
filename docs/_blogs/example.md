@@ -99,7 +99,7 @@ cite another one {% cite vaswani2017attention %}
 #### With zoom 
 
 <div class='figure'>
-    <img src="/images/blog/oecd-han-database.webp"
+    <img src="/images/blog/oecd-han-database.png"
          alt="OECD HAN database illustration" class="zoom-img"
          style="width:100%"
          />

@@ -5,7 +5,7 @@ layout: blog_default
 date: 2023-02-06
 keywords: patent analytic, EPO, PATSTAT, USPTO
 published: true
-tags: patent patstat api
+tags: patent patstat api python r
 ---
 
 The first question came to my mind was "_where should I start?_" when I
@@ -729,7 +729,7 @@ It breaks down technologies into eight sections with
 several hierarchical sub-levels. The IPC system has
 approximately 75,000 subdivisions and is updated on
 an annual basis. Further information on the IPC system
-is available at [WIPO's IPC Guide](https://www.wipo.int/edocs/pubdocs/en/wipo-guide-ipc-2022-en-guide-to-the-international-patent-classification-2022.pdf){:target="_blank"}.
+is available at [WIPO's IPC Guide](https://ipcpub.wipo.int/?notion=scheme&version=20230101&symbol=none&menulang=en&lang=en&viewmode=f&fipcpc=no&showdeleted=yes&indexes=no&headings=yes&notes=yes&direction=o2n&initial=A&cwid=none&tree=no&searchmode=smart){:target="_blank"}.
 
 __Cooperative Patent Classification (CPC).__ The Cooperative Patent Classification (CPC) system
 builds on the IPC system and provides a more granular
@@ -739,9 +739,42 @@ times a year. It is used by more than 30 patent offices
 worldwide. Detailed information about the CPC system
 is available at [USPTO's CPC Lookup page](https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html){:target="_blank"}.
 
-With the program in [Code-Block 8](https://gist.github.com/oceanumeric/1a23ef7f8cd99653eb26f6d7882023ed){:target="_blank"}
+With the program in [Code-Block 8](https://gist.github.com/oceanumeric/1a23ef7f8cd99653eb26f6d7882023ed){:target="_blank"}, we will calculate
+how many IPC classes that Airbus Defence (DE) applied for and what 
+are the most frequent ones in terms of level 1, 2 and 3. For IPC,
+level 1 classification has 8 categories:
+
+- A: Human Necessities
+- B: Performing Operations, Transporting
+- C: Chemistry, Metallurgy
+- D: Textiles, Paper
+- E: Fixed Constructions
+- F: Mechanical Engineering, Lighting, Heating, Weapons
+- G: Physics
+- H: Electricity
+
+Level 2 of IPC gives more details of top level, for instance, `B06` is 
+everything about cleaning and `H04` is about electronic communication
+technique. Within each sub-level, you have sub-level too. Let's go through
+a case with IPC number _H04H 60/18_ on copying information:
+
+- H04H: BROADCAST COMMUNICATION 
+    - H04H 60: 	Arrangements for broadcast applications with a direct linkage to broadcast information or to broadcast space-time; Broadcast-related systems
+        - H04H 60/09: Arrangements for device control with a direct linkage to broadcast information or to broadcast space-time; Arrangements for control of broadcast-related services
+            - H04H 60/14: Arrangements for conditional access to broadcast information or to broadcast-related services
+                - H04H 60/18: on copying information 
 
 
+Where could we get the information of IPC or CPC symbols without looking
+up one by one? The answer is again [Linked Open EP data](https://data.epo.org/linked-data/documentation/api-reference.html){:target=":_blank"}. 
 
-
-
+<div class='figure'>
+    <img src="/images/blog/airbus_ipc_top.png"
+         alt="Airbus patents distribution"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Summary of granted
+        patents of Airbus Defence; the decline in recent years can be explained with the fact that the application and granting procedures may
+take several years before a patent is granted, similar to many other fields of technology.
+    </div>
+</div>
