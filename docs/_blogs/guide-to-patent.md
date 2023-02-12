@@ -230,9 +230,11 @@ analysis based on application documents. Having a grip on it by looking
 at the Figure 3. 
 
 <div class='figure'>
-    <img src="/images/blog/patent-search-illustration.webp"
-         alt="Searching results illustated for US8668089"
-         style="width: 80%; display: block; margin: 0 auto;"/>
+    <img src="/images/blog/patent-search-illustration.png"
+         alt="Searching results illustated for US8668089" 
+         class="zoom-img"
+         style="width:80%; margin: 0 auto;"
+         />
     <div class='caption'>
         <span class='caption-label'>Figure 3.</span> The complexity of
         a patent file; read the granted patent file <a href="/pdfs/US_8668089_B2.pdf" target="_blank">[pdf]</a>
