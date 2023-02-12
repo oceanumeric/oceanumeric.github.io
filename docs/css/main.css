@@ -4,7 +4,7 @@
 
  body {
 	color: rgba(0, 0, 0, 0.8);
-	font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright', "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+	font-family: -apple-system, Helvetica, arial, sans-serif;
 	font-size: 1.06rem;
 	margin: 7px;
 	padding: 0;
@@ -29,7 +29,7 @@ h1 {
 	margin: 0 0 20px 0;
 }
 #landing ul#links li {
-	font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright',  "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+	font-family: -apple-system, Helvetica, arial, sans-serif;
 	margin-right: 25px;
 	padding-bottom: 7px;
 }

@@ -1,382 +1,380 @@
 html {
-    font-family: -apple-system, Helvetica, arial, sans-serif;
-    color: rgba(0, 0, 0, 0.8);
-    line-height: 1.5em;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
-    font-weight: 400;
-  }
+  font-family: -apple-system, Helvetica, arial, sans-serif;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 1.5em;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-weight: 400;
+}
+body {
+  margin: 0;
+}
+body .content {
+  margin-bottom: 120px;
+}
+a {
+  color: rgba(0, 0, 0, 0.8);
+}
+a:hover {
+  text-decoration: none;
+}
+h1,
+h4 {
+  font-family: -apple-system, Helvetica, arial, sans-serif;
+}
+
+
+h1 {
+  line-height: 1.2em;
+}
+.clear {
+  clear: both;
+}
+.hidden {
+  display: none;
+}
+.wrap {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.mono {
+  font-family: monospace;
+}
+.nav {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.nav a {
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+  border-bottom: none;
+  font-size: 13px;
+}
+.nav a:hover {
+  font-weight: bold;
+}
+.nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+.nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+.front-matter {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.front-matter h4 {
+  font-family: -apple-system, Helvetica, arial, sans-serif;
+}
+.front-matter .bylines .byline {
+  margin-right: 20px;
+  float: left;
+}
+.front-matter .bylines .byline h3,
+.front-matter .bylines .byline p {
+  margin: 0;
+  font-family: -apple-system, Helvetica, arial, sans-serif;
+}
+.front-matter .bylines .byline h3 {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+}
+.front-matter .bylines .byline p {
+  font-size: 10px;
+  line-height: 1.6em;
+}
+
+.front-matter .post-tags {
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.5);
+  display: block;
+  float: left;
+}
+
+.front-matter .post-tags i {
+  margin-right: 2px;
+}
+
+.front-matter .post-tags a {
+  color: rgba(0, 0, 0, 0.8);
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.6em;
+  text-decoration: none;
+}
+
+.img-left {
+  float: left;
+  width: 49%;
+}
+.img-right {
+  float: right;
+  width: 49%;
+}
+
+table {
+  font-size: 16px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-top: 2px solid black;
+  border-bottom: 1px solid black;
+}
+
+.table-wrapper {
+  overflow-x: scroll;
+  overflow: hidden;
+}
+
+.table-wrapper table {
+  white-space: nowrap;
+  max-width: fit-content;
+}
+
+.table-wrapper:hover { 
+  overflow-x: scroll;
+}
+
+table thead > tr > th {
+  border-bottom: 1px solid black;
+  padding: 0 8px;
+}
+table td {
+  text-align: center;
+  vertical-align: top;
+}
+
+table th {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.table-figure-wrapper {
+  display: inline-block;
+  width: 100%;
+  max-width: fit-content;
+  border-top: 1px solid hsla(0, 0%, 0%, 0.2);
+  border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
+  padding: 20px 0;
+}
+
+.table-figure-wrapper table {
+  float: left;
+  width: fit-content;
+  font-size: 14px;
+  border-top: 1.5px;  /* no color hide top rule */
+}
+
+.table-figure-wrapper .sub-figure {
+  float: auto;
+}
+
+.table-figure-wrapper .caption {
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  padding-top: 15px;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 1.2em;
+}
+.table-figure-wrapper .caption-label {
+  color:rgba(0, 0, 0, 1);
+  font-weight: 500;
+}
+
+
+.article .copy-button {
+  position: absolute;
+  opacity: 0;
+  margin-left: 46%;
+  margin-top: 1px;
+}
+
+.highlight:hover > .copy-button {
+  opacity: 1;
+}
+
+.highlight > .copy-button:active {
+  opacity: 1;
+}
+
+.katex {
+  font-size: 19px !important;
+}
+
+.article {
+  font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
+  font-size: 20px;
+  line-height: 1.7em;
+  color: rgba(0, 0, 0, 0.8);
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.article blockquote {
+  margin: 0;
+  padding: 0 1em;
+  color: #777;
+  border-left: 0.25em solid #ddd;
+}
+.article h2 {
+  font-size: 26px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 1rem;
+  padding-top: 1em;
+}
+.article .figure {
+  border-top: 1px solid hsla(0, 0%, 0%, 0.2);
+  border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
+  padding: 20px 0;
+}
+.article .figure .caption {
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  padding-top: 15px;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 1.2em;
+}
+.article .figure .caption-label {
+  font-weight: 500;
+  color:rgba(0, 0, 0, 0.8)
+}
+.article .table-caption {
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  margin-top: -10px;
+  font-size: 15px;
+  text-align: center !important;
+  color: rgba(0, 0, 0, 0.8);
+}
+.article .table-caption-label {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 1);
+}
+.article .footnote {
+  line-height: 0;
+}
+.article div.highlight {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  line-height: 1.3em;
+}
+.article ul {
+  padding: 0 15px;
+}
+.article hr {
+  border-bottom: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.7);
+  margin: 33px auto;
+  width: 70px;
+}
+
+
+.footnotes {
+  margin-top: 100px;
+  font-size: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#bibliography {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+#bibliography ol.bibliography {
+  padding-left: 15px;
+  padding-top: 30px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
+#blog {
+  margin-top: 80px;
+  margin-bottom: 100px;
+}
+#blog #intro {
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.4em;
+  margin-bottom: 40px;
+}
+#blog .quote {
+  margin-bottom: 30px;
+}
+#blog .quote p {
+  margin-bottom: 5px;
+}
+#blog .post-date {
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+#blog .post-title {
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+#blog .post-title a {
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+  font-weight: 700;
+}
+#blog .post-title a:hover {
+  text-decoration: underline;
+}
+#blog .post-subtitle {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 25px;
+  line-height: 1.5em;
+}
+#blog .year {
+  font-size: 18px;
+  position: relative;
+  right: 100px;
+  color: rgba(0, 0, 0, 0.5);
+  width: 100px;
+  margin-bottom: -24px;
+}
+#blog #y2017.year,
+#blog #y2018.year {
+  margin-top: 0px;
+}
+hr {
+  border-top: #ccc;
+}
+@media screen and (max-width: 700px) {
   body {
-    margin: 0;
+    margin: 0 7px;
+    padding-left: 13px;
   }
-  body .content {
-    margin-bottom: 120px;
+  .article{
+    font-size: 16px; 
   }
-  a {
-    color: rgba(0, 0, 0, 0.8);
-  }
-  a:hover {
-    text-decoration: none;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: -apple-system, Helvetica, arial, sans-serif;
-  }
-  
-  strong{
-    color: rgba(0, 0, 0, 1);
-    font-weight: 900 !important;
-  }
-  h1 {
-    line-height: 1.2em;
-  }
-  .clear {
-    clear: both;
-  }
-  .hidden {
-    display: none;
-  }
-  .wrap {
-    max-width: 700px;
-    margin: 0 auto;
-  }
-  .mono {
-    font-family: monospace;
-  }
-  .nav {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-  .nav a {
-    color: rgba(0, 0, 0, 0.6);
-    text-decoration: none;
-    border-bottom: none;
-    font-size: 13px;
-  }
-  .nav a:hover {
-    font-weight: bold;
-  }
-  .nav ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  .nav ul li {
-    display: inline;
-    margin-right: 10px;
-  }
-  .front-matter {
-    padding: 20px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  .front-matter h4 {
-    font-family: -apple-system, Helvetica, arial, sans-serif;
-  }
-  .front-matter .bylines .byline {
-    margin-right: 20px;
-    float: left;
-  }
-  .front-matter .bylines .byline h3,
-  .front-matter .bylines .byline p {
-    margin: 0;
-    font-family: -apple-system, Helvetica, arial, sans-serif;
-  }
-  .front-matter .bylines .byline h3 {
-    font-size: 9px;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
-  }
-  .front-matter .bylines .byline p {
-    font-size: 10px;
-    line-height: 1.6em;
-  }
-  
-  .front-matter .post-tags {
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    font-size: 13px;
-    line-height: 1.6em;
-    color: rgba(0, 0, 0, 0.5);
-    display: block;
-    float: left;
-  }
-  
-  .front-matter .post-tags i {
-    margin-right: 2px;
-  }
-  
-  .front-matter .post-tags a {
-    color: rgba(0, 0, 0, 0.8);
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    font-size: 12px;
-    line-height: 1.6em;
-    text-decoration: none;
-  }
-  
-  .img-left {
-    float: left;
-    width: 49%;
-  }
-  .img-right {
-    float: right;
-    width: 49%;
-  }
-  
-  table {
-    font-size: 16px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    border-top: 2px solid black;
-    border-bottom: 1px solid black;
-  }
-  
-  .table-wrapper {
-    overflow-x: scroll;
-    overflow: hidden;
-  }
-  
-  .table-wrapper table {
-    white-space: nowrap;
-    max-width: fit-content;
-  }
-  
-  .table-wrapper:hover { 
-    overflow-x: scroll;
-  }
-  
-  table thead > tr > th {
-    border-bottom: 1px solid black;
-    padding: 0 8px;
-  }
-  table td {
-    text-align: center;
-    vertical-align: top;
-  }
-  
-  table th {
-    color: rgba(0, 0, 0, 1);
-    font-weight: 700;
-  }
-  
-  .table-figure-wrapper {
-    display: inline-block;
-    width: 100%;
-    max-width: fit-content;
-    border-top: 1px solid hsla(0, 0%, 0%, 0.2);
-    border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
-    padding: 20px 0;
-  }
-  
-  .table-figure-wrapper table {
-    float: left;
-    width: fit-content;
-    font-size: 14px;
-    border-top: 1.5px;  /* no color hide top rule */
-  }
-  
-  .table-figure-wrapper .sub-figure {
-    float: auto;
-  }
-  
-  .table-figure-wrapper .caption {
-    padding-top: 15px;
-    display: inline-block;
-    font-size: 15px;
-    line-height: 1.2em;
-  }
-  .table-figure-wrapper .caption-label {
-    font-weight: 900;
-    color:rgba(0, 0, 0, 1)
-  }
-  
-  
   .article .copy-button {
     position: absolute;
     opacity: 0;
-    margin-left: 46%;
-    margin-top: 1px;
+    margin-left: 87%;
   }
-  
-  .highlight:hover > .copy-button {
-    opacity: 1;
-  }
-  
-  .highlight > .copy-button:active {
-    opacity: 1;
-  }
-  
-  .article {
-    font-size: 20px;
-    line-height: 1.7em;
-    color: rgba(0, 0, 0, 0.8);
-    margin-top: 50px;
-    margin-bottom: 50px;
-    font-weight: 400;
-  }
-  .article blockquote {
-    margin: 0;
-    padding: 0 1em;
-    color: #777;
-    border-left: 0.25em solid #ddd;
-  }
-  .article h2 {
-    font-size: 26px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding-bottom: 1rem;
-    padding-top: 1em;
-  }
-  .article .figure {
-    border-top: 1px solid hsla(0, 0%, 0%, 0.2);
-    border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
-    padding: 20px 0;
-  }
-  .article .figure .caption {
-    padding-top: 15px;
-    display: inline-block;
-    font-size: 15px;
-    line-height: 1.2em;
-  }
-  .article .figure .caption-label {
-    font-weight: 900;
-    color:rgba(0, 0, 0, 1)
-  }
-  .article .table-caption {
-    margin-top: -10px;
-    font-size: 15px;
-    text-align: center !important;
-    color: rgba(0, 0, 0, 1);
-  }
-  .article .table-caption-label {
-    font-weight: 900;
-    color: rgba(0, 0, 0, 1);
-  }
-  .article .footnote {
-    line-height: 0;
-  }
-  .article div.highlight {
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    font-size: 13px;
-    line-height: 1.3em;
-  }
-  .article ul {
-    padding: 0 15px;
-  }
-  .article hr {
-    border-bottom: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.7);
-    margin: 33px auto;
-    width: 70px;
-  }
-  
-  
-.footnotes {
-    margin-top: 100px;
-    font-size: 12px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  #bibliography {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  #bibliography ol.bibliography {
-    padding-left: 15px;
-    padding-top: 30px;
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.5);
-  }
-  #blog {
-    margin-top: 80px;
-    margin-bottom: 100px;
-  }
-  #blog #intro {
+
+  table {
     font-size: 14px;
-    font-style: italic;
-    line-height: 1.4em;
-    margin-bottom: 40px;
   }
-  #blog .quote {
-    margin-bottom: 30px;
+}
+
+
+@media screen and (max-width: 900px) and (min-width: 700px){
+  body {
+    margin: 0 7px;
+    padding-left: 13px;
   }
-  #blog .quote p {
-    margin-bottom: 5px;
+  .article .copy-button {
+    position: absolute;
+    opacity: 0;
+    margin-left: 77%;
   }
-  #blog .post-date {
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.7);
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 4px;
-    margin-bottom: 4px;
-  }
-  #blog .post-title {
-    display: inline-block;
-    font-weight: bold;
-    margin-bottom: 0;
-  }
-  #blog .post-title a {
-    font-size: 20px;
-    text-decoration: none;
-    color: black;
-    font-weight: 700;
-  }
-  #blog .post-title a:hover {
-    text-decoration: underline;
-  }
-  #blog .post-subtitle {
-    font-size: 16px;
-    margin-top: 0;
-    margin-bottom: 25px;
-    line-height: 1.5em;
-  }
-  #blog .year {
-    font-size: 18px;
-    position: relative;
-    right: 100px;
-    color: rgba(0, 0, 0, 0.5);
-    width: 100px;
-    margin-bottom: -24px;
-  }
-  #blog #y2017.year,
-  #blog #y2018.year {
-    margin-top: 0px;
-  }
-  hr {
-    border-top: #ccc;
-  }
-  @media screen and (max-width: 700px) {
-    body {
-      margin: 0 7px;
-      padding-left: 13px;
-    }
-    .article{
-      font-size: 16px; 
-    }
-    .article .copy-button {
-      position: absolute;
-      opacity: 0;
-      margin-left: 87%;
-    }
-  
-    table {
-      font-size: 14px;
-    }
-  }
-  
-  
-  @media screen and (max-width: 900px) and (min-width: 700px){
-    body {
-      margin: 0 7px;
-      padding-left: 13px;
-    }
-    .article .copy-button {
-      position: absolute;
-      opacity: 0;
-      margin-left: 77%;
-    }
-  }
-  
+}
