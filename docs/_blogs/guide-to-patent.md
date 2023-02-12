@@ -784,14 +784,14 @@ up one by one? The answer is again [Linked Open EP data](https://data.epo.org/li
          alt="Airbus patents distribution"
          style="width: 60%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> The IPC distribution of
+        <span class='caption-label'>Figure 5.</span> The IPC distribution of
         Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
         physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
         are assigned to multiple classes. 
     </div>
 </div>
 
-Figure 4 gives the IPC distribution of Airbus Defence (De)'s patents, which
+Figure 5 gives the IPC distribution of Airbus Defence (De)'s patents, which
 shows that the company has many patents in section B, H and G, which shows 
 the key components of aircraft industry in terms of manufacturing process. 
 
@@ -813,7 +813,7 @@ the key components of aircraft industry in terms of manufacturing process.
 </div>
 
 <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> The IPC distribution of
+        <span class='caption-label'>Figure 6.</span> The IPC distribution of
         Airbus Defence (DE)'s patents: sub-level classes; the table on the
         left shows the top 5 IPC class of all levels, whereas the figure
         on the right shows the distribution for the sub class. 
