@@ -8,7 +8,6 @@ published: true
 tags: probability  data-science machine-learning
 ---
 
-
 This post is to go through a review of probability concepts whenever you need it. 
 
 {% katexmm %}

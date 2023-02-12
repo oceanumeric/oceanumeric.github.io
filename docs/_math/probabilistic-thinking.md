@@ -8,15 +8,14 @@ published: true
 tags: probability algorithm data-science machine-learning
 ---
 
-
-This post is very long. Therefore, we need a roadmap to guide us.
-As it is shown in Figure 1, we will review some basic probability 
-theories and prove some of them, then we will learn how those basic 
+When I was studying probability theories, it was difficult for me
+to see its application in real life until we enter a new era with 
+all potential of machine learning and deep learning models. 
+This post is to explain how those basic 
 theories (especially those related to inequalities) could
-help us to build models for solving real world problems, such as
-algorithms for data science or machine learning models. Personally, I benefit
+help us for solving real world problems. Personally, I benefit
 a lot from those examples because it shows me what is probabilistic thinking
-and how power it is. 
+and how power it is. Much of the content of this post is based on Cameron Musco's course - [Algorithms for Data Science](https://people.cs.umass.edu/~cmusco/CS514F22/index.html){:target="_blank"}. 
 
 ## Probability review
 
