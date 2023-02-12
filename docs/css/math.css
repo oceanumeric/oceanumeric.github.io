@@ -203,12 +203,12 @@ table th {
 }
 
 .katex {
-  font-size: 19px !important;
+  font-size: 20px !important;
 }
 
 .article {
   font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.7em;
   color: rgba(0, 0, 0, 0.8);
   margin-top: 50px;
