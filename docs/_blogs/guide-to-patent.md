@@ -37,16 +37,22 @@ statistics in the following table.
 <span class="table-caption-label">Table 1.</span> What we can do with patent information {% cite kang2016patstat %}. 
 </div>
 
+
 | Analysis 	| Patent statistics 	| Purposes 	|
-|---	|---	|---	|
+|:---	|:---|:---	|
 | Citation analysis 	| Forward citations 	| Measure technological value 	|
 |  	| Backward citations 	| Find knowledge source 	|
-| Patent counts analysis 	| Patent counts 	| Observe patent portfolio 	|
-|  	| RTA (Revealed Technology Advance) PS (Patent Share) 	| Identify core technological competence 	|
+| Patent counts  	| Patent counts 	| Observe patent portfolio 	|
+|  analysis	| RTA (Revealed Technology Advance) 	| Identify core technological competence 	|
+| | PS (Patent Share) |  |
 | Technology class analysis 	| Generality 	| Measure endogenous applicability to different technological fields 	|
 |  	| Originality 	| Measure knowledge absorption from different technological fields 	|
-| Inventor analysis 	| Inventor counts 	| Measure invention quality Measure absorptive capability 	|
-|  	| Inventor 	| Identify specific inventors' info such as star engineers Follow mobility of R&D personnel 	|
+| Inventor analysis 	| Inventor counts 	| Measure invention quality  	|
+| | | Measure absorptive capability|
+|  	| Inventor 	| Identify specific inventors' info such as star engineers 	|
+| | | Follow mobility of R&D personnel | 
+
+
 
 In terms of discussed advantages and disadvantages of using PATSTAT data, they
 made a summary as follows:

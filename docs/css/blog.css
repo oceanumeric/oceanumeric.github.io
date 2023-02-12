@@ -133,12 +133,28 @@ table {
   border-top: 2px solid black;
   border-bottom: 1px solid black;
 }
+
+.table-wrapper {
+  overflow-x: scroll;
+  overflow: hidden;
+}
+
+.table-wrapper table {
+  white-space: nowrap;
+  max-width: fit-content;
+}
+
+.table-wrapper:hover { 
+  overflow-x: scroll;
+}
+
 table thead > tr > th {
   border-bottom: 1px solid black;
   padding: 0 8px;
 }
 table td {
   text-align: center;
+  vertical-align: top;
 }
 
 table th {
@@ -316,6 +332,10 @@ hr {
     position: absolute;
     opacity: 0;
     margin-left: 87%;
+  }
+
+  table {
+    font-size: 14px;
   }
 }
 

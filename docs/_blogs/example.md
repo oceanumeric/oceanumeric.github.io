@@ -127,7 +127,24 @@ cite another one {% cite vaswani2017attention %}
 | 14           | 14            | 363622722      | WO               | WO2012064218        |
 
 
+### Table over flow if you need it
 
+<div class="table-wrapper" markdown="block">
 
+| Analysis 	| Patent statistics 	| Purposes 	|
+|:---	|:---|:---	|
+| Citation analysis 	| Forward citations 	| Measure technological value 	|
+|  	| Backward citations 	| Find knowledge source 	|
+| Patent counts  analysis	| Patent counts 	| Observe patent portfolio 	|
+| 	| RTA (Revealed Technology Advance) 	| Identify core technological competence 	|
+| | PS (Patent Share) |  |
+| Technology class analysis 	| Generality 	| Measure endogenous applicability to different technological fields 	|
+|  	| Originality 	| Measure knowledge absorption from different technological fields 	|
+| Inventor analysis 	| Inventor counts 	| Measure invention quality  	|
+| | | Measure absorptive capability|
+|  	| Inventor 	| Identify specific inventors' info such as star engineers 	|
+| | | Follow mobility of R&D personnel | 
+
+</div>
 
 {% endkatexmm %}
