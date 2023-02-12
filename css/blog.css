@@ -1,10 +1,11 @@
 html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright',  "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Fira Sans", "Helvetica Neue", Arial, sans-serif;
   color: rgba(0, 0, 0, 0.8);
   line-height: 1.5em;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  font-weight: 400;
 }
 body {
   margin: 0;
@@ -23,8 +24,13 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright',  "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+h6 strong {
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+strong{
+  color: rgba(0, 0, 0, 1);
+  font-weight: 900 !important;
 }
 h1 {
   line-height: 1.2em;
@@ -69,7 +75,7 @@ h1 {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 .front-matter h4 {
-  font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright', "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 .front-matter .bylines .byline {
   margin-right: 20px;
@@ -78,7 +84,7 @@ h1 {
 .front-matter .bylines .byline h3,
 .front-matter .bylines .byline p {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright', "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 .front-matter .bylines .byline h3 {
   font-size: 9px;
@@ -91,7 +97,7 @@ h1 {
 }
 
 .front-matter .post-tags {
-  font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright', "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
   font-size: 13px;
   line-height: 1.6em;
   color: rgba(0, 0, 0, 0.5);
@@ -104,8 +110,8 @@ h1 {
 }
 
 .front-matter .post-tags a {
-  color: rgba(0, 0, 0, 0.7);
-  font-family: -apple-system, BlinkMacSystemFont, 'Lucida Bright', "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  color: rgba(0, 0, 0, 0.8);
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
   font-size: 12px;
   line-height: 1.6em;
   text-decoration: none;
@@ -121,7 +127,7 @@ h1 {
 }
 
 table {
-  font-size: 14px;
+  font-size: 16px;
   margin: 0 auto;
   border-collapse: collapse;
   border-top: 2px solid black;
@@ -134,6 +140,12 @@ table thead > tr > th {
 table td {
   text-align: center;
 }
+
+table th {
+  color: rgba(0, 0, 0, 1);
+  font-weight: 700;
+}
+
 
 .article .copy-button {
   position: absolute;
@@ -153,9 +165,10 @@ table td {
 .article {
   font-size: 20px;
   line-height: 1.7em;
-  color: rgba(0, 0, 0, 0.9);
+  color: rgba(0, 0, 0, 0.8);
   margin-top: 50px;
   margin-bottom: 50px;
+  font-weight: 400;
 }
 .article blockquote {
   margin: 0;
@@ -177,19 +190,22 @@ table td {
 .article .figure .caption {
   padding-top: 15px;
   display: inline-block;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.2em;
 }
 .article .figure .caption-label {
-  font-weight: bold;
+  font-weight: 900;
+  color:rgba(0, 0, 0, 1)
 }
 .article .table-caption {
   margin-top: -10px;
-  font-size: 13px;
+  font-size: 15px;
   text-align: center !important;
+  color: rgba(0, 0, 0, 1);
 }
 .article .table-caption-label {
-  font-weight: bold;
+  font-weight: 900;
+  color: rgba(0, 0, 0, 1);
 }
 .article .footnote {
   line-height: 0;
@@ -210,7 +226,7 @@ table td {
   width: 70px;
 }
 .katex{
-  font-size: 16px !important;
+  font-size: 18px !important;
   color: rgba(0, 0, 0, 0.9);;
 }
 
@@ -259,14 +275,16 @@ table td {
   margin-bottom: 0;
 }
 #blog .post-title a {
-  font-size: 18px;
+  font-size: 20px;
   text-decoration: none;
+  color: black;
+  font-weight: 700;
 }
 #blog .post-title a:hover {
   text-decoration: underline;
 }
 #blog .post-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   margin-top: 0;
   margin-bottom: 25px;
   line-height: 1.5em;
