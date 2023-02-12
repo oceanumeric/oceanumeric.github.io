@@ -776,8 +776,8 @@ up one by one? The answer is again [Linked Open EP data](https://data.epo.org/li
          alt="Airbus patents distribution"
          style="width: 60%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> Summary of granted
-        patents of Airbus Defence; the decline in recent years can be explained with the fact that the application and granting procedures may
-take several years before a patent is granted, similar to many other fields of technology.
+        <span class='caption-label'>Figure 4.</span> The IPC distribution of
+        Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
+        physics.
     </div>
 </div>
