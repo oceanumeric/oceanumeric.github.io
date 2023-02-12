@@ -40,8 +40,8 @@
 <meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Yet Another Guide to Working with EPO Patent Data" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want." />
-<meta property="og:description" content="The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want." />
+<meta name="description" content="The first question came to my mind was ‘where should I start ?’ when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want." />
+<meta property="og:description" content="The first question came to my mind was ‘where should I start ?’ when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want." />
 <link rel="canonical" href="https://oceanumeric.github.io//blogs/guide-to-patent" />
 <meta property="og:url" content="https://oceanumeric.github.io//blogs/guide-to-patent" />
 <meta property="og:type" content="article" />
@@ -49,7 +49,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Yet Another Guide to Working with EPO Patent Data" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-06T00:00:00+00:00","datePublished":"2023-02-06T00:00:00+00:00","description":"The first question came to my mind was “where should I start?” when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want.","headline":"Yet Another Guide to Working with EPO Patent Data","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blogs/guide-to-patent"},"url":"https://oceanumeric.github.io//blogs/guide-to-patent"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-06T00:00:00+00:00","datePublished":"2023-02-06T00:00:00+00:00","description":"The first question came to my mind was ‘where should I start ?’ when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want.","headline":"Yet Another Guide to Working with EPO Patent Data","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blogs/guide-to-patent"},"url":"https://oceanumeric.github.io//blogs/guide-to-patent"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -101,7 +101,7 @@
         </div>
     </div>
     <div class='wrap article'>
-        <p>The first question came to my mind was “<em>where should I start?</em>” when I
+        <p>The first question came to my mind was ‘where should I start ?’ when I
 wanted to do patent analytics for my research project. Like everyone, I
 ended up with Google or ChatGPT (if you got a chance to ask there). I found 
 out that the EPO Worldwide Patent Statistical Database (<a href="https://www.epo.org/searching-for-patents/business/patstat.html" target="_blank">PATSTAT</a>)
@@ -1473,8 +1473,58 @@ up one by one? The answer is again <a href="https://data.epo.org/linked-data/doc
     <div class="caption">
         <span class="caption-label">Figure 4.</span> The IPC distribution of
         Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
-        physics.
+        physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
+        are assigned to multiple classes. 
     </div>
+</div>
+
+<p>Figure 4 gives the IPC distribution of Airbus Defence (De)’s patents, which
+shows that the company has many patents in section B, H and G, which shows 
+the key components of aircraft industry in terms of manufacturing process.</p>
+
+<div class="table-figure-wrapper">
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: center">Top 5 IPC class</th>
+        <th style="text-align: center">Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">B29C70-38</td>
+        <td style="text-align: center">14</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">B29C70-54</td>
+        <td style="text-align: center">13</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">G08G5-00</td>
+        <td style="text-align: center">13</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">B64C39-02</td>
+        <td style="text-align: center">13</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">G05D1-00</td>
+        <td style="text-align: center">12</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sub-figure">
+    <img src="/images/blog/airbus_ipc_top.png" alt="Airbus patents distribution" style="width: 70%; display: block; margin: 0 auto;" />
+</div>
+
+  <div class="caption">
+        <span class="caption-label">Figure 4.</span> The IPC distribution of
+        Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
+        physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
+        are assigned to multiple classes. 
+</div>
 </div>
 <div class="footnotes" role="doc-endnotes">
   <ol>
