@@ -26,6 +26,8 @@ use it whenever you want.
     - [Read the dataset](#read-the-dataset)
     - [Search for granted patents](#search-for-granted-patents)
     - [Linked open EP data](#linked-open-ep-data)
+- [Measuring patent quality](#measuring-patent-quality)
+- [Understanding OECD citation database structure](#understanding-oecd-citation-database-structure)
 
 
 ## Knowing the data 
@@ -805,15 +807,34 @@ the key components of aircraft industry in terms of manufacturing process.
 | G05D1-00  |  12 |
 
 <div class='sub-figure'>
-    <img src="/images/blog/airbus_ipc_top.png"
+    <img src="/images/blog/airbus_ipc_sub.png"
          alt="Airbus patents distribution"
          style="width: 70%; display: block; margin: 0 auto;"/>
 </div>
 
 <div class='caption'>
         <span class='caption-label'>Figure 4.</span> The IPC distribution of
-        Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
-        physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
-        are assigned to multiple classes. 
+        Airbus Defence (DE)'s patents: sub-level classes; the table on the
+        left shows the top 5 IPC class of all levels, whereas the figure
+        on the right shows the distribution for the sub class. 
 </div>
-</div>
+
+Looking at those IPC classification labels, it is difficult for anyone 
+who is not a patent expert to apprehend the meaning of those labels. Even
+for a patent expert, she/he has to be domain expert to interpret those
+labels. For instance, the top IPC class is `B29c70-38`, which means 'Automated lay-up, e.g. using robots, laying filaments according to predetermined patterns'. 
+
+
+## Measuring patent quality 
+
+After knowing how to get patents for a company, we are now interested in
+measuring the quality of those patents. There are many indicators constructed by scholars to measure how 'innovative' or 'radical' or 'disruptive' {% cite squicciarini2013measuring funk2017dynamic %}. In this
+post, we will learn different measurement for patents in terms of
+technological and economic value {% cite squicciarini2013measuring %}.
+
+
+
+
+
+## Understanding OECD citation database structure 
+

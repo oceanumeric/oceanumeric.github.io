@@ -73,7 +73,8 @@ wish you can do
 ### Citations
 
 According to {% cite bishop2006pattern %}, machine learning ... You can
-cite another one {% cite vaswani2017attention %}
+cite another one {% cite vaswani2017attention %}. You can also do 
+inline citation, [Bishop (2006)](#bishop2006pattern) argues that ... 
 
 
 ### Figures
