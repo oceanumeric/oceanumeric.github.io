@@ -98,6 +98,7 @@ def get_top_ipc(ipc_list):
     
 
 if __name__ == "__main__":
+    print('Running from Terminal ------ ^_^ ')
     # -------- test key functions -------- 
     # pn = 'EP2837556'
     # purl = construct_url(pn)
@@ -109,3 +110,4 @@ if __name__ == "__main__":
     # airbus['ipc'] = airbus['Patent_number'].apply(lambda x: pn_to_pic(x))
     # airbus.to_csv('notebooks/patent/data/airbus_granted_ipc.csv', index=False)
     # ------------ generate summary statistics ------------
+    

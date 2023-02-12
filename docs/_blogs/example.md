@@ -127,6 +127,34 @@ cite another one {% cite vaswani2017attention %}
 | 14           | 14            | 363622722      | WO               | WO2012064218        |
 
 
+### Table and figure aligned
+
+
+<div class="table-figure-wrapper" markdown="block">
+
+| Top 5 IPC class   |   Count |
+|:----------:|:----:|
+| B29C70-38 |  14 |
+| B29C70-54 |  13 |
+| G08G5-00  |  13 |
+| B64C39-02 |  13 |
+| G05D1-00  |  12 |
+
+<div class='sub-figure'>
+    <img src="/images/blog/airbus_ipc_top.png"
+         alt="Airbus patents distribution"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+</div>
+
+<div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The IPC distribution of
+        Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
+        physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
+        are assigned to multiple classes. 
+</div>
+</div>
+
+
 ### Table over flow if you need it
 
 <div class="table-wrapper" markdown="block">

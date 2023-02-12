@@ -9,7 +9,7 @@ tags: patent patstat api python r
 ---
 
 
-The first question came to my mind was "_where should I start?_" when I
+The first question came to my mind was 'where should I start ?' when I
 wanted to do patent analytics for my research project. Like everyone, I
 ended up with Google or ChatGPT (if you got a chance to ask there). I found 
 out that the EPO Worldwide Patent Statistical Database ([PATSTAT](https://www.epo.org/searching-for-patents/business/patstat.html){:target="_blank"})
@@ -784,6 +784,36 @@ up one by one? The answer is again [Linked Open EP data](https://data.epo.org/li
     <div class='caption'>
         <span class='caption-label'>Figure 4.</span> The IPC distribution of
         Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
-        physics.
+        physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
+        are assigned to multiple classes. 
     </div>
+</div>
+
+Figure 4 gives the IPC distribution of Airbus Defence (De)'s patents, which
+shows that the company has many patents in section B, H and G, which shows 
+the key components of aircraft industry in terms of manufacturing process. 
+
+
+<div class="table-figure-wrapper" markdown="block">
+
+| Top 5 IPC class   |   Count |
+|:----------:|:----:|
+| B29C70-38 |  14 |
+| B29C70-54 |  13 |
+| G08G5-00  |  13 |
+| B64C39-02 |  13 |
+| G05D1-00  |  12 |
+
+<div class='sub-figure'>
+    <img src="/images/blog/airbus_ipc_top.png"
+         alt="Airbus patents distribution"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+</div>
+
+<div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The IPC distribution of
+        Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
+        physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
+        are assigned to multiple classes. 
+</div>
 </div>

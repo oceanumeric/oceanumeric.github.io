@@ -24,8 +24,8 @@ h2,
 h3,
 h4,
 h5,
-h6 strong {
-  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+h6 {
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 strong{
@@ -160,6 +160,37 @@ table td {
 table th {
   color: rgba(0, 0, 0, 1);
   font-weight: 700;
+}
+
+.table-figure-wrapper {
+  display: inline-block;
+  width: 100%;
+  max-width: fit-content;
+  border-top: 1px solid hsla(0, 0%, 0%, 0.2);
+  border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
+  padding: 20px 0;
+}
+
+.table-figure-wrapper table {
+  float: left;
+  width: fit-content;
+  font-size: 14px;
+  border-top: 1.5px;  /* no color hide top rule */
+}
+
+.table-figure-wrapper .sub-figure {
+  float: auto;
+}
+
+.table-figure-wrapper .caption {
+  padding-top: 15px;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 1.2em;
+}
+.table-figure-wrapper .caption-label {
+  font-weight: 900;
+  color:rgba(0, 0, 0, 1)
 }
 
 
