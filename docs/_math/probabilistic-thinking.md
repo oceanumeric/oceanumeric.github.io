@@ -251,9 +251,85 @@ $$
 \end{aligned}
 $$
 
+__Variance of the sum of two random variables.__ The variance of the sum of two random
+ variables equals the sum of the variances of those random variables, 
+ plus two times their covariance:
+
+ $$\mathrm{Var}(X+Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \, \mathrm{Cov}(X,Y)$$
+
+Using the linearity of expectation we can prove:
+
+$$
+\begin{aligned}
+\mathrm{Var}(X+Y) &= \mathrm{E}\left[ ((X+Y)-\mathrm{E}(X+Y))^2 \right] \\
+&= \mathrm{E}\left[ ([X-\mathrm{E}(X)] + [Y-\mathrm{E}(Y)])^2 \right] \\
+&= \mathrm{E}\left[ (X-\mathrm{E}(X))^2 + (Y-\mathrm{E}(Y))^2 + 2 \, (X-\mathrm{E}(X)) (Y-\mathrm{E}(Y)) \right] \\
+&= \mathrm{E}\left[ (X-\mathrm{E}(X))^2 \right] + \mathrm{E}\left[ (Y-\mathrm{E}(Y))^2 \right] + \mathrm{E}\left[ 2 \, (X-\mathrm{E}(X)) (Y-\mathrm{E}(Y)) \right] \\
+&= \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \, \mathrm{Cov}(X,Y) 
+\end{aligned}
+$$
+
+__Variance of the sum of multiple random variables.__ For random variables $X_i$
+we have:
+
+$$\text{Var}\left(\sum_{i=1}^{n}X_{i}\right)=\sum_{i=1}^{n}\sum_{j=1}^{n}\text{Cov}\left(X_{i},X_{j}\right)$$
 
 
+Using the decomposition formula of variance, we have
 
+$${\rm Var} \left( \sum_{i=1}^{n} X_i \right) = E \left( \left[ \sum_{i=1}^{n} X_i \right]^2 \right) - \left[ E\left( \sum_{i=1}^{n} X_i \right) \right]^2$$
+
+Now note that $(\sum_{i=1}^{n} a_i)^2 = \sum_{i=1}^{n} \sum_{j=1}^{n} a_i a_j$, 
+which is clear if you think about what you're doing when you calculate 
+
+$$(a_1+...+a_n) \cdot (a_1+...+a_n),$$
+
+by hand. Therefore,
+
+$$E \left( \left[ \sum_{i=1}^{n} X_i \right]^2 \right) = E \left( \sum_{i=1}^{n} \sum_{j=1}^{n} X_i X_j \right) = \sum_{i=1}^{n} \sum_{j=1}^{n} E(X_i X_j)$$
+
+similarly,
+
+$$\left[ E\left( \sum_{i=1}^{n} X_i \right) \right]^2 = \left[ \sum_{i=1}^{n} E(X_i) \right]^2 = \sum_{i=1}^{n} \sum_{j=1}^{n} E(X_i) E(X_j)
+$$
+
+So,
+
+$$
+\begin{aligned}
+{\rm Var} \left( \sum_{i=1}^{n} X_i \right) & = \sum_{i=1}^{n} \sum_{j=1}^{n} \big( E(X_i X_j)-E(X_i) E(X_j) \big) \\ 
+& = \sum_{i=1}^{n} \sum_{j=1}^{n} {\rm cov}(X_i, X_j)
+\end{aligned}
+$$
+
+
+__Pairwise independence.__ In general:
+
+$$\text{Var}\left(\sum_{i=1}^{n}X_{i}\right)=\sum_{i=1}^{n}\sum_{j=1}^{n}\text{Cov}\left(X_{i},X_{j}\right)$$
+
+If $X_i$ and $X_j$ are independent then $\mathbb{E}X_{i}X_{j}=\mathbb{E}X_{i}\mathbb{E}X_{j}$
+and consequently
+
+$$
+\text{Cov}\left(X_{i},X_{j}\right):=\mathbb{E}X_{i}X_{j}-\mathbb{E}X_{i}\mathbb{E}X_{j}=0
+$$
+
+This leads to:
+
+$$\text{Var}\left(\sum_{i=1}^{n}X_{i}\right)=\sum_{i=1}^{n}\text{Var}X_{i}
+$$
+
+_Binomial distribution._ In probability theory and statistics, the binomial distribution with parameters 
+$n$ and $p$ is the discrete probability distribution of the number of successes 
+in a sequence of n independent experiments, each asking a yes–no question, 
+and each with its own Boolean-valued outcome: success (with probability $p$) or 
+failure (with probability $q = 1-p$). 
+
+The probability of getting exactly $k$ successes in $n$ independent 
+Bernoulli trials is given by the probability mass function:
+
+
+$$f(k, n, p) = \binom{n}{k} p^k (1-p)^{n-k}$$
 
 
 
