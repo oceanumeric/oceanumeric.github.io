@@ -122,6 +122,8 @@ use it whenever you want.</p>
       <li><a href="#linked-open-ep-data">Linked open EP data</a></li>
     </ul>
   </li>
+  <li><a href="#measuring-patent-quality">Measuring patent quality</a></li>
+  <li><a href="#understanding-oecd-citation-database-structure">Understanding OECD citation database structure</a></li>
 </ul>
 
 <h2 id="knowing-the-data">Knowing the data</h2>
@@ -1516,15 +1518,30 @@ the key components of aircraft industry in terms of manufacturing process.</p>
   </table>
 
   <div class="sub-figure">
-    <img src="/images/blog/airbus_ipc_top.png" alt="Airbus patents distribution" style="width: 70%; display: block; margin: 0 auto;" />
+    <img src="/images/blog/airbus_ipc_sub.png" alt="Airbus patents distribution" style="width: 70%; display: block; margin: 0 auto;" />
 </div>
 
   <div class="caption">
         <span class="caption-label">Figure 4.</span> The IPC distribution of
-        Airbus Defence (DE)'s patents; section B is about performing operations and transport; section H is electricity; section G is about
-        physics. <i>Remark</i> : the total number of granted patents is 538 but the count of total IPC classes is 1763, which means some patents 
-        are assigned to multiple classes. 
+        Airbus Defence (DE)'s patents: sub-level classes; the table on the
+        left shows the top 5 IPC class of all levels, whereas the figure
+        on the right shows the distribution for the sub class. 
 </div>
+
+  <p>Looking at those IPC classification labels, it is difficult for anyone 
+who is not a patent expert to apprehend the meaning of those labels. Even
+for a patent expert, she/he has to be domain expert to interpret those
+labels. For instance, the top IPC class is <code class="language-plaintext highlighter-rouge">B29c70-38</code>, which means ‘Automated lay-up, e.g. using robots, laying filaments according to predetermined patterns’.</p>
+
+  <h2 id="measuring-patent-quality">Measuring patent quality</h2>
+
+  <p>After knowing how to get patents for a company, we are now interested in
+measuring the quality of those patents. There are many indicators constructed by scholars to measure how ‘innovative’ or ‘radical’ or ‘disruptive’ <a class="citation" href="#squicciarini2013measuring">(Squicciarini et al., 2013; Funk &amp; Owen-Smith, 2017)</a>. In this
+post, we will learn different measurement for patents in terms of
+technological and economic value <a class="citation" href="#squicciarini2013measuring">(Squicciarini et al., 2013)</a>.</p>
+
+  <h2 id="understanding-oecd-citation-database-structure">Understanding OECD citation database structure</h2>
+
 </div>
 <div class="footnotes" role="doc-endnotes">
   <ol>
@@ -1547,7 +1564,9 @@ the key components of aircraft industry in terms of manufacturing process.</p>
     <div id='bibliography'>
         <div class='wrap'>
             <ol class="bibliography"><li><span id="de2014introduction">De Rassenfosse, G., Dernis, H., &amp; Boedt, G. (2014). An introduction to the Patstat database with example queries. <i>Australian Economic Review</i>, <i>47</i>(3), 395–408.</span></li>
+<li><span id="funk2017dynamic">Funk, R. J., &amp; Owen-Smith, J. (2017). A dynamic network measure of technological change. <i>Management Science</i>, <i>63</i>(3), 791–817.</span></li>
 <li><span id="kang2016patstat">Kang, B., &amp; Tarasconi, G. (2016). PATSTAT revisited: Suggestions for better usage. <i>World Patent Information</i>, <i>46</i>, 56–63.</span></li>
+<li><span id="squicciarini2013measuring">Squicciarini, M., Dernis, H., &amp; Criscuolo, C. (2013). <i>Measuring patent quality: Indicators of technological and economic value</i>.</span></li>
 <li><span id="webb2005analysing">Webb, C., Dernis, H., Harhoff, D., &amp; Hoisl, K. (2005). <i>Analysing European and international patent citations: A set of EPO patent database building blocks</i>.</span></li></ol>
         </div>
     </div>
