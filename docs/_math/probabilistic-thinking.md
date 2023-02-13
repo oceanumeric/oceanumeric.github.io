@@ -15,7 +15,7 @@ This post is to explain how those basic
 theories (especially those related to inequalities) could
 help us for solving real world problems. Personally, I benefit
 a lot from those examples because it shows me what is probabilistic thinking
-and how powerful it is. Much of the content of this post is based on Cameron Musco's course - [Algorithms for Data Science](https://people.cs.umass.edu/~cmusco/CS514F22/index.html){:target="_blank"}. If you want to review your knowledge about probability theory, you can 
+and how powerful it is. Much of the content of this post is based on Cameron Musco's course - [Algorithms for Data Science](https://people.cs.umass.edu/~cmusco/CS514F22/index.html){:target="_blank"} {% cite musco2022 %} . If you want to review your knowledge about probability theory, you can 
 check my post - [Probability Review](https://oceanumeric.github.io/math/probability-review){:target="_blank"}. However, I suggest you read them only when this post refers to it as it is more efficient and 
 much easier to understand with the context. 
 
@@ -139,11 +139,49 @@ $$
 
 With the formula (5), we can measure how confident we are when it comes to the decision that whether the service provider has a large number of
 CAPTCHAS in database. As it is shown in Figure 3, The probability of
-having $10$ duplicate pairs with $m=1000$ is lower than 
+having $10$ duplicate pairs with $m=1000$ is $0.04995$, which is around 5%. Therefore, we can state that we are '95%' right when we
+reject the service provider's claim that their database is of size $n=1,000,000$. 
 
 
+## Example 2: hash tables 
 
+The hash function $h: U \to [n]$ maps the elements of universe or population to 
+indices $1, \cdots, n$ of an array. The data structure `dict` from `Python` is built on hash tables as this kind of map makes it easy to extract information. 
 
+For a big dataset of $|U| >> n$, we need to reply on probability to
+map elements from universe to the array as the it is economically efficient. For instance, big firms like Google or Facebook are always trying to use less servers or database to serve
+their customs. In this case the population size is much larger than  the number of servers or database.  
+
+<div class='figure'>
+    <img src="/math/images/ip_hash_table.png"
+         alt="A demo figure"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Illustration of hash table for IP addresses, figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
+    </div>
+</div>
+
+As we have explained that it costs a lot to have an index for 
+each element shown in Figure 4. To use less indexes in our
+hash table, we need to find a way to avoid collisions. 
+
+Now, we store $m$ items from a large universe in a hash table with
+$n$ positions. When we insert $m$ items into the hash table we may
+have to store multiple items in the same location (typically as a
+linked list).
+
+Let's frame our problem as a probabilistic one:
+
+- $m$: total number of stored items (sample size)
+- $n$: hash table size (population size)
+- $x_i, x_j$: any pair of store items chosen randomly
+- $C$: total pairwise collisions
+- $h$: random hash table function 
+
+_Remark:_ 
+
+In example 1, the population size $n=1,000,000$ is fixed, whereas the sample size $m$ is updated dynamically every time we 
+draw a sample; however, for example 2, the hash 
 
 
 
