@@ -53,14 +53,14 @@ $$
 Then we can have 
 
 $$
-E [D] = \sum_{i, j \in [m], i < j} E [D_{i, j}] \tag{2}
+\mathbb{E} [D] = \sum_{i, j \in [m], i < j} \mathbb{E}  [D_{i, j}] \tag{2}
 $$
 
 
 For any pair $i, j \in [m], i < j $, we have: 
 
 $$
-E [D_{i, j}] = P(D_{i, j} = 1) = \frac{1}{n} \tag{3}
+\mathbb{E}  [D_{i, j}] = P(D_{i, j} = 1) = \frac{1}{n} \tag{3}
 $$
 
 because $i, j$ were drawn _independently with replacement_. 
@@ -68,7 +68,7 @@ because $i, j$ were drawn _independently with replacement_.
 This gives us 
 
 $$
-\mathrm{E} [D] = \sum_{i, j \in [m], i < j} \mathrm{E} [D_{i, j}]= \binom{m}{2} \frac{1}{n} = \frac{m(m-1)}{2n}  \tag{4}
+\mathbb{E}  [D] = \sum_{i, j \in [m], i < j} \mathbb{E}  [D_{i, j}]= \binom{m}{2} \frac{1}{n} = \frac{m(m-1)}{2n}  \tag{4}
 $$
 
 For the set $m$ elements, we choose any two from it, say $i, j$, there must be a case which either $i < j$ or $j < i$. Therefore, $\sum_{i, j \in [m], i < j}$ gives the combination of $\binom{m}{2}$. 
@@ -80,7 +80,7 @@ year, how many pairwise duplicate birthdays do we expect there are?
 According to the formula (4), it should be 
 
 $$
-E[D] = \binom{m}{2} \frac{1}{n} = \frac{m!}{2! (m-2)!} \frac{1}{n} = \frac{130 \times (130 -1)}{2} \frac{1}{365} 
+\mathbb{E} [D] = \binom{m}{2} \frac{1}{n} = \frac{m!}{2! (m-2)!} \frac{1}{n} = \frac{130 \times (130 -1)}{2} \frac{1}{365} 
 $$
 
 
@@ -115,14 +115,14 @@ If $X$ is a nonnegative random variable and $a > 0$, then the probability
 that $X$ is at least $a$ is at most the expectation of $X$ divided by $a$ 
 
 $$
-\mathbb{P}(X \geq a) \leq \frac{ \mathrm{E} [X]}{a} \tag{5}
+\mathbb{P}(X \geq a) \leq \frac{ \mathbb{E}  [X]}{a} \tag{5}
 $$
 
 It is easy to prove this. For a discrete random variable, we have
 
 $$
 \begin{aligned}
-\mathrm{E}[X] = \sum \mathbb{P}(X = x) \cdot x & \geq \sum_{x \geq a} \mathbb{P}(X = x) \cdot s \\
+\mathbb{E} [X] = \sum \mathbb{P}(X = x) \cdot x & \geq \sum_{x \geq a} \mathbb{P}(X = x) \cdot s \\
 & \geq \sum_{x \geq a} \mathbb{P}(X = x) \cdot a \\ 
 & = a \cdot \mathbb{P}(X \geq a)
 \end{aligned}
@@ -237,12 +237,46 @@ methods: deterministic and stochastic one.
          alt="A demo figure"
          style="width: 90%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> Plot of Markov's inequality with $n=1,000,000$ and a fixed sample size $m=1000$.
+        <span class='caption-label'>Figure 4.</span> Plot of two different kinds of counting algorithms: notice the deterministic one gives the same results, whereas the 
+        stochastic one has the different path (comparing left and right panel). 
     </div>
 </div>
 
+As it is shown in Figure 4, every time when we run Morris' approximate counting, the result is 
+different as it depends on the value of $r$. However we can show 
+that the _expectation _of the approximation is $n$: 
 
+$$
+\begin{aligned}
+\hat{\theta}_n & = 2^{X_n} -1  \\ 
+\mathbb{E} [\hat{\theta}_n] & = n
+\end{aligned}
+$$
 
+For the base case when $n = 0$, we have $ \mathbb{E} [2^{X_0} - 1] = 0$. 
+
+Now, we will prove the above expectation by induction. With the condition that
+base case is true, assume that 
+
+$$\mathbb{E} [\hat{\theta}_n] = n$$
+
+Then 
+
+$$
+\begin{aligned}
+\mathbb{E}\left[\hat{\theta}_{n+1}\right] & \triangleq \mathbb{E}\left[2^{X_{n+1}}-1\right] \\
+& =\sum_{i=1}^{\infty} \mathbb{P}\left(X_n=i\right) \mathbb{E}\left[2^{X_{n+1}} \mid X_n=i\right]-1 \\
+& =\sum_{i=1}^{\infty} \mathbb{P}\left(X_n=i\right)[\underbrace{\frac{1}{2^j} \cdot 2^{j+1}}_{\text {increment }}+\underbrace{\left(1-\frac{1}{2^j}\right) \cdot 2^j}_{\text {no change }}]-1 \\
+& =\sum_{i=1}^{\infty} \mathbb{P}\left(X_n=i\right)\left(2^j+1\right)-1 \\
+& =\sum_{i=1}^{\infty} \mathbb{P}\left(X_n=i\right) 2^j+\sum_{i=1}^{\infty} \mathbb{P}\left(X_n=i\right)-1 \\
+& =\mathbb{E}\left[2^{X_n}\right] \\
+& =n+1 .
+\end{aligned}
+$$
+
+Although Morris' algorithm could deviate a lot from the true value, the 
+expectation is still equal to the true value. The deterministic one has 
+a constant deviation but the error is accumulated for sure and we might end up with over counting or under counting when $n$ grows very large. 
 
 
 
@@ -254,6 +288,23 @@ This section assumes readers know what hash table is. If not, just check out
 The hash function $h: U \to [n]$ maps the elements of universe or population to 
 indices $1, \cdots, n$ of an array. The data structure `dict` from `Python` is built on hash tables as this kind of map makes it easy to extract information. 
 
+<div class='figure'>
+    <img src="/math/images/hash_table_dict.png"
+         alt="A demo figure"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> Illustration of hash table for dict structure of Python. 
+    </div>
+</div>
+
+Why could not use array to build the dictionary, one array for keys and one array for values and both arrays are mapped with the same index. If we implement this idea, then we need to figure out a way of extracting the 
+value based on the key, say `dict_foo["B"]`. If all keys are numbers, then
+dictionary is equivalent to array. However, very often keys are strings. How
+could achieve $O(1)$ performance for finding `dict_foo["B"]`? A hash table 
+could do that by mapping keys into the indexes of an array ([for further explanation](./pdf/lecture4_hashing.pdf){:target="_blank"}). 
+
+A hashing function could be either deterministic one (`Python` implemented it) or stochastic one. We will focus on the stochastic one. 
+
 For a big dataset of $|U| >> n$, we need to reply on probability to
 map elements from universe to the array as the it is economically efficient. For instance, big firms like Google or Facebook are always trying to use less servers or database to serve
 their customs. In this case the population size is much larger than  the number of servers or database.  
@@ -263,13 +314,16 @@ their customs. In this case the population size is much larger than  the number 
          alt="A demo figure"
          style="width: 60%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> Illustration of hash table for IP addresses, figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
+        <span class='caption-label'>Figure 6.</span> Illustration of hash table for IP addresses, figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
     </div>
 </div>
 
 As we have explained that it costs a lot to have an index for 
-each element shown in Figure 4. To use less indexes in our
+each element shown in Figure 6. To use less indexes in our
 hash table, we need to find a way to avoid collisions. 
+
+_Remark:_ the application of hashing in data science and data structure like `dict` is slightly different. For building a data structure like `dict`,
+the focus is on achieving $O(1)$ performance of finding the value based on the key, whereas for managing a large number of visiting to server the focus is more on mapping between $m$ and $n$ dynamically.  
 
 Now, we store $m$ items from a large universe in a hash table with
 $n$ positions. When we insert $m$ items into the hash table we may
@@ -294,14 +348,14 @@ collision
 
 
 $$
-\mathrm{E} [C] = \sum_{i, j \in [m], i < j} \mathrm{E} [C_{i, j}]= \binom{m}{2} \frac{1}{n} = \frac{m(m-1)}{2n}  \tag{6}
+\mathbb{E}  [C] = \sum_{i, j \in [m], i < j} \mathbb{E}  [C_{i, j}]= \binom{m}{2} \frac{1}{n} = \frac{m(m-1)}{2n}  \tag{6}
 $$
 
 For $n = 4m^2$ (size of hashing table is much larger than the sample
 size), we have 
 
 $$
-E[C] = \frac{m(m-1)}{8m^2} < \frac{m^2}{8m^2} = \frac{1}{8} \tag{7}
+\mathbb{E} [C] = \frac{m(m-1)}{8m^2} < \frac{m^2}{8m^2} = \frac{1}{8} \tag{7}
 $$
 
 This means we could have the collision-free hash table if the hash
@@ -313,8 +367,8 @@ Let's apply Markov's inequality in this case, we can have
 
 $$
 \begin{aligned}
-P(C \geq 1) \leq \frac{E(C)}{1} = \frac{1}{8} \\ 
-P(C = 0) = 1 - P(C \geq 1) = \frac{7}{8} \tag{8}
+\mathbb{P} (C \geq 1) \leq \frac{\mathbb{E} (C)}{1} = \frac{1}{8} \\ 
+\mathbb{P}(C = 0) = 1 - \mathbb{P} (C \geq 1) = \frac{7}{8} \tag{8}
 \end{aligned}
 $$
 
@@ -327,7 +381,7 @@ $O(m)$ space, we can do two level hashing as shown in Figure 5.
          alt="A demo figure"
          style="width: 80%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 5.</span> Illustration of two level hashing; figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
+        <span class='caption-label'>Figure 7.</span> Illustration of two level hashing; figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
     </div>
 </div>
 
@@ -347,22 +401,90 @@ What is the expected _space usage_ for two level hashing? It is quite straightfo
 to calculating the total space usage.
 
 $$
-E[S] = n + \sum_{i=1}^n E[s_i^2] \tag{9}
+\mathbb{E} [S] = n + \sum_{i=1}^n \mathbb{E} [s_i^2] \tag{9}
 $$
 
-Before we calculating $E[s_i^2]$, let's go through two scenario (as always, we 
+Before we calculating $\mathbb{E} [s_i^2]$, let's go through two scenario (as always, we 
 assumed $m > > n$):
 
 - determined path: for $m$ items, we assign $n$ of them into our hashing table
-and then we assign $m-n$ elements into the second level linked list
+and then we assign $(m-n)$ elements into the second level linked list
+- stochastic path: every item was assign to a cell randomly and we will use an indicator function to _track_ them. 
+    - we don't know which element will be assigned into the container $s_i$ ($i$ is the index of position)
+    - but we could use an indicator function to track them 
+
+$$
+\mathbb{I}_{\{s_i\}}[h(x_j)] := \begin{cases}  1 & h(x_j) = i \\
+0 & h(x_j) \neq i
+\end{cases}
+$$
  
 
+Therefore, we could have 
+
+$$
+\mathbb{E}[s_i^2] = \mathbb{E} \left [ \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right )^2 \right] \tag{10}
+$$
+
+Equation (10) is saying that we sum up all possible elements assigned into
+$s_i$ for element $x_j, j \in [m]$. Now, let's expand the equation 10,
+
+$$
+\begin{aligned}
+\mathbb{E}[s_i^2] & = \mathbb{E} \left [ \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right )^2 \right]  \\
+& = \mathbb{E} \left [ \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right ) \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right ) \right] \\ 
+& = \mathbb{E} \left[ \sum_{j, k \in [m]}  \mathbb{I}_{h(x_j)=i}  \cdot \mathbb{I}_{h(x_k)=i} \right ]  \\
+& = \sum_{j, k \in [m]} \mathbb{E} \ \Bigl[\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Bigr] \tag{11} 
+\end{aligned}
+$$
+
+The second step of equation (11) is derived because many values of indicator
+function are zeros and the last step is derived due to the linearity of expectation. 
+
+With equation (11), we need to calculate the expectation
+
+$$\sum_{j, k \in [m]} \mathbb{E} \ \Bigl [\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Bigr ] $$
+
+We will do this by calculating two cases:
+- $ j = k$
+- $j \neq k$ 
+
+For $j=k$, the derivation is simple 
+
+$$
+\mathbb{E} \ \Biggl [\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Biggr] = \mathbb{E} \left[ \left (\mathbb{I}_{h(x_j)=i} \right)^2 \right] = \mathbb{P}[(h(x_j) = i)] = \frac{1}{n}
+$$
+
+For $j \neq k$, we have 
 
 
+$$
+\mathbb{E} \ \Biggl [\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Biggr] = \mathbb{P}[(h(x_j) = i) \cap h(x_k) = i] = \frac{1}{n^2}  
+$$
 
+Therefore, according to the linearity of expectation, we have
 
+$$
+\begin{aligned}
+\mathbb{E}[s_i^2] & = \sum_{j, k \in [m]} \mathbb{E} \ \Bigl[\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Bigr] \\
+& = m \cdot \frac{1}{n} + 2 \cdot \binom{m}{2} \frac{1}{n^2} \\
+& = \frac{m}{n} + \frac{m(m-1)}{n^2} \tag{12}
+\end{aligned}
+$$
 
+When we set $n = m$ in equation (12), we can get
 
+$$
+\mathbb{E}[s_i^2] = \frac{m}{n} + \frac{m(m-1)}{n^2} < 2  \tag{13}
+$$
+
+Now, with this bound, we can substitute the equation (13) into equation (9) and have our final result,
+
+$$
+\mathbb{E} [S] = n + \sum_{i=1}^n \mathbb{E} [s_i^2] \leq n + \sum_{i=1}^n 2 = 3n = 3m \tag{14}
+$$
+
+This means we achieved a near optimal space with $O(1)$ query time! 
 
 
 {% endkatexmm %}
