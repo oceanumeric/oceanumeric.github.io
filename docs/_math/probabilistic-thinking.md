@@ -83,28 +83,73 @@ $$
 E[D] = \binom{m}{2} \frac{1}{n} = \frac{m!}{2! (m-2)!} \frac{1}{n} = \frac{130 \times (130 -1)}{2} \frac{1}{365} 
 $$
 
-```python
-def birthday(m:int) -> int:
-    """
-    Calculate the number of pairs having duplicate birthdays
-    """
-    return int(m * (m-1) / (2 * 365))
-```
-
 
 <div class='figure'>
     <img src="/math/images/birthday.png"
          alt="A demo figure"
          style="width: 60%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 1.</span> Diagram of rejection sampling. The 
-        density $q(\mathbf{z})$ must be always greater than $p(\mathbf{x})$. A new sample 
-        is rejected if it falls in the gray region and accepted otherwise. These accepted 
-        samples are distributed according to $p(\mathbf{x})$. This is achieved by sampling 
-        $z_i$ from $q(\mathbf{z})$, and then sampling uniformly from $[0, k q(z_i)]$. 
-        Samples under the curve $p(z_i)$ are accepted.
+        <span class='caption-label'>Figure 1.</span> Plot of number of pairs having the same birthday
+        based on the population size; notice that the trend grows 'exponentially'. 
     </div>
 </div>
+
+Now, we will plot the similar graph for our CAPTCHAS checking problem. As it is shown in Figure 2, we are not expected to see many duplicates when we draw a sample randomly with the size of 2000. 
+
+<div class='figure'>
+    <img src="/math/images/captcha.png"
+         alt="A demo figure"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Plot of expected number of duplicates for different sample size with $n=1,000,000$.
+    </div>
+</div>
+
+With $m = 1000$, if you see __10 pairwise duplicates__ and then you 
+can suspect that something is up. But __how confident__ can you be
+in your test?
+
+###  Markov's Inequality
+
+If $X$ is a nonnegative random variable and $a > 0$, then the probability 
+that $X$ is at least $a$ is at most the expectation of $X$ divided by $a$ 
+
+$$
+\mathbb{P}(X \geq a) \leq \frac{ \mathrm{E} [X]}{a} \tag{5}
+$$
+
+It is easy to prove this. For a discrete random variable, we have
+
+$$
+\begin{aligned}
+\mathrm{E}[X] = \sum \mathbb{P}(X = x) \cdot x & \geq \sum_{x \geq a} \mathbb{P}(X = x) \cdot s \\
+& \geq \sum_{x \geq a} \mathbb{P}(X = x) \cdot a \\ 
+& = a \cdot \mathbb{P}(X \geq a)
+\end{aligned}
+$$
+
+<div class='figure'>
+    <img src="/math/images/markov_prob.png"
+         alt="A demo figure"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Plot of Markov's inequality with $n=1,000,000$ and a fixed sample size $m=1000$.
+    </div>
+</div>
+
+With the formula (5), we can measure how confident we are when it comes to the decision that whether the service provider has a large number of
+CAPTCHAS in database. As it is shown in Figure 3, The probability of
+having $10$ duplicate pairs with $m=1000$ is lower than 
+
+
+
+
+
+
+
+
+
+
 
 
 
