@@ -3,7 +3,7 @@ title: Develop Some Fluency in Probabilistic Thinking
 subtitle: The foundation of machine learning and data science is probability theory. In this post, we will develop some fluency in probabilistic thinking with different examples, which prepare data scientists well for the sexist job of the 21st century. 
 layout: math_page_template
 date: 2023-02-12
-keywords: probabilistic-thinking mathematics algorithms Concentration Bounds Markov's inequality Chebyshev's inequality 
+keywords: probabilistic-thinking mathematics algorithms Concentration Bounds Markov's inequality Chebyshev's inequality approximate counting Robert Morris hash table 
 published: true
 tags: probability algorithm data-science machine-learning
 ---
@@ -142,8 +142,114 @@ CAPTCHAS in database. As it is shown in Figure 3, The probability of
 having $10$ duplicate pairs with $m=1000$ is $0.04995$, which is around 5%. Therefore, we can state that we are '95%' right when we
 reject the service provider's claim that their database is of size $n=1,000,000$. 
 
+## Example 2: approximate counting 
 
-## Example 2: hash tables 
+We are using this example to explain the difference between deterministic models
+and stochastic models, which is relevant for the example 3 in the coming 
+section. This section is also connected with deterministic and stochastic
+optimization problems. 
+
+Approximate Counting algorithms are techniques that allow us to count a large number 
+of events using a very small amount of memory. It was invented by 
+Robert Morris in 1977 and was published through his paper 
+[Counting large number of events in small registers](https://www.inf.ed.ac.uk/teaching/courses/exc/reading/morris.pdf){:target="_blank"}. The algorithm uses probabilistic 
+techniques to increment the counter, although it does not guarantee the 
+exactness it does provide a fairly good estimate of the true value while 
+inducing a minimal and yet fairly constant relative error. 
+
+Here is the problem:
+- we need to counter a large number, say $1,000,000$
+- however, our register is only 8-bits, which means $2^8 = 256$
+- how could count this large number of events and store the value?
+
+The idea is very simple: instead of counting one by one, we could count 1 after
+10 times of even or $\log_2(1+n)$. This means we will have a function to 
+map $n$ to $X_n$ like the following one:
+
+$$
+X_n = \log_2(1 + n)
+$$ 
+
+The tradeoff is to lose accuracy to count a large number :
+
+- $\log_2(1+0) = 0$, we start from 0 
+- $\log_2(1+100) = 6.64$, we may count it as 6 or 7
+- $\log_2(1+120) = 6.91$, we may still count it as 6 or 7 
+- $\log_2(1+130) = 7.02$, we may now count it as 7
+
+Therefore the accuracy rate of the above algorithm depends on how we round
+our errors. We could design a rule as follows:
+
+- round up if value of the first decimal digit is greater or equal than $5$
+- round down otherwise
+
+This kind of algorithm is called deterministic as the rule is determined pre-running and the error was also introduced deterministically. However, we
+could also introduce the error stochastically as a random variable following 
+some distribution. 
+
+Now, again the value $X_n$ stored in a counter is
+
+$$
+X_n = \log_2(1 + n)
+$$ 
+
+where $n$ is the number of events that have occurred so far. The plus one
+is to make sure that $n = 0 \equiv X_n = 0$. At any given time, our best
+estimate of $n$ is 
+
+$$\hat{\theta}_n = 2^{X_n} -1 $$
+
+$\hat{\theta}_n$ is the estimation. For the next event, we have  
+
+$$\hat{\theta}_n +1 = 2^{X_n} $$
+
+Suppose in the midst of counting, we have the value $X_n$ stored in 
+the register. Whenever we get another event, we attempt to 
+modify the contents of the register in the most _appropriate_ way. The question
+is: _how could we modify the contents of the register in the most appropriate way_ ?
+
+To increment the counter, we compute
+
+$$X_{n+1} = \log_2(1 + 2^{X_n})$$
+
+However, values we calculated or mapped are not integer anyway. If we round 
+the value, we might accumulate errors in our approximation. Instead, what we
+can do is the following (by replying on probability). 
+
+First, initialize $X_0 = 0$. Next, for $n > 0$, compute
+
+$$p = \frac{1}{2^X}, \quad r \sim \text{Uniform}(0, 1)$$
+
+Then the value of $X_{n+1}$ is
+
+$$
+X_{n+1} = \begin{cases}
+X_n + 1 & \text{if} \  p > r \\
+X_n & \text{else}
+\end{cases}
+$$
+
+Before we analyze Morris' algorithm, let's compare the counting of those two 
+methods: deterministic and stochastic one. 
+
+<div class='figure'>
+    <img src="/math/images/morris_count.png"
+         alt="A demo figure"
+         style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Plot of Markov's inequality with $n=1,000,000$ and a fixed sample size $m=1000$.
+    </div>
+</div>
+
+
+
+
+
+
+## Example 3: hash tables 
+
+This section assumes readers know what hash table is. If not, just check out 
+[this video](https://youtu.be/Nu8YGneFCWE){:target="_blank"} from MIT. 
 
 The hash function $h: U \to [n]$ maps the elements of universe or population to 
 indices $1, \cdots, n$ of an array. The data structure `dict` from `Python` is built on hash tables as this kind of map makes it easy to extract information. 
@@ -171,21 +277,85 @@ have to store multiple items in the same location (typically as a
 linked list).
 
 Let's frame our problem as a probabilistic one:
-
 - $m$: total number of stored items (sample size)
 - $n$: hash table size (population size)
 - $x_i, x_j$: any pair of store items chosen randomly
 - $C$: total pairwise collisions
 - $h$: random hash table function 
 
-_Remark:_ 
-
-In example 1, the population size $n=1,000,000$ is fixed, whereas the sample size $m$ is updated dynamically every time we 
-draw a sample; however, for example 2, the hash 
+_Remark:_ In example 1, the population size $n=1,000,000$ is fixed, whereas the sample size $m$ is updated dynamically every time we 
+draw a sample; for example 2, the hash table size $n$ is fixed too, whereas total number of stored items is updated dynamically. It is important to know when and how to set up _population_ and _sample space_. _It might be counterintuitive when you see we set the hash table as the population_. 
 
 
+__General principle for setting up population and sample__: Anything is fixed should be treated as the population, whereas anything is updated dynamically should be treated as the sample space that could be mapped with the random variable function. 
+
+With the right setup, we can have the following expectation of pairwise
+collision 
 
 
+$$
+\mathrm{E} [C] = \sum_{i, j \in [m], i < j} \mathrm{E} [C_{i, j}]= \binom{m}{2} \frac{1}{n} = \frac{m(m-1)}{2n}  \tag{6}
+$$
+
+For $n = 4m^2$ (size of hashing table is much larger than the sample
+size), we have 
+
+$$
+E[C] = \frac{m(m-1)}{8m^2} < \frac{m^2}{8m^2} = \frac{1}{8} \tag{7}
+$$
+
+This means we could have the collision-free hash table if the hash
+table is large enough. This completely makes sense.  However,
+we do not gain any economic benefit as we are using $O(m^2)$ space
+to store $m$ elements. 
+
+Let's apply Markov's inequality in this case, we can have
+
+$$
+\begin{aligned}
+P(C \geq 1) \leq \frac{E(C)}{1} = \frac{1}{8} \\ 
+P(C = 0) = 1 - P(C \geq 1) = \frac{7}{8} \tag{8}
+\end{aligned}
+$$
+
+__Two Level Hashing.__ Now, if we want to preserve $O(1)$ query with 
+$O(m)$ space, we can do two level hashing as shown in Figure 5. 
+
+
+<div class='figure'>
+    <img src="/math/images/two_level_hashing.png"
+         alt="A demo figure"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> Illustration of two level hashing; figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
+    </div>
+</div>
+
+In equation 8, we have shown that the random hashing function could 
+guarantee that the collision is avoided at $7/8$ probability level. Therefore, we could just use a random hashing function at level two. Now, let's set up the scene to do probabilistic thinking:
+- $m$: total number of stored items (sample size)
+- $n$: hash table size (population size)
+- $x_j, x_k$: any pair of store items chosen randomly
+- $C$: total pairwise collisions
+- $h$: random hash table function 
+- $S$: spaced use for the first and second level of hashing 
+- $s_i$: items (plural) stored in the hash table at position $i$ (see Figure 5)
+    - for each bucket in hashing table of size $n$, pick a collision
+    free hash function mapping $[s_i] \to [s_i^2]$ (as it is shown in equation 7). 
+
+What is the expected _space usage_ for two level hashing? It is quite straightforward
+to calculating the total space usage.
+
+$$
+E[S] = n + \sum_{i=1}^n E[s_i^2] \tag{9}
+$$
+
+Before we calculating $E[s_i^2]$, let's go through two scenario (as always, we 
+assumed $m > > n$):
+
+- determined path: for $m$ items, we assign $n$ of them into our hashing table
+and then we assign $m-n$ elements into the second level linked list
+ 
 
 
 
