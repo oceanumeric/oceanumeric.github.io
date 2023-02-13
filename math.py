@@ -1,3 +1,4 @@
+# %%
 import os
 import time
 import numpy as np
@@ -38,7 +39,9 @@ def check_captcha_expectation(m:int, n:int) -> float:
 def plot_check_captcha():
     pop_size = 1e6
     sample_size = list(range(1, 2000, 10))
-    expected_duplicates = [check_captcha(x, pop_size) for x in sample_size]
+    expected_duplicates = [
+        check_captcha_expectation(x, pop_size) for x in sample_size
+        ]
     fig, ax = plt.subplots(1, 1, figsize=(6, 3))
     ax.plot(sample_size, expected_duplicates, 'k')
     ax.set_title("Expected number of duplicates for n = 1,000, 000")
@@ -70,12 +73,23 @@ def plot_markov_cpatcha():
     prob = [markov_prob(x, expectation) for x in count_pairs]
     fig, ax = plt.subplots(1, 1, figsize=(6, 3))
     ax.plot(count_pairs, prob, 'k')
-    ax.plot(10, markov_prob(10, expectation), 'ro')
     ax.set_title("Markov probability n=1,000,000, m=1,000")
     ax.set_xlabel("Duplicate Pairs")
     ax.set_ylabel("Markov Inequality Probability")
-    ax.set_xticks(np.arange(0, 102, 10));
+    ax.set_xticks(np.arange(0, 102, 10))
+    print(markov_prob(10, expectation))
+
 
 
 if __name__ == "__main__":
-    print('hello')
+    plot_markov_cpatcha()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+# %%
