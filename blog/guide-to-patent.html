@@ -1196,7 +1196,7 @@ we have not solved the issue of over count within EPO. Table 12 shows not all pa
 
 <p><strong>Summary.</strong> At this stage, let’s summarize what have done.</p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Code-Block 5. Summary of analysis until now</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Code-Block 5. Extract patents for one-company full code</span><span class="w">
 </span><span class="c1"># read dataset 1, 2, and 3 </span><span class="w">
 </span><span class="n">de_firms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s1">'work/notebooks/patent/data/orbis_de_matched_l.csv'</span><span class="p">)</span><span class="w">
 </span><span class="n">han_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s1">'work/notebooks/patent/data/202208_HAN_NAMES.txt'</span><span class="p">)</span><span class="w">
@@ -1304,6 +1304,15 @@ we need an API. Luckily, EPO provides this kind of APIs:</p>
 patent data and non-patent data in your work”. Linked open EP data can be queried, retrieved and viewed using standardized web technologies like HTTP,
 URI and <a href="https://en.wikipedia.org/wiki/SPARQL" target="_blank">SPARQL</a>.</p>
 
+<div class="figure">
+    <img src="/images/blog/EPO_Linked_Data.png" alt="OECD HAN database illustration" class="zoom-img" style="width:100%" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> OECD HAN database structure:
+        there are four tables, in which HAN_PERSON is the correspondence
+        table which include all cleaned names.
+    </div>
+</div>
+
 <p><strong>Back to our case.</strong> As we have stated from the last section, we want to
 search for granted patents based on <code class="language-plaintext highlighter-rouge">Patent_number</code>. Those patent numbers we 
 have are publication numbers. Therefore, we should use APIs for publications.
@@ -1400,7 +1409,7 @@ we set a smaller value of <code class="language-plaintext highlighter-rouge">Sys
     <div class="caption">
         <span class="caption-label">Figure 4.</span> Summary of granted
         patents of Airbus Defence; the decline in recent years can be explained with the fact that the application and granting procedures may
-take several years before a patent is granted, similar to many other fields of technology.
+take several years before a patent is granted, similar to many other fields of technology (also known as patent truncation issue); <i>Remark:</i> Airbus Defence and Space was founded on January 17, 2014. 
     </div>
 </div>
 
@@ -1560,7 +1569,12 @@ technological and economic value <a class="citation" href="#squicciarini2013meas
   <h2 id="understanding-oecd-citation-database-structure">Understanding OECD citation database structure</h2>
 
   <p>The OECD Citations database provides information on patent and non-patent literature (NPL)
-citations (or references) found in patent documents.</p>
+citations (or references) found in patent documents. Please read the <a href="./pdfs/OECD Citations Database - August 2022.pdf">OECD Citations Database report</a> to learn how they collect the data. There are eleven tables in this database, which covers lots of information related to patent citation.
+We will only focus on four tables: <code class="language-plaintext highlighter-rouge">EPO_CITATIONS</code>, <code class="language-plaintext highlighter-rouge">EPO_CIT_COUNTS</code>, <code class="language-plaintext highlighter-rouge">EPO_EQUIVALENT</code>, and <code class="language-plaintext highlighter-rouge">EPO_NPL_CITATIONS</code>.</p>
+
+  <p>In the above sections, we have extracted all granted patents for Airbus Defence
+(DE) company (see Table 12). With those patent numbers, we could extract 
+their citations from OECD Citations database.</p>
 </div>
 <div class="footnotes" role="doc-endnotes">
   <ol>
