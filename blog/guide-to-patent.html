@@ -41,14 +41,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="The first question came to my mind was ‘where should I start ?’ when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want." />
 <meta property="og:description" content="The first question came to my mind was ‘where should I start ?’ when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want." />
-<link rel="canonical" href="https://oceanumeric.github.io//blogs/guide-to-patent" />
-<meta property="og:url" content="https://oceanumeric.github.io//blogs/guide-to-patent" />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/guide-to-patent" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/guide-to-patent" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-02-06T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Yet Another Guide to Working with EPO Patent Data" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-06T00:00:00+00:00","datePublished":"2023-02-06T00:00:00+00:00","description":"The first question came to my mind was ‘where should I start ?’ when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want.","headline":"Yet Another Guide to Working with EPO Patent Data","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blogs/guide-to-patent"},"url":"https://oceanumeric.github.io//blogs/guide-to-patent"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-06T00:00:00+00:00","datePublished":"2023-02-06T00:00:00+00:00","description":"The first question came to my mind was ‘where should I start ?’ when I wanted to do patent analytics for my research project. Like everyone, I ended up with Google or ChatGPT (if you got a chance to ask there). I found out that the EPO Worldwide Patent Statistical Database (PATSTAT) is one of the most widely used patent databases for researchers and business analytics. Right now users could get access to PATSTAT online free for one month. Since most people need to use this database longer than one month, this guide will cover how you could access the PATSTAT database for free and use it whenever you want.","headline":"Yet Another Guide to Working with EPO Patent Data","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/guide-to-patent"},"url":"https://oceanumeric.github.io//blog/guide-to-patent"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -256,7 +256,7 @@ names from business register data - ORBIS database from Bureau van Dijk.</p>
 the same entity such as “Volksgen (missing ‘w’) Shanghai”. For cases like
 this, we need to clean and harmonized names again.</p>
 
-<p>Please read OECD’s <a href="/pdfs/OECD HAN Database - August 2022.pdf" target="_blank">methodology report</a> to know how they clean, harmonize and consolidate applicant
+<p>Please read OECD’s <a href="./pdfs/OECD HAN Database - August 2022.pdf" target="_blank">methodology report</a> to know how they clean, harmonize and consolidate applicant
 names.</p>
 
 <h2 id="understanding-oecd-han-database-structure">Understanding OECD HAN database structure</h2>
@@ -1539,8 +1539,28 @@ measuring the quality of those patents. There are many indicators constructed by
 post, we will learn different measurement for patents in terms of
 technological and economic value <a class="citation" href="#squicciarini2013measuring">(Squicciarini et al., 2013)</a>.</p>
 
+  <p>Here is the list of patent quality measurement:</p>
+
+  <ul>
+    <li>patent score</li>
+    <li>patent family size</li>
+    <li>patent lag</li>
+    <li>backward citations</li>
+    <li>Citations to non-patent literature (NPL)</li>
+    <li>Claims</li>
+    <li>Forward citations</li>
+    <li>Breakthrough inventions</li>
+    <li>Generality index</li>
+    <li>Originality index</li>
+    <li>Radicalness index</li>
+    <li>Patent renewal</li>
+    <li>disruptive indicator <a class="citation" href="#funk2017dynamic">(Funk &amp; Owen-Smith, 2017)</a></li>
+  </ul>
+
   <h2 id="understanding-oecd-citation-database-structure">Understanding OECD citation database structure</h2>
 
+  <p>The OECD Citations database provides information on patent and non-patent literature (NPL)
+citations (or references) found in patent documents.</p>
 </div>
 <div class="footnotes" role="doc-endnotes">
   <ol>
