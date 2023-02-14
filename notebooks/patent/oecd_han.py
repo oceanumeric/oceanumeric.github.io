@@ -44,7 +44,7 @@ def construct_pub_url(patent_number: str) -> str:
     return pub_url
 
 
-def _get_application_number(pub_url: str) -> str:
+def get_application_number(pub_url: str) -> str:
     """
     Get application number based on publication url such as
     https://data.epo.org/linked-data/data/publication/EP/3291094.json
@@ -72,23 +72,106 @@ def _get_application_number(pub_url: str) -> str:
         return None
     
 
-def _get_application_info(application_number: str):
+def construct_application_url(application_number: str) -> str:
     """
-    Get key application information based on application number
-    such as EP17198906
-    ------------
-    Input: application_number
+    Construct publication url based on the application_number, like EP17198906
+    or US10059425
+    ----------
+    Input:
+        - application in format {EP}+{Number}
+    
     Output: 
+        - application url application/{authority}{number}.json 
+        - authority 
     """
+    authority = application_number[:2]
+    application_number = application_number[2:]
+    url = 'https://data.epo.org/linked-data/doc/application/'
+    application_url = url+authority + '/' + application_number+'.json' 
+    return application_url
 
+
+def get_application_info(application_url: str) -> dict:
+    """
+    Get key application information based on application_url
+    
+    ------------
+    Input: application_url, such as 
+    https://data.epo.org/linked-data/doc/application/US/201314434959.json
+    
+    Output: a dictionary
+    """
+    application_info = {}
+    
+    page = requests.get(application_url, headers=HEADERS)
+    page.encoding = "utf-8"
+    print("Response status: -------", page.status_code)
+    page_json = page.json()
+    
+    result = page_json['result']["primaryTopic"]
+    
+    application_info['applicationDate'] = result['filingDate']
+    
+    
+    grant = result.get("grantDate", None)
+    
+    if grant is None:
+        application_info['granted'] = 0
+    else:
+        application_info['granted'] = 1
+        
+    application_info["grantDate"] = grant
+    
+    family = result.get("family", None)
+    if family is not None:
+        family_url = family['_about']
+        temp_slag = 'simple-family/'
+        temp_idx = family_url.find(temp_slag) + len(temp_slag)
+        application_info['familyID'] = family_url[temp_idx:]
+    
+    cpc = result.get("classificationCPCInventive", None)
+    
+    if cpc is not None:
+        application_info['cpcTags'] = [x['label'] for x in cpc]
+    else:
+        application_info['cpcTags'] = cpc
+    
+    # publications
+    publication = result.get('publication', None)
+    
+    if publication is not None:
+        if type(publication) is list:
+            application_info['publicationItems'] = [
+                x['label'] for x in publication
+                ]
+        else:
+            application_info['publicationItems'] = publication['label']
+    else:
+        application_info['publicationItems'] = None
+    
+        
+    return application_info
 
 
 
 if __name__ == "__main__":
-    print(os.getcwd())
+    print("Current working directory:", os.getcwd(), '\n')
+    print("::::::::::::::::::::::Unit Test Running::::::::::::::::::::::\n")
     airbus_han_patents = pd.read_csv('./data/airbus_han_patents.csv')
-    pub_url = construct_pub_url('EP3477328')
+    test_sample = airbus_han_patents.sample(5)
     print(
-        _get_application_number(pub_url)
+        test_sample
     )
+    for idx in test_sample.index:
+        print("************ Unit Test:", idx)
+        patent_number = test_sample['Patent_number'][idx]
+        pub_url = construct_pub_url(patent_number)
+        print("Testing construct_pub_url:", pub_url)
+        application_number = get_application_number(pub_url)
+        print("Testing get_application_number:", application_number)
+        application_url = construct_application_url(application_number)
+        print("Testing construct_application_url:", application_url)
+        application_info = get_application_info(application_url)
+        print("Testing get_application_info:", application_info)
+        
 # %%
