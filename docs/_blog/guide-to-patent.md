@@ -101,7 +101,7 @@ Sometimes, names have typos but computer could not identify those names as
 the same entity such as "Volksgen (missing 'w') Shanghai". For cases like
 this, we need to clean and harmonized names again. 
 
-Please read OECD's [methodology report](/pdfs/OECD HAN Database - August 2022.pdf){:target="_blank"} to know how they clean, harmonize and consolidate applicant
+Please read OECD's [methodology report](./pdfs/OECD HAN Database - August 2022.pdf){:target="_blank"} to know how they clean, harmonize and consolidate applicant
 names.  
 
 
@@ -832,9 +832,24 @@ measuring the quality of those patents. There are many indicators constructed by
 post, we will learn different measurement for patents in terms of
 technological and economic value {% cite squicciarini2013measuring %}.
 
+Here is the list of patent quality measurement:
 
-
+- patent score
+- patent family size
+- patent lag
+- backward citations
+- Citations to non-patent literature (NPL)
+- Claims
+- Forward citations
+- Breakthrough inventions
+- Generality index
+- Originality index
+- Radicalness index 
+- Patent renewal 
+- disruptive indicator {% cite funk2017dynamic %} 
 
 
 ## Understanding OECD citation database structure 
 
+The OECD Citations database provides information on patent and non-patent literature (NPL)
+citations (or references) found in patent documents.

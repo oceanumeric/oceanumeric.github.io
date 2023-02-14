@@ -13,7 +13,7 @@ No plugins required.
 import glob
 import os
 
-post_dir = '_blogs/'
+post_dir = '_blog/'
 draft_dir = '_drafts/'
 tag_dir = 'blog-tags/'
 

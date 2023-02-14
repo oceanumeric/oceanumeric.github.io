@@ -18,7 +18,7 @@ title: blog
             </div>
         </div>
         <div id='posts' class='section'>
-            {% assign sorted = site.blogs | sort: 'date' | reverse %}
+            {% assign sorted = site.blog | sort: 'date' | reverse %}
             {% for post in sorted %}
                 <div class='post-row'>
                     <p class='post-title'>

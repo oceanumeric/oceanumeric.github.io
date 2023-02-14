@@ -36,13 +36,13 @@ plugins:
 
 
 collections:
-  blogs:
+  blog:
     output: true
     permalink: /:collection/:title  # or :year/:month/:day/:title/
   
   math:
     output: true
-    permalink: /:collection/:title
+    permalink: /:collection/:year/:month/:title
   
   tags:
     output: true
