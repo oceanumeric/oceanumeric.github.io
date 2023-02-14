@@ -571,7 +571,7 @@ we have not solved the issue of over count within EPO. Table 12 shows not all pa
 __Summary.__ At this stage, let's summarize what have done. 
 
 ```r
-# Code-Block 5. Summary of analysis until now
+# Code-Block 5. Extract patents for one-company full code
 # read dataset 1, 2, and 3 
 de_firms <- fread('work/notebooks/patent/data/orbis_de_matched_l.csv')
 han_names <- fread('work/notebooks/patent/data/202208_HAN_NAMES.txt')
@@ -649,6 +649,20 @@ According to EPO, "Linked open data offers you new ways of combining
 patent data and non-patent data in your work". Linked open EP data can be queried, retrieved and viewed using standardized web technologies like HTTP,
 URI and [SPARQL](https://en.wikipedia.org/wiki/SPARQL){:target="_blank"}.
 
+
+<div class='figure'>
+    <img src="/images/blog/EPO_Linked_Data.png"
+         alt="OECD HAN database illustration" class="zoom-img"
+         style="width:100%"
+         />
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> OECD HAN database structure:
+        there are four tables, in which HAN_PERSON is the correspondence
+        table which include all cleaned names.
+    </div>
+</div>
+
+
 __Back to our case.__ As we have stated from the last section, we want to
 search for granted patents based on `Patent_number`. Those patent numbers we 
 have are publication numbers. Therefore, we should use APIs for publications.
@@ -725,7 +739,7 @@ we set a smaller value of `Sys.sleep()`.
     <div class='caption'>
         <span class='caption-label'>Figure 4.</span> Summary of granted
         patents of Airbus Defence; the decline in recent years can be explained with the fact that the application and granting procedures may
-take several years before a patent is granted, similar to many other fields of technology.
+take several years before a patent is granted, similar to many other fields of technology (also known as patent truncation issue); <i>Remark:</i> Airbus Defence and Space was founded on January 17, 2014. 
     </div>
 </div>
 
@@ -852,4 +866,9 @@ Here is the list of patent quality measurement:
 ## Understanding OECD citation database structure 
 
 The OECD Citations database provides information on patent and non-patent literature (NPL)
-citations (or references) found in patent documents.
+citations (or references) found in patent documents. Please read the [OECD Citations Database report](./pdfs/OECD Citations Database - August 2022.pdf){:target="_blank} to learn how they collect the data. There are eleven tables in this database, which covers lots of information related to patent citation.
+We will only focus on four tables: `EPO_CITATIONS`, `EPO_CIT_COUNTS`, `EPO_EQUIVALENT`, and `EPO_NPL_CITATIONS`. 
+
+In the above sections, we have extracted all granted patents for Airbus Defence
+(DE) company (see Table 12). With those patent numbers, we could extract 
+their citations from OECD Citations database. 

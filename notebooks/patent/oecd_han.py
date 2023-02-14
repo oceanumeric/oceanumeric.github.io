@@ -1,3 +1,4 @@
+# %%
 import os
 import json
 import time
@@ -24,90 +25,70 @@ HEADERS = {x.split(':')[0].strip():
                                                        "://") for x in headers}
 
 
-def url_to_ipc(url):
+def construct_pub_url(patent_number: str) -> str:
     """
-    request ipc classification based on EPO's Open Linked data API
+    Construct publication url based on the patent_number, like EP3477328
+    or US10059425
+    ----------
+    Input:
+        - patent number in format {EP}+{Number}
+    
+    Output: 
+        - publication url publication/{authority}{number}.json 
+        - authority 
     """
-    ipcTags = []
-    page = requests.get(url, headers=HEADERS)
+    authority = patent_number[:2]
+    patent_number = patent_number[2:]
+    url = 'https://data.epo.org/linked-data/data/publication/'
+    pub_url = url+authority + '/' + patent_number+'.json' 
+    return pub_url
+
+
+def _get_application_number(pub_url: str) -> str:
+    """
+    Get application number based on publication url such as
+    https://data.epo.org/linked-data/data/publication/EP/3291094.json
+    -------------
+    Input: 
+        - pub_url
+    
+    Output: 
+        - application_number
+    """
+    pub_slag = 'publication/'
+    pub_idx = pub_url.find(pub_slag) + len(pub_slag)
+    authority = pub_url[pub_idx:pub_idx+2]
+    page = requests.get(pub_url, headers=HEADERS)
     page.encoding = "utf-8"
-    time.sleep(0.3)
-    print("Response status: ------- ", page.status_code)
+    print("Response status: -------", page.status_code)
     page_json = page.json()
-    ipc_info = page_json['result']['primaryTopic'].get(
-        'classificationIPCInventive', None
-    )
     
-    if ipc_info is not None:
-        type_check = type(ipc_info)
-        if type_check is list:
-            for x in ipc_info:
-                x = x.replace('http://data.epo.org/linked-data/def/ipc/', '')
-                ipcTags.append(x)
-        elif type_check is dict:
-            ipcTags.append(x.get('label', None))
-        elif type_check is str:
-            ipc_info = ipc_info.replace(
-                'http://data.epo.org/linked-data/def/ipc/', ''
-                )
-            ipcTags.append(ipc_info)
+    items = page_json['result'].get('items', None)
     
-    return ipcTags
-
+    if items is not None:
+        application_number = items[0]['application']['applicationNumber']
+        return authority + application_number
+    else:
+        return None
     
-def construct_url(patent_number):
-    patent_number = patent_number.replace("EP", "")
-    url = 'https://data.epo.org/linked-data/data/publication/EP/'
-    url = url+patent_number+'/B1/-.json?_view=description' 
-    
-    return url
 
-
-def pn_to_pic(patent_number):
-    url = construct_url(patent_number)
-    ipc_list = url_to_ipc(url)
-    return ipc_list
-
-
-def ipc_collection(ipc_sum):
+def _get_application_info(application_number: str):
     """
-    collect all ipc tags
-    --------------------
-    Input: pandas df column sum such as df['ipc'].sum()
-    Output: a list of all ipc tags
+    Get key application information based on application number
+    such as EP17198906
+    ------------
+    Input: application_number
+    Output: 
     """
-    ipc_sum = ipc_sum.replace("'", "")
-    ipc_sum = ipc_sum[1:].replace('[', '')
-    ipc_sum = ipc_sum.replace(']', ",")
-    ipc_list = ipc_sum.split(',')
-    ipc_list = ipc_list[:-1]
-    
-    ipc_list = [x.strip() for x in ipc_list]
-    
-    return ipc_list
-    
 
-def get_top_ipc(ipc_list):
-    """
-    extract top ipc class for a ipc_list
-    """
-    top_ipc = [x[0] for x in ipc_list]
-    top_ipc_sub = [x[:4] for x in ipc_list]
-    
-    return top_ipc, top_ipc_sub
-    
+
+
 
 if __name__ == "__main__":
-    print('Running from Terminal ------ ^_^ ')
-    # -------- test key functions -------- 
-    # pn = 'EP2837556'
-    # purl = construct_url(pn)
-    # print(url_to_ipc(purl))
-    # ----------- read csv and process ------------
-    # airbus = pd.read_csv('notebooks/patent/data/airbus_granted.csv')
-    # # filter out those granted
-    # airbus = airbus[airbus['granted'] == 1]
-    # airbus['ipc'] = airbus['Patent_number'].apply(lambda x: pn_to_pic(x))
-    # airbus.to_csv('notebooks/patent/data/airbus_granted_ipc.csv', index=False)
-    # ------------ generate summary statistics ------------
-    
+    print(os.getcwd())
+    airbus_han_patents = pd.read_csv('./data/airbus_han_patents.csv')
+    pub_url = construct_pub_url('EP3477328')
+    print(
+        _get_application_number(pub_url)
+    )
+# %%
