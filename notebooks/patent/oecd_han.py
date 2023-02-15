@@ -65,9 +65,13 @@ def get_application_number(pub_url: str) -> str:
     
     items = page_json['result'].get('items', None)
     
-    if items is not None:
-        application_number = items[0]['application']['applicationNumber']
-        return authority + application_number
+    if items is not None and len(items) != 0:
+        application_number = items[0].get('application', None)
+        if application_number is not None:
+            application_number = application_number.get('applicationNumber')
+            return authority + application_number
+        else:
+            return None
     else:
         return None
     
@@ -132,7 +136,12 @@ def get_application_info(application_url: str) -> dict:
     cpc = result.get("classificationCPCInventive", None)
     
     if cpc is not None:
-        application_info['cpcTags'] = [x['label'] for x in cpc]
+        if type(cpc) is list:
+            application_info['cpcTags'] = [x['label'] for x in cpc]
+        elif type(cpc) is dict:
+            application_info['cpcTags'] = cpc.get('label', None)
+        else:
+            application_info['cpcTags'] = cpc          
     else:
         application_info['cpcTags'] = cpc
     
@@ -153,15 +162,88 @@ def get_application_info(application_url: str) -> dict:
     return application_info
 
 
+def _get_b_doc(publication_items) -> str:
+    """
+    Extract publication number with 'B' kind code
+    
+    -----------------
+    
+    Input:
+        - publication_items: list
+        - publication_items: str
+        - publication_items: None
+        
+    Output:
+        - str like 'EP 3533599 A1'
+    """
+    if publication_items is not None:
+        if type(publication_items) is str:
+            temp = publication_items.split(' ')
+            if 'B' in temp[-1]:
+                return publication_items
+            else:
+                return None
+        else:
+            for x in publication_items:
+                temp = x.split(' ')
+                if 'B1' in temp:
+                    return x
+                elif 'B' in temp[-1]:
+                    return x
+            return None
+                
+
+def get_publication_info(pub_kind_url: str) -> dict:
+    """
+    Get publication information based on pub_url
+    
+    --------------------------
+    Input:
+        - pub_kind_url such as 
+        https://data.epo.org/linked-data/data/publication/EP/3438695/B1/-.json
+    Output:
+        - a dictionary
+    """
+    pub_info = {}
+    
+    page = requests.get(pub_kind_url, headers=HEADERS)
+    page.encoding = "utf-8"
+    print("Response status: -------", page.status_code)
+    page_json = page.json()
+    
+    result = page_json['result']["primaryTopic"]
+    
+    pub_info['publicationDate'] = result.get("publicationDate", None)
+    
+    language = result.get("language", None)
+    if language is not None:
+        pub_info['language'] = language[-2:]
+    else:
+        pub_info['language'] = None    
+        
+    ipc = result.get("classificationIPCAdditional", None)
+    if ipc is not None:
+        if type(ipc) is list:
+            pub_info['ipc'] = [x['label'] for x in ipc]
+        elif type(ipc) is dict:
+            pub_info['ipc'] = ipc.get('label', None)
+        else:
+            pub_info['ipc'] = ipc
+    else:
+        pub_info['ipc'] = ipc
+    
+    return pub_info
+
 
 if __name__ == "__main__":
     print("Current working directory:", os.getcwd(), '\n')
     print("::::::::::::::::::::::Unit Test Running::::::::::::::::::::::\n")
     airbus_han_patents = pd.read_csv('./data/airbus_han_patents.csv')
-    test_sample = airbus_han_patents.sample(5)
+    test_sample = airbus_han_patents.sample(2)
     print(
-        test_sample
+        test_sample, '\n'
     )
+    foo_df = pd.DataFrame()
     for idx in test_sample.index:
         print("************ Unit Test:", idx)
         patent_number = test_sample['Patent_number'][idx]
@@ -169,9 +251,21 @@ if __name__ == "__main__":
         print("Testing construct_pub_url:", pub_url)
         application_number = get_application_number(pub_url)
         print("Testing get_application_number:", application_number)
-        application_url = construct_application_url(application_number)
-        print("Testing construct_application_url:", application_url)
-        application_info = get_application_info(application_url)
-        print("Testing get_application_info:", application_info)
+        if application_number is not None:
+            application_url = construct_application_url(application_number)
+            print("Testing construct_application_url:", application_url)
+            application_info = get_application_info(application_url)
+            print("Testing get_application_info:", application_info)
+            temp = pd.DataFrame.from_dict(
+                    application_info, orient='index'
+                    ).transpose()
+            foo_df = pd.concat([foo_df, temp], ignore_index=True)
+            b_doc = _get_b_doc(application_info['publicationItems'])
+            print("Testing _get_b_doc:", b_doc)
+        else:
+            print("NO application number was found for", patent_number)
+        # print("Testing get_pub_info:", get_publication_info())
         
+        print(foo_df)
+        print('\n')
 # %%
