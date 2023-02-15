@@ -1,6 +1,7 @@
 # %%
 import os
 import time
+import math
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
@@ -132,12 +133,58 @@ def plot_count():
     axes[1].plot(nx, morris_count(1000), 'k--')
     axes[1].plot(nx, nx, 'k')
     axes[1].set_title("Morris' counting path is random")
-
+    
+    
+def plot_hypergeometric(case='case-1'):
+    # fix n = 1e5
+    # fix A = 100
+    # plot k = 1, 10, 50
+    simulation_cases = {
+        'case-1': {'N': 1000, 'A': 10},
+        'case-2': {'N': 1000, 'A': 100},
+        'case-3': {'N': 1e6, 'A': 1e3}
+    }
+    
+    case = simulation_cases[case]
+    N = case['N']
+    A = case['A']
+    M = list(range(2, 99))
+    K = []
+    P = []
+    
+    # construct vector for K
+    for x in M:
+        temp = math.floor(0.5*x)
+        if temp < case['A']:
+            K.append(temp)
+        else:
+            K.append(case['A'])
+    
+    # calculate the probability
+    for i in range(len(M)):
+        m_value = M[i]
+        k_value = K[i]
+        num = math.comb(A, k_value) * math.comb((N-A), (m_value-k_value))
+        deno = math.comb(N, m_value)
+        p = (num/deno)
+        P.append(p)
+    
+    print(P[-1])
+    fig, axes = plt.subplots(2, 2, figsize=(9, 5))
+    axes[0, 0].plot(M, K, 'k')
+    axes[0, 0].set_xlabel('m')
+    axes[0, 0].set_ylabel('k')
+    axes[0, 1].plot(M, P, 'k--')
+    axes[0, 1].set_ylabel('P')
+    axes[1, 0].set_axis_off()
+    axes[1, 1].plot(M, P, 'k--')
+    axes[1, 1].set_xlim(2, 10)
+    axes[1, 1].set_xlabel('m')
+    
 
 if __name__ == "__main__":
-    plot_count()
-    plt.savefig('../math/images/morris_count.png', dpi=300, bbox_inches="tight")
-    
+    plot_hypergeometric()
+    # plt.savefig('../math/images/morris_count.png', dpi=300, bbox_inches="tight")
     
     
     
