@@ -12,6 +12,8 @@ title: Michael Wang Fei's Homepage
 
 <body>
 	<div id='landing'>
+		<div id='landing-left' style="width:60%; float:left">
+		<br>
 		<h1>Numerical Ocean</h1>
 		<ul id='links'>
 			<li>
@@ -33,5 +35,9 @@ title: Michael Wang Fei's Homepage
 				numerical[dot]ocean@gmail.com
 			</li>
 		</ul>
+		</div>
+		<div id='landing-right'>
+		<img src="/images/Drawing-Michael-Data.jpg" style="width:30%">
+		</div>
 	</div>
 </body>
