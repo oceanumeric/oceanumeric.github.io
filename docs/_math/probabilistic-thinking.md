@@ -21,6 +21,12 @@ much easier to understand with the context.
 
 This post is example driven meaning we will use different examples to develop our fluency in probabilistic thinking. 
 
+- [Example 1: verify a claim](#example-1-verify-a-claim)
+- [Example 2: approximate counting](#example-2-approximate-counting)
+- [Example 3: unit testing](#example-3-unit-testing)
+- [Example 4: hash tables](#example-4-hash-tables)
+
+
 ## Example 1: verify a claim
 
 {% katexmm %}
@@ -321,7 +327,7 @@ Let's transform this problem as a probabilistic one:
     and run the unit testing
 - Question:
     - scenario i: we will only test once with sample size of $m$, we want to find
-    out the optimal size of $m$ with parameters $K$ and $N$
+    out the optimal size of $m$ with parameters $A$ and $N$
     - scenario ii: let's fix $m=5$, we want to know how confident we are if we
     see our code passes the unit testing after $3$ trials
 
@@ -364,16 +370,40 @@ $$ \binom{w}{k} \binom{N-k}{b} $$
 Think about this way: you have 3 ways of cooking food A and 4 ways of cooking 
 food B, how many ways of cooking food $AB$ then? 
 
-For the total ways of drawing $k$ balls without differentiating colors, we have
-$ \binom{N}{k}$. Since all samples are equally like, the naive definition
+For the total ways of drawing $m$ balls without differentiating colors, we have
+$ \binom{N}{m}$. Since all samples are equally like, the naive definition
 of probability gives us 
 
-$$ \mathbb{P}(X = k) = \frac{\binom{w}{k} \binom{N-k}{b} }{\binom{N}{k}}$$
+$$ \mathbb{P}(X = k) = \frac{\binom{w}{k} \binom{b}{m-k} }{\binom{N}{m}}$$
 
 For our unit testing problem, we have the population size is $N$ and size of
-anomalies is $A$ (black balls) and number of normal cells is $N-A$. If we draw
+anomalies is $A$ (treat them as black balls) and number of normal cells is $N-A$. If we draw
 $m$ out of $N$, we want to know the probability of having $1, 2, \cdots k$ 
 anomalies ($k < m $ and $A$). 
+
+$$
+\mathbb{P}(X = k) = \frac{\binom{A}{k} \binom{N-A}{m-k}}{\binom{N}{m}} \tag{6}
+$$
+
+Based on the equation (6), we will run the simulation with the following
+parameters:
+
+- case 1: $N=1000, A = 10$ (1% of population are anomalies)
+- case 2: $N=1000, A = 100$ (10% of population are anomalies)
+- case 3: $N=1,000,000, A=1000$ (0.1% of population are anomalies)
+
+Since $k$ has to be smaller than $m$ and $A$, we will set $m \in [2, 99)$
+and 
+
+$$
+k = \begin{cases}
+\lfloor 0.5 \times m \rfloor, 0.5 \times m < A \\ 
+A, \text{otherwise}
+\end{cases}
+$$
+
+this means we are simulating the probability of having half of $m$ as anomalies whenever $0.5 \times m < A$, otherwise simulate the probability of having 
+$A$ anomalies.   
 
 
 
