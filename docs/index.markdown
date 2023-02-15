@@ -7,6 +7,7 @@ title: Michael Wang Fei's Homepage
 ---
 
 <header>
+<meta name="description" content="Numerical Ocean; author: Michael WANG Fei">
 <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
 </header>
 
@@ -15,7 +16,7 @@ title: Michael Wang Fei's Homepage
 		<div id='landing-left' style="width:60%; float:left">
 		<br>
 		<h1>Numerical Ocean</h1>
-		<ul id='links'>
+		<ul id='links' style="padding-left:7px">
 			<li>
 				<a href='/blog'>blog</a>
 			</li>
@@ -37,7 +38,7 @@ title: Michael Wang Fei's Homepage
 		</ul>
 		</div>
 		<div id='landing-right'>
-		<img src="/images/Drawing-Michael-Data.jpg" style="width:30%">
+		<img src="/images/Drawing-Michael-Data.jpg" style="width:30%" alt='homepage-image-BIG-DATA'>
 		</div>
 	</div>
 </body>
