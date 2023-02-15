@@ -252,10 +252,19 @@ def get_epo_publication_info(pub_kind_url: str) -> dict:
     else:
         pub_info['language'] = None    
         
+    pub_info['ipc'] = []
     ipc = result.get("classificationIPCInventive", None)
     if ipc is not None:
         if type(ipc) is list:
-            pub_info['ipc'] = [x['label'] for x in ipc]
+            for x in ipc:
+                if type(x) is dict: 
+                    pub_info['ipc'].append(x['label'])
+                else:
+                    ipc_label = x.replace(
+                        'http://data.epo.org/linked-data/def/ipc/',
+                        ''
+                        )
+                    pub_info['ipc'].append(ipc_label)
         elif type(ipc) is dict:
             pub_info['ipc'] = ipc.get('label', None)
         else:
@@ -266,8 +275,7 @@ def get_epo_publication_info(pub_kind_url: str) -> dict:
     return pub_info
 
 
-if __name__ == "__main__":
-    print("Current working directory:", os.getcwd(), '\n')
+def unit_test1():
     print("::::::::::::::::::::::Unit Test Running::::::::::::::::::::::\n")
     airbus_han_patents = pd.read_csv('./data/airbus_han_patents.csv')
     test_sample = airbus_han_patents.sample(2)
@@ -276,7 +284,7 @@ if __name__ == "__main__":
     )
     foo_df = pd.DataFrame()
     for idx in test_sample.index:
-        print("************ Unit Test:", idx, '\n')
+        print("********************** Unit Test:", idx, '********************\n')
         patent_number = test_sample['Patent_number'][idx]
         pub_url = construct_pub_url(patent_number)
         print("1. Testing construct_pub_url:", pub_url, '\n')
@@ -298,10 +306,22 @@ if __name__ == "__main__":
                 print("6. Testing _construct_pub_kind_url:", b_doc_url, '\n')
                 
                 pub_info = get_epo_publication_info(b_doc_url)
-                print("7. Testing get_epo_publication_info:", pub_info)
+                print("7. Testing get_epo_publication_info:", pub_info, '\n')
         else:
             print("::NO application number was found for", patent_number)
+            
+
+# construct dataframe
+
+if __name__ == "__main__":
+    print("Current working directory:", os.getcwd(), '\n')
+    print("::::::::::::::::::::::Unit Test Running::::::::::::::::::::::\n")
+    airbus_han_patents = pd.read_csv('./data/airbus_han_patents.csv')
+    test_sample = airbus_han_patents.sample(2)
+    print(
+        test_sample, '\n'
+    )
+    foo_df = pd.DataFrame()
+    
         # print("Testing get_pub_info:", get_publication_info())
-        
-    print('\n')
 # %%
