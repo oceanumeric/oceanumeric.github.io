@@ -5,7 +5,7 @@ layout: math_page_template
 date: 2023-02-12
 keywords: probabilistic-thinking mathematics algorithms Concentration Bounds Markov's inequality Chebyshev's inequality approximate counting Robert Morris hash table 
 published: true
-tags: probability algorithm data-science machine-learning
+tags: probability algorithm data-science machine-learning bernoulli-trial hypergeometric-distribution
 ---
 
 When I was studying probability theories, it was difficult for me
@@ -145,7 +145,7 @@ reject the service provider's claim that their database is of size $n=1,000,000$
 ## Example 2: approximate counting 
 
 We are using this example to explain the difference between deterministic models
-and stochastic models, which is relevant for the example 3 in the coming 
+and stochastic models, which is relevant for the example 4 in the coming 
 section. This section is also connected with deterministic and stochastic
 optimization problems. 
 
@@ -279,8 +279,105 @@ expectation is still equal to the true value. The deterministic one has
 a constant deviation but the error is accumulated for sure and we might end up with over counting or under counting when $n$ grows very large. 
 
 
+## Example 3: unit testing
 
-## Example 3: hash tables 
+Unit tests are typically automated tests written and run by 
+software developers to ensure that a section of an application 
+(known as the "unit") meets its design and behaves as intended. In procedural 
+programming, a unit could be an entire module, but it is 
+more commonly an individual function or procedure.
+
+Let's say that you have a dataset with millions of rows and hundreds of variables
+as columns. Now, you need to write a function to go through each row and 
+do some transformation column wise. For example, suppose you need to write
+a function to separate year and month from `publn_date` in Table 1. As you 
+can see that the format is different. Since the dataset is big, there is
+no way to go through every cell to check the format and write a function 
+to do the separate. What should we do? We rely on probability reasoning 
+and sampling again. 
+
+
+<div class="table-caption">
+<span class="table-caption-label">Table 1.</span> A dataset example
+</div>
+
+| pat_publn_id | publn_kind | appln_id | publn_date | publn_first_grant |
+|:------------:|:----------:|:--------:|:----------:|:-----------------:|
+|  277148936   |     A1     |  156990  | 2008-05-14 |         N         |
+|  437725522   |     B1     |  156990  | 2015-04-08 |         Y         |
+|  437725789   |     A2     |  156990  | 2018,04,08 |         Y         |
+|  437723467   |     B1    |  156990  | 19, July 2020 |         Y         |
+
+
+Let's transform this problem as a probabilistic one:
+
+- population size (number of rows of dataset): N
+- size of anomalies: A
+    - this means you function could cover $N-A$ cases 
+    - but for those anomalies with size of $A$, the function will not pass the 
+    unit testing
+- random sample size: m
+    - every time you run the unit testing, you draw a sample of size $m$ randomly
+    and run the unit testing
+- Question:
+    - scenario i: we will only test once with sample size of $m$, we want to find
+    out the optimal size of $m$ with parameters $K$ and $N$
+    - scenario ii: let's fix $m=5$, we want to know how confident we are if we
+    see our code passes the unit testing after $3$ trials
+
+
+For scenario i, we could model it as a hypergeometric distribution problem. Before
+we solve our problem, let's review a classical example first. If we have
+an urn filled with $w$ white and $b$ black balls, then drawing $m$ balls out
+of the urn with _replacement_, then it yields a Binomial distribution
+$\mathrm{Bin}(m, w/(w+b))$ for the number of white balls obtained in $m$ trials,
+since the draws are independent Bernoulli trials, each with probability
+$w/(w+b)$ of success {% cite blitzstein2015introduction %}. 
+
+_Remark_: when I tried to model the unit testing problem, I was confused 
+whether I should treat my unit testing as Bernoulli trial or not. The way of thinking
+about it is to think about:
+- what is an event? 
+- how do you define a trial? 
+- does your problem fits with Bernoulli distribution? (meaning the success
+    rate and failure rate should be fixed for each trial)
+
+For our unit testing, it is true that each unit test is a trial with 
+success rate and failure rate. However, those rates are not known to us
+and they are not fixed either. Therefore, we cannot model it as Bernoulli
+trial. 
+
+
+Now, back to our white and black ball problem, if we instead sample
+_without replacement_, then it will not follow Bernoulli distribution. Therefore,
+we need to do probabilistic reasoning. The population size is $N = w + b$. Let's
+calculate count the number of possible ways o draw exactly $k$ white balls (assuming
+$k < w$)  and $n-k$ black balls from the urn (without distinguishing between different
+orderings for getting the same set of balls):
+
+- we have $\binom{w}{k}$ ways of drawing k white balls out of $w$
+- we have $\binom{N-k}{b}$ ways of drawing $N-k$ black balls 
+- how many ways of drawing $k$ white balls out of $N$ then? It is 
+
+$$ \binom{w}{k} \binom{N-k}{b} $$ 
+
+Think about this way: you have 3 ways of cooking food A and 4 ways of cooking 
+food B, how many ways of cooking food $AB$ then? 
+
+For the total ways of drawing $k$ balls without differentiating colors, we have
+$ \binom{N}{k}$. Since all samples are equally like, the naive definition
+of probability gives us 
+
+$$ \mathbb{P}(X = k) = \frac{\binom{w}{k} \binom{N-k}{b} }{\binom{N}{k}}$$
+
+For our unit testing problem, we have the population size is $N$ and size of
+anomalies is $A$ (black balls) and number of normal cells is $N-A$. If we draw
+$m$ out of $N$, we want to know the probability of having $1, 2, \cdots k$ 
+anomalies ($k < m $ and $A$). 
+
+
+
+## Example 4: hash tables 
 
 This section assumes readers know what hash table is. If not, just check out 
 [this video](https://youtu.be/Nu8YGneFCWE){:target="_blank"} from MIT. 
