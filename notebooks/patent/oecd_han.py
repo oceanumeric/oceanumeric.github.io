@@ -116,7 +116,6 @@ def get_application_info(application_url: str) -> dict:
     
     application_info['applicationDate'] = result['filingDate']
     
-    
     grant = result.get("grantDate", None)
     
     if grant is None:
@@ -191,11 +190,27 @@ def _get_b_doc(publication_items) -> str:
                 elif 'B' in temp[-1]:
                     return x
             return None
-                
+        
 
-def get_publication_info(pub_kind_url: str) -> dict:
+def _construct_pub_kind_url(pub_kind_b_number: str) -> str:
     """
-    Get publication information based on pub_url
+    Input: - 'EP 2245642 B1'
+    
+    Output:
+    https://data.epo.org/linked-data/data/publication/EP/2245642/B1/-.json
+    """
+    b_kind_list = pub_kind_b_number.split(' ')
+    base_url = 'https://data.epo.org/linked-data/data/publication/'
+    for x in b_kind_list:
+        base_url = base_url + x + '/'
+    url = base_url + '-.json'
+    
+    return url
+
+
+def get_epo_publication_info(pub_kind_url: str) -> dict:
+    """
+    Get EPO's publication information based on pub_url
     
     --------------------------
     Input:
@@ -215,13 +230,29 @@ def get_publication_info(pub_kind_url: str) -> dict:
     
     pub_info['publicationDate'] = result.get("publicationDate", None)
     
+    # priority
+    priority = result.get("priority", None)
+    if priority is not None:
+        if type(priority) is list:
+            priority_num = priority[0].replace(
+            'http://data.epo.org/linked-data/id/application/DE/', ''
+            )
+        else:
+            priority_num = priority.replace(
+                'http://data.epo.org/linked-data/id/application/DE/', ''
+                )
+        pub_info['priorityNumber'] = priority_num
+    else:
+        pub_info['priorityNumber'] = priority
+        
+    
     language = result.get("language", None)
     if language is not None:
         pub_info['language'] = language[-2:]
     else:
         pub_info['language'] = None    
         
-    ipc = result.get("classificationIPCAdditional", None)
+    ipc = result.get("classificationIPCInventive", None)
     if ipc is not None:
         if type(ipc) is list:
             pub_info['ipc'] = [x['label'] for x in ipc]
@@ -245,27 +276,32 @@ if __name__ == "__main__":
     )
     foo_df = pd.DataFrame()
     for idx in test_sample.index:
-        print("************ Unit Test:", idx)
+        print("************ Unit Test:", idx, '\n')
         patent_number = test_sample['Patent_number'][idx]
         pub_url = construct_pub_url(patent_number)
-        print("Testing construct_pub_url:", pub_url)
+        print("1. Testing construct_pub_url:", pub_url, '\n')
         application_number = get_application_number(pub_url)
-        print("Testing get_application_number:", application_number)
+        print("2. Testing get_application_number:", application_number,'\n')
         if application_number is not None:
             application_url = construct_application_url(application_number)
-            print("Testing construct_application_url:", application_url)
+            print("3. Testing construct_application_url:", application_url,'\n')
             application_info = get_application_info(application_url)
-            print("Testing get_application_info:", application_info)
-            temp = pd.DataFrame.from_dict(
-                    application_info, orient='index'
-                    ).transpose()
-            foo_df = pd.concat([foo_df, temp], ignore_index=True)
+            print("4. Testing get_application_info:", application_info, '\n')
+            # temp = pd.DataFrame.from_dict(
+            #         application_info, orient='index'
+            #         ).transpose()
+            # foo_df = pd.concat([foo_df, temp], ignore_index=True)
             b_doc = _get_b_doc(application_info['publicationItems'])
-            print("Testing _get_b_doc:", b_doc)
+            print("5. Testing _get_b_doc:", b_doc, '\n')
+            if b_doc is not None:
+                b_doc_url = _construct_pub_kind_url(b_doc)
+                print("6. Testing _construct_pub_kind_url:", b_doc_url, '\n')
+                
+                pub_info = get_epo_publication_info(b_doc_url)
+                print("7. Testing get_epo_publication_info:", pub_info)
         else:
-            print("NO application number was found for", patent_number)
+            print("::NO application number was found for", patent_number)
         # print("Testing get_pub_info:", get_publication_info())
         
-        print(foo_df)
-        print('\n')
+    print('\n')
 # %%
