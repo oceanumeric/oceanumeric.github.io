@@ -160,7 +160,9 @@ which means that one needs a larger sample for that.
          style="width: 60%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 1.</span> Plot of probability against
-        sample size based on equation (6).  
+        sample size based on equation (6).  <i>Remark</i>: the probability 
+        is bounded by 1, the bound value calculation does not make too much 
+        sense for dotted line. 
     </div>
 </div>
 
@@ -207,10 +209,55 @@ $$
 $$
 
 Equation (8) shows that overload probability is extremely small when
-$k << n!$, which seems counterintuitive as it means bound gets worse as
-$k$ grows (more servers do not help). 
+$k << n$,  which seems counterintuitive as it means bound gets worse as
+$k$ grows (more servers do not help). When $k$ is large, the number of
+requests each server sees in expectation is very small so the law of 
+larger numbers does not 'kick in'. 
 
+### Maximum server load 
 
+We have shown the probability of one server overloaded in equation (8), now
+we are interested in the probability of maximum server load exceeds its
+capacity. To get the maximum server load, we need to have a list of servers 
+that overloaded, this means not just one sever but possible many of them are
+overloaded. The value of maximum load on any server can be written as the random variable:
+
+$$S = \max_{i \in [1, \cdots, k]} R_i$$ 
+
+How could we form a probability for $S \geq (2n)/k$ in terms of $R_i$?
+Let's start from null case, which is that no $R_i$ is greater or equal to 
+$(2n)/k$. For this kind of case, $S < (2n)/k$. Therefore, we need to have
+at least one of $R_i$ is greater or equal to $(2n)/k$. On the other side,
+if all of $R_i$ is greater or equal to $(2n)/k$, then there must be the case
+that $S \geq (2n)k$. However, we do not need all of them. We can transform them
+as the 'or' problem that guarantees the event $S$:
+
+$$
+\begin{aligned}
+\mathbb{P}(S \geq \frac{2n}{k})  & = \mathbb{P} \left ( \left[ R_1 \geq \frac{2n}{k} \right ] \ \text{or} \ \left[ R_2 \geq \frac{2n}{k} \right ] \ \text{or} \ \cdots \ \text{or} \ \left[ R_k \geq \frac{2n}{k} \right ] \right ) \\
+& = \mathbb{P} \left ( \cup_{i=1}^k \left[ R_i \geq \frac{2n}{k} \right ] \right )
+\end{aligned}
+$$
+
+__Union Bound.__ For any random events $A_1, A_2, \cdots, A_k$, we have
+
+$$
+\mathbb{P}(A_1 \cup A_2 \cup \cdots \cup A_k) \leq \mathbb{P}(A_1) + \mathbb{P}(A_2) + \cdots + \mathbb{P}(A_k) \tag{9}
+$$
+
+With the union bound, it is easy to show 
+
+$$
+\begin{aligned}
+\mathbb{P}(S \geq \frac{2n}{k})  & = \mathbb{P} \left ( \cup_{i=1}^k \left[ R_i \geq \frac{2n}{k} \right ] \right )  \\ 
+& \leq \sum_{i=1}^k \mathbb{P}  \left ( \left[ R_i \geq \frac{2n}{k} \right ] \right ) \\ 
+& \leq \sum_{i=1}^k \frac{k}{n} \\
+& \leq \frac{k^2}{n}
+\end{aligned}  
+$$
+
+This means as long as $k \leq O(\sqrt{n})$, with good probability, the 
+maximum server load will be small (compared to the expected to load). 
 
 
 
