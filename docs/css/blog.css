@@ -182,8 +182,8 @@ table th {
   line-height: 1.2em;
 }
 .table-figure-wrapper .caption-label {
-  color:rgba(0, 0, 0, 1);
-  font-weight: 500;
+  color:rgba(0, 0, 0, 0.8);
+  font-weight: 600;
 }
 
 
@@ -239,7 +239,7 @@ table th {
   line-height: 1.2em;
 }
 .article .figure .caption-label {
-  font-weight: 500;
+  font-weight: 600;
   color:rgba(0, 0, 0, 0.8)
 }
 .article .table-caption {
@@ -250,8 +250,8 @@ table th {
   color: rgba(0, 0, 0, 0.8);
 }
 .article .table-caption-label {
-  font-weight: 500;
-  color: rgba(0, 0, 0, 1);
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
 }
 .article .footnote {
   line-height: 0;

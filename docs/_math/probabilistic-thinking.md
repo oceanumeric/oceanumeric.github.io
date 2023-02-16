@@ -487,6 +487,8 @@ $$
 \end{aligned}
 $$
 
+#### Binomial trials 
+
 Therefore, we can set $p=0.049, q = 0.951$ and if we run our unit testing three
 times or five times, the probability that we will see one anomaly from any of those three
 tests is
@@ -495,10 +497,20 @@ $$
 \mathbb{P(u=3)} = \binom{3}{1} p (1-p)^2 \approx 0.132; \quad \mathbb{P(u=5)} = \binom{5}{1} p (1-p)^4 \approx 0.20; 
 $$
 
-If you look at the table, running 5 times unit testing with 
+If you look at the table in the figure 6, running 5 times unit testing with 
 sample size $m=5$ is no difference from running one time unit testing
 with sample size $m=25$. 
 
+<div class='figure'>
+    <img src="/math/images/distribution_chart.gif"
+         alt="relationship of distributions"
+         style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 7.</span> The relationship of
+        different distributions (as a reflection of example 3); figure was
+        taken from the website of John D. Cook, PhD.
+    </div>
+</div>
 
 
 ## Example 4: hash tables 
@@ -514,7 +526,7 @@ indices $1, \cdots, n$ of an array. The data structure `dict` from `Python` is b
          alt="A demo figure"
          style="width: 80%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 5.</span> Illustration of hash table for dict structure of Python. 
+        <span class='caption-label'>Figure 8.</span> Illustration of hash table for dict structure of Python. 
     </div>
 </div>
 
@@ -535,12 +547,12 @@ their customs. In this case the population size is much larger than  the number 
          alt="A demo figure"
          style="width: 60%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 6.</span> Illustration of hash table for IP addresses, figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
+        <span class='caption-label'>Figure 9.</span> Illustration of hash table for IP addresses, figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
     </div>
 </div>
 
 As we have explained that it costs a lot to have an index for 
-each element shown in Figure 6. To use less indexes in our
+each element shown in Figure 9. To use less indexes in our
 hash table, we need to find a way to avoid collisions. 
 
 _Remark:_ the application of hashing in data science and data structure like `dict` is slightly different. For building a data structure like `dict`,
@@ -569,14 +581,14 @@ collision
 
 
 $$
-\mathbb{E}  [C] = \sum_{i, j \in [m], i < j} \mathbb{E}  [C_{i, j}]= \binom{m}{2} \frac{1}{n} = \frac{m(m-1)}{2n}  \tag{6}
+\mathbb{E}  [C] = \sum_{i, j \in [m], i < j} \mathbb{E}  [C_{i, j}]= \binom{m}{2} \frac{1}{n} = \frac{m(m-1)}{2n}  \tag{7}
 $$
 
 For $n = 4m^2$ (size of hashing table is much larger than the sample
 size), we have 
 
 $$
-\mathbb{E} [C] = \frac{m(m-1)}{8m^2} < \frac{m^2}{8m^2} = \frac{1}{8} \tag{7}
+\mathbb{E} [C] = \frac{m(m-1)}{8m^2} < \frac{m^2}{8m^2} = \frac{1}{8} \tag{8}
 $$
 
 This means we could have the collision-free hash table if the hash
@@ -589,7 +601,7 @@ Let's apply Markov's inequality in this case, we can have
 $$
 \begin{aligned}
 \mathbb{P} (C \geq 1) \leq \frac{\mathbb{E} (C)}{1} = \frac{1}{8} \\ 
-\mathbb{P}(C = 0) = 1 - \mathbb{P} (C \geq 1) = \frac{7}{8} \tag{8}
+\mathbb{P}(C = 0) = 1 - \mathbb{P} (C \geq 1) = \frac{7}{8} \tag{9}
 \end{aligned}
 $$
 
@@ -602,11 +614,11 @@ $O(m)$ space, we can do two level hashing as shown in Figure 5.
          alt="A demo figure"
          style="width: 80%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 7.</span> Illustration of two level hashing; figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
+        <span class='caption-label'>Figure 10.</span> Illustration of two level hashing; figure was taken from Musco's course <a href="#musco2022"> (2022)</a>. 
     </div>
 </div>
 
-In equation 8, we have shown that the random hashing function could 
+In equation 9, we have shown that the random hashing function could 
 guarantee that the collision is avoided at $7/8$ probability level. Therefore, we could just use a random hashing function at level two. Now, let's set up the scene to do probabilistic thinking:
 - $m$: total number of stored items (sample size)
 - $n$: hash table size (population size)
@@ -616,13 +628,13 @@ guarantee that the collision is avoided at $7/8$ probability level. Therefore, w
 - $S$: spaced use for the first and second level of hashing 
 - $s_i$: items (plural) stored in the hash table at position $i$ (see Figure 5)
     - for each bucket in hashing table of size $n$, pick a collision
-    free hash function mapping $[s_i] \to [s_i^2]$ (as it is shown in equation 7). 
+    free hash function mapping $[s_i] \to [s_i^2]$ (as it is shown in equation 8). 
 
 What is the expected _space usage_ for two level hashing? It is quite straightforward
 to calculating the total space usage.
 
 $$
-\mathbb{E} [S] = n + \sum_{i=1}^n \mathbb{E} [s_i^2] \tag{9}
+\mathbb{E} [S] = n + \sum_{i=1}^n \mathbb{E} [s_i^2] \tag{10}
 $$
 
 Before we calculating $\mathbb{E} [s_i^2]$, let's go through two scenario (as always, we 
@@ -644,25 +656,25 @@ $$
 Therefore, we could have 
 
 $$
-\mathbb{E}[s_i^2] = \mathbb{E} \left [ \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right )^2 \right] \tag{10}
+\mathbb{E}[s_i^2] = \mathbb{E} \left [ \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right )^2 \right] \tag{11}
 $$
 
-Equation (10) is saying that we sum up all possible elements assigned into
-$s_i$ for element $x_j, j \in [m]$. Now, let's expand the equation 10,
+Equation (11) is saying that we sum up all possible elements assigned into
+$s_i$ for element $x_j, j \in [m]$. Now, let's expand the equation 11,
 
 $$
 \begin{aligned}
 \mathbb{E}[s_i^2] & = \mathbb{E} \left [ \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right )^2 \right]  \\
 & = \mathbb{E} \left [ \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right ) \left ( \sum_{j=1}^m \mathbb{I}_{h(x_j)=i}  \right ) \right] \\ 
 & = \mathbb{E} \left[ \sum_{j, k \in [m]}  \mathbb{I}_{h(x_j)=i}  \cdot \mathbb{I}_{h(x_k)=i} \right ]  \\
-& = \sum_{j, k \in [m]} \mathbb{E} \ \Bigl[\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Bigr] \tag{11} 
+& = \sum_{j, k \in [m]} \mathbb{E} \ \Bigl[\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Bigr] \tag{12} 
 \end{aligned}
 $$
 
-The second step of equation (11) is derived because many values of indicator
+The second step of equation (12) is derived because many values of indicator
 function are zeros and the last step is derived due to the linearity of expectation. 
 
-With equation (11), we need to calculate the expectation
+With equation (12), we need to calculate the expectation
 
 $$\sum_{j, k \in [m]} \mathbb{E} \ \Bigl [\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Bigr ] $$
 
@@ -689,20 +701,20 @@ $$
 \begin{aligned}
 \mathbb{E}[s_i^2] & = \sum_{j, k \in [m]} \mathbb{E} \ \Bigl[\mathbb{I}_{h(x_j)=i} \cdot \mathbb{I}_{h(x_k)=i} \Bigr] \\
 & = m \cdot \frac{1}{n} + 2 \cdot \binom{m}{2} \frac{1}{n^2} \\
-& = \frac{m}{n} + \frac{m(m-1)}{n^2} \tag{12}
+& = \frac{m}{n} + \frac{m(m-1)}{n^2} \tag{13}
 \end{aligned}
 $$
 
-When we set $n = m$ in equation (12), we can get
+When we set $n = m$ in equation (13), we can get
 
 $$
-\mathbb{E}[s_i^2] = \frac{m}{n} + \frac{m(m-1)}{n^2} < 2  \tag{13}
+\mathbb{E}[s_i^2] = \frac{m}{n} + \frac{m(m-1)}{n^2} < 2  \tag{14}
 $$
 
-Now, with this bound, we can substitute the equation (13) into equation (9) and have our final result,
+Now, with this bound, we can substitute the equation (14) into equation (10) and have our final result,
 
 $$
-\mathbb{E} [S] = n + \sum_{i=1}^n \mathbb{E} [s_i^2] \leq n + \sum_{i=1}^n 2 = 3n = 3m \tag{14}
+\mathbb{E} [S] = n + \sum_{i=1}^n \mathbb{E} [s_i^2] \leq n + \sum_{i=1}^n 2 = 3n = 3m \tag{15}
 $$
 
 This means we achieved a near optimal space with $O(1)$ query time! 
