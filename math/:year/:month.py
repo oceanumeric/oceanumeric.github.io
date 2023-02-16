@@ -286,12 +286,36 @@ def hypergeom(N, A, m, k):
     return p
     
 
+def chebyshev_inequality():
+        
+    epsilon1 = 0.1
+    epsilon2 = 0.01
+
+
+    n = list(range(1, 1000))
+    p1 = []
+    p2 = []
+
+    for x in n:
+        p1.append(1/(x * epsilon1 ** 2))
+        p2.append(1/(x * epsilon2 ** 2))
+
+    fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
+    ax.plot(n[10:], p1[10:], 'k--', label='epsilon = 0.1')
+    ax.plot(n[10:], p2[10:], 'k:', label='epsilon=0.01')
+    ax.set_xlabel('Sample size n')
+    ax.set_ylabel('Probability')
+    ax.set_ylim(0, 100)
+    ax.text(100, p1[101]+1, '0.1001')
+    ax.text(953, p2[-1]+3, '10.01')
+    ax.legend()
+    print(p1[-1], p2[-1])
+
+
 if __name__ == "__main__":
-    plot_hypergeometric2()
-    # plt.savefig('../math/images/hypergeom_scenario2.png', dpi=300, bbox_inches="tight")
-    
-    
-    
+    chebyshev_inequality()
+    plt.savefig('docs/math/images/estimation_sample_size.png', dpi=300, bbox_inches="tight")
+
     
     
 # %%
