@@ -135,7 +135,7 @@ def plot_count():
     axes[1].set_title("Morris' counting path is random")
     
     
-def plot_hypergeometric(case='case-1'):
+def plot_hypergeometric1(case='case-1'):
     # fix n = 1e5
     # fix A = 100
     # plot k = 1, 10, 50
@@ -146,8 +146,8 @@ def plot_hypergeometric(case='case-1'):
     }
     
     case = simulation_cases[case]
-    N = case['N']
-    A = case['A']
+    N = int(case['N'])
+    A = int(case['A'])
     M = list(range(2, 99))
     K = []
     P = []
@@ -172,19 +172,23 @@ def plot_hypergeometric(case='case-1'):
     print(P[-1])
     fig, axes = plt.subplots(2, 2, figsize=(9, 5))
     axes[0, 0].plot(M, K, 'k')
-    axes[0, 0].set_xlabel('m')
-    axes[0, 0].set_ylabel('k')
+    axes[0, 0].set_xlabel('m', fontsize=12)
+    axes[0, 0].set_ylabel('k', fontsize=12)
     axes[0, 1].plot(M, P, 'k--')
-    axes[0, 1].set_ylabel('P')
+    axes[0, 1].set_ylabel('P', fontsize=12)
     axes[1, 0].set_axis_off()
+    axes[1, 0].text(
+        0, 0.5, 
+        f"N={N}, A={A}, share={int(A/N*100)}%", fontsize=12)
     axes[1, 1].plot(M, P, 'k--')
     axes[1, 1].set_xlim(2, 10)
-    axes[1, 1].set_xlabel('m')
+    axes[1, 1].set_xlabel('m', fontsize=12)
+    axes[1, 1].set_ylabel('P', fontsize=12)
     
 
 if __name__ == "__main__":
-    plot_hypergeometric()
-    # plt.savefig('../math/images/morris_count.png', dpi=300, bbox_inches="tight")
+    plot_hypergeometric(case='case-3')
+    #plt.savefig('../math/images/hypergeom_case1.png', dpi=300, bbox_inches="tight")
     
     
     
