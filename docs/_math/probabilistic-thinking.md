@@ -331,6 +331,7 @@ Let's transform this problem as a probabilistic one:
     - scenario ii: let's fix $m=5$, we want to know how confident we are if we
     see our code passes the unit testing after $3$ trials
 
+#### Scenario 1
 
 For scenario i, we could model it as a hypergeometric distribution problem. Before
 we solve our problem, let's review a classical example first. If we have
@@ -390,7 +391,6 @@ parameters:
 
 - case 1: $N=1000, A = 10$ (1% of population are anomalies)
 - case 2: $N=1000, A = 100$ (10% of population are anomalies)
-- case 3: $N=1,000,000, A=1000$ (0.1% of population are anomalies)
 
 Since $k$ has to be smaller than $m$ and $A$, we will set $m \in [2, 99)$
 and 
@@ -404,6 +404,46 @@ $$
 
 this means we are simulating the probability of having half of $m$ as anomalies whenever $0.5 \times m < A$, otherwise simulate the probability of having 
 $A$ anomalies.   
+
+<div class='figure'>
+    <img src="/math/images/hypergeom_case1.png"
+         alt="A demo figure"
+         style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> Simulation for the case 1, which shows the probability of having either half of the sample as 
+        anomalies or all anomalies (K=10) drops dramatically, which is 5.32e-11.
+    </div>
+</div>
+
+
+Figure 5 shows that the probability of having all anomalies in our sample 
+is very small, which is $5.32e-11$, this means there is no unit test could 
+cover all anomalies _once_ unless you test all population. Figure 6 tells
+the same story in terms of trend but the probability is higher as the 
+share of anomalies is higher too. 
+
+
+<div class='figure'>
+    <img src="/math/images/hypergeom_case2.png"
+         alt="A demo figure"
+         style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 6.</span> Simulation for the case 2, which shows the same trend but the probability grows with a larger share
+        of anomalies. 
+    </div>
+</div>
+
+Our simulation tells us that no one should try to come up a unit test to 
+cover all of anomalies unless one is willing to test all. If we test 
+based on the sample, then the optimal size is $3$, which shows the probability
+of having one 1 anomalies is around $3\%$ when the share of anomalies is
+$1\%$, that is around $25\%$ when the share of anomalies is $10\%$. 
+
+
+#### Scenario 2 
+
+Now, we will fix $m=5$, and study the probability of having exact $1$ anomalies
+in our sample when the parameters of interest, $N, A$ are changing. 
 
 
 
