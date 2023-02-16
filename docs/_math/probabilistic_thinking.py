@@ -4,6 +4,7 @@ import time
 import math
 import numpy as np
 import scipy as sp
+import scipy.stats as spt
 import matplotlib.pyplot as plt
 import matplotlib as mplt
 import pandas as pd
@@ -186,9 +187,108 @@ def plot_hypergeometric1(case='case-1'):
     axes[1, 1].set_ylabel('P', fontsize=12)
     
 
+    
+def plot_hypergeometric1(case='case-1'):
+    # fix n = 1e5
+    # fix A = 100
+    # plot k = 1, 10, 50
+    simulation_cases = {
+        'case-1': {'N': 1000, 'A': 10},
+        'case-2': {'N': 1000, 'A': 100},
+        'case-3': {'N': 1e6, 'A': 1e3}
+    }
+    
+    case = simulation_cases[case]
+    N = int(case['N'])
+    A = int(case['A'])
+    M = list(range(2, 99))
+    K = []
+    P = []
+    
+    # construct vector for K
+    for x in M:
+        temp = math.floor(0.5*x)
+        if temp < case['A']:
+            K.append(temp)
+        else:
+            K.append(case['A'])
+    
+    # calculate the probability
+    for i in range(len(M)):
+        m_value = M[i]
+        k_value = K[i]
+        num = math.comb(A, k_value) * math.comb((N-A), (m_value-k_value))
+        deno = math.comb(N, m_value)
+        p = (num/deno)
+        P.append(p)
+    
+    print(P[-1])
+    fig, axes = plt.subplots(2, 2, figsize=(9, 5))
+    axes[0, 0].plot(M, K, 'k')
+    axes[0, 0].set_xlabel('m', fontsize=12)
+    axes[0, 0].set_ylabel('k', fontsize=12)
+    axes[0, 1].plot(M, P, 'k--')
+    axes[0, 1].set_ylabel('P', fontsize=12)
+    axes[1, 0].set_axis_off()
+    axes[1, 0].text(
+        0, 0.5, 
+        f"N={N}, A={A}, share={int(A/N*100)}%", fontsize=12)
+    axes[1, 1].plot(M, P, 'k--')
+    axes[1, 1].set_xlim(2, 10)
+    axes[1, 1].set_xlabel('m', fontsize=12)
+    axes[1, 1].set_ylabel('P', fontsize=12)
+    
+    
+def plot_hypergeometric2():
+    # fix n = 1e5
+    # fix A = 100
+    # plot k = 1, 10, 50
+    simulation_cases = {
+        'case-1': {'N': 1000, 'A': 10, 'result': [], 'style':'k-'},
+        'case-2': {'N': 1000, 'A': 100, 'result': [], 'style': 'k--'},
+        'case-3': {'N': 1000, 'A': 200, 'result': [], 'style': 'k:'}
+    }
+    
+    M = list(range(2, 125))
+
+    for key, item in simulation_cases.items():
+        N = int(item['N'])
+        A = int(item['A'])
+        # calculate the probability
+        for m_value in M:
+            k_value = 1
+            num = math.comb(A, k_value) * math.comb((N-A), (m_value-k_value))
+            deno = math.comb(N, m_value)
+            p = (num/deno)
+            item['result'].append(p)
+    
+    fig, axes = plt.subplots(1, 1, figsize=(6, 3))
+    for key, item in simulation_cases.items():
+        axes.plot(M, item['result'], item['style'], label=key)
+        print(M[3], item['result'][3])
+        print(M[23], item['result'][23])
+    axes.set_xlabel('m', fontsize=12)
+    axes.set_ylabel('P', fontsize=12)
+    axes.legend(
+        [
+            'N=1000, A= 10, share=1%',
+            'N=1000, A=100, share=10%',
+            'N=1000, A=200, share=20%'
+            ]
+        )
+    
+    
+def hypergeom(N, A, m, k):
+    num = math.comb(A, k) * math.comb((N-A), (m-k))
+    deno = math.comb(N, m)
+    p = (num/deno)
+    
+    return p
+    
+
 if __name__ == "__main__":
-    plot_hypergeometric(case='case-3')
-    #plt.savefig('../math/images/hypergeom_case1.png', dpi=300, bbox_inches="tight")
+    plot_hypergeometric2()
+    # plt.savefig('../math/images/hypergeom_scenario2.png', dpi=300, bbox_inches="tight")
     
     
     

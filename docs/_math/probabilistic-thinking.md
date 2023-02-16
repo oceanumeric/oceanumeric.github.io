@@ -425,7 +425,7 @@ share of anomalies is higher too.
 
 <div class='figure'>
     <img src="/math/images/hypergeom_case2.png"
-         alt="A demo figure"
+         alt="hypergeom simulation case2"
          style="width: 90%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 6.</span> Simulation for the case 2, which shows the same trend but the probability grows with a larger share
@@ -442,8 +442,62 @@ $1\%$, that is around $25\%$ when the share of anomalies is $10\%$.
 
 #### Scenario 2 
 
-Now, we will fix $m=5$, and study the probability of having exact $1$ anomalies
-in our sample when the parameters of interest, $N, A$ are changing. 
+Now, we will fix the number of anomalies, and study the probability of having exact $1$ anomalies in our sample when the parameters of interest, $N, A, m$ are changing. 
+
+<div class="table-figure-wrapper" markdown="block">
+
+|  m |   Probability |
+|:----------:|:----:|
+| 5 |  0.048 |
+| 5 |  0.329 |
+| 5  |  0.411 |
+|25 | 0.201 |
+|25 | 0.198 |
+|25 | 0.023|
+
+
+<div class='sub-figure'>
+    <img src="/math/images/hypergeom_scenario2.png"
+         alt="hypergeom scenario 2 simulation"
+         style="width: 75%; display: block; margin: 0 auto;"/>
+</div>
+
+<div class='caption'>
+        <span class='caption-label'>Figure 6.</span> The hypergeometric simulation when m is fixed and N and A are updated
+</div>
+</div>
+
+Figure 6 shows that the probability of having exact one anomaly in
+our test increases first and then drops. The optimal testing size $m$
+also shifts to the left when the share of anomalies in the population
+is higher, meaning we don't have to test that much to see an anomaly in our
+sample. 
+
+#### Bernoulli trial
+
+Now, we can use Bernoulli trial as have our binary probability. Let's assume
+that $N=1000, A=10, m=5$, which means the probability of having exact one
+anomaly in our sample is around $0.048$ as it is shown in Figure 6. Now,
+the probability of having no anomaly is:
+
+$$
+\begin{aligned}
+\mathbb{P}(k=0) & = 1 - \mathbb{P}(k=1) - \mathbb{P}(k=2) - \cdots \mathbb{P}(k=5) \\ 
+& \approx 1 - 0.049 = 0.951 
+\end{aligned}
+$$
+
+Therefore, we can set $p=0.049, q = 0.951$ and if we run our unit testing three
+times or five times, the probability that we will see one anomaly from any of those three
+tests is
+
+$$
+\mathbb{P(u=3)} = \binom{3}{1} p (1-p)^2 \approx 0.132; \quad \mathbb{P(u=5)} = \binom{5}{1} p (1-p)^4 \approx 0.20; 
+$$
+
+If you look at the table, running 5 times unit testing with 
+sample size $m=5$ is no difference from running one time unit testing
+with sample size $m=25$. 
 
 
 

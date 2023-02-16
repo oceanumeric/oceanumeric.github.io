@@ -832,6 +832,7 @@ the key components of aircraft industry in terms of manufacturing process.
         left shows the top 5 IPC class of all levels, whereas the figure
         on the right shows the distribution for the sub class. 
 </div>
+</div>
 
 Looking at those IPC classification labels, it is difficult for anyone 
 who is not a patent expert to apprehend the meaning of those labels. Even
