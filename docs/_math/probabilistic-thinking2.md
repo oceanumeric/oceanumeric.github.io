@@ -293,12 +293,56 @@ At last, we need to calculate the <b>weighted</b> arithmetic mean.
 
 For the example of flipping coins, the random variable is $H$ (the number
 of heads), the countable set of possible outcomes is the set of all
-possible values $h \in [0, n]$. We know each trial follows the Bernoulli
+possible values $h \in [0, n]$. We know each trial follows the binomial
 distribution, then we can write down the formula for the expected value.
 
 $$
-\mathbb{E}[H] = \sum_{h=0}^n h \cdot  \mathbb{P}(h) = \sum_{h=0}^n h \cdot \binom{n}{h}p^h(1-p)^{n-h}
+\mathbb{E}[H] = \sum_{h=0}^n h \cdot  \mathbb{P}(h) = \sum_{h=0}^n h \cdot \binom{n}{h}p^h(1-p)^{n-h} \tag{11}
 $$
+
+I hope you feel released when you compare equation (11) and (10), which shows
+that it is natural for anyone to have unnatural reactions at the beginning. Now,
+we will derive the expected value. There are different ways to do it (see
+[all proofs](https://proofwiki.org/wiki/Expectation_of_Binomial_Distribution){:target="_blank"}). With binomial theory, it can be shown that 
+
+$$ \mathbb{E}[H] = np$$
+
+
+we will leverage the linearity of expectation again 
+because each trial is independent. We can treat $H$ as the sum of 
+discrete random variable $h$ that follows the Bernoulli trial, this means
+
+$$
+H = \sum_{i=1}^n h_i \tag{12}
+$$
+
+_Remark_: Be careful about the index. In equation (11), $h$ is not a 
+random variable, it is just a mathematical symbol for us to count the number of
+heads (which could be $0$). However, in equation (12), $h_i$ is a random 
+variable which follows the Bernoulli trials. We run $n$ independent trials
+and we are interested in the sum of those discrete random varaibles. 
+
+Therefore, 
+$$
+\begin{aligned}
+\mathbb{E}[H] & = \mathbb{E} \left [ \sum_{i=1}^n h_i \right ] = \sum_{i=1}^n \mathbb{E}[h_i] = np  \tag{13}
+\end{aligned}
+$$
+
+
+Bernoulli random variables and indicator variables are two aspects of the same concept. As a review, a random variable $I$ is called an indicator variable for an event $A$ if $I=1$ when $A$ occurs and $I=0$ if $A$ does not occur. $P(I=1)=P(A)$ and $E[I]=P(A)$. Indicator random variables are Bernoulli random variables, with $p=P(A)$. For instance, using indicator function, the expectation could
+be calculated as follows:
+
+$$
+\mathbb{E}[H] = \sum_{i=1}^n \left [ \mathbb{I}_{\text{$h_i$=head}} \cdot \mathbb{P} \right]
+$$
+
+To use the same trick we did in equation (13), we could derive the variance
+of $H$ is
+
+$$\mathrm{Var}[H] = \mathrm{Var}  \left [ \sum_{i=1}^n h_i \right ] = \sum_{h=1}^n  \mathrm{Var}[h_i]  = np(1-p) \tag{14}
+$$
+
 
 
 
