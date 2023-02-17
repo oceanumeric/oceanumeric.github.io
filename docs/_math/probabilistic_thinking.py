@@ -304,7 +304,10 @@ def chebyshev_inequality():
     ax.plot(n[10:], p1[10:], 'k--', label='epsilon = 0.1')
     ax.plot(n[10:], p2[10:], 'k:', label='epsilon=0.01')
     ax.set_xlabel('Sample size n')
-    ax.set_ylabel('Probability')
+    plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "Helvetica"})
+    ax.set_ylabel(r"Calculation of $\frac{1}{n \epsilon^2)}$")
     ax.set_ylim(0, 100)
     ax.text(100, p1[101]+1, '0.1001')
     ax.text(953, p2[-1]+3, '10.01')
@@ -314,7 +317,8 @@ def chebyshev_inequality():
 
 if __name__ == "__main__":
     chebyshev_inequality()
-    plt.savefig('docs/math/images/estimation_sample_size.png', dpi=300, bbox_inches="tight")
+    
+    plt.savefig('../images/estimation_sample_size.png', dpi=300, bbox_inches="tight")
 
     
     

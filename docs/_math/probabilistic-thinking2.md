@@ -260,5 +260,58 @@ This means as long as $k \leq O(\sqrt{n})$, with good probability, the
 maximum server load will be small (compared to the expected to load). 
 
 
+## Example 6: flipping coins
+
+You might think this example will be super easy as we learned this example
+probably from our elementary school. However, if I tell you that we flip
+$n =100$ independent coins, each are heads with probability $1/2$ and
+tails with probability $1/2$. Let $H$ be the number of heads, then we 
+could have:
+
+$$
+\mathbb{E}[H] = \frac{n}{2} = 50; \quad \mathrm{Var}[H] = \frac{n}{4} = 25 \tag{10}
+$$
+
+When you look at the equation (10), it seems very straightforward. However,
+to get numbers like $50, 25$, we need a long derivation. Let's use the definition
+of expectation. _I have to admit that I found it very unnatural to write 
+down the formula of expectation for our example_. I had an almost irresistible
+impulse to review the definition of expectation again. 
+
+<p class='theorembox'>
+<b>Expected value</b>
+<br>
+Informally, the expected value is the weighted arithmetic mean of a large number of independently selected outcomes of a random variable. This means we have:
+<i>one random variable</i> and <i> a countable set of possible outcomes</i>. 
+For example, weight of human being follows the normal distribution: random 
+variable is weight of human being, a countable set of possible outcomes 
+is the set of all possible values of weight (some people are fit, some are
+slim, some are overweight). 
+
+At last, we need to calculate the <b>weighted</b> arithmetic mean. 
+</p>
+
+For the example of flipping coins, the random variable is $H$ (the number
+of heads), the countable set of possible outcomes is the set of all
+possible values $h \in [0, n]$. We know each trial follows the Bernoulli
+distribution, then we can write down the formula for the expected value.
+
+$$
+\mathbb{E}[H] = \sum_{h=0}^n h \cdot  \mathbb{P}(h) = \sum_{h=0}^n h \cdot \binom{n}{h}p^h(1-p)^{n-h}
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {% endkatexmm %}
