@@ -337,6 +337,8 @@ def plot_bounds():
     ax.plot(h, markov, 'k--', label="Markov's inequality")
     ax.plot(h, chebyshev, 'k:', label="Chebyshev's inequarlity")
     ax.plot(h, binomial, 'k', label="Binomial CDF")
+    ax.set_xlabel("a")
+    ax.set_ylabel("Pr(X>a)")
     ax.legend(loc='center left')
         
     
