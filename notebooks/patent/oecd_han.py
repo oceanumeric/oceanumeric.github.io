@@ -234,11 +234,11 @@ def get_epo_publication_info(pub_kind_url: str) -> dict:
     if priority is not None:
         if isinstance(priority, list):
             priority_num = priority[0].replace(
-                'http://data.epo.org/linked-data/id/application/DE/', ''
+                'http://data.epo.org/linked-data/id/application/', ''
             )
         else:
             priority_num = priority.replace(
-                'http://data.epo.org/linked-data/id/application/DE/', ''
+                'http://data.epo.org/linked-data/id/application/', ''
             )
         pub_info['priorityNumber'] = priority_num
     else:
@@ -313,7 +313,7 @@ def unit_test1():
             print("::NO application number was found for", patent_number)
 
 
-# construct dataframe
+# construct dataframe and extract patents for all EPO, USPTO, WIPO
 def unit_test2():
     print("::::::::::::::::::::::Unit Test Running::::::::::::::::::::::\n")
     airbus_han_patents = pd.read_csv('./data/airbus_han_patents.csv')
@@ -448,6 +448,21 @@ def epo_linked_data():
         else:
             print("::NO application number was found for", patent_number)
 
+
+def extract_priority_date(priority_number: str) -> str:
+    """
+    Extract priority date based on priority number from EPO Open Linked data
+    """
+    url = 'https://data.epo.org/linked-data/doc/application/'+priority_number
+    page = requests.get(url, headers=HEADERS)
+    page.encoding = "utf-8"
+    print("Response status: -------", page.status_code)
+    page_json = page.json()
+    
+    result = page_json['result']["primaryTopic"]
+    
+    print(result['fillingDate'])
+    
 
 if __name__ == "__main__":
     print("Current working directory:", os.getcwd(), '\n')
