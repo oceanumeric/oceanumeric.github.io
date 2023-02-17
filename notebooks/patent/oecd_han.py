@@ -453,21 +453,53 @@ def extract_priority_date(priority_number: str) -> str:
     """
     Extract priority date based on priority number from EPO Open Linked data
     """
-    url = 'https://data.epo.org/linked-data/doc/application/'+priority_number
-    page = requests.get(url, headers=HEADERS)
-    page.encoding = "utf-8"
-    print("Response status: -------", page.status_code)
-    page_json = page.json()
-    
-    result = page_json['result']["primaryTopic"]
-    
-    print(result['fillingDate'])
+    if isinstance(priority_number, str):
+        url = 'https://data.epo.org/linked-data/doc/application/'
+        url = url+priority_number+'.json'
+        time.sleep(0.2)
+        page = requests.get(url, headers=HEADERS)
+        page.encoding = "utf-8"
+        print("Response status: -------", page.status_code)
+        page_json = page.json()
+        
+        result = page_json['result']["primaryTopic"]
+        
+        return result['filingDate']
+    else:
+        if priority_number == np.nan:
+            return np.nan
+        else:
+            return priority_number
+
+
+def _apply_priority_date(prior_number):
+    if prior_number is not np.nan:
+        return extract_priority_date(prior_number)
+    else:
+        return np.nan
     
 
+    
 if __name__ == "__main__":
     print("Current working directory:", os.getcwd(), '\n')
-    start = time.time()
-    epo_linked_data()
-    tt = time.time()-start
-    print(f"Time consumption: {round(tt, 3)}s, {round(tt/60, 3)}m")
+    
+    # test 
+    # unit_test3()
+    
+    # start = time.time()
+    # epo_linked_data()
+    # tt = time.time()-start
+    # print(f"Time consumption: {round(tt, 3)}s, {round(tt/60, 3)}m")
+    
+    # extract priority date
+    # pub = pd.read_csv('./data/airbus_ep_publications.csv')
+    # pub['priorityDate'] = pub['priorityNumber'].apply(
+    #     lambda x: _apply_priority_date(x)
+    #     )
+    # pub.to_csv('./data/airbus_ep_pub_prior.csv', index=False)
+    foo = pd.read_csv('./data/airbus_app_prior.csv')
+    for x in foo.index:
+        if foo.loc[x, 'priorityDate'] is np.nan:
+            foo.loc[x, 'priorityDate'] = foo.loc[x, 'applicationDate']
+    foo.to_csv('./data/airbus_app_prior.csv', index=False)
 # %%

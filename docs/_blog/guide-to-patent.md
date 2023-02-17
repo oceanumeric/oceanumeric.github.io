@@ -839,6 +839,7 @@ who is not a patent expert to apprehend the meaning of those labels. Even
 for a patent expert, she/he has to be domain expert to interpret those
 labels. For instance, the top IPC class is `B29c70-38`, which means 'Automated lay-up, e.g. using robots, laying filaments according to predetermined patterns'. 
 
+__Word Clouds__
 
 ## Measuring patent quality 
 
@@ -863,6 +864,8 @@ Here is the list of patent quality measurement:
 - Patent renewal 
 - disruptive indicator {% cite funk2017dynamic %} 
 
+__Patent truncation issue.__ 
+
 
 ## Understanding OECD citation database structure 
 
@@ -872,4 +875,8 @@ We will only focus on four tables: `EPO_CITATIONS`, `EPO_CIT_COUNTS`, `EPO_EQUIV
 
 In the above sections, we have extracted all granted patents for Airbus Defence
 (DE) company (see Table 12). With those patent numbers, we could extract 
-their citations from OECD Citations database. 
+their citations from OECD Citations database. Some key figures for our 
+dataset: 
+
+- Airbus EPO application: 716
+- Airbus EPO granted patents: 538 
