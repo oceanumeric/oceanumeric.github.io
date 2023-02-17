@@ -313,12 +313,38 @@ def chebyshev_inequality():
     ax.text(953, p2[-1]+3, '10.01')
     ax.legend()
     print(p1[-1], p2[-1])
+    
 
+def plot_bounds():
+    """
+    plot concentration bound for binomial distribution
+    """
+    n = 100
+    h = list(range(60, 80))
+    eh = 50
+    varh = 25
+    
+    markov = []
+    chebyshev = []
+    binomial = []
+    
+    for x in h:
+        markov.append(eh/x)
+        chebyshev.append(varh/((x-eh)**2))
+        binomial.append(1-spt.binom.cdf(x, 100, 0.5))
+    
+    fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
+    ax.plot(h, markov, 'k--', label="Markov's inequality")
+    ax.plot(h, chebyshev, 'k:', label="Chebyshev's inequarlity")
+    ax.plot(h, binomial, 'k', label="Binomial CDF")
+    ax.legend(loc='center left')
+        
+    
+    
 
 if __name__ == "__main__":
-    chebyshev_inequality()
-    
-    plt.savefig('../images/estimation_sample_size.png', dpi=300, bbox_inches="tight")
+    plot_bounds()
+    plt.savefig('../math/images/inequality_bounds.png', dpi=300, bbox_inches="tight")
 
     
     

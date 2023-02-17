@@ -24,6 +24,12 @@ $$
 e = mc^2. \tag{1}
 $$
 
+$$
+\begin{aligned}
+&= 
+\end{aligned}
+$$
+
 
 Cool!
 

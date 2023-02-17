@@ -157,7 +157,7 @@ which means that one needs a larger sample for that.
 <div class='figure'>
     <img src="/math/images/estimation_sample_size.png"
          alt="A demo figure"
-         style="width: 60%; display: block; margin: 0 auto;"/>
+         style="width: 70%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 1.</span> Plot of probability against
         sample size based on equation (6).  <i>Remark</i>: the probability 
@@ -344,10 +344,27 @@ $$\mathrm{Var}[H] = \mathrm{Var}  \left [ \sum_{i=1}^n h_i \right ] = \sum_{h=1}
 $$
 
 
+Now, with the results in equation (11), we can test how concentrated of
+Markov's inequality and Chebyshev's inequality:
 
+$$
+\begin{aligned}
+& \mathbb{P}(X \geq a) \leq \frac{\mathbb{E}[X]}{a}  \\
+& \mathbb{P}(|X - E[X]| \geq a) \leq \frac{\mathrm{Var}[X]}{a^2}
+\end{aligned}
+$$
 
-
-
+<div class='figure'>
+    <img src="/math/images/inequality_bounds.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Plot of different inequality
+        bounds, which shows that the concentration improves a lot from
+        Markov's inequality to Chebyshev's inequality; but there is still
+        some space to improve. 
+    </div>
+</div>
 
 
 
