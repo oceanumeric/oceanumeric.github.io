@@ -280,6 +280,7 @@ table th {
 }
 
 .theorembox {
+  width: 90%;
   font-size: 18px;
   border:1.5px;
   border-style:dashed;
