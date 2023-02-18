@@ -531,7 +531,7 @@ if __name__ == "__main__":
     #         foo.loc[x, 'priorityDate'] = foo.loc[x, 'applicationDate']
     # foo.to_csv('./data/airbus_app_prior.csv', index=False)
     
-    plot_truncation()
+    # plot_truncation()
 
 
 # %%
