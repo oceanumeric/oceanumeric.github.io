@@ -1643,10 +1643,27 @@ forward citation in terms of scale, agents, and lags, etc.</p>
 <div class="figure">
     <img src="/images/blog/airbus_forward_citation.png" alt="Patent truncation issue" style="width: 70%; display: block; margin: 0 auto;" />
     <div class="caption">
-        <span class="caption-label">Figure 12.</span> Distribution of citation lags; this is very interesting to see some of patent
-        citation have more than 100 years lags. 
+        <span class="caption-label">Figure 12.</span> Distribution of total citation received, which shows many of patents have zero forward 
+        citations. 
     </div>
 </div>
+
+<p>How does OECD citation database calculated the total forward citation? According to their report, <code class="language-plaintext highlighter-rouge">Total_cits_Recd</code> is calculated by summing up
+three citations:</p>
+
+<ul>
+  <li>total citations received as either EP or WO publication</li>
+  <li>number of citations received as other national publication in European searches</li>
+  <li>number of citations received as other national publication in international
+searches</li>
+</ul>
+
+<p>It is important to know that _all counts are based on citations made during 
+the search only (<code class="language-plaintext highlighter-rouge">citation origin</code> is either SEA or ISR, see Figure 10). The 
+OECD’s way of calculating total forward citations is to calculate all 
+citations received for the whole family. That’s why OECD citation 
+database also provides three tables - <code class="language-plaintext highlighter-rouge">EPO_EQUIVALENT</code>, <code class="language-plaintext highlighter-rouge">PCT_EQUIVALENT</code>, 
+and <code class="language-plaintext highlighter-rouge">US_EQUIVALENT</code> to give a list of patent equivalents to cited patents.</p>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
