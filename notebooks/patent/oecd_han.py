@@ -479,6 +479,32 @@ def _apply_priority_date(prior_number):
         return np.nan
     
 
+def plot_truncation():
+    fj = pd.read_csv('./data/fj2.csv')
+    fig, ax = plt.subplots(3, 1, figsize=(6, 5))
+    ax[0].bar(
+        fj['Year'], fj['priorityDate'], color='#D3D3D3', edgecolor='black',
+        label='Priority Date'
+        )
+    ax[1].bar(
+        fj['Year'], fj['applicationDate'], color='#D3D3D3', edgecolor='black',
+        label='Application Date'
+        )
+    ax[2].bar(
+        fj['Year'], fj['grantedDate'], color='#D3D3D3', edgecolor='black',
+        label='Granted Date'
+        )
+    for i in range(3):
+        ax[i].set_xlim(2002, 2025)
+        ax[i].set_axisbelow(True)
+        ax[i].grid(color='#D3D3D3')
+        ax[i].legend(loc='upper left')
+    ax[0].axvline(x=2013, linestyle='dashed', color='k')
+    ax[1].axvline(x=2014, linestyle='dashed', color='k')
+    ax[2].axvline(x=2019, linestyle='dashed', color='k')
+    
+    plt.savefig("patent_truncation.png", dpi=300, bbox_inches='tight')
+    
     
 if __name__ == "__main__":
     print("Current working directory:", os.getcwd(), '\n')
@@ -497,9 +523,15 @@ if __name__ == "__main__":
     #     lambda x: _apply_priority_date(x)
     #     )
     # pub.to_csv('./data/airbus_ep_pub_prior.csv', index=False)
-    foo = pd.read_csv('./data/airbus_app_prior.csv')
-    for x in foo.index:
-        if foo.loc[x, 'priorityDate'] is np.nan:
-            foo.loc[x, 'priorityDate'] = foo.loc[x, 'applicationDate']
-    foo.to_csv('./data/airbus_app_prior.csv', index=False)
+    
+    # fill in priority date
+    # foo = pd.read_csv('./data/airbus_app_prior.csv')
+    # for x in foo.index:
+    #     if foo.loc[x, 'priorityDate'] is np.nan:
+    #         foo.loc[x, 'priorityDate'] = foo.loc[x, 'applicationDate']
+    # foo.to_csv('./data/airbus_app_prior.csv', index=False)
+    
+    plot_truncation()
+
+
 # %%

@@ -841,6 +841,7 @@ labels. For instance, the top IPC class is `B29c70-38`, which means 'Automated l
 
 __Word Clouds__
 
+
 ## Measuring patent quality 
 
 After knowing how to get patents for a company, we are now interested in
@@ -864,7 +865,23 @@ Here is the list of patent quality measurement:
 - Patent renewal 
 - disruptive indicator {% cite funk2017dynamic %} 
 
-__Patent truncation issue.__ 
+__Patent truncation issue.__ Figure 7 shows the truncation issue of patent, which shows the time lag between application date and granted date. Paper
+by Lerner (2022) discussed the use and misuse of patents and addressed 
+this issue and discussed potential biases {% cite lerner2022use %}. 
+
+<div class='figure'>
+    <img src="/images/blog/patent_truncation.png"
+         alt="Patent truncation issue"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 7.</span> The patent truncation
+        issue for Airbus (DE), which shows that it normally takes four to five years for 
+        a patent to be granted; this means she/he has to take the 
+        lags into the consideration for using any kind quality measurement. 
+        w
+    </div>
+</div>
+
 
 
 ## Understanding OECD citation database structure 
@@ -880,3 +897,65 @@ dataset:
 
 - Airbus EPO application: 716
 - Airbus EPO granted patents: 538 
+
+Again, we will focus on granted patents and will analyze its backward citations. I am interested in answering the question: backward citation and 
+forward citation in terms of scale, agents, and lags, etc. 
+
+<div class='figure'>
+    <img src="/images/blog/airbus_cited_auth.png"
+         alt="Patent truncation issue"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 8.</span> Plot of frequency of
+        Airbus' cited patents from different authorities: this shows
+        USA is the source of innovation. 
+    </div>
+</div>
+
+
+<div class='figure'>
+    <img src="/images/blog/airbus_hist_citations.png"
+         alt="Patent truncation issue"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 9.</span> Distribution of 
+        total citations made in each patent; the median is around 5/6;
+        the distribution is also right-skewed.
+    </div>
+</div>
+
+
+<div class='figure'>
+    <img src="/images/blog/airbus_citation_origin.png"
+         alt="Patent truncation issue"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 10.</span> Plot of frequency of 
+        citation origins, which shows that firms either does not search 
+        for prior arts diligently or avoid citing prior arts strategically or
+        has no manpower to search for prior arts (APP: citation introduced by the applicant, EXA: citation introduced during the examination,
+        FOP: citations introduced by the opponent of the proprietor, SEA: citation introduced during the search). 
+    </div>
+</div>
+
+
+<div class='figure'>
+    <img src="/images/blog/airbus_citation_lags.png"
+         alt="Patent truncation issue"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 11.</span> Distribution of citation lags; this is very interesting to see some of patent
+        citation have more than 100 years lags. 
+    </div>
+</div>
+
+
+<div class='figure'>
+    <img src="/images/blog/airbus_forward_citation.png"
+         alt="Patent truncation issue"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 12.</span> Distribution of citation lags; this is very interesting to see some of patent
+        citation have more than 100 years lags. 
+    </div>
+</div>
