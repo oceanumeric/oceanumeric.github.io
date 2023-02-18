@@ -1569,7 +1569,20 @@ technological and economic value <a class="citation" href="#squicciarini2013meas
   <li>disruptive indicator <a class="citation" href="#funk2017dynamic">(Funk &amp; Owen-Smith, 2017)</a></li>
 </ul>
 
-<p><strong>Patent truncation issue.</strong></p>
+<p><strong>Patent truncation issue.</strong> Figure 7 shows the truncation issue of patent, which shows the time lag between application date and granted date. Paper
+by Lerner (2022) discussed the use and misuse of patents and addressed 
+this issue and discussed potential biases <a class="citation" href="#lerner2022use">(Lerner &amp; Seru, 2022)</a>.</p>
+
+<div class="figure">
+    <img src="/images/blog/patent_truncation.png" alt="Patent truncation issue" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 7.</span> The patent truncation
+        issue for Airbus (DE), which shows that it normally takes four to five years for 
+        a patent to be granted; this means she/he has to take the 
+        lags into the consideration for using any kind quality measurement. 
+        w
+    </div>
+</div>
 
 <h2 id="understanding-oecd-citation-database-structure">Understanding OECD citation database structure</h2>
 
@@ -1586,6 +1599,54 @@ dataset:</p>
   <li>Airbus EPO application: 716</li>
   <li>Airbus EPO granted patents: 538</li>
 </ul>
+
+<p>Again, we will focus on granted patents and will analyze its backward citations. I am interested in answering the question: backward citation and 
+forward citation in terms of scale, agents, and lags, etc.</p>
+
+<div class="figure">
+    <img src="/images/blog/airbus_cited_auth.png" alt="Patent truncation issue" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 8.</span> Plot of frequency of
+        Airbus' cited patents from different authorities: this shows
+        USA is the source of innovation. 
+    </div>
+</div>
+
+<div class="figure">
+    <img src="/images/blog/airbus_hist_citations.png" alt="Patent truncation issue" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 9.</span> Distribution of 
+        total citations made in each patent; the median is around 5/6;
+        the distribution is also right-skewed.
+    </div>
+</div>
+
+<div class="figure">
+    <img src="/images/blog/airbus_citation_origin.png" alt="Patent truncation issue" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 10.</span> Plot of frequency of 
+        citation origins, which shows that firms either does not search 
+        for prior arts diligently or avoid citing prior arts strategically or
+        has no manpower to search for prior arts (APP: citation introduced by the applicant, EXA: citation introduced during the examination,
+        FOP: citations introduced by the opponent of the proprietor, SEA: citation introduced during the search). 
+    </div>
+</div>
+
+<div class="figure">
+    <img src="/images/blog/airbus_citation_lags.png" alt="Patent truncation issue" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 11.</span> Distribution of citation lags; this is very interesting to see some of patent
+        citation have more than 100 years lags. 
+    </div>
+</div>
+
+<div class="figure">
+    <img src="/images/blog/airbus_forward_citation.png" alt="Patent truncation issue" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 12.</span> Distribution of citation lags; this is very interesting to see some of patent
+        citation have more than 100 years lags. 
+    </div>
+</div>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
@@ -1609,6 +1670,7 @@ dataset:</p>
             <ol class="bibliography"><li><span id="de2014introduction">De Rassenfosse, G., Dernis, H., &amp; Boedt, G. (2014). An introduction to the Patstat database with example queries. <i>Australian Economic Review</i>, <i>47</i>(3), 395–408.</span></li>
 <li><span id="funk2017dynamic">Funk, R. J., &amp; Owen-Smith, J. (2017). A dynamic network measure of technological change. <i>Management Science</i>, <i>63</i>(3), 791–817.</span></li>
 <li><span id="kang2016patstat">Kang, B., &amp; Tarasconi, G. (2016). PATSTAT revisited: Suggestions for better usage. <i>World Patent Information</i>, <i>46</i>, 56–63.</span></li>
+<li><span id="lerner2022use">Lerner, J., &amp; Seru, A. (2022). The use and misuse of patent data: Issues for finance and beyond. <i>The Review of Financial Studies</i>, <i>35</i>(6), 2667–2704.</span></li>
 <li><span id="squicciarini2013measuring">Squicciarini, M., Dernis, H., &amp; Criscuolo, C. (2013). <i>Measuring patent quality: Indicators of technological and economic value</i>.</span></li>
 <li><span id="webb2005analysing">Webb, C., Dernis, H., Harhoff, D., &amp; Hoisl, K. (2005). <i>Analysing European and international patent citations: A set of EPO patent database building blocks</i>.</span></li></ol>
         </div>
