@@ -87,7 +87,9 @@ names(horizon)
 
 # filter out German firms
 horizon %>%
-    .[, c(1, 2, 3, 5, 7, 8:12, 37)] %>%
+    .[, c(1, 2, 3, 5, 7, 8:12, 23, 26, 27, 32, 33, 37)] %>%
+    .[, totalCost := gsub(",", ".", totalCost)] %>%
+    .[, totalCost := as.numeric(totalCost)] %>%
     .[country == "DE" & activityType == "PRC"] -> horizon_de_firms
 
 
