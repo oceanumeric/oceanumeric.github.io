@@ -141,7 +141,7 @@ han_names %>%
 
 # match again
 merge_foo$data1_nomatch %>%
-    .[, nm_names := lapply(cleaned_names, convert_string)] -> foo4
+    .[, cleaned_names := lapply(cleaned_names, convert_string)] -> foo4
 
 
 han_patents %>%
@@ -150,7 +150,7 @@ han_patents %>%
 
 
 merge_foo2 <- merge_plus(data1 = foo4, data2 = foo2,
-                        by.x = "nm_names", by.y = "cleaned_names",
+                        by.x = "cleaned_names", by.y = "cleaned_names",
                         match_type = "fuzzy",
                         unique_key_1 = "ID",
                         unique_key_2 = "HAN_ID")
@@ -178,3 +178,26 @@ ggsave(
     width=6, height=3, type="cairo-png",
     device = grDevices::png, 
     dpi=300, bg='transparent')
+
+
+######### ------ Combine two matches together ------- #########
+
+merge_foo2$matches <- merge_foo2$matches[, nm_names := NULL]
+
+all_matches <- rbind(merge_foo$matches, merge_foo2$matches)
+
+all_matches %>%
+    .[sample(.N, 5)]
+
+
+######### ------ get all patents for matched firms ------- #########
+
+# get HAN_ID
+all_matches %>%
+    .[, HAN_ID] -> all_han_ids
+
+
+# get patents
+han_patents %>%
+    .[HAN_ID %in% all_han_ids] %>%
+    .[sample(.N, 5)]

@@ -110,12 +110,10 @@ This means we assume there were 10 names are false negative and if we
 draw 5 names out of $82$ names, we want to calculate the probability of having one false
 negative in our sample. 
 
-```r
-1-phyper(1, m=10, n=70, k=5)  # 0.1151
-```
+
 I did run four times of this kind of test, and three of those tests 
 have false negative values, this means the probability is around $0.75$, 
-which is higher than $0.1151$. 
+which is higher than $0.1151$ (`1-phyper(1, m=10, n=70, k=5)  # 0.1151`).
 
 
 <div class='figure'>
