@@ -119,7 +119,7 @@ prob <- 1 - phyper(1, m_seq, 82 - m_seq, k = 5)
 options(repr.plot.width = 6, repr.plot.height = 3)
 data.frame(m = m_seq, prob = prob) %>%
     ggplot(aes(x = m, y = prob)) +
-        geom_point() +
+        geom_point(color=gray_scale[15]) +
         theme_bw() +
         labs(x = "Vlaue of m", y = "Probability") +
         theme(
