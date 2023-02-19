@@ -3,9 +3,9 @@ title: Linking Different Databases by Matching Company Names
 subtitle: Different datasets very often collected from different sources, e.g. Compustat by S&P, Orbis by Bureau van Dijk, and patent database by different patent authorities. To ensure that the data from different datasets applies to the same company, we need to link those them together either by unique identifiers or by company names. 
 layout: blog_default
 date: 2023-02-18
-keywords: patent analytic, EPO, PATSTAT, USPTO, Orbis, matching, WRDS, database, string-matching
+keywords: business analytic, CORDIS, Orbis, matching, WRDS, database, string-matching, open-data, patent
 published: true
-tags: patent patstat api python r string-matching database 
+tags: data-science python r dataset string-matching patent
 ---
 
 

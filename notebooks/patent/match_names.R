@@ -3,7 +3,7 @@ library(pacman)
 p_load(
     tidyverse, data.table, dtplyr, reshape2,
     archive, kableExtra, SPARQL, janitor,
-    png, webp, Cairo, rsvg,
+    png, webp, Cairo, rsvg, rbenchmark,
     httr, jsonlite, fedmatch)
 # set option
 options(dplyr.summarise.inform = FALSE)
@@ -200,4 +200,17 @@ all_matches %>%
 # get patents
 han_patents %>%
     .[HAN_ID %in% all_han_ids] %>%
-    .[sample(.N, 5)]
+    dim()
+
+
+# create a table with names and patents
+han_patents %>%
+    .[HAN_ID %in% all_han_ids] -> all_matches_patents
+
+
+# left join with all_matches_patents
+orbis_de_patents <- merge(
+                        all_matches_patents,
+                        all_matches[, c(1, 3, 4, 5)],
+                        all.x = TRUE
+                        )

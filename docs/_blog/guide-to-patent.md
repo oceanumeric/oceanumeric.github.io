@@ -5,7 +5,7 @@ layout: blog_default
 date: 2023-02-06
 keywords: patent analytic, EPO, PATSTAT, USPTO
 published: true
-tags: patent patstat api python r
+tags: data-science dataset python r business-analytics patent patstat 
 ---
 
 
