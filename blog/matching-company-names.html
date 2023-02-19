@@ -205,7 +205,7 @@ not any items from <code class="language-plaintext highlighter-rouge">HAN_NAMES<
 I googled it and found <em>Infineon Tech Dresden GmbH &amp; Co. KG</em> is used 
 sometimes, and then the exact match was found with string <em>Infineon Tech Dresden GmbH</em>.</p>
 
-<h2 id="design-an-algorithm">Design an algorithm</h2>
+<h2 id="test-an-algorithm">Test an algorithm</h2>
 
 <p>Before implementing our own algorithms to match names, I tried a package
 called <code class="language-plaintext highlighter-rouge">fedmatch</code>. The exact math gives 164 rows, which means the 
@@ -233,7 +233,7 @@ f(x |m, n, k) = \frac{\binom{m}{x} \binom{n}{k-x}}{\binom{m+n}{k}}
 
 <ul>
   <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn><mo separator="true">,</mo><mi>x</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k = 5, x=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></li>
-  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mn>10</mn><mo separator="true">,</mo><mi>N</mi><mo>=</mo><mn>70</mn><mo separator="true">,</mo><mi>M</mi><mo>+</mo><mi>N</mi><mo>=</mo><mn>82</mn></mrow><annotation encoding="application/x-tex">M = 10, N=70, M+N=82</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">7</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span><span class="mord">2</span></span></span></span></li>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mn>10</mn><mo separator="true">,</mo><mi>N</mi><mo>=</mo><mn>72</mn><mo separator="true">,</mo><mi>M</mi><mo>+</mo><mi>N</mi><mo>=</mo><mn>82</mn></mrow><annotation encoding="application/x-tex">M = 10, N=72, M+N=82</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">7</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span><span class="mord">2</span></span></span></span></li>
 </ul>
 
 <p>This means we assume there were 10 names are false negative and if we 
@@ -253,6 +253,60 @@ which is higher than <span class="katex"><span class="katex-mathml"><math xmlns=
         distribution probability for different values of m. 
     </div>
 </div>
+
+<p>When examing those false negative names, I also notice that <code class="language-plaintext highlighter-rouge">HAN_NAMES</code> database
+uses abbreviations such as ‘ELECT’ to represent ‘ELECTRIC’ or ‘ELECTRONICS’,
+and ‘TECH’ to represent ‘TECHNOLOGY’.</p>
+
+<p><strong>Entity abbreviations.</strong> The other common peculiarity of company
+names is about entity abbreviations. For instance, Table 3 gives some
+examples.</p>
+
+<div class="table-caption">
+<span class="table-caption-label">Table 3.</span> Examples of entity abbreviations 
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">abbr</th>
+      <th style="text-align: center">long.names</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">svcs</td>
+      <td style="text-align: center">services</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">solutn</td>
+      <td style="text-align: center">solutions</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">sftwr</td>
+      <td style="text-align: center">software</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">inc</td>
+      <td style="text-align: center">incorporated</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">sa</td>
+      <td style="text-align: center">sa</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">ag</td>
+      <td style="text-align: center">aktiengesellschaft</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">co kg</td>
+      <td style="text-align: center">Compagnie Kommanditgesellschaft</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>After cleaning entity abbreviations, I found another 17 matches, which makes
+the total matches increase to 181 (around 73% of <code class="language-plaintext highlighter-rouge">orbis_de</code>’s firms).</p>
 
 
     </div>
