@@ -75,7 +75,7 @@ sometimes, and then the exact match was found with string _Infineon Tech Dresden
 
 
 
-## Design an algorithm 
+## Test an algorithm 
 
 
 
@@ -104,7 +104,7 @@ $$
 In our case
 
 - $k = 5, x=1$
-- $M = 10, N=70, M+N=82$
+- $M = 10, N=72, M+N=82$
 
 This means we assume there were 10 names are false negative and if we 
 draw 5 names out of $82$ names, we want to calculate the probability of having one false
@@ -127,6 +127,39 @@ which is higher than $0.1151$.
         distribution probability for different values of m. 
     </div>
 </div>
+
+When examing those false negative names, I also notice that `HAN_NAMES` database
+uses abbreviations such as 'ELECT' to represent 'ELECTRIC' or 'ELECTRONICS',
+and 'TECH' to represent 'TECHNOLOGY'. 
+
+__Entity abbreviations.__ The other common peculiarity of company
+names is about entity abbreviations. For instance, Table 3 gives some
+examples. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 3.</span> Examples of entity abbreviations 
+</div>
+
+
+|  abbr  |  long.names  |
+|:------:|:------------:|
+|  svcs  |   services   |
+| solutn |  solutions   |
+| sftwr  |   software   |
+|  inc   | incorporated |
+|   sa   |      sa      |
+| ag     | aktiengesellschaft| 
+|co kg | Compagnie Kommanditgesellschaft| 
+
+After cleaning entity abbreviations, I found another 17 matches, which makes
+the total matches increase to 181 (around 73% of `orbis_de`'s firms). 
+
+
+
+
+
+
+
 
 
 

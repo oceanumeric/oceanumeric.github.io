@@ -86,30 +86,74 @@ merge_foo$matches %>%
     .[sample(.N, 5)]
 
 
+convert_string <- function(x){
+
+    if (x %like% "aktiengesellschaft") {
+        x <- gsub("aktiengesellschaft", "ag", x)
+    }
+
+    if (x %like% "electronic") {
+        x <- gsub("electronic", "elect", x)
+    }
+
+    if (x %like% "and co kg") {
+        x <- gsub("and co kg", "", x)
+    }
+
+    if (x %like% "international") {
+        x <- gsub("international", "int", x)
+    }
+
+    if (x %like% "technologies") {
+        x <- gsub("technologies", "tech", x)
+    }
+
+    if (x %like% "technologie") {
+        x <- gsub("technologie", "tech", x)
+    }
+
+    if (x %like% "engineering") {
+        x <- gsub("engineering", "eng", x)
+    }
+
+
+
+    return(x)
+}
+
 # not matched
 merge_foo$data1_nomatch %>%
-    .[, c(3, 4)] %>%
-    .[sample(.N, 5)]
+    .[sample(.N, 5)] %>%
+    .[, h := lapply(cleaned_names, convert_string)] %>%
+    head()
+
+# corporate words
+corporate_words %>%
+    .[sample(.N, 5)] %>%
+    kable("pipe", align = "cc")
 
 
-# A data.table: 5 × 2
-# ID	cleaned_names
-# <int>	<chr>
-# 142	socionext europe gmbh
-# 226	wirtschaftsfoerderung land brandenburg gmbh
-# 243	schweizer electronic aktiengesellschaft
-# 48	moonstar communications gmbh
-# 102	dbh logistics it ag
-
-test_name <- toupper("flughafen berlin")
+test_name <- toupper("applied materials gmbh")
 han_names %>%
     .[Person_ctry_code == "DE"] %>%
     .[Clean_name %like% test_name]
 
 
+# match again
+merge_foo$data1_nomatch %>%
+    .[, nm_names := lapply(cleaned_names, convert_string)] -> foo4
+
+
 han_patents %>%
-    .[HAN_ID == 657390] %>%
+    .[HAN_ID == 160981] %>%
     dim()
+
+
+merge_foo2 <- merge_plus(data1 = foo4, data2 = foo2,
+                        by.x = "nm_names", by.y = "cleaned_names",
+                        match_type = "fuzzy",
+                        unique_key_1 = "ID",
+                        unique_key_2 = "HAN_ID")
 
 
 # plot hypergeometric distribution
@@ -119,7 +163,7 @@ prob <- 1 - phyper(1, m_seq, 82 - m_seq, k = 5)
 options(repr.plot.width = 6, repr.plot.height = 3)
 data.frame(m = m_seq, prob = prob) %>%
     ggplot(aes(x = m, y = prob)) +
-        geom_point(color=gray_scale[15]) +
+        geom_line(color=gray_scale[15], linetype = "twodash") +
         theme_bw() +
         labs(x = "Vlaue of m", y = "Probability") +
         theme(
