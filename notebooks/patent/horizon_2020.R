@@ -70,7 +70,31 @@ projects_subset <- merge(projects_subset, sv_tags_sum,
 horizon <- merge(org, projects_subset, by = "projectID", all.x = TRUE)
 
 
+# on projects level
+projects_subset %>%
+    .[, .(svLevel2)] %>%
+    .[, .N, by=svLevel2] %>%
+    .[order(-rank(N))] %>%
+    head(10) %>%
+    kable("pipe", align = "cl")
 
 # one project is normally applied by many organizations 
 horizon %>%
     .[sample(.N, 5)]
+
+names(horizon)
+
+
+# filter out German firms
+horizon %>%
+    .[, c(1, 2, 3, 5, 7, 8:12, 37)] %>%
+    .[country == "DE" & activityType == "PRC"] -> horizon_de_firms
+
+
+dim(horizon_de_firms)
+names(horizon_de_firms)
+horizon_de_firms[sample(.N, 5)]
+
+
+
+########## ------ Match names with Orbis dataset ------ #########

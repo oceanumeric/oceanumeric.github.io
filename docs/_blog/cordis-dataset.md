@@ -25,3 +25,20 @@ You can download all datasets from [kaggle](https://www.kaggle.com/datasets/ocea
 ## Horizon 2020 dataset 
 
 
+<div class="table-caption">
+<span class="table-caption-label">Table 1.</span> Distribution of funded projects in terms of industry
+</div>
+
+
+|                                Industry                                 |N    |
+|:-----------------------------------------------------------------------|:----:|
+|                    computer and information sciences                    |4525 |
+|                           biological sciences                           |4454 |
+|                            physical sciences                            |2335 |
+|                        environmental engineering                        |2105 |
+| electronic engineering, information engineering |1784 |
+|                            chemical sciences                            |1739 |
+|                                sociology                                |1625 |
+|                            clinical medicine                            |1603 |
+|                         economics and business                          |1517 |
+|                             basic medicine                              |1340 |
