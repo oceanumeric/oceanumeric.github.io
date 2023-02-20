@@ -137,21 +137,20 @@ match_exact$matches %>%
     .[postcode == postCode] -> horizon_orbis_de
 
 horizon_orbis_de %>%
-    dim()
-
-# save the dataset
-fwrite(horizon_orbis_de, "./data/horbis_de.csv")
+    dim()  # 3676
 
 # view matches
-match_exact$matches %>%
+horizon_orbis_de %>%
     .[, .(city_internat, postcode, cleaned_names_1,
                     cleaned_names_2, postCode, city)] %>%
-    .[postcode == postCode] %>%
     .[sample(.N, 5)]
 
 
-match_exact$matches %>%
-    .[postcode == postCode] %>%
+horizon_orbis_de %>%
     .[category_of_company == "VERY LARGE COMPANY"] %>%
     .[SME == FALSE] %>%
-    .[sample(.N, 5)]
+    dim()  # 1574
+
+
+######## ----------- save the final dataset ------ #######
+fwrite(horizon_orbis_de, "./data/horbis_de.csv")
