@@ -44,6 +44,12 @@ You can download all datasets from [kaggle](https://www.kaggle.com/datasets/ocea
 |                             basic medicine                              |1340 |
 
 
+With firm information from Cordis, I will link it with Orbis datasets
+by matching firm names. Then the matched dataset will be linked to
+the OECD HAN datasets by matching company names again. 
+
+The code in the following block gives the algorithm of doing this. 
+
 ```r
 # load packages
 library(pacman)
