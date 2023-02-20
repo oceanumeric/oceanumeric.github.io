@@ -134,10 +134,11 @@ names(match_exact$matches)
 
 # match postcode again
 match_exact$matches %>%
-    .[postcode == postCode] -> horizon_orbis_de
+    .[postcode == postCode] %>%
+    unique(by = "organisationID") -> horizon_orbis_de
 
 horizon_orbis_de %>%
-    dim()  # 3676
+    dim()  # 1290
 
 # view matches
 horizon_orbis_de %>%
@@ -145,12 +146,77 @@ horizon_orbis_de %>%
                     cleaned_names_2, postCode, city)] %>%
     .[sample(.N, 5)]
 
-
 horizon_orbis_de %>%
     .[category_of_company == "VERY LARGE COMPANY"] %>%
     .[SME == FALSE] %>%
-    dim()  # 1574
+    dim()  # 377
+
+######## ----------- match fuzzy ------ #######
+match_fuzzy <- merge_plus(data1 = foo1, data2 = foo2,
+                        by.x = "cleaned_names", by.y = "cleaned_names",
+                        match_type = "fuzzy",
+                        unique_key_1 = "orbisID",
+                        unique_key_2 = "horizonID")
+
+names(match_fuzzy)
+match_fuzzy$match_evaluation
+
+match_fuzzy$matches %>%
+    .[postcode == postCode] %>%
+    unique(by = "organisationID") -> horbis_de
+
+horbis_de %>%
+    dim()  # 1585
+
+# view match
+horbis_de %>%
+    .[, .(city_internat, postcode, cleaned_names_1,
+                    cleaned_names_2, postCode, city)] %>%
+    .[sample(.N, 5)]
+
+
+horbis_de %>%
+    .[category_of_company == "VERY LARGE COMPANY"] %>%
+    .[SME == FALSE] %>%
+    dim()  # 420
 
 
 ######## ----------- save the final dataset ------ #######
-fwrite(horizon_orbis_de, "./data/horbis_de.csv")
+fwrite(horbis_de, "./data/horbis_de.csv")
+
+
+###
+###
+###
+### ----------- match with patent datasets ------ #######
+han_names <- fread("./data/202208_HAN_NAMES.txt")
+han_person <- fread("./data/202208_HAN_PERSON.txt")
+han_patents <- fread("./data/202208_HAN_PATENTS.txt")
+
+
+names(horizon_orbis_de)
+
+
+horizon_orbis_de %>%
+    .[, c(1:5, 7:22)] %>%
+    .[, horbisID := .I] %>%
+    .[, cleaned_names := clean_strings(name)] -> horbis_foo
+
+
+han_names %>%
+    .[Person_ctry_code == "DE"] %>%
+    .[, patentID := .I] %>%
+    .[, clean_name := clean_strings(Clean_name)] -> patent_foo
+
+
+patent_match <- merge_plus(data1 = horbis_foo, data2 = patent_foo,
+                        by.x = "cleaned_names", by.y = "clean_name",
+                        match_type = "exact",
+                        unique_key_1 = "horbisID",
+                        unique_key_2 = "patentID")
+
+names(patent_match)
+patent_match$match_evaluation
+
+patent_match$matches %>%
+    head()
