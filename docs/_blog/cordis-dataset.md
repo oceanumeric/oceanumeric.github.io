@@ -48,7 +48,18 @@ With firm information from Cordis, I will link it with Orbis datasets
 by matching firm names. Then the matched dataset will be linked to
 the OECD HAN datasets by matching company names again. 
 
-The code in the following block gives the algorithm of doing this. 
+The code in the following block gives the algorithm of doing this. There are some important facts about the dataset that one should be 
+aware of:
+
+- sample size of H2020 for German firms is 7395 at project level
+- sample size of H2020 for German firms is 3339 at firm level (meaning one firm could have several projects going on)
+- the sample size of exact matching with Orbis dataset decreases to 1525 (27% - large firms, 73% - SME firms)
+- the sample size of exact matching with HAN_NAMES dataset decreases
+to 853 (283 of them are large firms)
+
+This means that we lost half of observations each time we linked
+datasets by matching names for those datasets. 
+
 
 ```r
 # load packages
@@ -146,14 +157,19 @@ horizon %>%
     .[country == "DE" & activityType == "PRC"] -> horizon_de_firms
 
 
-dim(horizon_de_firms)
+dim(horizon_de_firms)  # 7395
 names(horizon_de_firms)
 horizon_de_firms[sample(.N, 5)]
 
 
+# WARNINGS: one firms might have several projects 
+horizon_de_firms %>%
+    unique(by = "organisationID") %>% dim()  # 3339
+
 
 ########## ------ Match names with Orbis dataset ------ #########
 orbis_de <- fread("./data/orbis_de_firms.csv")
+dim(orbis_de)
 
 orbis_de %>%
     .[, .(bvdid, name_internat, category_of_company,
@@ -167,9 +183,11 @@ orbis_de %>%
 names(foo1)
 
 horizon_de_firms %>%
-    .[, horizonID := .I] %>% 
+    unique(by = "organisationID") %>% 
+    .[, horizonID := .I] %>%
     .[, cleaned_names := clean_strings(name)] -> foo2
 
+dim(foo2)
 names(foo2)
 
 
@@ -188,7 +206,7 @@ match_fuzzy$matches %>%
     unique(by = "organisationID") -> horbis_de
 
 horbis_de %>%
-    dim()  # 1585
+    dim()  # 1525
 
 # view match
 horbis_de %>%
@@ -212,8 +230,7 @@ fwrite(horbis_de, "./data/horbis_de.csv")
 ###
 ### ----------- match with patent datasets ------ #######
 han_names <- fread("./data/202208_HAN_NAMES.txt")
-han_person <- fread("./data/202208_HAN_PERSON.txt")
-han_patents <- fread("./data/202208_HAN_PATENTS.txt")
+
 
 
 dim(horbis_de)
@@ -255,9 +272,9 @@ convert_string <- function(x){
 
 
 horbis_de %>%
-    .[, c(1:5, 7:22)] %>%
+    .[, c(3:7, 10:25)] %>%
     .[, horbisID := .I] %>%
-    .[, cleaned_names := clean_strings(name)] %>%
+    .[, cleaned_names := clean_strings(name_internat)] %>%
     .[, cleaned_names := lapply(cleaned_names,
                                 convert_string)] -> horbis_foo
 
@@ -265,11 +282,11 @@ horbis_de %>%
 han_names %>%
     .[Person_ctry_code == "DE"] %>%
     .[, patentID := .I] %>%
-    .[, clean_name := clean_strings(Clean_name)] -> patent_foo
+    .[, cleaned_names := clean_strings(Clean_name)] -> patent_foo
 
 
 patent_match <- merge_plus(data1 = horbis_foo, data2 = patent_foo,
-                        by.x = "cleaned_names", by.y = "clean_name",
+                        by.x = "cleaned_names", by.y = "cleaned_names",
                         match_type = "fuzzy",
                         unique_key_1 = "horbisID",
                         unique_key_2 = "patentID")
@@ -277,7 +294,9 @@ patent_match <- merge_plus(data1 = horbis_foo, data2 = patent_foo,
 names(patent_match)
 patent_match$match_evaluation
 
-patent_match$matches -> horbis_de_han
+patent_match$matches %>%
+    .[, c(1:28)] %>%
+    unique(by = "organisationID") -> horbis_de_han
 
 names(horbis_de_han)
 
