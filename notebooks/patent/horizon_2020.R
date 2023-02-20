@@ -120,37 +120,6 @@ horizon_de_firms %>%
 names(foo2)
 
 
-# match names exactly
-match_exact <- merge_plus(data1 = foo1, data2 = foo2,
-                        by.x = "cleaned_names", by.y = "cleaned_names",
-                        match_type = "exact",
-                        unique_key_1 = "orbisID",
-                        unique_key_2 = "horizonID")
-
-names(match_exact)
-match_exact$match_evaluation  # 4390
-
-names(match_exact$matches)
-
-# match postcode again
-match_exact$matches %>%
-    .[postcode == postCode] %>%
-    unique(by = "organisationID") -> horizon_orbis_de
-
-horizon_orbis_de %>%
-    dim()  # 1290
-
-# view matches
-horizon_orbis_de %>%
-    .[, .(city_internat, postcode, cleaned_names_1,
-                    cleaned_names_2, postCode, city)] %>%
-    .[sample(.N, 5)]
-
-horizon_orbis_de %>%
-    .[category_of_company == "VERY LARGE COMPANY"] %>%
-    .[SME == FALSE] %>%
-    dim()  # 377
-
 ######## ----------- match fuzzy ------ #######
 match_fuzzy <- merge_plus(data1 = foo1, data2 = foo2,
                         by.x = "cleaned_names", by.y = "cleaned_names",
@@ -194,13 +163,50 @@ han_person <- fread("./data/202208_HAN_PERSON.txt")
 han_patents <- fread("./data/202208_HAN_PATENTS.txt")
 
 
-names(horizon_orbis_de)
+dim(horbis_de)
+names(horbis_de)
+
+# function to clean string for patents
+convert_string <- function(x){
+
+    if (x %like% "aktiengesellschaft") {
+        x <- gsub("aktiengesellschaft", "ag", x)
+    }
+
+    if (x %like% "electronic") {
+        x <- gsub("electronic", "elect", x)
+    }
+
+    if (x %like% "and co kg") {
+        x <- gsub("and co kg", "", x)
+    }
+
+    if (x %like% "international") {
+        x <- gsub("international", "int", x)
+    }
+
+    if (x %like% "technologies") {
+        x <- gsub("technologies", "tech", x)
+    }
+
+    if (x %like% "technologie") {
+        x <- gsub("technologie", "tech", x)
+    }
+
+    if (x %like% "engineering") {
+        x <- gsub("engineering", "eng", x)
+    }
+
+    return(x)
+}
 
 
-horizon_orbis_de %>%
+horbis_de %>%
     .[, c(1:5, 7:22)] %>%
     .[, horbisID := .I] %>%
-    .[, cleaned_names := clean_strings(name)] -> horbis_foo
+    .[, cleaned_names := clean_strings(name)] %>%
+    .[, cleaned_names := lapply(cleaned_names,
+                                convert_string)] -> horbis_foo
 
 
 han_names %>%
@@ -211,12 +217,22 @@ han_names %>%
 
 patent_match <- merge_plus(data1 = horbis_foo, data2 = patent_foo,
                         by.x = "cleaned_names", by.y = "clean_name",
-                        match_type = "exact",
+                        match_type = "fuzzy",
                         unique_key_1 = "horbisID",
                         unique_key_2 = "patentID")
 
 names(patent_match)
 patent_match$match_evaluation
 
-patent_match$matches %>%
-    head()
+patent_match$matches -> horbis_de_han
+
+names(horbis_de_han)
+
+horbis_de_han %>%
+    .[category_of_company == "VERY LARGE COMPANY"] %>%
+    .[SME == FALSE] %>%
+    dim()  # 283
+
+
+######## ----------- save the final dataset ------ #######
+fwrite(horbis_de_han, "./data/horbis_de_han.csv")
