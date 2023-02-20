@@ -100,7 +100,7 @@ horizon_de_firms[sample(.N, 5)]
 
 # WARNINGS: one firms might have several projects 
 horizon_de_firms %>%
-    unique(by = "organisationID") %>% dim()
+    unique(by = "organisationID") %>% dim()  # 3339
 
 
 ########## ------ Match names with Orbis dataset ------ #########
@@ -120,9 +120,10 @@ names(foo1)
 
 horizon_de_firms %>%
     unique(by = "organisationID") %>% 
-    .[, horizonID := .I] %>% 
+    .[, horizonID := .I] %>%
     .[, cleaned_names := clean_strings(name)] -> foo2
 
+dim(foo2)
 names(foo2)
 
 
@@ -230,10 +231,12 @@ names(patent_match)
 patent_match$match_evaluation
 
 patent_match$matches %>%
-    .[, c(1:28)] %>%
+    .[, c(3:28)] %>%
     unique(by = "organisationID") -> horbis_de_han
 
+dim(horbis_de_han)
 names(horbis_de_han)
+head(horbis_de_han)
 
 horbis_de_han %>%
     .[category_of_company == "VERY LARGE COMPANY"] %>%
@@ -248,7 +251,7 @@ fwrite(horbis_de_han, "./data/horbis_de_han.csv")
 
 
 
-## ----------------Analyze the datasets --------- #######
+## ---------------- Merge patents  --------- #######
 horbis_de_han <- fread("./data/horbis_de_han.csv")
 han_patents <- fread("./data/202208_HAN_PATENTS.txt")
 
@@ -258,5 +261,80 @@ names(horbis_de_han)
 
 
 horbis_de_han %>%
-    .[, c(5:8, 11:23, 26:28)] %>%
     .[sample(.N, 5)]
+
+
+horbis_de_han %>%
+    .[, HAN_ID] -> all_han_ids
+
+
+length(all_han_ids)
+
+# get patents
+han_patents %>%
+    .[HAN_ID %in% all_han_ids] %>%
+    dim()
+
+
+# create a table with names and patents
+han_patents %>%
+    .[HAN_ID %in% all_han_ids] -> all_matches_patents
+
+dim(all_matches_patents)
+names(all_matches_patents)
+head(all_matches_patents)
+
+
+
+horbis_de_patents <- merge(horbis_de_han,
+                        all_matches_patents,
+                        by = "HAN_ID",
+                        all.x = TRUE
+                        )
+
+dim(horbis_de_patents)
+names(horbis_de_patents)
+head(horbis_de_patents)
+
+
+# same with the case study I did for Airbus
+horbis_de_patents %>%
+    .[HAN_ID == 60513] %>%
+    dim()  # 1218 
+
+
+horbis_de_patents %>%
+    .[sample(.N, 5)]
+
+
+# firm level
+horbis_de_patents %>%
+    unique(by = "organisationID") %>%
+    .[sample(.N, 5)]
+
+
+horbis_de_patents %>%
+    .[, .N, by = .(name_internat, svLevel2)] %>%
+    .[order(-rank(N))] %>%
+    head(10)
+
+
+######## ----------- save the final dataset ------ #######
+fwrite(horbis_de_patents, "./data/horbis_de_patents.csv")
+
+
+
+## --------------- extract patent information --------- #######
+horbis_de_applications <- fread("./data/horbis_de_applications.csv")
+
+dim(horbis_de_applications)
+names(horbis_de_applications)
+
+head(horbis_de_applications)
+
+
+horbis_de_publications <- fread("./data/horbis_de_publications.csv")
+
+dim(horbis_de_publications)
+
+head(horbis_de_publications)

@@ -505,12 +505,60 @@ def plot_truncation():
     
     plt.savefig("patent_truncation.png", dpi=300, bbox_inches='tight')
     
+
+# construct dataframe and extract patents for all EPO, USPTO, WIPO
+def unit_test4():
+    """
+    based on horbis_de_patents.csv
+    """
+    print("::::::::::::::::::::::Unit Test Running::::::::::::::::::::::\n")
+    airbus_han_patents = pd.read_csv('./data/horbis_de_patents.csv')
+    test_sample = airbus_han_patents.sample(5)
+    print(
+        test_sample, '\n'
+    )
+    application_info_df = pd.DataFrame()
+    publication_info_df = pd.DataFrame()
+    for idx in test_sample.index:
+        time.sleep(0.2)
+        patent_number = test_sample['Patent_number'][idx]
+        pat_dict = {'patentNumber': patent_number}
+        pub_url = construct_pub_url(patent_number)
+        application_number = get_application_number(pub_url)
+        if application_number is not None:
+            application_url = construct_application_url(application_number)
+            application_info = get_application_info(application_url)
+            application_info = pat_dict | application_info
+            temp = pd.DataFrame.from_dict(
+                application_info, orient='index'
+            ).transpose()
+            application_info_df = pd.concat(
+                [application_info_df, temp],
+                ignore_index=True)
+            application_info_df.to_csv('./data/horbis_de_applications.csv',
+                                       index=False)
+            b_doc = _get_b_doc(application_info['publicationItems'])
+            if b_doc is not None:
+                b_doc_url = _construct_pub_kind_url(b_doc)
+                pub_info = get_epo_publication_info(b_doc_url)
+                pub_info = pat_dict | pub_info
+                temp = pd.DataFrame.from_dict(
+                    pub_info, orient='index'
+                ).transpose()
+                publication_info_df = pd.concat([publication_info_df, temp],
+                                                ignore_index=True)
+                publication_info_df.to_csv('./data/horbis_de_publications.csv',
+                                           index=False)
+        else:
+            print("::NO application number was found for", patent_number)
+    print(application_info_df)
+    print(publication_info_df)
+    
     
 if __name__ == "__main__":
     print("Current working directory:", os.getcwd(), '\n')
-    
     # test 
-    # unit_test3()
+    unit_test4()
     
     # start = time.time()
     # epo_linked_data()

@@ -60,6 +60,10 @@ to 853 (283 of them are large firms)
 This means that we lost half of observations each time we linked
 datasets by matching names for those datasets. 
 
+After linking with patent dataset by setting each patent saved 
+as one entry with its linked information, the sample size grows to
+$256813$ with 853 unique firms. 
+
 
 ```r
 # load packages
