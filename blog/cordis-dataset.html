@@ -173,6 +173,134 @@
   </tbody>
 </table>
 
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">pacman</span><span class="p">)</span><span class="w">
+</span><span class="n">p_load</span><span class="p">(</span><span class="w">
+    </span><span class="n">tidyverse</span><span class="p">,</span><span class="w"> </span><span class="n">data.table</span><span class="p">,</span><span class="w"> </span><span class="n">dtplyr</span><span class="p">,</span><span class="w"> </span><span class="n">reshape2</span><span class="p">,</span><span class="w">
+    </span><span class="n">archive</span><span class="p">,</span><span class="w"> </span><span class="n">kableExtra</span><span class="p">,</span><span class="w"> </span><span class="n">SPARQL</span><span class="p">,</span><span class="w"> </span><span class="n">janitor</span><span class="p">,</span><span class="w">
+    </span><span class="n">png</span><span class="p">,</span><span class="w"> </span><span class="n">webp</span><span class="p">,</span><span class="w"> </span><span class="n">Cairo</span><span class="p">,</span><span class="w"> </span><span class="n">rsvg</span><span class="p">,</span><span class="w"> </span><span class="n">rbenchmark</span><span class="p">,</span><span class="w">
+    </span><span class="n">httr</span><span class="p">,</span><span class="w"> </span><span class="n">jsonlite</span><span class="p">,</span><span class="w"> </span><span class="n">fedmatch</span><span class="p">)</span><span class="w">
+</span><span class="c1"># set option</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">dplyr.summarise.inform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+
+</span><span class="n">gray_scale</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#F3F4F8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#D2D4DA"</span><span class="p">,</span><span class="w">  </span><span class="s2">"#bcc0ca"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#D3D3D3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#2B2B2B"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#B3B5BD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#838383"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#9496A1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7d7f89"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#777986"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#656673"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#5B5D6B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4d505e"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#404352"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#2b2d3b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#282A3A"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#1b1c2a"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#191a2b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#141626"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#101223"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># check working directory</span><span class="w">
+</span><span class="n">getwd</span><span class="p">()</span><span class="w">
+
+
+</span><span class="c1">########## ------- Create a merged dataset ----------- ###############</span><span class="w">
+</span><span class="n">projects</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/cordis_h2020/project.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">org</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/cordis_h2020/organization.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">sv_tags</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/cordis_h2020/euroSciVoc.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># transform projects by selecting some columns</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">projects</span><span class="p">)</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">projects</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"projectID"</span><span class="w">
+
+</span><span class="n">projects</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">startYear</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">format</span><span class="p">(</span><span class="n">startDate</span><span class="p">,</span><span class="w"> </span><span class="s2">"%Y"</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">endYear</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">format</span><span class="p">(</span><span class="n">endDate</span><span class="p">,</span><span class="w"> </span><span class="s2">"%Y"</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+        </span><span class="s2">"projectID"</span><span class="p">,</span><span class="w"> </span><span class="s2">"startYear"</span><span class="p">,</span><span class="w"> </span><span class="s2">"endYear"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"status"</span><span class="p">,</span><span class="w"> </span><span class="s2">"title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"topics"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fundingScheme"</span><span class="p">,</span><span class="w"> </span><span class="s2">"grantDoi"</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">projects_subset</span><span class="w">
+
+
+</span><span class="c1"># view organization</span><span class="w">
+</span><span class="n">org</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)]</span><span class="w">
+
+
+</span><span class="c1"># view sv_tas and # extract topics</span><span class="w">
+</span><span class="n">sv_tags</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">svLevel1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tstrsplit</span><span class="p">(</span><span class="w">
+        </span><span class="n">euroSciVocPath</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">fixed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">svLevel2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tstrsplit</span><span class="p">(</span><span class="w">
+        </span><span class="n">euroSciVocPath</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">fixed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">))]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sv_tags_levels</span><span class="w">
+
+</span><span class="c1"># group by title</span><span class="w">
+</span><span class="n">sv_tags_levels</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">paste0</span><span class="p">,</span><span class="w">  </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">),</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">projectID</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sv_tags_title</span><span class="w">
+
+</span><span class="c1"># merge and get unique</span><span class="w">
+</span><span class="n">sv_tags_title</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">sv_tags_levels</span><span class="p">,</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">projectID</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"projectID"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sv_tags_sum</span><span class="w">
+
+
+</span><span class="c1"># merge projects_sub, org and sv_tags_levels </span><span class="w">
+</span><span class="n">projects_subset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">projects_subset</span><span class="p">,</span><span class="w"> </span><span class="n">sv_tags_sum</span><span class="p">,</span><span class="w">
+                         </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"projectID"</span><span class="p">,</span><span class="w"> </span><span class="n">all.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">horizon</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">org</span><span class="p">,</span><span class="w"> </span><span class="n">projects_subset</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"projectID"</span><span class="p">,</span><span class="w"> </span><span class="n">all.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># on projects level</span><span class="w">
+</span><span class="n">projects_subset</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">svLevel2</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="n">svLevel2</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="o">-</span><span class="n">rank</span><span class="p">(</span><span class="n">N</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cl"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># one project is normally applied by many organizations </span><span class="w">
+</span><span class="n">horizon</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)]</span><span class="w">
+
+</span><span class="nf">names</span><span class="p">(</span><span class="n">horizon</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># filter out German firms</span><span class="w">
+</span><span class="n">horizon</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="o">:</span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">26</span><span class="p">,</span><span class="w"> </span><span class="m">27</span><span class="p">,</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w"> </span><span class="m">33</span><span class="p">,</span><span class="w"> </span><span class="m">37</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">totalCost</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="s2">"."</span><span class="p">,</span><span class="w"> </span><span class="n">totalCost</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">totalCost</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">totalCost</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">country</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"DE"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">activityType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"PRC"</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horizon_de_firms</span><span class="w">
+
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">horizon_de_firms</span><span class="p">)</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">horizon_de_firms</span><span class="p">)</span><span class="w">
+</span><span class="n">horizon_de_firms</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)]</span><span class="w">
+
+
+
+</span><span class="c1">########## ------ Match names with Orbis dataset ------ #########</span><span class="w">
+</span><span class="n">orbis_de</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/orbis_de_firms.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">orbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">bvdid</span><span class="p">,</span><span class="w"> </span><span class="n">name_internat</span><span class="p">,</span><span class="w"> </span><span class="n">category_of_company</span><span class="p">,</span><span class="w">
+                </span><span class="n">city_internat</span><span class="p">,</span><span class="w"> </span><span class="n">postcode</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># create another ID</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">orbisID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">name_internat</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foo1</span><span class="w">
+
+</span><span class="nf">names</span><span class="p">(</span><span class="n">foo1</span><span class="p">)</span><span class="w">
+
+</span><span class="n">horizon_de_firms</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">horizonID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foo2</span><span class="w">
+
+</span><span class="nf">names</span><span class="p">(</span><span class="n">foo2</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># match names</span><span class="w">
+</span><span class="n">merge_foo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge_plus</span><span class="p">(</span><span class="n">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo1</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo2</span><span class="p">,</span><span class="w">
+                        </span><span class="n">by.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w"> </span><span class="n">by.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">match_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fuzzy"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">unique_key_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"orbisID"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">unique_key_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"horizonID"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
     </div>
     <div id='bibliography'>
         <div class='wrap'>
