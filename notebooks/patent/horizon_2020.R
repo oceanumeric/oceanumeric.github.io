@@ -100,3 +100,58 @@ horizon_de_firms[sample(.N, 5)]
 
 
 ########## ------ Match names with Orbis dataset ------ #########
+orbis_de <- fread("./data/orbis_de_firms.csv")
+
+orbis_de %>%
+    .[, .(bvdid, name_internat, category_of_company,
+                city_internat, postcode)] %>%
+    # clean postcode
+    .[, postcode := gsub("\\.0", "", postcode)] %>%
+    # create another ID
+    .[, orbisID := .I] %>%
+    .[, cleaned_names := clean_strings(name_internat)] -> foo1
+
+names(foo1)
+
+horizon_de_firms %>%
+    .[, horizonID := .I] %>% 
+    .[, cleaned_names := clean_strings(name)] -> foo2
+
+names(foo2)
+
+
+# match names exactly
+match_exact <- merge_plus(data1 = foo1, data2 = foo2,
+                        by.x = "cleaned_names", by.y = "cleaned_names",
+                        match_type = "exact",
+                        unique_key_1 = "orbisID",
+                        unique_key_2 = "horizonID")
+
+names(match_exact)
+match_exact$match_evaluation  # 4390
+
+names(match_exact$matches)
+
+# match postcode again
+match_exact$matches %>%
+    .[postcode == postCode] -> horizon_orbis_de
+
+horizon_orbis_de %>%
+    dim()
+
+# save the dataset
+fwrite(horizon_orbis_de, "./data/horbis_de.csv")
+
+# view matches
+match_exact$matches %>%
+    .[, .(city_internat, postcode, cleaned_names_1,
+                    cleaned_names_2, postCode, city)] %>%
+    .[postcode == postCode] %>%
+    .[sample(.N, 5)]
+
+
+match_exact$matches %>%
+    .[postcode == postCode] %>%
+    .[category_of_company == "VERY LARGE COMPANY"] %>%
+    .[SME == FALSE] %>%
+    .[sample(.N, 5)]
