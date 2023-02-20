@@ -280,6 +280,8 @@
 </span><span class="n">orbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">bvdid</span><span class="p">,</span><span class="w"> </span><span class="n">name_internat</span><span class="p">,</span><span class="w"> </span><span class="n">category_of_company</span><span class="p">,</span><span class="w">
                 </span><span class="n">city_internat</span><span class="p">,</span><span class="w"> </span><span class="n">postcode</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># clean postcode</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">postcode</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"\\.0"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">postcode</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="c1"># create another ID</span><span class="w">
     </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">orbisID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">name_internat</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foo1</span><span class="w">
@@ -293,12 +295,122 @@
 </span><span class="nf">names</span><span class="p">(</span><span class="n">foo2</span><span class="p">)</span><span class="w">
 
 
-</span><span class="c1"># match names</span><span class="w">
-</span><span class="n">merge_foo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge_plus</span><span class="p">(</span><span class="n">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo1</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo2</span><span class="p">,</span><span class="w">
+</span><span class="c1">######## ----------- match fuzzy ------ #######</span><span class="w">
+</span><span class="n">match_fuzzy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge_plus</span><span class="p">(</span><span class="n">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo1</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo2</span><span class="p">,</span><span class="w">
                         </span><span class="n">by.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w"> </span><span class="n">by.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w">
                         </span><span class="n">match_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fuzzy"</span><span class="p">,</span><span class="w">
                         </span><span class="n">unique_key_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"orbisID"</span><span class="p">,</span><span class="w">
                         </span><span class="n">unique_key_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"horizonID"</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">names</span><span class="p">(</span><span class="n">match_fuzzy</span><span class="p">)</span><span class="w">
+</span><span class="n">match_fuzzy</span><span class="o">$</span><span class="n">match_evaluation</span><span class="w">
+
+</span><span class="n">match_fuzzy</span><span class="o">$</span><span class="n">matches</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">postcode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">postCode</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"organisationID"</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horbis_de</span><span class="w">
+
+</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 1585</span><span class="w">
+
+</span><span class="c1"># view match</span><span class="w">
+</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">city_internat</span><span class="p">,</span><span class="w"> </span><span class="n">postcode</span><span class="p">,</span><span class="w"> </span><span class="n">cleaned_names_1</span><span class="p">,</span><span class="w">
+                    </span><span class="n">cleaned_names_2</span><span class="p">,</span><span class="w"> </span><span class="n">postCode</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)]</span><span class="w">
+
+
+</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">category_of_company</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"VERY LARGE COMPANY"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">SME</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 420</span><span class="w">
+
+
+</span><span class="c1">######## ----------- save the final dataset ------ #######</span><span class="w">
+</span><span class="n">fwrite</span><span class="p">(</span><span class="n">horbis_de</span><span class="p">,</span><span class="w"> </span><span class="s2">"./data/horbis_de.csv"</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1">###</span><span class="w">
+</span><span class="c1">###</span><span class="w">
+</span><span class="c1">###</span><span class="w">
+</span><span class="c1">### ----------- match with patent datasets ------ #######</span><span class="w">
+</span><span class="n">han_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/202208_HAN_NAMES.txt"</span><span class="p">)</span><span class="w">
+</span><span class="n">han_person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/202208_HAN_PERSON.txt"</span><span class="p">)</span><span class="w">
+</span><span class="n">han_patents</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/202208_HAN_PATENTS.txt"</span><span class="p">)</span><span class="w">
+
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">horbis_de</span><span class="p">)</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">horbis_de</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># function to clean string for patents</span><span class="w">
+</span><span class="n">convert_string</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"aktiengesellschaft"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"aktiengesellschaft"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ag"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"electronic"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"electronic"</span><span class="p">,</span><span class="w"> </span><span class="s2">"elect"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"and co kg"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"and co kg"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"international"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"international"</span><span class="p">,</span><span class="w"> </span><span class="s2">"int"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"technologies"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"technologies"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tech"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"technologie"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"technologie"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tech"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"engineering"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"engineering"</span><span class="p">,</span><span class="w"> </span><span class="s2">"eng"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="o">:</span><span class="m">22</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">horbisID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">cleaned_names</span><span class="p">,</span><span class="w">
+                                </span><span class="n">convert_string</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horbis_foo</span><span class="w">
+
+
+</span><span class="n">han_names</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">Person_ctry_code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">patentID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">clean_name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">Clean_name</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">patent_foo</span><span class="w">
+
+
+</span><span class="n">patent_match</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge_plus</span><span class="p">(</span><span class="n">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">horbis_foo</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patent_foo</span><span class="p">,</span><span class="w">
+                        </span><span class="n">by.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w"> </span><span class="n">by.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"clean_name"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">match_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fuzzy"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">unique_key_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"horbisID"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">unique_key_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"patentID"</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">names</span><span class="p">(</span><span class="n">patent_match</span><span class="p">)</span><span class="w">
+</span><span class="n">patent_match</span><span class="o">$</span><span class="n">match_evaluation</span><span class="w">
+
+</span><span class="n">patent_match</span><span class="o">$</span><span class="n">matches</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horbis_de_han</span><span class="w">
+
+</span><span class="nf">names</span><span class="p">(</span><span class="n">horbis_de_han</span><span class="p">)</span><span class="w">
+
+</span><span class="n">horbis_de_han</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">category_of_company</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"VERY LARGE COMPANY"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">SME</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 283</span><span class="w">
+
+
+</span><span class="c1">######## ----------- save the final dataset ------ #######</span><span class="w">
+</span><span class="n">fwrite</span><span class="p">(</span><span class="n">horbis_de_han</span><span class="p">,</span><span class="w"> </span><span class="s2">"./data/horbis_de_han.csv"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
     </div>
