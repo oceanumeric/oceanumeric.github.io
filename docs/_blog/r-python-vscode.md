@@ -41,7 +41,7 @@ thing that Jupyter provides is the kernel, which allows you:
 
 Thanks to VS Code, we could run our code [interactively](https://code.visualstudio.com/docs/python/jupyter-support-py){:target="_blank"}. This gives me the choice of coding my thoughts with script purely but still keep analysis attached and flowed dynamically. 
 
-Figure 1 to Figure 3 shows I mean with the above statement (please
+Figure 1 to Figure 3 shows what I mean with the above statement (please
 zoom image to appreciate its powerful implications). 
 
 <div class='figure'>
@@ -84,6 +84,12 @@ zoom image to appreciate its powerful implications).
 To make the function demonstrated in Figure 3 work, you need setup 
 a shortcut in VS Code. Just add the following keybindings setup
 into your `keybindings.json`.
+
+_Remark:_ if it does not work, try to update your VS Code and when you 
+reopen your editor, please set up the python interpreter first as sending 
+command into interactive window needs python interpreter as a marco environment.
+I have tested it from Mac OS and Windows with Remote Linux server. 
+
 
 
 ```
