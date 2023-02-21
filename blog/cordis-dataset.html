@@ -44,11 +44,11 @@
 <link rel="canonical" href="https://oceanumeric.github.io//blog/cordis-dataset" />
 <meta property="og:url" content="https://oceanumeric.github.io//blog/cordis-dataset" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-02-19T00:00:00+00:00" />
+<meta property="article:published_time" content="2023-02-21T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="CORDIS - EU Research Projects Datasets" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-19T00:00:00+00:00","datePublished":"2023-02-19T00:00:00+00:00","description":"The Community Research and Development Information Service (CORDIS) is the European Commission’s primary source of results from the projects funded by the EU’s framework programs for research and innovation, from FP1 to Horizon Europe.","headline":"CORDIS - EU Research Projects Datasets","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/cordis-dataset"},"url":"https://oceanumeric.github.io//blog/cordis-dataset"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-21T00:00:00+00:00","datePublished":"2023-02-21T00:00:00+00:00","description":"The Community Research and Development Information Service (CORDIS) is the European Commission’s primary source of results from the projects funded by the EU’s framework programs for research and innovation, from FP1 to Horizon Europe.","headline":"CORDIS - EU Research Projects Datasets","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/cordis-dataset"},"url":"https://oceanumeric.github.io//blog/cordis-dataset"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -95,7 +95,7 @@
                         </span>
                     
                     <h3>Published</h3>
-                    <p>19 February 2023</p>
+                    <p>21 February 2023</p>
                 </div>
             </div>
             <div class='clear'></div>
@@ -116,7 +116,7 @@
 
 <p>You can download all datasets from <a href="https://www.kaggle.com/datasets/oceanumeric/cordis" target="_blank">kaggle</a>.</p>
 
-<h2 id="horizon-2020-dataset">Horizon 2020 dataset</h2>
+<h2 id="linked-dataset">Linked dataset</h2>
 
 <p>With firm information from Cordis, I will link it with Orbis datasets
 by matching firm names. Then the matched dataset will be linked to
@@ -140,253 +140,18 @@ datasets by matching names for those datasets.</p>
 as one entry with its linked information, the sample size grows to
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256813</mn></mrow><annotation encoding="application/x-tex">256813</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mord">6</span><span class="mord">8</span><span class="mord">1</span><span class="mord">3</span></span></span></span> with 853 unique firms.</p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load packages</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">pacman</span><span class="p">)</span><span class="w">
-</span><span class="n">p_load</span><span class="p">(</span><span class="w">
-    </span><span class="n">tidyverse</span><span class="p">,</span><span class="w"> </span><span class="n">data.table</span><span class="p">,</span><span class="w"> </span><span class="n">dtplyr</span><span class="p">,</span><span class="w"> </span><span class="n">reshape2</span><span class="p">,</span><span class="w">
-    </span><span class="n">archive</span><span class="p">,</span><span class="w"> </span><span class="n">kableExtra</span><span class="p">,</span><span class="w"> </span><span class="n">SPARQL</span><span class="p">,</span><span class="w"> </span><span class="n">janitor</span><span class="p">,</span><span class="w">
-    </span><span class="n">png</span><span class="p">,</span><span class="w"> </span><span class="n">webp</span><span class="p">,</span><span class="w"> </span><span class="n">Cairo</span><span class="p">,</span><span class="w"> </span><span class="n">rsvg</span><span class="p">,</span><span class="w"> </span><span class="n">rbenchmark</span><span class="p">,</span><span class="w">
-    </span><span class="n">httr</span><span class="p">,</span><span class="w"> </span><span class="n">jsonlite</span><span class="p">,</span><span class="w"> </span><span class="n">fedmatch</span><span class="p">)</span><span class="w">
-</span><span class="c1"># set option</span><span class="w">
-</span><span class="n">options</span><span class="p">(</span><span class="n">dplyr.summarise.inform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+<p>To extract all patent information for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>255813</mn></mrow><annotation encoding="application/x-tex">255813</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mord">5</span><span class="mord">8</span><span class="mord">1</span><span class="mord">3</span></span></span></span> patents, it takes several 
+days.</p>
 
-</span><span class="n">gray_scale</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#F3F4F8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#D2D4DA"</span><span class="p">,</span><span class="w">  </span><span class="s2">"#bcc0ca"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"#D3D3D3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#2B2B2B"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"#B3B5BD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#838383"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"#9496A1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7d7f89"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#777986"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"#656673"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#5B5D6B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4d505e"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"#404352"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#2b2d3b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#282A3A"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"#1b1c2a"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#191a2b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#141626"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#101223"</span><span class="p">)</span><span class="w">
+<h2 id="data-analysis">Data analysis</h2>
 
-</span><span class="c1"># check working directory</span><span class="w">
-</span><span class="n">getwd</span><span class="p">()</span><span class="w">
+<p>The dimension of our sample dataset is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64466</mn><mo>×</mo><mn>46</mn></mrow><annotation encoding="application/x-tex">64466 \times 46</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mord">4</span><span class="mord">4</span><span class="mord">6</span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">6</span></span></span></span>, which includes
+firms’ research projects and their patents. We will analyze those data
+by showing what they did in the past through patent information and 
+what they will do in the future through their research projects.</p>
 
+<p>For this sample, we have <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74</mn></mrow><annotation encoding="application/x-tex">74</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">4</span></span></span></span> firms in our datasets</p>
 
-</span><span class="c1">########## ------- Create a merged dataset ----------- ###############</span><span class="w">
-</span><span class="n">projects</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/cordis_h2020/project.csv"</span><span class="p">)</span><span class="w">
-</span><span class="n">org</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/cordis_h2020/organization.csv"</span><span class="p">)</span><span class="w">
-</span><span class="n">sv_tags</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/cordis_h2020/euroSciVoc.csv"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># transform projects by selecting some columns</span><span class="w">
-</span><span class="nf">names</span><span class="p">(</span><span class="n">projects</span><span class="p">)</span><span class="w">
-</span><span class="nf">names</span><span class="p">(</span><span class="n">projects</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"projectID"</span><span class="w">
-
-</span><span class="n">projects</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">startYear</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">format</span><span class="p">(</span><span class="n">startDate</span><span class="p">,</span><span class="w"> </span><span class="s2">"%Y"</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">endYear</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">format</span><span class="p">(</span><span class="n">endDate</span><span class="p">,</span><span class="w"> </span><span class="s2">"%Y"</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-        </span><span class="s2">"projectID"</span><span class="p">,</span><span class="w"> </span><span class="s2">"startYear"</span><span class="p">,</span><span class="w"> </span><span class="s2">"endYear"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"status"</span><span class="p">,</span><span class="w"> </span><span class="s2">"title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"topics"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"fundingScheme"</span><span class="p">,</span><span class="w"> </span><span class="s2">"grantDoi"</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">projects_subset</span><span class="w">
-
-
-</span><span class="c1"># view organization</span><span class="w">
-</span><span class="n">org</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)]</span><span class="w">
-
-
-</span><span class="c1"># view sv_tas and # extract topics</span><span class="w">
-</span><span class="n">sv_tags</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">svLevel1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tstrsplit</span><span class="p">(</span><span class="w">
-        </span><span class="n">euroSciVocPath</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">fixed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">svLevel2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tstrsplit</span><span class="p">(</span><span class="w">
-        </span><span class="n">euroSciVocPath</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">fixed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">))]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sv_tags_levels</span><span class="w">
-
-</span><span class="c1"># group by title</span><span class="w">
-</span><span class="n">sv_tags_levels</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">paste0</span><span class="p">,</span><span class="w">  </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">),</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">projectID</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sv_tags_title</span><span class="w">
-
-</span><span class="c1"># merge and get unique</span><span class="w">
-</span><span class="n">sv_tags_title</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">sv_tags_levels</span><span class="p">,</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">projectID</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"projectID"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sv_tags_sum</span><span class="w">
-
-
-</span><span class="c1"># merge projects_sub, org and sv_tags_levels </span><span class="w">
-</span><span class="n">projects_subset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">projects_subset</span><span class="p">,</span><span class="w"> </span><span class="n">sv_tags_sum</span><span class="p">,</span><span class="w">
-                         </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"projectID"</span><span class="p">,</span><span class="w"> </span><span class="n">all.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-</span><span class="n">horizon</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">org</span><span class="p">,</span><span class="w"> </span><span class="n">projects_subset</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"projectID"</span><span class="p">,</span><span class="w"> </span><span class="n">all.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-
-
-</span><span class="c1"># on projects level</span><span class="w">
-</span><span class="n">projects_subset</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">svLevel2</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="n">svLevel2</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="o">-</span><span class="n">rank</span><span class="p">(</span><span class="n">N</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cl"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># one project is normally applied by many organizations </span><span class="w">
-</span><span class="n">horizon</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)]</span><span class="w">
-
-</span><span class="nf">names</span><span class="p">(</span><span class="n">horizon</span><span class="p">)</span><span class="w">
-
-
-</span><span class="c1"># filter out German firms</span><span class="w">
-</span><span class="n">horizon</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="o">:</span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">26</span><span class="p">,</span><span class="w"> </span><span class="m">27</span><span class="p">,</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w"> </span><span class="m">33</span><span class="p">,</span><span class="w"> </span><span class="m">37</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">totalCost</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="s2">"."</span><span class="p">,</span><span class="w"> </span><span class="n">totalCost</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">totalCost</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">totalCost</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">country</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"DE"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">activityType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"PRC"</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horizon_de_firms</span><span class="w">
-
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">horizon_de_firms</span><span class="p">)</span><span class="w">  </span><span class="c1"># 7395</span><span class="w">
-</span><span class="nf">names</span><span class="p">(</span><span class="n">horizon_de_firms</span><span class="p">)</span><span class="w">
-</span><span class="n">horizon_de_firms</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)]</span><span class="w">
-
-
-</span><span class="c1"># WARNINGS: one firms might have several projects </span><span class="w">
-</span><span class="n">horizon_de_firms</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"organisationID"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 3339</span><span class="w">
-
-
-</span><span class="c1">########## ------ Match names with Orbis dataset ------ #########</span><span class="w">
-</span><span class="n">orbis_de</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/orbis_de_firms.csv"</span><span class="p">)</span><span class="w">
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">orbis_de</span><span class="p">)</span><span class="w">
-
-</span><span class="n">orbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">bvdid</span><span class="p">,</span><span class="w"> </span><span class="n">name_internat</span><span class="p">,</span><span class="w"> </span><span class="n">category_of_company</span><span class="p">,</span><span class="w">
-                </span><span class="n">city_internat</span><span class="p">,</span><span class="w"> </span><span class="n">postcode</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="c1"># clean postcode</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">postcode</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"\\.0"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">postcode</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="c1"># create another ID</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">orbisID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">name_internat</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foo1</span><span class="w">
-
-</span><span class="nf">names</span><span class="p">(</span><span class="n">foo1</span><span class="p">)</span><span class="w">
-
-</span><span class="n">horizon_de_firms</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"organisationID"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">horizonID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foo2</span><span class="w">
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">foo2</span><span class="p">)</span><span class="w">
-</span><span class="nf">names</span><span class="p">(</span><span class="n">foo2</span><span class="p">)</span><span class="w">
-
-
-</span><span class="c1">######## ----------- match fuzzy ------ #######</span><span class="w">
-</span><span class="n">match_fuzzy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge_plus</span><span class="p">(</span><span class="n">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo1</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo2</span><span class="p">,</span><span class="w">
-                        </span><span class="n">by.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w"> </span><span class="n">by.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">match_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fuzzy"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">unique_key_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"orbisID"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">unique_key_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"horizonID"</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">names</span><span class="p">(</span><span class="n">match_fuzzy</span><span class="p">)</span><span class="w">
-</span><span class="n">match_fuzzy</span><span class="o">$</span><span class="n">match_evaluation</span><span class="w">
-
-</span><span class="n">match_fuzzy</span><span class="o">$</span><span class="n">matches</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">postcode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">postCode</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"organisationID"</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horbis_de</span><span class="w">
-
-</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 1525</span><span class="w">
-
-</span><span class="c1"># view match</span><span class="w">
-</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">city_internat</span><span class="p">,</span><span class="w"> </span><span class="n">postcode</span><span class="p">,</span><span class="w"> </span><span class="n">cleaned_names_1</span><span class="p">,</span><span class="w">
-                    </span><span class="n">cleaned_names_2</span><span class="p">,</span><span class="w"> </span><span class="n">postCode</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)]</span><span class="w">
-
-
-</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">category_of_company</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"VERY LARGE COMPANY"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">SME</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 420</span><span class="w">
-
-
-</span><span class="c1">######## ----------- save the final dataset ------ #######</span><span class="w">
-</span><span class="n">fwrite</span><span class="p">(</span><span class="n">horbis_de</span><span class="p">,</span><span class="w"> </span><span class="s2">"./data/horbis_de.csv"</span><span class="p">)</span><span class="w">
-
-
-</span><span class="c1">###</span><span class="w">
-</span><span class="c1">###</span><span class="w">
-</span><span class="c1">###</span><span class="w">
-</span><span class="c1">### ----------- match with patent datasets ------ #######</span><span class="w">
-</span><span class="n">han_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./data/202208_HAN_NAMES.txt"</span><span class="p">)</span><span class="w">
-
-
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">horbis_de</span><span class="p">)</span><span class="w">
-</span><span class="nf">names</span><span class="p">(</span><span class="n">horbis_de</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># function to clean string for patents</span><span class="w">
-</span><span class="n">convert_string</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="w">
-
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"aktiengesellschaft"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"aktiengesellschaft"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ag"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"electronic"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"electronic"</span><span class="p">,</span><span class="w"> </span><span class="s2">"elect"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"and co kg"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"and co kg"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"international"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"international"</span><span class="p">,</span><span class="w"> </span><span class="s2">"int"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"technologies"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"technologies"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tech"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"technologie"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"technologie"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tech"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">%like%</span><span class="w"> </span><span class="s2">"engineering"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"engineering"</span><span class="p">,</span><span class="w"> </span><span class="s2">"eng"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-
-</span><span class="n">horbis_de</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="o">:</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="o">:</span><span class="m">25</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">horbisID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">name_internat</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">cleaned_names</span><span class="p">,</span><span class="w">
-                                </span><span class="n">convert_string</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horbis_foo</span><span class="w">
-
-
-</span><span class="n">han_names</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">Person_ctry_code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">patentID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">cleaned_names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">clean_strings</span><span class="p">(</span><span class="n">Clean_name</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">patent_foo</span><span class="w">
-
-
-</span><span class="n">patent_match</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge_plus</span><span class="p">(</span><span class="n">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">horbis_foo</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patent_foo</span><span class="p">,</span><span class="w">
-                        </span><span class="n">by.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w"> </span><span class="n">by.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cleaned_names"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">match_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fuzzy"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">unique_key_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"horbisID"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">unique_key_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"patentID"</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">names</span><span class="p">(</span><span class="n">patent_match</span><span class="p">)</span><span class="w">
-</span><span class="n">patent_match</span><span class="o">$</span><span class="n">match_evaluation</span><span class="w">
-
-</span><span class="n">patent_match</span><span class="o">$</span><span class="n">matches</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">28</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"organisationID"</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">horbis_de_han</span><span class="w">
-
-</span><span class="nf">names</span><span class="p">(</span><span class="n">horbis_de_han</span><span class="p">)</span><span class="w">
-
-</span><span class="n">horbis_de_han</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">category_of_company</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"VERY LARGE COMPANY"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[</span><span class="n">SME</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 283</span><span class="w">
-
-
-</span><span class="c1">######## ----------- save the final dataset ------ #######</span><span class="w">
-</span><span class="n">fwrite</span><span class="p">(</span><span class="n">horbis_de_han</span><span class="p">,</span><span class="w"> </span><span class="s2">"./data/horbis_de_han.csv"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
 
     </div>
     <div id='bibliography'>
