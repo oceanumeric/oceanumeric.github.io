@@ -343,10 +343,156 @@ dim(horbis_epo2)  # 2095 + 44833 = 46928
 
 # combine two
 horbis_epo <- rbind(horbis_epo, horbis_epo2)
-dim(horbis_epo)
+dim(horbis_epo)  # 46928
 tail(horbis_epo, 1)
 
-fwrite(horbis_epo, "./tempdata/horbis_49628.csv")
+# fill the gap
+gap <- fread("./tempdata/epo_temp.csv")
+gap <- gap[(2:1789)]
+dim(gap)
+
+head(gap, 1)
+tail(gap, 1)
+
+horbis_epo <- rbind(horbis_epo, gap)
+dim(horbis_epo)  # 48716
+
+gap3 <- fread("./data/horbis_de_epo3.csv")
+gap3 <- gap3[c(3:8252)]
+dim(gap3)
+
+head(gap3, 2)
+tail(gap3, 1)
+
+horbis_epo <- rbind(horbis_epo, gap3)
+dim(horbis_epo)  # 56966
+
+gap4 <- fread("./data/horbis_de_epo4.csv")
+gap4 <- gap4[c(1:7500)]
+dim(gap4)  # 7500
+
+head(gap4, 1)
+tail(gap4, 3)
+
+
+horbis_epo <- rbind(horbis_epo, gap4)
+dim(horbis_epo)  # 64466
+
+horbis_de_patents %>%
+    .[Patent_number == "EP2177646"]
+
+
+fwrite(horbis_epo, "./tempdata/horbis_64466.csv")
 
 
 ################## analyze the dataset ######################
+
+horbis_de_patents <- fread("./data/horbis_de_patents.csv")
+horbis_de_patents$idx <- rownames(horbis_de_patents)
+horbis_de_patents[c(1:64466)] -> horbis_de_patents
+
+dim(horbis_de_patents)
+names(horbis_de_patents)
+
+foo <- fread("./tempdata/horbis_64466.csv")
+dim(foo)
+
+df <- cbind(horbis_de_patents, foo)
+dim(df)
+names(df)
+
+df %>%
+    .[, c(1:2, 23, 4, 5, 9, 11, 18:19, 21, 22, 29:30, 32:44, 46)] %>%
+    .[Publn_auth == "EP"] %>%
+    unique(by = "familyID") -> df
+
+dim(df)
+names(df)
+
+
+
+# who are those firms
+df %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>%
+    head(10) -> f1
+
+
+df %>%
+    .[granted == 1] %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>%
+    head(10) -> f2
+
+
+f3 <- merge(f1, f2, by = "cleaned_names_1", all.x = TRUE)
+
+names(f3) <- c('Company', 'patent_applications', 'granted_patents')
+
+f3 %>%
+    .[!is.na(granted_patents)] %>%
+
+
+df %>%
+    .[cleaned_names_1 == "atotech deutschland gmbh" & granted == 0] %>% 
+    .[, c('Patent_number', 'patentNumber')] %>%
+    .[sample(.N, 5)]
+
+
+#####################  EPO Linked Open Data ######################
+
+horbis_de_patents <- fread("./data/horbis_de_patents.csv")
+horbis_de_patents %>%
+    .[Publn_auth == "EP"] -> horbis_de_patents
+horbis_de_patents$idx <- rownames(horbis_de_patents)
+
+dim(horbis_de_patents)
+names(horbis_de_patents)
+
+horbis_de_patents %>%
+    .[Patent_number == "EP2502969"]
+
+
+link1 <- fread("./epodata/horbis_de_linked.csv")
+
+dim(link1)  # 9195
+names(link1)
+head(link1, 1)
+tail(link1, 1)
+
+link2 <- fread("./epodata/horbis_de_linked2.csv")
+
+dim(link2)  # 17595
+
+names(link2)
+
+head(link2, 1)
+tail(link2, 1)
+
+
+
+# combine data
+link12 <- rbind(link1, link2)
+horbis_de_patents <- horbis_de_patents[c(1:26790)]
+df_linked <- cbind(horbis_de_patents, link12)
+
+dim(df_linked)  # 26790
+names(df_linked)
+
+fwrite(df_linked, "./epodata/horbis_linked_26790.csv")
+
+
+df_linked %>%
+    .[, c(1:2, 23, 4, 5, 7, 11, 17:19, 21, 22, 28, 30:45)] %>%
+    .[, c('Patent_number','idx','patentNumber', 'applicationNum')] %>%
+    .[sample(.N, 5)]
+
+
+df_linked %>%
+    .[, c(1:2, 23, 4, 5, 7, 11, 17:19, 21, 22, 28, 30:45)] %>%
+    unique(by = "familyID") -> mdf
+
+
+dim(mdf)
+names(mdf)
+
