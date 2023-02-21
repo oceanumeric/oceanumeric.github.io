@@ -157,6 +157,7 @@ merge_foo2 <- merge_plus(data1 = foo4, data2 = foo2,
 
 
 # plot hypergeometric distribution
+print("A demo: all you need is script and a kernel")
 m_seq <- seq(0, 60, by = 1)
 prob <- 1 - phyper(1, m_seq, 82 - m_seq, k = 5)
 

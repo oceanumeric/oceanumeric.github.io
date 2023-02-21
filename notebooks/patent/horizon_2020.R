@@ -2,11 +2,12 @@
 library(pacman)
 p_load(
     tidyverse, data.table, dtplyr, reshape2,
-    archive, kableExtra, SPARQL, janitor,
+    kableExtra, SPARQL, janitor,
     png, webp, Cairo, rsvg, rbenchmark,
-    httr, jsonlite, fedmatch)
+    httr, jsonlite, fedmatch
+)
 # set option
-options(dplyr.summarise.inform = FALSE)
+options(dplyr.summarise.inform = FALSE) 
 options(repr.plot.width = 6, repr.plot.height = 4)
 
 gray_scale <- c("#F3F4F8", "#D2D4DA",  "#bcc0ca",
@@ -19,7 +20,6 @@ gray_scale <- c("#F3F4F8", "#D2D4DA",  "#bcc0ca",
 
 # check working directory
 getwd()
-
 
 ########## ------- Create a merged dataset ----------- ###############
 projects <- fread("./data/cordis_h2020/project.csv")
@@ -325,16 +325,51 @@ fwrite(horbis_de_patents, "./data/horbis_de_patents.csv")
 
 
 ## --------------- extract patent information --------- #######
-horbis_de_applications <- fread("./data/horbis_de_applications.csv")
-
-dim(horbis_de_applications)
-names(horbis_de_applications)
-
-head(horbis_de_applications)
 
 
-horbis_de_publications <- fread("./data/horbis_de_publications.csv")
+horbis_de_patents <- fread("./data/horbis_de_patents.csv")
 
-dim(horbis_de_publications)
+horbis_de_patents %>%
+    .[44833, c(HAN_ID, Patent_number)]
 
-head(horbis_de_publications)
+# align datasets
+horbis_epo <- fread("./data/horbis_de_epo.csv")
+
+dim(horbis_epo) # 44833 
+tail(horbis_epo[, c(1:10)], 1)
+horbis_epo[44833, c(1:10)]
+
+
+
+horbis_epo2 <- fread("./data/horbis_de_epo2.csv")
+horbis_epo2 <- horbis_epo2[c(1:2095)]
+
+head(horbis_epo2[, c(1:10)], 1)
+horbis_de_patents %>%
+    .[44834, c(HAN_ID, Patent_number)]
+
+tail(horbis_epo2[, c(1:10)], 1)
+horbis_de_patents %>%
+    .[46928, c(HAN_ID, Patent_number)]
+
+
+horbis_epo3 <- fread("./data/horbis_de_epo3.csv")
+horbis_epo3 <- horbis_epo3[c(1:1785)]
+
+head(horbis_epo3[, c(1:10)], 1)
+horbis_de_patents %>%
+    .[46929, c(HAN_ID, Patent_number)]
+
+
+################## EPO Linked data
+
+foo <- fread("./epodata/horbis_de_linked.csv")
+dim(foo)
+
+tail(foo)
+
+foo <- fread("./data/horbis_de_epo4.csv")
+
+dim(foo)
+
+tail(foo)

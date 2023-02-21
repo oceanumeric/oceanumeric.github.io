@@ -558,7 +558,10 @@ def unit_test4():
 if __name__ == "__main__":
     print("Current working directory:", os.getcwd(), '\n')
     # test 
-    unit_test4()
+    # unit_test1()
+    epo_linked_data()
+    
+#%%
     
     # start = time.time()
     # epo_linked_data()
