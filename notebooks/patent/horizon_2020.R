@@ -326,50 +326,27 @@ fwrite(horbis_de_patents, "./data/horbis_de_patents.csv")
 
 ## --------------- extract patent information --------- #######
 
-
 horbis_de_patents <- fread("./data/horbis_de_patents.csv")
+horbis_de_patents$idx <- rownames(horbis_de_patents)
 
-horbis_de_patents %>%
-    .[44833, c(HAN_ID, Patent_number)]
+dim(horbis_de_patents)
+names(horbis_de_patents)
+
 
 # align datasets
 horbis_epo <- fread("./data/horbis_de_epo.csv")
-
 dim(horbis_epo) # 44833 
-tail(horbis_epo[, c(1:10)], 1)
-horbis_epo[44833, c(1:10)]
-
-
 
 horbis_epo2 <- fread("./data/horbis_de_epo2.csv")
 horbis_epo2 <- horbis_epo2[c(1:2095)]
+dim(horbis_epo2)  # 2095 + 44833 = 46928 
 
-head(horbis_epo2[, c(1:10)], 1)
-horbis_de_patents %>%
-    .[44834, c(HAN_ID, Patent_number)]
+# combine two
+horbis_epo <- rbind(horbis_epo, horbis_epo2)
+dim(horbis_epo)
+tail(horbis_epo, 1)
 
-tail(horbis_epo2[, c(1:10)], 1)
-horbis_de_patents %>%
-    .[46928, c(HAN_ID, Patent_number)]
-
-
-horbis_epo3 <- fread("./data/horbis_de_epo3.csv")
-horbis_epo3 <- horbis_epo3[c(1:1785)]
-
-head(horbis_epo3[, c(1:10)], 1)
-horbis_de_patents %>%
-    .[46929, c(HAN_ID, Patent_number)]
+fwrite(horbis_epo, "./tempdata/horbis_49628.csv")
 
 
-################## EPO Linked data
-
-foo <- fread("./epodata/horbis_de_linked.csv")
-dim(foo)
-
-tail(foo)
-
-foo <- fread("./data/horbis_de_epo4.csv")
-
-dim(foo)
-
-tail(foo)
+################## analyze the dataset ######################
