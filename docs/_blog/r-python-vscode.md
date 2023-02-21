@@ -24,7 +24,7 @@ studied mathematics and got into the world of machine learning.
 This year, a project I am working on needs me to use Python and R at the 
 same time. I have already wrote a [post](https://oceanumeric.github.io/blog/data-science-environment){:target="_blank"} talking about setting up the
 environment with `Docker`. In this post, I will share some tips about
-how leveraged the best of both. 
+how I leveraged the best of both. 
 
 
 ## Pure scripts
@@ -111,3 +111,7 @@ into your `keybindings.json`.
     </div>
 </div>
 
+
+## Using GNU Make to manage the workflow
+
+{% cite  baker2020using %}
