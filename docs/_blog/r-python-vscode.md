@@ -1,5 +1,5 @@
 ---
-title: Using R and Python in VS Code Like a Data Scientist
+title: Using Python and R in VS Code Like a Data Scientist
 subtitle: Embracing the python and R community together needs smooth transference of our mentalities and skills from both community; I believe one could get best of both worlds in VS Code.
 layout: blog_default
 date: 2023-02-20
