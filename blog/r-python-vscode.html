@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Using R and Python in VS Code Like a Data Scientist
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='data science, python, R, VS code, stack tools, IDE'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Using R and Python in VS Code Like a Data Scientist</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Using R and Python in VS Code Like a Data Scientist" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In the past, I tried either call Python function from R environment or call R functions from Python. I did not find good packages that could manage this well. I believe the best of way of leveraging the best of both Python and R is to share data via IO." />
+<meta property="og:description" content="In the past, I tried either call Python function from R environment or call R functions from Python. I did not find good packages that could manage this well. I believe the best of way of leveraging the best of both Python and R is to share data via IO." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/r-python-vscode" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/r-python-vscode" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-02-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Using R and Python in VS Code Like a Data Scientist" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-20T00:00:00+00:00","datePublished":"2023-02-20T00:00:00+00:00","description":"In the past, I tried either call Python function from R environment or call R functions from Python. I did not find good packages that could manage this well. I believe the best of way of leveraging the best of both Python and R is to share data via IO.","headline":"Using R and Python in VS Code Like a Data Scientist","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/r-python-vscode"},"url":"https://oceanumeric.github.io//blog/r-python-vscode"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Using R and Python in VS Code Like a Data Scientist</h1>
+            <h4>Embracing the python and R community together needs smooth transference of our mentalities and skills from both community; I believe one could get best of both worlds in VS Code.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/data-science">data-science</a>, 
+                            
+                            <a href="/blog-tags/python">python</a>, 
+                            
+                            <a href="/blog-tags/r">r</a>, 
+                            
+                            <a href="/blog-tags/vs-code">vs-code</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>20 February 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>In the past, I tried either call <code class="language-plaintext highlighter-rouge">Python</code> function from <code class="language-plaintext highlighter-rouge">R</code> environment
+or call <code class="language-plaintext highlighter-rouge">R</code> functions from <code class="language-plaintext highlighter-rouge">Python</code>. I did not find good packages that 
+could manage this well. I believe the best of way of leveraging 
+the best of both Python and R is to share data via IO.</p>
+
+<h2 id="best-of-both-worlds">Best of both worlds</h2>
+
+<p>Many years ago, I spent nights and nights googling whether I should
+learn R or Python first. Since I studied business and finance as my first
+degree, R became my first choice. Later, I switched to Python when I 
+studied mathematics and got into the world of machine learning.</p>
+
+<p>This year, a project I am working on needs me to use Python and R at the 
+same time. I have already wrote a <a href="https://oceanumeric.github.io/blog/data-science-environment" target="_blank">post</a> talking about setting up the
+environment with <code class="language-plaintext highlighter-rouge">Docker</code>. In this post, I will share some tips about
+how leveraged the best of both.</p>
+
+<h2 id="pure-scripts">Pure scripts</h2>
+
+<p>Jupyter notebook used to be my top choice for doing some data analysis in
+the quick way. However, I found it also distracting when you jump
+among different code chunks and markdown blocks. It also become quite slow
+once your iterations of analysis grows big. I think the most valuable 
+thing that Jupyter provides is the kernel, which allows you:</p>
+
+<ul>
+  <li>see results immediately</li>
+  <li>render figures and tables</li>
+  <li>test a few lines of code quickly</li>
+</ul>
+
+<p>Thanks to VS Code, we could run our code <a href="https://code.visualstudio.com/docs/python/jupyter-support-py" target="_blank">interactively</a>. This gives me the choice of coding my thoughts with script purely but still keep analysis attached and flowed dynamically.</p>
+
+<p>Figure 1 to Figure 3 shows I mean with the above statement (please
+zoom image to appreciate its powerful implications).</p>
+
+<div class="figure">
+    <img src="/blog/images/vscode-setup1.png" alt="A demo figure to run python from command" class="zoom-img" style="width: 90%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> Programming 
+        in the script and run code from the command line.
+    </div>
+</div>
+
+<div class="figure">
+    <img src="/blog/images/vscode-setup2.png" alt="A demo figure run python interactively" class="zoom-img" style="width: 90%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 2.</span> Programming 
+        in the script and run code from interactive window with
+        #%% option enabling code chunk. 
+    </div>
+</div>
+
+<div class="figure">
+    <img src="/blog/images/vscode-setup3.png" alt="A demo figure run R interactively" class="zoom-img" style="width: 90%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 3.</span> Programming in the 
+        script with R and run the code from a Jupyter kernel interactively,
+        which needs a shortcut setup (see the next section).
+    </div>
+</div>
+
+<h2 id="pure-scripts-for-r-too">Pure scripts for R too</h2>
+
+<p>To make the function demonstrated in Figure 3 work, you need setup 
+a shortcut in VS Code. Just add the following keybindings setup
+into your <code class="language-plaintext highlighter-rouge">keybindings.json</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[
+    {
+        // I use shift and space to run 
+        "key": "shift+space",
+        // only run selection
+        "command": "jupyter.execSelectionInteractive",
+        // run whole file 
+        // "command": "jupyter.runFileInteractive",
+        "when": "editorTextFocus &amp;&amp; editorLangId == 'r'"
+    }
+]
+</code></pre></div></div>
+
+<div class="figure">
+    <img src="/blog/images/vscode-setup4.png" alt="A demo figure run R interactively" class="zoom-img" style="width: 60%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 4.</span> Instructions for 
+        finding the keyboard setup. 
+    </div>
+</div>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
