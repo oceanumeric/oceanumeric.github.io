@@ -79,11 +79,14 @@ def get_application_number(pub_url: str) -> str:
     items = page_json['result'].get('items', None)
 
     if items is not None and isinstance(items, list):
-        doc_link = items[0].get('_about', None)
-        application_number = items[0].get('application', None)
-        if application_number is not None:
-            application_number = application_number.get('applicationNumber')
-            return authority + application_number, doc_link
+        if len(items) > 0:
+            doc_link = items[0].get('_about', None)
+            application_number = items[0].get('application', None)
+            if application_number is not None:
+                application_number = application_number.get('applicationNumber')
+                return authority + application_number, doc_link
+            else:
+                return None, None
         else:
             return None, None
     elif items is not None and isinstance(items, dict):
@@ -351,8 +354,27 @@ def extract_epo_linked_data(patent_number: str) -> dict:
 
     appln_num, doc_link = get_application_number(pub_url)
     patent_info['applicationNum'] = appln_num
+    
+    if appln_num is None:
+        patent_info = {
+            'patentNumber': 'EP0925591', 
+            'applicationNum': None, 
+            'familyID': None, 
+            'applicationDate': None, 
+            'granted': None, 
+            'grantDate': None, 
+            'cpcClass': None, 
+            'publicationItems': None, 
+            'publicationDate': None, 
+            'priorityNumber': None, 
+            'language': None, 
+            'ipc': None, 
+            'title': None, 
+            'abstract': None}
+        return patent_info
 
     time.sleep(0.1)
+
     appln_url = construct_application_url(appln_num)
     appln_dict = get_application_info(appln_url)
     patent_info = patent_info | appln_dict
@@ -361,7 +383,7 @@ def extract_epo_linked_data(patent_number: str) -> dict:
     doc_link = doc_link + '.json'
     pub_dict = get_epo_publication_info(doc_link)
     patent_info = patent_info | pub_dict
-
+    
     return patent_info
 
 
@@ -372,7 +394,8 @@ def unit_test():
     print("::::::::::::::::::::::Unit Test Running::::::::::::::::::::::\n")
     horbis_patents = pd.read_csv('./data/horbis_de_patents.csv')
     horbis_patents = horbis_patents[horbis_patents['Publn_auth'] == 'EP']
-    horbis_patents = horbis_patents.iloc[9195:, :]
+    horbis_patents = horbis_patents.iloc[63443:, :]
+    
     
     start = time.time()
     
@@ -400,7 +423,7 @@ def unit_test():
                 pt_dict, orient='index'
             ).transpose()
         epo_df = pd.concat([epo_df, temp], ignore_index=True)
-        epo_df.to_csv('./epodata/horbis_de_linked2.csv', index=False)
+        epo_df.to_csv('./epodata/horbis_de_linked3.csv', index=False)
 
 if __name__ == "__main__":
     print("Current working directory:", os.getcwd(), '\n')

@@ -446,7 +446,7 @@ horbis_de_patents %>%
     .[Publn_auth == "EP"] -> horbis_de_patents
 horbis_de_patents$idx <- rownames(horbis_de_patents)
 
-dim(horbis_de_patents)
+dim(horbis_de_patents)  # 93819
 names(horbis_de_patents)
 
 horbis_de_patents %>%
@@ -462,7 +462,7 @@ tail(link1, 1)
 
 link2 <- fread("./epodata/horbis_de_linked2.csv")
 
-dim(link2)  # 17595
+dim(link2)  # 43943
 
 names(link2)
 
@@ -473,13 +473,14 @@ tail(link2, 1)
 
 # combine data
 link12 <- rbind(link1, link2)
-horbis_de_patents <- horbis_de_patents[c(1:26790)]
+horbis_de_patents <- horbis_de_patents[c(1:53138)]
 df_linked <- cbind(horbis_de_patents, link12)
 
-dim(df_linked)  # 26790
+dim(df_linked)  # 53138
 names(df_linked)
 
 fwrite(df_linked, "./epodata/horbis_linked_26790.csv")
+fwrite(df_linked, "./epodata/horbis_linked_53138.csv")
 
 
 df_linked %>%
@@ -495,4 +496,112 @@ df_linked %>%
 
 dim(mdf)
 names(mdf)
+
+
+# how many firms do we have until now
+mdf %>%
+    .[, .N, by = cleaned_names_1]
+
+# who are those firms
+mdf %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>%
+    head(10) -> f1
+
+
+mdf %>%
+    .[granted == 1] %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>%
+    head(10) -> f2
+
+f3 <- merge(f1, f2, by = "cleaned_names_1", all.x = TRUE)
+
+names(f3) <- c('Company', 'patent_applications', 'granted_patents')
+
+
+f3 %>%
+    .[,granted_ratio := round(granted_patents/patent_applications, 2)] %>%
+    .[order(-rank(granted_patents))] %>% 
+    kable("pipe", align="lccc")
+
+
+mdf %>%
+    unique(by = "cleaned_names_1") %>%
+    .[, .N, by = category_of_company]
+
+
+names(mdf)
+
+
+options(repr.plot.width = 7, repr.plot.height = 4)
+mdf %>%
+    .[, temp := tstrsplit(applicationDate, ", ", fixed = TRUE, keep = c(2))] %>%
+    .[, applicationYear := tstrsplit(temp, " ", fixed = TRUE, keep = c(3))] %>%
+    .[, temp := NULL] %>%
+    .[, .(applicationYear)] %>% 
+    .[, .N, by = applicationYear] %>%
+    .[order(-rank(N))] %>% head(15) %>%
+    .[order(applicationYear)] %>%
+    ggplot(aes(x = applicationYear, y = N)) +
+    geom_col(fill = gray_scale[4], color = gray_scale[5]) + 
+    theme_bw() + 
+    theme(
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(color = "black"),
+        axis.text.x=element_text(face='bold', color='black', size=10),
+        axis.title.x=element_text(size=12, face='bold'),
+        axis.text.y=element_text(face='bold', color='black', size=10),
+        axis.title.y=element_text(size=12, face='bold'),
+        ) + 
+    labs(title = "Trend of patent applications")
+
+
+ai_ipc <- c(
+            "G06F", "G06K", "H04N", "G10L",
+            "G06T", "A61B", "H04M", "G01N",
+            "H04R", "G06N", "G01S", "H04L", "G06Q",
+            "H04B", "G09G", "G02B", "G11B", "G08B", "G01B"
+            )
+# class
+mdf %>% 
+    .[, .(ipc)] %>% head()
+
+dim(mdf)
+names(mdf)
+
+fwrite(mdf, "./pyrio/mdf.csv")
+
+mdf <- fread("./pyrio/mdf.csv")
+dim(mdf)
+names(mdf)
+
+
+head(mdf)
+
+
+mdf %>%
+    .[aiPatent == 1] %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>% head(10)  -> f1
+
+
+mdf %>%
+    .[aiPatent == 1] %>%
+    .[granted == 1] %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>% head(10) -> f2
+
+
+f3 <- merge(f1, f2, by = "cleaned_names_1", all.x = TRUE)
+
+names(f3) <- c('Company', 'patent_applications', 'granted_patents')
+
+
+f3 %>%
+    .[,granted_ratio := round(granted_patents/patent_applications, 2)] %>%
+    .[order(-rank(granted_patents))] %>% 
+    kable("pipe", align="lccc")
+
 
