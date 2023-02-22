@@ -53,16 +53,57 @@ days.
 
 ## Data analysis
 
-The dimension of our sample dataset is $64466 \times 46$, which includes
-firms' research projects and their patents. We will analyze those data
-by showing what they did in the past through patent information and 
+The dimension of our sample dataset is $53138 \times 46$, which includes
+firms' research projects and their patents applied for in EPO's office. However, many patents belong
+to the same family, the sample size drops to $50543 \times 46$ if we 
+filter patents by unique family IDs. This is very important as we 
+do not want to over count patents. 
+
+We will analyze those data by showing what they did in the past through patent information and 
 what they will do in the future through their research projects. 
 
+Right now, we only have $177$ firms in our sample. Table 1 lists the
+top firms of having the highest patent granted ratio. 
 
-For this sample, we have $74$ firms in our datasets
 
 
 
+
+|Company                         | patent_applications | granted_patents | granted_ratio |
+|:-------------------------------|:-------------------:|:---------------:|:-------------:|
+|bayer ag                        |        11158        |      6831       |     0.61      |
+|basf se                         |        9536         |      5576       |     0.58      |
+|bayerische motoren werke ag     |        5350         |      4076       |     0.76      |
+|audi ag                         |        3628         |      2987       |     0.82      |
+|airbus operations gmbh          |        2347         |      1801       |     0.77      |
+|continental automotive gmbh     |        2831         |      1692       |     0.60      |
+|continental teves ag and co ohg |        1914         |      1434       |     0.75      |
+|bundesdruckerei gmbh            |         947         |       732       |     0.77      |
+|covestro deutschland ag         |        1225         |       637       |     0.52      |
+|aesculap ag                     |         772         |       616       |     0.80      |
+
+
+AI related .
+
+ad 
+
+dg 
+
+
+
+
+|Company                     | patent_applications | granted_patents | granted_ratio |
+|:---------------------------|:-------------------:|:---------------:|:-------------:|
+|aesculap ag                 |         520         |       413       |     0.79      |
+|audi ag                     |         467         |       362       |     0.78      |
+|carl zeiss ag               |         540         |       351       |     0.65      |
+|bundesdruckerei gmbh        |         420         |       331       |     0.79      |
+|bayerische motoren werke ag |         537         |       328       |     0.61      |
+|continental automotive gmbh |         508         |       253       |     0.50      |
+|carl zeiss smt gmbh         |         367         |       197       |     0.54      |
+|carl zeiss microscopy gmbh  |         226         |       172       |     0.76      |
+|bayer ag                    |         388         |       167       |     0.43      |
+|carl zeiss meditec ag       |         203         |       140       |     0.69      |
 
 
 

@@ -240,4 +240,7 @@ blogenv
 epo_api.py
 horbis_patents.py
 
-epodata
+
+notebooks/patent/tempdata
+notebooks/patent/epodata
+notebooks/patent/pyrio
