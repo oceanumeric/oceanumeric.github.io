@@ -145,12 +145,169 @@ days.</p>
 
 <h2 id="data-analysis">Data analysis</h2>
 
-<p>The dimension of our sample dataset is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64466</mn><mo>×</mo><mn>46</mn></mrow><annotation encoding="application/x-tex">64466 \times 46</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mord">4</span><span class="mord">4</span><span class="mord">6</span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">6</span></span></span></span>, which includes
-firms’ research projects and their patents. We will analyze those data
-by showing what they did in the past through patent information and 
+<p>The dimension of our sample dataset is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>53138</mn><mo>×</mo><mn>46</mn></mrow><annotation encoding="application/x-tex">53138 \times 46</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mord">3</span><span class="mord">1</span><span class="mord">3</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">6</span></span></span></span>, which includes
+firms’ research projects and their patents applied for in EPO’s office. However, many patents belong
+to the same family, the sample size drops to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50543</mn><mo>×</mo><mn>46</mn></mrow><annotation encoding="application/x-tex">50543 \times 46</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mord">5</span><span class="mord">4</span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">6</span></span></span></span> if we 
+filter patents by unique family IDs. This is very important as we 
+do not want to over count patents.</p>
+
+<p>We will analyze those data by showing what they did in the past through patent information and 
 what they will do in the future through their research projects.</p>
 
-<p>For this sample, we have <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74</mn></mrow><annotation encoding="application/x-tex">74</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">4</span></span></span></span> firms in our datasets</p>
+<p>Right now, we only have <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>177</mn></mrow><annotation encoding="application/x-tex">177</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">7</span><span class="mord">7</span></span></span></span> firms in our sample. Table 1 lists the
+top firms of having the highest patent granted ratio.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Company</th>
+      <th style="text-align: center">patent_applications</th>
+      <th style="text-align: center">granted_patents</th>
+      <th style="text-align: center">granted_ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">bayer ag</td>
+      <td style="text-align: center">11158</td>
+      <td style="text-align: center">6831</td>
+      <td style="text-align: center">0.61</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">basf se</td>
+      <td style="text-align: center">9536</td>
+      <td style="text-align: center">5576</td>
+      <td style="text-align: center">0.58</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bayerische motoren werke ag</td>
+      <td style="text-align: center">5350</td>
+      <td style="text-align: center">4076</td>
+      <td style="text-align: center">0.76</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">audi ag</td>
+      <td style="text-align: center">3628</td>
+      <td style="text-align: center">2987</td>
+      <td style="text-align: center">0.82</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">airbus operations gmbh</td>
+      <td style="text-align: center">2347</td>
+      <td style="text-align: center">1801</td>
+      <td style="text-align: center">0.77</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">continental automotive gmbh</td>
+      <td style="text-align: center">2831</td>
+      <td style="text-align: center">1692</td>
+      <td style="text-align: center">0.60</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">continental teves ag and co ohg</td>
+      <td style="text-align: center">1914</td>
+      <td style="text-align: center">1434</td>
+      <td style="text-align: center">0.75</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bundesdruckerei gmbh</td>
+      <td style="text-align: center">947</td>
+      <td style="text-align: center">732</td>
+      <td style="text-align: center">0.77</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">covestro deutschland ag</td>
+      <td style="text-align: center">1225</td>
+      <td style="text-align: center">637</td>
+      <td style="text-align: center">0.52</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">aesculap ag</td>
+      <td style="text-align: center">772</td>
+      <td style="text-align: center">616</td>
+      <td style="text-align: center">0.80</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>AI related .</p>
+
+<p>ad</p>
+
+<p>dg</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Company</th>
+      <th style="text-align: center">patent_applications</th>
+      <th style="text-align: center">granted_patents</th>
+      <th style="text-align: center">granted_ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">aesculap ag</td>
+      <td style="text-align: center">520</td>
+      <td style="text-align: center">413</td>
+      <td style="text-align: center">0.79</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">audi ag</td>
+      <td style="text-align: center">467</td>
+      <td style="text-align: center">362</td>
+      <td style="text-align: center">0.78</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">carl zeiss ag</td>
+      <td style="text-align: center">540</td>
+      <td style="text-align: center">351</td>
+      <td style="text-align: center">0.65</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bundesdruckerei gmbh</td>
+      <td style="text-align: center">420</td>
+      <td style="text-align: center">331</td>
+      <td style="text-align: center">0.79</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bayerische motoren werke ag</td>
+      <td style="text-align: center">537</td>
+      <td style="text-align: center">328</td>
+      <td style="text-align: center">0.61</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">continental automotive gmbh</td>
+      <td style="text-align: center">508</td>
+      <td style="text-align: center">253</td>
+      <td style="text-align: center">0.50</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">carl zeiss smt gmbh</td>
+      <td style="text-align: center">367</td>
+      <td style="text-align: center">197</td>
+      <td style="text-align: center">0.54</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">carl zeiss microscopy gmbh</td>
+      <td style="text-align: center">226</td>
+      <td style="text-align: center">172</td>
+      <td style="text-align: center">0.76</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bayer ag</td>
+      <td style="text-align: center">388</td>
+      <td style="text-align: center">167</td>
+      <td style="text-align: center">0.43</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">carl zeiss meditec ag</td>
+      <td style="text-align: center">203</td>
+      <td style="text-align: center">140</td>
+      <td style="text-align: center">0.69</td>
+    </tr>
+  </tbody>
+</table>
 
 
     </div>
