@@ -339,14 +339,52 @@ def plot_bounds():
     ax.plot(h, binomial, 'k', label="Binomial CDF")
     ax.set_xlabel("a")
     ax.set_ylabel("Pr(X>a)")
-    ax.legend(loc='center left')
+    ax.legend(loc='upper right')
+    
+
+def plot_bounds2():
+    
+    N = 100
+    h = list(range(60, 80))
+    eh = 50  # mean 
+    varh = 25  # variance 
+    
+    chebyshev = []
+    hoeffding = []
+    bernstein = []
+    binomial = []
+    
+    for t in h:
+        chebyshev.append(varh/((t-eh)**2))
+        hoeffding.append(np.exp(-((2*t-N)**2)/(2*N)))
+        num = (2*t - N)**2
+        denom = 2 * N + 2/3*(2*t - N)
+        bernstein.append(np.exp(-num/denom))
+        binomial.append(1-spt.binom.cdf(t, 100, 0.5))
+        
+    fig, ax = plt.subplots(1, 2, figsize=(10, 3.5))
+    for i in [0, 1]:
+        ax[i].plot(h, chebyshev, 'k:', label="Chebyshev's inequality")
+        ax[i].plot(h, hoeffding, 'k--', label="Hoeffding's inequality")
+        ax[i].plot(h, bernstein, 'k-.', label="Bernstein's inequality")
+        ax[i].plot(h, binomial, 'k', label="Binomial CDF")
+        ax[i].set_xlabel("a")
+        ax[i].set_ylabel("Pr(X>a)")
+        ax[i].legend(loc='upper right')
+        if i == 1:
+            ax[i].legend('', frameon=False)
+            ax[i].set_yscale('log')
+            ax[i].legend(loc='lower left')
+        ax[0].set_title("Linear scale")
+        ax[1].set_title("Log scale")
+            
         
     
     
 
 if __name__ == "__main__":
-    plot_bounds()
-    plt.savefig('../math/images/inequality_bounds.png', dpi=300, bbox_inches="tight")
+    plot_bounds2()
+    plt.savefig('../math/images/inequality_bounds3.png', dpi=300, bbox_inches="tight")
 
     
     
