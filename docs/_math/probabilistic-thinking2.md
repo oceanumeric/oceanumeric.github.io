@@ -367,6 +367,76 @@ $$
 </div>
 
 
+## Example 7: Bernstein Inequality
+
+Suppose that $Z$ has a finite mean and that $\mathbb{P}(Z \geq 0)=1$. Then, for any $\epsilon>0$,
+$$
+\mathbb{E}(Z)=\int_0^{\infty} z d P(z) \geq \int_\epsilon^{\infty} z d P(z) \geq \epsilon \int_\epsilon^{\infty} d P(z)=\epsilon \mathbb{P}(Z>\epsilon)
+\tag{15}
+$$
+which yields Markov's inequality:
+$$
+\mathbb{P}(Z>\epsilon) \leq \frac{\mathbb{E}(Z)}{\epsilon}
+$$
+
+Equation 15 is very powerful as it implies that any __monotonic transformation__ preserve this property, which gives us other equalities, such
+as Chernoff's bound and Bernstein inequality. 
+
+
+Figure 2 shows that although Chebyshev's inequality is closer to the true 
+probability value, however it does not decay very fast. Let's check the formula
+
+$$
+ \mathbb{P}(|X - E[X]| \geq \epsilon ) \leq \frac{\mathrm{Var}[X]}{\epsilon^2}
+$$
+
+We know $\mathrm{Var}[X_i] = \sigma^2/n$ if $X_i$ are iid with mean $\mu$ and 
+variance $\sigma^2$, this means we have
+
+$$
+ \mathbb{P}(|X_i - \mu| \geq \epsilon ) \leq \frac{\sigma^2}{n \epsilon^2}
+$$
+
+While this inequality is useful, it does not decay exponentially fast as $n$ increases. To improve the inequality, we use Chernoff ’s method: for any 
+$t > 0$, 
+
+$$
+\mathbb{P}(Z > \epsilon) = \mathbb{P}(e^z > e^{\epsilon})  = \mathbb{P}(e^{tz} > e^{t \epsilon}) \leq \frac{\mathbb{E}(e^{tz})}{ e^{t \epsilon}} \tag{16}
+$$
+
+This gives the inequality with the moment generating function. 
+
+
+The moment-generating function is so named because it can be used to find the moments of the distribution. ${ }^{[2]}$ The series expansion of $e^{t X}$ is
+$$
+e^{t X}=1+t X+\frac{t^2 X^2}{2 !}+\frac{t^3 X^3}{3 !}+\cdots+\frac{t^n X^n}{n !}+\cdots .
+$$
+Hence
+$$
+\begin{aligned}
+M_X(t)=\mathrm{E}\left(e^{t X}\right) & =1+t \mathrm{E}(X)+\frac{t^2 \mathrm{E}\left(X^2\right)}{2 !}+\frac{t^3 \mathrm{E}\left(X^3\right)}{3 !}+\cdots+\frac{t^n \mathrm{E}\left(X^n\right)}{n !}+\cdots \\
+& =1+t m_1+\frac{t^2 m_2}{2 !}+\frac{t^3 m_3}{3 !}+\cdots+\frac{t^n m_n}{n !}+\cdots
+\end{aligned}
+$$
+
+where $m_n$ is the $n$th moment. Differentiating $M_X(t) i$ times with respect to $t$ and setting $t=0$, we obtain the $i$ th moment about the origin, $m_i$. 
+
+To learn more about probability concentration, please read this [notes](../../../../pdf/Concentration.pdf){:target="_blank"}.
+
+
+__Bernstein Inequality__ Consider independent random
+variables $X_1, \cdots, X_n$ all falling in $[-M, M]$.
+Let $\mu = \mathbb{E}[\sum_{i=1}^n X_i]$ and $\sigma^2 = \mathrm{Var}[\sum_{i=1}^n X_i] = \sum_{i=1}^n \mathrm{Var}[X_i]$. For any $t \geq 0$:
+
+$$
+\mathbb{P} \left ( \left |\sum_{i=1}^n x_i - \mu \right | \geq t  \right) \leq 2 \mathrm{exp} \left ( - \frac{t^2}{2 \sigma^2 + \frac{4}{3} M t} \right) \tag{17}
+$$
+
+
+
+
+
+
 
 
 
