@@ -4,7 +4,7 @@ p_load(
     tidyverse, data.table, dtplyr, reshape2,
     kableExtra, SPARQL, janitor,
     png, webp, Cairo, rsvg, rbenchmark,
-    httr, jsonlite, fedmatch
+    httr, jsonlite, fedmatch, patchwork
 )
 # set option
 options(dplyr.summarise.inform = FALSE) 

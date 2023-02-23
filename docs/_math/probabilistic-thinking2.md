@@ -12,6 +12,12 @@ This the second part of this series of posts as the title has stated. We
 will continue to study the material from Cameron Musco's course - [Algorithms for Data Science](https://people.cs.umass.edu/~cmusco/CS514F22/index.html){:target="_blank"} {% cite musco2022 %}. This section assumes readers know what hash table is. If not, just check out 
 [this video](https://youtu.be/Nu8YGneFCWE){:target="_blank"} from MIT. 
 
+- [Example 5: Randomized load balancing](#example-5-randomized-load-balancing)
+- [Example 6: flipping coins](#example-6-flipping-coins)
+- [Example 7: Hoeffding’s inequality](#example-7-hoeffdings-inequality)
+- [Example 8: Bernstein inequality](#example-8-bernstein-inequality)
+
+
 
 {% katexmm %}
 
@@ -367,7 +373,8 @@ $$
 </div>
 
 
-## Example 7: Bernstein Inequality
+## Example 7: Hoeffding’s inequality
+
 
 Suppose that $Z$ has a finite mean and that $\mathbb{P}(Z \geq 0)=1$. Then, for any $\epsilon>0$,
 $$
@@ -407,7 +414,7 @@ $$
 This gives the inequality with the moment generating function. 
 
 
-The moment-generating function is so named because it can be used to find the moments of the distribution. ${ }^{[2]}$ The series expansion of $e^{t X}$ is
+The moment-generating function is so named because it can be used to find the moments of the distribution. The series expansion of $e^{t X}$ is
 $$
 e^{t X}=1+t X+\frac{t^2 X^2}{2 !}+\frac{t^3 X^3}{3 !}+\cdots+\frac{t^n X^n}{n !}+\cdots .
 $$
@@ -421,24 +428,120 @@ $$
 
 where $m_n$ is the $n$th moment. Differentiating $M_X(t) i$ times with respect to $t$ and setting $t=0$, we obtain the $i$ th moment about the origin, $m_i$. 
 
+
 To learn more about probability concentration, please read this [notes](../../../../pdf/Concentration.pdf){:target="_blank"}.
 
 
-__Bernstein Inequality__ Consider independent random
-variables $X_1, \cdots, X_n$ all falling in $[-M, M]$.
-Let $\mu = \mathbb{E}[\sum_{i=1}^n X_i]$ and $\sigma^2 = \mathrm{Var}[\sum_{i=1}^n X_i] = \sum_{i=1}^n \mathrm{Var}[X_i]$. For any $t \geq 0$:
+
+Before we present Hoeffding's inequality, we will
+learn a new concept called symmetric random variable. 
+
+A random variable $Z$ is _symmetric_ if $Z$ and $-Z$ have the same
+distribution. A simple example of a symmetric random variable
+is the well know _symmetric Bernoulli_, which takes values $-1$ and
+$+1$ with equal probability $1/2$ each, i.e, 
+
+$$\mathbb{P}[Z = 1] = \mathbb{P}[Z = -1] = 1/2$$ 
+
+For a usual Bernoulli random variable ($X$) with two possible values
+$1, 0$ and parameter $1/2$, we can transfer it into a symmetric
+Bernoulli random variable by setting
+
+$$Z = 2X - 1$$ 
+
+__Hoeffding’s Inequality__ Let $X_1, \cdots, X_N$ be independent Bernoulli
+random variables, and let $a = (a_1, \cdots, a_N) \in \mathbb{R}^N$. Then,
+for any $t \geq 0$, we have 
 
 $$
-\mathbb{P} \left ( \left |\sum_{i=1}^n x_i - \mu \right | \geq t  \right) \leq 2 \mathrm{exp} \left ( - \frac{t^2}{2 \sigma^2 + \frac{4}{3} M t} \right) \tag{17}
+\mathbb{P} \left [\sum_{i=1}^N a_i X_i \geq t \right ] \leq  \exp \left ( - \frac{t^2}{2||a||_2^2} \right ) \tag{17}
+$$
+
+_Remark:_ sometimes, you see the above formula for two-side inequality with
+absolute symbol. For the proof, you can find it [here](https://gclinderman.github.io/blog/probability/2018/01/07/concentration-inequalities.html){:target="_blank"} or
+in the book by [Vershynin](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html){:target="_blank"}. 
+
+Now, to use this inequality, we have to be careful as our random variable 
+is $X_i$ - each trial of flipping the coin, instead of $X$ in equation (10)
+and figure 2. 
+
+Let $X_i$ be the random variable of mapping head or tail of flipping the coin
+into $1, 0$, we are interested in the value of the number of heads in $N = 100$ trials. To use equation (17), we need to transform our random variable
+into symmetric one by setting 
+
+$$Y_i = 2(X_i - \frac{1}{2})$$ 
+
+Then we can have 
+
+$$
+\begin{aligned}
+ \mathbb{P} \left [ \sum_{i=1}^N a_i X_i  > t \right ] &= \mathbb{P} \left[ \sum_{i=1}^N a_i \left(\frac{Y_i}{2} + \frac{1}{2}\right) > t \right ] \\
+&= \mathbb{P} \left[ \sum_{i=1}^N Y_i>2t-N \right ] \quad a_i = 1 \ \forall i \in N \\ 
+& \leq   \exp\left( - \frac{(2t-N)^2}{2 N}\right) \quad ||a||_2^2 = N 
+\end{aligned}
 $$
 
 
+<div class='figure'>
+    <img src="/math/images/inequality_bounds2.png"
+         alt="Inequality bounds compare"
+         style="width: 100%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Plot of different inequality
+        bounds, which shows that Hoeffding's inequality follows the 
+        cumulative density function very closely. 
+    </div>
+</div>
 
 
 
 
+## Example 8: Bernstein inequality
+
+__Bernstein Inequality__ Consider symmetric independent random
+variables $X_1, \cdots, X_n$ all falling in $[-a, a]$ and $E[X_i] = 0$ (if not we can standardized it) with $E[X_i^2] = \sigma^2$. Then 
+Let 
 
 
+$$
+\mathbb{P} \left [ \left | \sum_{i=1}^N X_i \geq t \right | \right] \leq 2 \mathrm{exp} \left ( - \frac{ t^2 }{2 n \sigma^2 + \frac{2}{3} a \cdot t } \right) \tag{18}
+$$
+
+Now, to apply the equation (18) in our flipping coins example, we could have
+
+$$
+\begin{aligned}
+\mathbb{P} \left[ \sum_{i=1}^N X_i \geq t \right] & = \mathbb{P} \left[  \sum_{i=1}^N \left ( \frac{Y_i}{2} + \frac{1}{2}  \right ) \geq t  \right] \\
+& = \mathbb{P} \left[  \sum_{i=1}^N  Y_i  \geq (2t-N) \right] \quad (\mu = \mathbb{E}[Y_i] = 0) \\
+& \leq  \exp \left ( - \frac{ (2t-N)^2}{2 N  + \frac{2}{3} \cdot (2t -N)}  \right) \quad (a = 1; \sigma^2 = 1)
+\end{aligned}
+$$
+
+_Remark:_ we drop $2$ because we are dealing with one side inequality. 
+
+<div class='figure'>
+    <img src="/math/images/inequality_bounds3.png"
+         alt="Inequality bounds compare"
+         style="width: 100%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Plot of different inequality
+        bounds, which shows that Hoeffding's inequality follows the 
+        cumulative density function very closely and Bernstein's inequality gives the larger value  than Hoeffding's inequality in this case.
+    </div>
+</div>
+
+To learn when Hoeffding is stronger than Bernstein and when Bernstein is 
+stronger than Hoeffding, please read this [post](https://dustingmixon.wordpress.com/2014/09/29/an-intuition-for-concentration-inequalities/){:target="_blank"}.
+
+
+
+__Summary__ Those inequalities provide the theoretical basis for many statistical machine learn-
+ing methods. To learn more about related theories, please visit those sites:
+
+- [Topics In Mathematics Of Data Science](https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-of-data-science-fall-2015/)
+- [High-Dimensional Probability and Statistics](https://people.math.wisc.edu/~roch/hdps/)
+- [Mathematical Methods in Data Science](https://people.math.wisc.edu/~roch/mmids/)
+- [The Modern Algorithmic Toolbox](https://web.stanford.edu/class/cs168/)
 
 
 
