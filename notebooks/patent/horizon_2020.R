@@ -605,3 +605,104 @@ f3 %>%
     kable("pipe", align="lccc")
 
 
+
+################ EPO Linked Dataset 
+horbis_de_patents <- fread("./data/horbis_de_patents.csv")
+horbis_de_patents %>%
+    .[Publn_auth == "EP"] -> horbis_de_patents
+horbis_de_patents$idx <- rownames(horbis_de_patents)
+
+dim(horbis_de_patents)
+names(horbis_de_patents)
+
+
+epo_linked1 <- fread("./epodata/horbis_de_linked0.csv")
+epo_linked2 <- fread("./epodata/horbis_de_linked1.csv")
+epo_linked3 <- fread("./epodata/horbis_de_linked_b2.csv")
+
+horbis_epo_linked <- rbind(epo_linked1, epo_linked2, epo_linked3)
+
+dim(horbis_epo_linked)
+names(horbis_epo_linked)
+
+
+foo = sample(93819, 1)
+horbis_de_patents[foo, c(30, 31)]
+horbis_epo_linked[foo, ]
+
+
+horbis_de_ep <- cbind(horbis_de_patents, horbis_epo_linked)
+
+dim(horbis_de_ep)
+names(horbis_de_ep)
+
+fwrite(horbis_de_ep, "./epodata/horbis_de_ep.csv")
+
+
+# unique family id
+horbis_de_ep %>%
+    unique(by = "familyID") %>% dim()  # 88 884
+
+
+# unique family id
+horbis_de_ep %>%
+    unique(by = "name") %>% dim()  # 630 
+
+
+horbis_de_ep %>%
+    unique(by = "name") %>%
+    .[, .N, by = category_of_company]
+
+
+horbis_de_ep %>%
+    unique(by = "familyID") -> mdf
+
+dim(mdf)
+names(mdf)
+
+
+# who are those firms
+mdf %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>% head(10) -> f1 
+
+
+mdf %>%
+    .[granted == 1] %>%
+    .[, .N, by = cleaned_names_1] %>%
+    .[order(-rank(N))] %>% head(10) -> f2
+
+
+f3 <- merge(f1, f2, by = "cleaned_names_1", all.x = TRUE)
+
+names(f3) <- c('Company', 'patent_applications', 'granted_patents')
+
+f3 %>%
+    .[,granted_ratio := round(granted_patents/patent_applications, 2)] %>%
+    .[order(-rank(granted_patents))] %>% 
+    kable("pipe", align="lccc")
+
+
+
+mdf %>%
+    .[cleaned_names_1 == "infineon tech ag"] %>%
+    .[, c("bvdid", "name", "patentNumber", "applicationDate", "grantDate", "granted",
+             "familyID", "publicationItems", "cpcClass", "ipc",
+             "language", "abstract")] %>% 
+    .[sample(.N, 5)]
+
+
+
+
+mdf %>%
+    .[, temp := tstrsplit(applicationDate, ", ", fixed = TRUE, keep = c(2))] %>%
+    .[, applicationYear := tstrsplit(temp, " ", fixed = TRUE, keep = c(3))] %>%
+    .[, temp := NULL] %>%
+    .[, temp := tstrsplit(grantDate, ", ", fixed = TRUE, keep = c(2))] %>%
+    .[, grantYear := tstrsplit(temp, " ", fixed = TRUE, keep = c(3))] %>%
+    .[, temp := NULL] %>%
+    .[sample(.N, 5)]
+
+
+
+
