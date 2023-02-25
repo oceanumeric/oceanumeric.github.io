@@ -538,10 +538,10 @@ stronger than Hoeffding, please read this [post](https://dustingmixon.wordpress.
 __Summary__ Those inequalities provide the theoretical basis for many statistical machine learn-
 ing methods. To learn more about related theories, please visit those sites:
 
-- [Topics In Mathematics Of Data Science](https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-of-data-science-fall-2015/)
-- [High-Dimensional Probability and Statistics](https://people.math.wisc.edu/~roch/hdps/)
-- [Mathematical Methods in Data Science](https://people.math.wisc.edu/~roch/mmids/)
-- [The Modern Algorithmic Toolbox](https://web.stanford.edu/class/cs168/)
+- [Topics In Mathematics Of Data Science](https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-of-data-science-fall-2015/){:target="_blank"}
+- [High-Dimensional Probability and Statistics](https://people.math.wisc.edu/~roch/hdps/){:target="_blank"}
+- [Mathematical Methods in Data Science](https://people.math.wisc.edu/~roch/mmids/){:target="_blank"}
+- [The Modern Algorithmic Toolbox](https://web.stanford.edu/class/cs168/){:target="_blank"}
 
 
 
