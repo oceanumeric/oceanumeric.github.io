@@ -654,6 +654,10 @@ horbis_de_ep %>%
     .[, .N, by = category_of_company]
 
 
+
+
+############################ read the dataset
+horbis_de_ep <- fread("./epodata/horbis_de_ep.csv")
 horbis_de_ep %>%
     unique(by = "familyID") -> mdf
 
@@ -693,15 +697,31 @@ mdf %>%
 
 
 
-
+options(repr.plot.width = 7, repr.plot.height = 4)
 mdf %>%
+    .[cleaned_names_1 == "volkswagen ag"] %>% 
     .[, temp := tstrsplit(applicationDate, ", ", fixed = TRUE, keep = c(2))] %>%
     .[, applicationYear := tstrsplit(temp, " ", fixed = TRUE, keep = c(3))] %>%
     .[, temp := NULL] %>%
     .[, temp := tstrsplit(grantDate, ", ", fixed = TRUE, keep = c(2))] %>%
     .[, grantYear := tstrsplit(temp, " ", fixed = TRUE, keep = c(3))] %>%
     .[, temp := NULL] %>%
-    .[sample(.N, 5)]
+    .[, .N, by = applicationYear] %>%
+    .[order(-rank(N))] %>% head(15) %>%
+    .[order(applicationYear)] %>%
+    ggplot(aes(x = applicationYear, y = N)) +
+    geom_col(fill = gray_scale[4], color = gray_scale[5]) + 
+    theme_bw() + 
+    theme(
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(color = "black"),
+        axis.text.x=element_text(face='bold', color='black', size=10),
+        axis.title.x=element_text(size=12, face='bold'),
+        axis.text.y=element_text(face='bold', color='black', size=10),
+        axis.title.y=element_text(size=12, face='bold'),
+        ) + 
+    labs(title = "Trend of patent applications")
 
 
 
