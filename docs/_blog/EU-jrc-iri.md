@@ -78,11 +78,13 @@ revenue; then the firm could invest more on R&D,  upgrade their assets and
 of course hire more talents. 
 
 
-
+<div class="table-caption">
+<span class="table-caption-label">Table 2.</span> Descriptive statistics grouped by industry, the unit for average revenue per employee is €million. 
+</div>
 
 
 |             industry              |count | average_employee | average_revenue_per_employee |
-|:---------------------------------:|:-----|:----------------:|:----------------------------:|
+|:---------------------------------|:-----:|:----------------:|:----------------------------:|
 |  Pharmaceuticals & Biotechnology  |478   |     6382.45      |             0.39             |
 |   Software & Computer Services    |336   |     12867.55     |             0.31             |
 | Electronic & Electrical Equipment |249   |     26253.49     |             0.27             |
@@ -93,3 +95,27 @@ of course hire more talents.
 | Health Care Equipment & Services  |89    |     19387.66     |             0.28             |
 |     Construction & Materials      |65    |     51241.43     |             1.14             |
 |        General Industrials        |64    |     35944.75     |             0.29             |
+
+From Table 2, we can learn that firms from knowledge-intensive industries
+hire lots of people and their revenue margin in terms of the size is 
+pretty good. 
+
+
+## Top 1000 EU R&D investors 
+
+In this section, I will search for subsidiaries for top 1000 EU R&D investors. Figure 3 shows that Germany is the leader of innovation in the EU. I will search for firms' subsidiaries based on the rank in the 
+Figure 3. 
+
+<div class='figure'>
+    <img src="/blog/images/iri_eu_country.png"
+         alt="A demo figure"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Top EU R&D investors 
+        distribution across countries, which shows Germany is the leading
+        country of innovation in the EU. 
+    </div>
+</div>
+
+Many papers have already tried to find out the subsidiaries of MNCs 
+{% cite  ribeiro2010oecd kalemli2015construct clo2020firm grassano20212021 %}. 
