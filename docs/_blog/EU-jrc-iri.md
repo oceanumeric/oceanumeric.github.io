@@ -119,3 +119,16 @@ Figure 3.
 
 Many papers have already tried to find out the subsidiaries of MNCs 
 {% cite  ribeiro2010oecd kalemli2015construct clo2020firm grassano20212021 %}. 
+
+
+<div class='figure'>
+    <img src="/blog/images/graph_hist_degree.png"
+         alt="A demo figure"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Histogram of degree of
+        graph constructed based on the ownership network, which shows 
+        the network is very sparse but the 'super hubs' do exist in the 
+        ownership network. 
+    </div>
+</div>
