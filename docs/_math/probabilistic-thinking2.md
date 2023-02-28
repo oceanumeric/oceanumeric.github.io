@@ -426,7 +426,7 @@ M_X(t)=\mathrm{E}\left(e^{t X}\right) & =1+t \mathrm{E}(X)+\frac{t^2 \mathrm{E}\
 \end{aligned}
 $$
 
-where $m_n$ is the $n$th moment. Differentiating $M_X(t) i$ times with respect to $t$ and setting $t=0$, we obtain the $i$ th moment about the origin, $m_i$. 
+where $m_n$ is the $n$th moment. Differentiating $M_X(t) i$ times with respect to $t$ and setting $t=0$, we obtain the $i$th moment about the origin, $m_i$. 
 
 
 To learn more about probability concentration, please read this [notes](../../pdf/Concentration.pdf){:target="_blank"}.

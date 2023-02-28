@@ -67,6 +67,28 @@ discussed.
 
 ## Bloom filter 
 
+For those who are not very familiar with the concept of Bloom filter,
+you could watch this [video](https://youtu.be/V3pzxngeLqw){:target="_blank"}. The idea is very simple: we have a universe database (it could be all possible actions from your target customers) and a small
+database on our server, we want to build up a __filter__ to filter out
+those 'one-hit-wonders' or 'one-shot-actions' before we doing _expensive_
+things (such as query or insert) on our server. Figure 2 gives the illustration. 
+
+
+<div class='figure'>
+    <img src="/math/images/Bloom_filter.png"
+         alt="Bloom filter illustration" class="zoom-img"
+         style="width:90%"
+         />
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Illustration of 
+        Bloom filter, which shows how a set of hash function (size = k) and
+        a vector of bits (size = m) are able to map the action from a 
+        universal database (such as the all urls from the internet) to
+        a database on the server. 
+    </div>
+</div>
+
+
 
 
 
