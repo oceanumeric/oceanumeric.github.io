@@ -429,7 +429,7 @@ $$
 where $m_n$ is the $n$th moment. Differentiating $M_X(t) i$ times with respect to $t$ and setting $t=0$, we obtain the $i$ th moment about the origin, $m_i$. 
 
 
-To learn more about probability concentration, please read this [notes](../../../../pdf/Concentration.pdf){:target="_blank"}.
+To learn more about probability concentration, please read this [notes](../../pdf/Concentration.pdf){:target="_blank"}.
 
 
 

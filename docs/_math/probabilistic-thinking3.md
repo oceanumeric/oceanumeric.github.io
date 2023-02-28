@@ -61,6 +61,23 @@ large number of small and roughly independent random effects.
 Thus, their distribution looks Gaussian by CLT. 
 
 
+We have talked a lot on different inequalities. Here is a [summary](../../pdf/chernoff-notes.pdf){:target="_blank"} from MIT, which you can use it to refresh what we have 
+discussed. 
+
+
+## Bloom filter 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {% endkatexmm %}
