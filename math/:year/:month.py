@@ -378,13 +378,32 @@ def plot_bounds2():
         ax[0].set_title("Linear scale")
         ax[1].set_title("Log scale")
             
-        
+
+def plot_bernstein():
+    """
+    Plot bernstein inequality with mu = 0, sigma = 1, n = 1000
+    """
+    N = 10
+    t = np.linspace(-17, 17, 1000)
+    num = t**2
+    denom = 2 * N * 2.5  + 2/3 * t
+    val = np.exp(-(num / denom))
+    
+    gaussian1 = 1/np.sqrt(2*np.pi*2.5) * np.exp(-((t-5)**2)/(2*2.5))
+    gaussian2 = 1/np.sqrt(2*np.pi*5) * np.exp(-((t-5)**2)/(2*5))
+    
+    fig, ax = plt.subplots(1, 1, figsize = (7, 3.5))
+    ax.plot(t, val, 'k--', label = "Bernstein")
+    ax.plot(t, gaussian1, 'k-', label = "Gaussian N(5, 2.5)")
+    ax.plot(t, gaussian2, 'k:', label = "Gaussian N(5, 5)")
+    ax.legend(loc = 'upper right')
     
     
 
 if __name__ == "__main__":
-    plot_bounds2()
-    plt.savefig('../math/images/inequality_bounds3.png', dpi=300, bbox_inches="tight")
+    print(os.getcwd( ))
+    plot_bernstein()
+    plt.savefig('../math/images/bernstein_and_gaussian.png', dpi=300, bbox_inches="tight")
 
     
     
