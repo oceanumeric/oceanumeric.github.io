@@ -118,7 +118,36 @@ Figure 3.
 </div>
 
 Many papers have already tried to find out the subsidiaries of MNCs 
-{% cite  ribeiro2010oecd kalemli2015construct clo2020firm grassano20212021 %}. 
+{% cite  ribeiro2010oecd kalemli2015construct clo2020firm grassano20212021 %}, I will try to visualize the landscape of MNCs' subsidiaries. 
+
+Figure 4 shows that MNCs are more involved in the retail industry have 
+the higher number of subsidiaries as they need a big 'network' to reach 
+to their customers. 
+
+
+<div class='figure'>
+    <img src="/blog/images/topde_treemap.png"
+         alt="A demo figure"
+         style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Top 20 MNCs in terms 
+        of the number of their subsidiaries, the color indicates the 
+        number of their shareholders.
+    </div>
+</div>
+
+
+<div class='figure'>
+    <img src="/blog/images/topde_ctry_subsidiaries.png"
+         alt="A demo figure"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> Distribution of subsidiaries of top 274 German R&D investors, which shows the
+        strong relationship between German and the US economy. 
+    </div>
+</div>
+
+
 
 
 <div class='figure'>
@@ -126,9 +155,24 @@ Many papers have already tried to find out the subsidiaries of MNCs
          alt="A demo figure"
          style="width: 80%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> Histogram of degree of
+        <span class='caption-label'>Figure 5.</span> Histogram of degree of
         graph constructed based on the ownership network, which shows 
         the network is very sparse but the 'super hubs' do exist in the 
         ownership network. 
     </div>
 </div>
+
+
+
+|Company                                      | Num_of_subsidiaries |
+|:--------------------------------------------|:-------------------:|
+|MARSHALL WACE LLP                            |         41          |
+|KESKINÄINEN TYÖELÄKEVAKUUTUSYHTIÖ ELO        |         32          |
+|NORGES BANK                                  |         32          |
+|CITADEL EUROPE LLP                           |         26          |
+|ALLIANZ GLOBAL INVESTORS GMBH                |         25          |
+|WORLDQUANT LLC                               |         25          |
+|MILLENNIUM MANAGEMENT LP                     |         23          |
+|CITADEL ADVISORS LLC                         |         23          |
+|DWS INVESTMENT GMBH                          |         22          |
+|BLACKROCK INVESTMENT MANAGEMENT (UK) LIMITED |         22          |
