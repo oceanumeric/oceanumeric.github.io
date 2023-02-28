@@ -109,7 +109,7 @@ Figure 3.
 <div class='figure'>
     <img src="/blog/images/iri_eu_country.png"
          alt="A demo figure"
-         style="width: 60%; display: block; margin: 0 auto;"/>
+         style="width: 70%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 3.</span> Top EU R&D investors 
         distribution across countries, which shows Germany is the leading
@@ -162,6 +162,16 @@ to their customers.
     </div>
 </div>
 
+
+Table 3 shows that hedge fund and investment banks
+are major players. At the other end of the scale history reports that
+"the men who can manage men manage the men who can manage only things,
+and the men who can manage money manage all" {% cite durant2012lessons %}. 
+
+<div class="table-caption">
+<span class="table-caption-label">Table 3.</span> Top 10 shareholders 
+of 274 German MNCs
+</div>
 
 
 |Company                                      | Num_of_subsidiaries |
