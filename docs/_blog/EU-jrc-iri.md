@@ -186,3 +186,7 @@ of 274 German MNCs
 |CITADEL ADVISORS LLC                         |         23          |
 |DWS INVESTMENT GMBH                          |         22          |
 |BLACKROCK INVESTMENT MANAGEMENT (UK) LIMITED |         22          |
+
+
+The code for producing figures and tables in this post can be found
+[here](https://gist.github.com/oceanumeric/d30d15477d5db1e70a925b1ec360efc7){:target="_blank"}.
