@@ -88,10 +88,33 @@ things (such as query or insert) on our server. Figure 2 gives the illustration.
     </div>
 </div>
 
+As it is shown in Figure 2, we have two layers to do the filter:
+i) a set of hash functions, ii) a vector of bits. Let's use an example to show how those two layers working as a filter. 
 
+This is an unrealistically small example; its only purpose is to illustrate the possibility of _false positives_. Choose $m=5$ (number of bits) and
+$k = 2$ (number of hash functions):
 
+$$
+\begin{aligned}
+h_1(x) & = x \ \mathrm{mod} \  5 \\
+h_2(x) & = (2x + 3) \ \mathrm{mod} \  5 
+\end{aligned}
+$$
 
+We first initialize the Bloom filter $B[0:4]$ and then insert $9$ and $11$
 
+|  | $h_1(x)$ | $h_2(x)$ |  |  | B  |  |  |  |  |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Initialize: |  |  | 0 | 0 | 0 | 0 | 0 |  |  |
+| Insert 9: | 4 | 1 | 0 | 1 | 0 | 0 | 1 |  |  |
+| Insert 11: | 1 | 0 | 1 | 1 | 0 | 0 | 1 |  |  |
+
+Now let us attempt some membership queries:
+
+| | $h_1(x)$ | $h_2(x)$ | Answer |
+| :--- | :---: | :---: | :--- |
+|Query 15: | 0 | 3 | No, not in $B$ (correct answer) |
+|Query 16: | 1 | 0 | Yes, in $B$ (wrong answer: false positive) |
 
 
 
