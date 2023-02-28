@@ -112,9 +112,9 @@ We first initialize the Bloom filter $B[0:4]$ and then insert $9$ and $11$
 Now let us attempt some membership queries:
 
 | | $h_1(x)$ | $h_2(x)$ | Answer |
-| :--- | :---: | :---: | :--- |
-|Query 15: | 0 | 3 | No, not in $B$ (correct answer) |
-|Query 16: | 1 | 0 | Yes, in $B$ (wrong answer: false positive) |
+| :--- | :---: | :---: | --- :|
+|Query 15: | 0 | 3 | No, not in B (correct answer) |
+|Query 16: | 1 | 0 | Yes, in B (wrong answer: false positive) |
 
 
 
