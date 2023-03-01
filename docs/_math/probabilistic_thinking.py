@@ -398,12 +398,32 @@ def plot_bernstein():
     ax.plot(t, gaussian2, 'k:', label = "Gaussian N(5, 5)")
     ax.legend(loc = 'upper right')
     
+
+def plot_false_positive_rate():
+    
+    mn_ratio = list(range(1, 15))
+    rate = [0.6185** x for x in mn_ratio]
+    
+    print(rate[7])
+    print(rate[11])
+    fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
+    ax.plot(mn_ratio, rate, 'k:', linewidth = 2)
+    ax.plot(mn_ratio[7], rate[7], 'gs')
+    ax.plot(mn_ratio[11], rate[11], 'gs')
+    ax.text(mn_ratio[7]-0.5, rate[7]+0.02, "0.02")
+    ax.text(mn_ratio[7]-0.5, rate[7]+0.06, "k=6")
+    ax.text(mn_ratio[11]-0.5, rate[11]+0.02, "0.003")
+    ax.text(mn_ratio[11]-0.5, rate[11]+0.06, "k=8")
+    ax.set_xlabel("Ratio of m/n")
+    ax.set_ylabel("False positive rate")
+    
     
 
 if __name__ == "__main__":
     print(os.getcwd( ))
-    plot_bernstein()
-    plt.savefig('../math/images/bernstein_and_gaussian.png', dpi=300, bbox_inches="tight")
+    plot_false_positive_rate()
+    # plot_bernstein()
+    plt.savefig('../math/images/optimal_false_positive.png', dpi=300, bbox_inches="tight")
 
     
     

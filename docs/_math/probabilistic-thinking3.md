@@ -185,11 +185,23 @@ Now substitute the value in equation (4) into the equation (3), the optimal
 false positive rate
 
 $$
-\tilde{\delta} = \left( \frac{1}{2} \right)^{\ln2 \quad \frac{m}{n}} \approx (0.6185)^{\frac{m}{n}}
+\tilde{\delta} = \left( \frac{1}{2} \right)^{\ln2 \ \frac{m}{n}} \approx (0.6185)^{\frac{m}{n}} \tag{5}
 $$
 
+Figure 3 shows that the false positive rate drops dramatically when the length of vector $B$ is 8 times of $n$, which is around 2%. The false 
+positive reduces to 0.3% when $m = 12n, k = 8$. Since Bloom filter is using 
+an array of bits, then $m = 12n$ still grows in the logarithmic scale. When $m = 8n$, we could just set $k = 4$ in practice, which is  preferable from a running-time point of view. 
+
+<div class='figure'>
+    <img src="/math/images/optimal_false_positive.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Plot of false positive rate with the optimal $k$ for different m/n ratio based on the formula in the equation (5).
+    </div>
+</div>
 
 
-
+For those who prefer reading in the format of PDF, [here you go](../../pdf/lecture10_bloom_filter.pdf){:target="_blank"}. 
 
 {% endkatexmm %}
