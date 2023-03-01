@@ -39,7 +39,7 @@ Now, for a Bernoulli variable with $E[X] = 5, \mathrm{Var}[X] = 2.5, N = 10, a =
 The general form of Gaussian distribution's probability density function is
 
 $$
-f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( - \frac{(x - \mu)^2}{2 \sigma^2} \right) \tag(2)
+f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( - \frac{(x - \mu)^2}{2 \sigma^2} \right) \tag{2}
 $$
 
 Figure 1 shows the share pf Bernstein inequality is very similar to the 
@@ -116,10 +116,77 @@ Now let us attempt some membership queries:
 |Query 15: | 0 | 3 | No, not in B (correct answer) |
 |Query 16: | 1 | 0 | Yes, in B (wrong answer: false positive) |
 
+The above exam shows that Bloom filter guarantees that it gives the 
+correct answer if the element was not in the database (then new element
+could be collected for sure). However it gives the wrong answer if the 
+element was not there sometimes (false positive). 
 
+Intuitively, this means the Bloom filter will record any new element 
+in its own vector as it is shown in Figure 2 but will only pass the 
+element into the next stage for caching or retrieving if it sees the 
+element again (which it could make mistakes because of the false positive issue). 
 
+Now, we will analyze how does the false positive rate $\delta$ depend on
+$m, k$ and the number of items inserted. 
 
+First, we want to find out: what is the probability that after inserting $n$ elements, the $i$th bit of the array $B$ is still $0$? (meaning $n \times k$ total hashes must not hit bit $i$)
 
+$$
+\begin{aligned}
+\mathbb{P}[B[i] = 0] & = \mathrm{Pr} \left (h_1(x_1) \neq i \cap h_2(x_1) \neq i \cap \cdots \cap h_k(x_1) \neq i \right ) \\
+& \times \mathrm{Pr} \left (h_1(x_2) \neq i \cap h_2(x_2) \neq i \cap \cdots \cap h_k(x_2) \neq i \right ) \times \\ 
+& \cdots \times \\
+& \mathrm{Pr} \left (h_1(x_n) \neq i \cap h_2(x_n) \neq i \cap \cdots \cap h_k(x_n) \neq i \right ) \\
+& = \left( 1 - \frac{1}{m} \right )^{kn} \\
+& = \left (  1 + \frac{-n/m}{n} \right)^{kn} \\
+& \approx e^{-\frac{kn}{m}}
+\end{aligned}
+$$
+
+Now, we will calculate the probability that querying a new item $w$ gives a
+false positive. 
+
+$$
+\begin{aligned}
+\mathbb{P}[B[j] = 1] & = \mathrm{Pr} \left (h_1(w) = j \cap h_2(w) = j \cap \cdots \cap h_k(w) = j \right ) \\ 
+& = \left( 1 - \mathbb{P}[B[j] = 0] \right )^k \\ 
+& = \left( 1 - e^{-\frac{kn}{m}} \right)^k 
+\end{aligned}
+$$
+
+Therefore, as it is shown in Figure 2, with $m$ bits of storage, $k$ hash
+functions, and $n$ elements inserted, the false positive rate is
+
+$$
+\delta = \left( 1 - e^{-\frac{kn}{m}} \right)^k  \tag{3}
+$$
+
+How could set the value of $k$ to o minimize the
+false positive rate given a fixed amount of space $m$ and $n$? Now, 
+let $f =$ equation (3), then take the log:
+
+$$
+g = \ln(f) = k \cdot \ln \left ( 1 - e^{-\frac{kn}{m}}  \right)
+$$
+
+We take the derivative, 
+
+$$
+\frac{d g}{d k}=\ln \left(1-e^{-\frac{k n}{m}}\right)+\frac{k n}{m} \cdot \frac{e^{-\frac{k n}{m}}}{1-e^{-\frac{k n}{m}}}
+$$
+
+We find the optimal $k$, or right number of hash functions to use, when the derivative is $0$. This occurs when
+
+$$
+k = (\ln 2)  \cdot \frac{m}{n} \tag{4}
+$$
+
+Now substitute the value in equation (4) into the equation (3), the optimal
+false positive rate
+
+$$
+\tilde{\delta} = \left( \frac{1}{2} \right)^{\ln2 \quad \frac{m}{n}} \approx (0.6185)^{\frac{m}{n}}
+$$
 
 
 
