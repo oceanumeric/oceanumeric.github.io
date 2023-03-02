@@ -272,17 +272,45 @@ foo_merged2 %>%
     .[applicationYear >= 2010] -> foo_merged2_2010
 
 
-foo_merged2 %>%
+# total patent 103413
+foo_merged2_2010 %>%
     .[applicationYear <= 2014] %>%
     .[, .(count1 = .N), by = .(ipcTop, name_internat)] %>%
     .[, `:=`(totalPatent = sum(count1)), by = .(name_internat)] %>%
     .[order(-rank(count1))] %>%
     .[, ipcShare := round(count1 / totalPatent, 4)] %>%
-    head(10)
+    .[, ipcTop] -> ipcTop_1014
 
 
-foo_merged2 %>%
+# total patent 128421
+foo_merged2_2010 %>%
     .[applicationYear > 2014 & applicationYear <= 2019] %>%
-    .[, .N, by = .(ipcTop, name_internat)] %>%
-    .[order(-rank(N))] %>%
-    head(10)
+    .[, .(count1 = .N), by = .(ipcTop, name_internat)] %>%
+    .[, `:=`(totalPatent = sum(count1)), by = .(name_internat)] %>%
+    .[order(-rank(count1))] %>%
+    .[, ipcShare := round(count1 / totalPatent, 4)] %>%
+    .[, ipcTop] -> ipcTop_1519
+
+
+# get new classes
+setdiff(ipcTop_1519, ipcTop_1014)
+setdiff(ipcTop_1014, ipcTop_1519)
+
+
+foo_merged2_2010 %>%
+    .[applicationYear <= 2014] %>%
+    .[, .(count1 = .N), by = .(ipcTop, name_internat)] %>%
+    .[, `:=`(totalPatent = sum(count1)), by = .(name_internat)] %>%
+    .[order(-rank(count1))] %>%
+    .[, ipcShare := round(count1 / totalPatent, 4)] %>%
+    .[name_internat == "Basf SE"] %>%
+    head()
+
+foo_merged2_2010 %>%
+    .[applicationYear > 2014 & applicationYear <= 2019] %>%
+    .[, .(count1 = .N), by = .(ipcTop, name_internat)] %>%
+    .[, `:=`(totalPatent = sum(count1)), by = .(name_internat)] %>%
+    .[order(-rank(count1))] %>%
+    .[, ipcShare := round(count1 / totalPatent, 4)] %>%
+    .[name_internat == "Basf SE"] %>%
+    dim()
