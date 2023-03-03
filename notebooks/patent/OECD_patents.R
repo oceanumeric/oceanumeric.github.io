@@ -142,7 +142,7 @@ csv92 <- fread("./tempdata/epo_temp_batch9.csv")
 temp <- rbind(temp, csv92)
 
 
-for (i in 10:25) {
+for (i in 10:29) {
     print(i)
     file <- paste(
         "./tempdata/epo_temp_batch", i,
@@ -152,43 +152,23 @@ for (i in 10:25) {
 }
 
 dim(temp)
+tail(temp, 1)
+
+
+temp %>%
+    unique(by = "patentNumber") %>% dim()
+
 
 dim(horbis_de_patents)
 
-
-tail(temp, 1)
+horbis_de_patents %>%
+    unique(by = "Patent_number") %>% dim()
 
 horbis_de_patents %>%
-    .[Patent_number == "EP2458292"]
+    .[Patent_number == "EP2833367"]
 
 
-get_idx <- function(patentNumber) {
-    horbis_de_patents %>%
-    .[, c(30, 31)] %>%
-    .[Patent_number == patentNumber] %>%
-    .[, c(2)] -> idx
-
-    return(idx$idx)
-}
-
-get_idx("EP2458292")
-
-temp %>%
-    .[, idx2 := lapply(patentNumber, get_idx)]
-
-
-fwrite(temp, "./pyrio/temp.csv")
-fwrite(horbis_de_patents, "./pyrio/horbis.csv")
-
-
-temp2 <- fread("./pyrio/temp2.csv")
-
-temp2 %>%
-    .[, idx2 := as.integer(idx2)]
-
-
-temp <- fread("./pyrio/temp.csv")
-foo <- horbis_de_patents[1:252990, ]
+foo <- horbis_de_patents
 setnames(foo, "Patent_number", "patentNumber")
 
 # delete empty ones
@@ -215,7 +195,7 @@ names(foo_merged)
 
 foo_merged %>%
     unique(by = "bvdid") %>%
-    dim()  # 518 firms
+    dim()  # 634 firms 
 
 
 foo_merged %>%
@@ -253,10 +233,12 @@ foo_merged_2010 %>%
 
 
 
+fwrite(foo_merged, "./pyrio/foo_merged.csv")
 
 foo_merged2 <- fread("./pyrio/foo_merged2.csv")
 
-dim(foo_merged2)  # 443173
+dim(foo_merged2)  # 469654
+setnames(foo_merged2, "V1", "pgidx")
 names(foo_merged2)
 head(foo_merged2)
 
@@ -270,6 +252,42 @@ foo_merged2 %>%
 
 foo_merged2 %>%
     .[applicationYear >= 2010] -> foo_merged2_2010
+
+
+## complexity of patents
+options(repr.plot.width = 10, repr.plot.height = 4)
+
+Cairo(width = 10, height = 4,
+      file = "../../docs/blog/images/patent_ipc_complexity.png",
+      type = "png", bg = "transparent", dpi = 300, units = "in")
+
+par(mfrow = c(1, 2))
+
+foo_merged2_2010 %>%
+    unique(by = "pgidx") %>%
+    unique(by = "familyID") %>%
+    .[,
+        .(average_ipc_count = mean(ipcCount, na.rm = TRUE)),
+        by = applicationYear] %>%
+        plot(type = "b", xlab = "Year",
+        ylab = "Mean of IPC Class Counts",
+        main = "Patent Applications"
+        )
+
+
+foo_merged2_2010 %>%
+    unique(by = "pgidx") %>%
+    unique(by = "familyID") %>%
+    .[granted == 1] %>%
+    .[,
+        .(average_ipc_count = mean(ipcCount, na.rm = TRUE)),
+        by = applicationYear] %>%
+        plot(type = "b", xlab = "Year",
+        ylab = "Mean of IPC Class Counts",
+        main = "Granted Patents"
+        )
+
+dev.off()
 
 
 # total patent 103413
@@ -303,7 +321,6 @@ foo_merged2_2010 %>%
     .[, `:=`(totalPatent = sum(count1)), by = .(name_internat)] %>%
     .[order(-rank(count1))] %>%
     .[, ipcShare := round(count1 / totalPatent, 4)] %>%
-    .[name_internat == "Basf SE"] %>%
     head()
 
 foo_merged2_2010 %>%
@@ -313,4 +330,202 @@ foo_merged2_2010 %>%
     .[order(-rank(count1))] %>%
     .[, ipcShare := round(count1 / totalPatent, 4)] %>%
     .[name_internat == "Basf SE"] %>%
-    dim()
+    .[ipcTop %like% "^G06"]
+
+
+
+ict_ipc <- fread("./pyrio/ict_ipc_tags.csv")
+
+ict_ipc_top <- unique(ict_ipc$ipc_top)
+
+length(ict_ipc_top)
+
+ict_ipc_top
+
+ai_ipc <- c("G06F", "G06K", "H04N", "G10L",
+        "G06T", "A61B", "H04M", "G01N", "G06F",
+        "H04R", "G06N", "G01S", "H04L", "G06Q",
+        "H04B", "G09G", "G02B", "G11B", "G08B",
+        "G01B", "G05D", "H04N", "B25J", "H04N")
+
+is_ict <- function(ipc_class) {
+    if (ipc_class %in% ict_ipc_top) {
+        return(1)
+    } else {
+        return(0)
+    }
+}
+
+is_ai <- function(ipc_class) {
+    if (ipc_class %in% ai_ipc) {
+        return(1)
+    } else {
+        return(0)
+    }
+}
+
+foo_merged2_2010 %>%
+    .[, isICT := lapply(ipcTop, is_ict)] %>%
+    head(2)
+
+foo_merged2_2010 %>%
+    .[, isAI := lapply(ipcTop, is_ai)] %>%
+    head(2)
+
+
+# share of ICT patents for year
+foo_merged2_2010 %>%
+    unique(by = "familyID") %>%
+    .[isICT == 1] %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = name_internat] %>%
+    .[order(-rank(N))] %>%
+    head(10)
+
+# share of AI patents
+foo_merged2_2010 %>%
+    .[Publn_auth != "EP"] %>%
+    unique(by = "familyID") %>%
+    .[isAI == 1] %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = name_internat] %>%
+    .[order(-rank(N))] %>%
+    head(10)
+
+# plot share of ICT or AI patents 
+foo_merged2_2010 %>%
+    unique(by = "familyID") %>%
+    .[isAI == 1] %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = applicationYear] -> ai_patents_by_year
+
+
+foo_merged2_2010 %>%
+    unique(by = "familyID") %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = applicationYear] -> total_patent_by_year
+
+
+ai_patents <- merge(ai_patents_by_year,
+                        total_patent_by_year,
+                        by = "applicationYear")
+
+ai_patents %>%
+    setnames(c("N.x", "N.y"), c("AI_patent", "Total_patent")) %>%
+    .[, share := round(AI_patent / Total_patent, 4) * 100] %>%
+    head()
+
+
+options(repr.plot.width = 8, repr.plot.height = 5)
+
+Cairo(width = 8, height = 5,
+      file = "../../docs/blog/images/patent_ai_trend.png",
+      type = "png", bg = "transparent", dpi = 300, units = "in")
+ai_patents %>%
+    .[, c(1, 4)] %>%
+    plot(type = "b", xlab = "Year", ylab = "Share of AI Patents",
+            main = "Trend of AI Patents (%)")
+
+dev.off()
+
+
+# AI patents 2010 to 2014
+foo_merged2_2010 %>%
+    .[applicationYear <= 2014] %>%
+    unique(by = "familyID") %>%
+    .[isAI == 1] %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
+    .[order(-rank(N))] %>%
+    setnames("N", "AI_Patents") -> ai_patents_1014
+
+
+foo_merged2_2010 %>%
+    .[applicationYear <= 2014] %>%
+    unique(by = "familyID") %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
+    .[order(-rank(N))] %>%
+    setnames("N", "Total_Patents") -> total_patents_1014
+
+
+foo_merged2_2010 %>%
+    .[applicationYear > 2014 & applicationYear <= 2019] %>%
+    unique(by = "familyID") %>%
+    .[isAI == 1] %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
+    .[order(-rank(N))] %>%
+    setnames("N", "AI_Patents") -> ai_patents_1519
+
+
+
+foo_merged2_2010 %>%
+    .[applicationYear > 2014 & applicationYear <= 2019] %>%
+    unique(by = "familyID") %>%
+    unique(by = "pgidx") %>%
+    .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
+    .[order(-rank(N))] %>%
+    setnames("N", "Total_Patents") -> total_patents_1519
+
+
+
+dim(ict_patents_1014)
+dim(ict_patents_1519)
+
+ai_patents_compare <- merge(ai_patents_1014,
+                            ai_patents_1519, by = "bvdid")
+
+head(ai_patents_compare)
+
+ai_patents_compare %>%
+    .[AI_Patents.x > 20] %>%
+    .[, ai_growth := AI_Patents.y - AI_Patents.x] %>%
+    .[, c(1:5, 10)] %>%
+    .[, ai_growth_rate := round(ai_growth / AI_Patents.x, 4)] %>%
+    with(plot(AI_Patents.x, ai_growth_rate))
+
+
+# ai patents, scale and share
+ai_patents_1519_merge <- merge(ai_patents_1519,
+                                total_patents_1519[, c(1, 5)],
+                                by = "bvdid")
+
+ai_patents_1519_merge %>%
+    .[, ai_patents_share := round(AI_Patents/Total_Patents, 4)*100] %>%
+    .[order(-rank(AI_Patents))] %>%
+    head(20) %>%
+    .[, c(2, 5, 7)] %>%
+    kable("pipe", align = "lcc")
+
+
+
+# get all AI patents
+foo_merged2_2010 %>%
+    .[Publn_auth != "EP"] %>%
+    .[applicationYear > 2014 & applicationYear <= 2020] %>%
+    unique(by = "familyID") %>%
+    .[isAI == 1] %>%
+    unique(by = "pgidx") -> ai_patents_1520
+
+fwrite(ai_patents_1520, "./pyrio/ai_p1520.csv")
+
+ai_patents_1520 %>%
+    .[abstract %like% "neural network"] %>%
+    .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
+    .[order(-rank(N))]
+
+
+ai_patents_1520 %>%
+    .[abstract %like% "machine learning"] %>%
+    .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
+    .[order(-rank(N))]
+
+
+ai_patents_1520 %>%
+    .[abstract %like% "object recogni"] %>%
+    .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
+    .[order(-rank(N))]
+
+
+dim(ai_patents_1520)

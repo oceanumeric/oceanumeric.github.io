@@ -82,6 +82,76 @@ in terms of granted patent holding
 
 
 
+<div class='figure'>
+    <img src="/blog/images/patent_ipc_complexity.png"
+         alt="A demo figure"
+         style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The trend of
+        IPC class counts, which shows that patents are tagged 
+        with more IPC class. 
+    </div>
+</div>
+
+
+<div class='figure'>
+    <img src="/blog/images/patent_ai_trend.png"
+         alt="A demo figure"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> The trend of
+        AI patents as the share of total patents. 
+    </div>
+</div>
+
+
+
+<div class="table-caption">
+<span class="table-caption-label">Table 2.</span> Top 20 companies in Germany
+in terms of AI patents applications (2015-2019)
+</div>
+
+
+
+
+
+|Company                              | AI Patents | AI patents share (%) |
+|:-------------------------------------------|:----------:|:----------------:|
+|SAP SE                                      |    2589    |      95.29       |
+|Infineon Technologies AG                    |    680     |      25.09       |
+|Continental Automotive GmbH                 |    489     |      20.55       |
+|AUDI Aktiengesellschaft                     |    469     |      21.36       |
+|Bayerische Motoren Werke Aktiengesellschaft |    427     |      15.01       |
+|Volkswagen Aktiengesellschaft               |    388     |      19.72       |
+|Carl Zeiss SMT GmbH                         |    367     |      59.00       |
+|Roche Diagnostics GmbH                      |    328     |      53.51       |
+|Valeo Schalter und Sensoren GmbH            |    304     |      54.77       |
+|Sick AG                                     |    265     |      62.21       |
+|Carl Zeiss Microscopy GmbH                  |    228     |      77.55       |
+|Carl Zeiss Meditec AG                       |    197     |      70.11       |
+|Bundesdruckerei GmbH                        |    190     |      45.56       |
+|Aesculap AG                                 |    168     |      77.78       |
+|Leica Microsystems CMS GmbH                 |    162     |      94.19       |
+|KUKA Deutschland GmbH                       |    136     |      60.71       |
+|ZF Friedrichshafen AG                       |    131     |       7.36       |
+|Conti Temic microelectronic GmbH            |    123     |      35.96       |
+|Giesecke+Devrient Mobile Security GmbH      |    116     |      43.12       |
+|OSRAM GmbH                                  |    108     |      17.91       |
+
+
+
+
+
+<div class='figure'>
+    <img src="/blog/images/patent_word_cloud.png"
+         alt="A demo figure"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Word cloud of AI Patents. 
+    </div>
+</div>
+
+
 
 
 {% endkatexmm %}
