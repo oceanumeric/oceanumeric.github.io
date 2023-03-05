@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Deal With Duplicates in R
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='data science, Python, R, big data, duplicates, unique values'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Deal With Duplicates in R</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Deal With Duplicates in R" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Finding unique and duplicate values in a large dataset happens very often for people who are dealing with big data." />
+<meta property="og:description" content="Finding unique and duplicate values in a large dataset happens very often for people who are dealing with big data." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/deal-with-duplicates" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/deal-with-duplicates" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-03-05T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deal With Duplicates in R" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-03-05T00:00:00+00:00","datePublished":"2023-03-05T00:00:00+00:00","description":"Finding unique and duplicate values in a large dataset happens very often for people who are dealing with big data.","headline":"Deal With Duplicates in R","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/deal-with-duplicates"},"url":"https://oceanumeric.github.io//blog/deal-with-duplicates"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Deal With Duplicates in R</h1>
+            <h4>Inspecting big data could be challenge in terms of finding duplicates and dropping them.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/r">r</a>, 
+                            
+                            <a href="/blog-tags/python">python</a>, 
+                            
+                            <a href="/blog-tags/data-science">data-science</a>, 
+                            
+                            <a href="/blog-tags/big-data">big-data</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>05 March 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>Finding unique and duplicate values in a large dataset happens very often for people who are dealing with big data.</p>
+
+<p>Although the <code class="language-plaintext highlighter-rouge">unique()</code> function in R could give us the unique
+values in any dataset. However, sometimes, we want to inspect those
+duplicates with our eyes. How could we do this?</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">dim</span><span class="p">(</span><span class="n">ipc1</span><span class="p">)</span><span class="w">  </span><span class="c1"># 130803</span><span class="w">
+
+</span><span class="n">head</span><span class="p">(</span><span class="n">ipc1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># A data.table: 6 × 5</span><span class="w">
+</span><span class="c1"># V1	patentNumber	familyID	kindCode	pubAuth</span><span class="w">
+</span><span class="c1"># &lt;int&gt;	    &lt;chr&gt;	  &lt;int&gt;	    &lt;chr&gt;	   &lt;chr&gt;</span><span class="w">
+</span><span class="c1"># 0	US2010005485	38188959	A1	US</span><span class="w">
+</span><span class="c1"># 1	WO2010005798	41506050	A2	WO</span><span class="w">
+</span><span class="c1"># 2	WO2010005270	41507602	A2	WO</span><span class="w">
+</span><span class="c1"># 3	WO2010004958	41507071	A1	WO</span><span class="w">
+</span><span class="c1"># 4	WO2010004719	41506847	A1	WO</span><span class="w">
+</span><span class="c1"># 5	US2010010995	40104654	A1	US</span><span class="w">
+
+</span><span class="n">ipc1</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"patentNumber"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 120394 </span><span class="w">
+
+</span><span class="m">130803</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">120394</span><span class="w">
+</span><span class="c1"># 10409</span><span class="w">
+
+</span><span class="c1"># inspect duplicates</span><span class="w">
+</span><span class="n">n_occur</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.table</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">ipc1</span><span class="o">$</span><span class="n">patentNumber</span><span class="p">))</span><span class="w">
+
+</span><span class="n">n_occur</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">N</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">head</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># A data.table: 6 × 2</span><span class="w">
+</span><span class="c1"># V1	        N</span><span class="w">
+</span><span class="c1"># &lt;chr&gt;	      &lt;int&gt;</span><span class="w">
+</span><span class="c1"># EP2162828	    2</span><span class="w">
+</span><span class="c1"># EP2162838	    2</span><span class="w">
+</span><span class="c1"># EP2162853	    2</span><span class="w">
+</span><span class="c1"># EP2162862	    2</span><span class="w">
+</span><span class="c1"># EP2163094	    2</span><span class="w">
+</span><span class="c1"># EP2163183	    2</span><span class="w">
+
+</span><span class="n">n_occur</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">N</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">head</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># A data.table: 6 × 2</span><span class="w">
+</span><span class="c1"># V1	        N</span><span class="w">
+</span><span class="c1"># &lt;chr&gt;	      &lt;int&gt;</span><span class="w">
+</span><span class="c1"># EP3256964	    3</span><span class="w">
+</span><span class="c1"># EP3256992	    3</span><span class="w">
+</span><span class="c1"># EP3256993	    3</span><span class="w">
+</span><span class="c1"># EP3257002	    3</span><span class="w">
+</span><span class="c1"># EP3257019	    3</span><span class="w">
+</span><span class="c1"># EP3257020	    3</span><span class="w">
+
+
+</span><span class="n">n_occur</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">N</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 10063 </span><span class="w">
+
+
+</span><span class="n">n_occur</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">N</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">N</span><span class="p">))]</span><span class="w">  </span><span class="c1"># 20472</span><span class="w">
+
+</span><span class="m">20472</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">10063</span><span class="w">  </span><span class="c1"># 10409</span><span class="w">
+</span></code></pre></div></div>
+
+<p>It is normal that some values occur more than one times (or twice).</p>
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
