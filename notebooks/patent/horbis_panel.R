@@ -31,18 +31,32 @@ getwd()
 ### --- Construct panel dataset
 horbis_df <- fread("./pyrio/horbis_dataset.csv")
 
-dim(horbis_df)
+dim(horbis_df)  # 236636
 names(horbis_df)
+
+
+## step I - keep one patent for one family ID with priority
+## US > WO > EP
+horbis_df %>%
+    .[order(-rank(Publn_auth))] %>%
+    unique(by = "familyID") %>%
+    .[, .N, by = Publn_auth]
+
+
+horbis_df %>%
+    .[order(-rank(Publn_auth))] %>%
+    unique(by = "familyID") -> horbis_unique
+
 
 ## applicationYear > 2010 
 
-horbis_df %>%
+horbis_unique %>%
     .[applicationYear >= 2010] %>%
     .[, .N, by = applicationYear] 
 
 
 # calculate inventive age:
-horbis_df %>%
+horbis_unique %>%
     .[, .N, by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
     .[order(rank(name_internat))] %>%
     .[, .N, by = .(HAN_ID, bvdid, name_internat)] %>%
@@ -50,33 +64,33 @@ horbis_df %>%
 
 
 
-horbis_df %>%
-    .[applicationYear >= 2010] -> horbis_df2010
+horbis_unique %>%
+    .[applicationYear >= 2010] -> horbis_2010
 
 
 ## group by firm 
-horbis_df2010 %>% dim()  # 138807
+horbis_2010 %>% dim()  # 78914
 
-horbis_df2010 %>%
+horbis_2010 %>%
     .[, .N, by = bvdid] %>%
-    dim()  # 633 firms 
+    dim()  # 632 firms 
 
 
-horbis_df2010 %>%
+horbis_2010 %>%
     .[, .N, by = name_internat] %>%
     .[order(-rank(N))] %>%
     head()
 
 
 ### panel: patent count, applications and granted ones 
-horbis_df2010 %>%
+horbis_2010 %>%
     .[, .(patAppCount = .N, patGrantCount = uniqueN(.SD[granted == 1])),
             by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
     head()
 
 # patent scope: number of top IPC classes
 
-horbis_df2010 %>%
+horbis_2010 %>%
     .[, ipc_temp := gsub("\\[|\\]", "", ipcClass)] %>%
     .[, ipc_temp := gsub("'", "", ipc_temp)] %>%
     .[, ipc_temp := gsub(" ", "", ipc_temp)] %>%
@@ -115,11 +129,11 @@ horbis_df2010 %>%
 # end - start  # 3.3 seconds
     
 
-horbis_df2010$patentScope <- pt_scope$patentScope
+horbis_2010$patentScope <- pt_scope$patentScope
 
 
 # average patent scope for firm each year (top ipc 4-digit)
-horbis_df2010 %>%
+horbis_2010 %>%
     .[, .(patAppCount = .N,
                     patGrantCount = uniqueN(.SD[granted == 1]),
                     avrgPatScope = round(mean(patentScope), 2)),
@@ -130,7 +144,7 @@ horbis_df2010 %>%
 
 # total patent scope for firms at each year
 # count number of unique ipc top tags for the whole year 
-horbis_df2010 %>%
+horbis_2010 %>%
     .[, ipc_temp := gsub("\\[|\\]", "", ipcClass)] %>%
     .[, ipc_temp := gsub("'", "", ipc_temp)] %>%
     .[, ipc_temp := gsub(" ", "", ipc_temp)] %>%
@@ -142,34 +156,40 @@ horbis_df2010 %>%
     .[, .N, by = .(HAN_ID, bvdid, name_internat, applicationYear, ipcTop)] %>%
     setnames("N", "ipcCount") %>%
     .[, .N, by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
-    tail()
+    head()
 
 
 # Herfindahl-Hirschman concentration index (HHI) Garcia-Vega 2006 
 # based on ipc top tags (5 digits)
-horbis_df2010 %>%
+horbis_2010 %>%
     .[, ipc_temp := gsub("\\[|\\]", "", ipcClass)] %>%
     .[, ipc_temp := gsub("'", "", ipc_temp)] %>%
     .[, ipc_temp := gsub(" ", "", ipc_temp)] %>%
     separate_longer_delim(ipc_temp, delim = ",") %>%
     as.data.table() %>%
-    .[, .N, by = .(HAN_ID, bvdid, name_internat, applicationYear, ipc_temp)] %>%
+    .[, .N, by = .(HAN_ID, bvdid, name_internat,
+                        applicationYear, ipc_temp)] %>%
     .[, ipcTop := tstrsplit(ipc_temp, "/", keep = c(1))] %>%
     .[, ipcTop := gsub(" ", "", ipcTop)] %>%
-    # .[bvdid == "DE2010625300" & applicationYear == 2010 & ipcTop == "B23K26"] %>% 
-    # head(20)
-    .[, .N, by = .(HAN_ID, bvdid, name_internat, applicationYear, ipcTop)] %>%
+    .[, .N, by = .(HAN_ID, bvdid, name_internat,
+                            applicationYear, ipcTop)] %>%
     setnames("N", "ipcCount") %>%
     .[, `:=` (tt_ipc = sum(ipcCount), tt_ipc_scope = uniqueN(.SD)),
-                by = .(HAN_ID,  bvdid, name_internat, applicationYear)] %>%
+                by = .(HAN_ID,  bvdid, name_internat,
+                                            applicationYear)] %>%
     .[, hh_ratio := (ipcCount / tt_ipc) ** 2] %>%
     # option 1 
     # .[, HHI := round(sum(hh_ratio), 4),
     #             by = .(HAN_ID,  bvdid, name_internat, applicationYear)] %>%
     # head()
     # option 2
-    .[, .(HHI = round(sum(hh_ratio), 4), tt_ipc_scope = unique(tt_ipc_scope)),
-                by = .(HAN_ID,  bvdid, name_internat, applicationYear)] %>%
-    tail()
+    .[, .(HHI = round(sum(hh_ratio), 4),
+                tt_ipc_scope = unique(tt_ipc_scope)),
+                by = .(HAN_ID,  bvdid, name_internat,
+                                        applicationYear)] %>%
+    head()
 
 
+# patent citations 
+
+pct_citations <- fread("./data/202208_PCT_CITATIONS.txt")
