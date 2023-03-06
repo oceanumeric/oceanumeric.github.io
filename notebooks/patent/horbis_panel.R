@@ -76,6 +76,18 @@ horbis_df2010 %>%
 
 # patent scope: number of top IPC classes
 
+horbis_df2010 %>%
+    .[, ipc_temp := gsub("\\[|\\]", "", ipcClass)] %>%
+    .[, ipc_temp := gsub("'", "", ipc_temp)] %>%
+    separate_longer_delim(ipc_temp, delim = ",") %>%
+    as.data.table() %>% 
+    .[, ipcTop := tstrsplit(ipc_temp, "/", keep = c(1))] %>%
+    .[, ipcTop := gsub(" ", "", ipcTop)] %>%
+    .[, .N, by = .(patentNumber, ipcTop)] %>%
+    .[, .N, by = patentNumber] %>%
+    setnames(c("N"), c("patentScope")) -> pt_scope
+
+# strsplit is slow 
 # start <- Sys.time()
 # horbis_df2010 %>%
 #     .[, ipc_temp := gsub("\\[|\\]", "", ipcClass)] %>%
@@ -86,10 +98,33 @@ horbis_df2010 %>%
 # end - start
 
 
+# uniqueN is slow 
+# start <- Sys.time()
+# horbis_df2010 %>%
+#     .[, ipc_temp := gsub("\\[|\\]", "", ipcClass)] %>%
+#     .[, ipc_temp := gsub("'", "", ipc_temp)] %>%
+#     separate_longer_delim(ipc_temp, delim = ",") %>%
+#     as.data.table() %>% 
+#     .[, ipcTop := tstrsplit(ipc_temp, "/", keep = c(1))] %>%
+#     .[, ipcTop := gsub(" ", "", ipcTop)] %>%
+#     .[, .N, by = .(patentNumber, ipcTop)] %>%
+#     .[, .(patentScope = uniqueN(.SD)), by = patentNumber] %>%
+#     head()
+# end <- Sys.time()
+# end - start  # 3.3 seconds
+    
+
+horbis_df2010$patentScope <- pt_scope$patentScope
+
+
+# average patent scope for firm each year
 horbis_df2010 %>%
-    .[, ipc_temp := gsub("\\[|\\]", "", ipcClass)] %>%
-    .[, ipc_temp := gsub("'", "", ipc_temp)] %>%
-    separate_longer_delim(ipc_temp, delim = ",") %>%
-    as.data.table() %>% 
-    .[, ipcTop := tstrsplit(ipc_temp, "/", keep = c(1))] %>%
-    .[, .N, by = .(patentNumber, ipcTop)] %>%
+    .[, .(patAppCount = .N,
+                    patGrantCount = uniqueN(.SD[granted == 1]),
+                    avrgPatScope = round(mean(patentScope), 2)),
+            by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
+    head()
+
+
+# Herfindahl-Hirschman concentration index (HHI) Garcia-Vega 2006 
+
