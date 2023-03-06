@@ -192,4 +192,45 @@ horbis_2010 %>%
 
 # patent citations 
 
-pct_citations <- fread("./data/202208_PCT_CITATIONS.txt")
+epo_cit_counts <- fread("./data/202208_EPO_CIT_COUNTS.txt")
+
+epo_cit_counts %>%
+    .[, c(1, 13:15, 30)] %>%
+    head()
+
+
+horbis_2010 %>%
+    .[, .N, by = Publn_auth] 
+
+
+# we use EPO patents first
+# as we could access their citations 
+horbis_df %>%
+    .[order(rank(Publn_auth))] %>%
+    unique(by = "familyID") %>%
+    .[applicationYear >= 2010] %>%
+    .[Publn_auth == "EP"] -> horbis_2010_ep 
+
+
+epo_cit_counts %>%
+    .[, c(1, 13:15, 30)] %>%
+    setnames(c("EP_Pub_nbr", "Total_Pat_Cits",
+                "Total_NPL_Cits", "Total_Cits",
+                "Total_cits_Recd"),
+                c("patentNumber", "backward_pat_cits",
+                        "backward_NPL_cits",
+                        "backward_total_cits",
+                        "forward_cits")
+            ) -> epo_cit_sub
+
+dim(epo_cit_sub)
+head(epo_cit_sub)
+
+setkey(horbis_2010_ep, "patentNumber")
+setkey(epo_cit_sub, "patentNumber")
+
+horbis_2010_ep_with_cits <- merge(horbis_2010_ep, epo_cit_sub,
+                                                    all.x = TRUE)
+
+horbis_2010_ep_with_cits %>%
+    dim()  # 40808 x 50
