@@ -288,7 +288,7 @@ wo_temp <- data.table(
 
 horbis_2010_wo_with_zeros <- cbind(horbis_2010_wo, wo_temp)
 
-dim(horbis_2010_wo)  # 15210 50
+dim(horbis_2010_wo_with_zeros)  # 15210 50
 
 
 horbis_2010_cits <- rbind(
@@ -325,6 +325,136 @@ horbis_2010_cits %>%
 
 
 # other patent quality
+epo_pq <- fread("./data/202208_OECD_PATENT_QUALITY_EPO_INDIC.txt")
+
+dim(epo_pq)
+names(epo_pq)
+head(epo_pq, 2)
+
+epo_pq %>%
+    .[sample(.N, 5)]
+
+
+epo_pq %>%
+    .[filing >= 2000] %>%
+    .[app_nbr == "EP20190179482"] %>%
+    head()
+
+
+uspto_pq <- fread("./data/202208_OECD_PATENT_QUALITY_USPTO_INDIC.txt")
+
+dim(uspto_pq)
+names(uspto_pq)
+
+head(uspto_pq)
+
+horbis_2010_us %>%
+    .[, c("patentNumber")] %>%
+    head()
+
+uspto_pq %>%
+    .[filing >= 2000] %>%
+    .[pub_nbr == "US10000918"]
+
+
+# merge patent quality
+epo_pq %>%
+    .[filing >= 2000] %>%
+    .[, c(2, 4, 7, 11, 17, 19:24)] %>%
+    setnames(c("app_nbr"), c("application_epodoc")) -> epo_pq_2000
+
+names(epo_pq_2000)
+dim(epo_pq_2000)
 
 
 
+names(horbis_2010_ep_with_cits)
+
+
+
+
+setkey(horbis_2010_ep_with_cits, "application_epodoc")
+setkey(epo_pq_2000, "application_epodoc")
+
+
+
+horbis_2010_ep_with_cits_qi <- merge(horbis_2010_ep_with_cits,
+                                        epo_pq_2000, all.x = TRUE)
+
+dim(horbis_2010_ep_with_cits_qi)
+names(horbis_2010_ep_with_cits_qi)
+
+horbis_2010_ep_with_cits_qi %>%
+    .[, c(45:60)] %>%
+    head()
+
+
+horbis_2010_ep_with_cits_qi %>%
+    .[app_nbr == "EP20100000439"] %>%
+    .[, c(45:50)]
+
+
+uspto_pq %>%
+    .[filing >= 2000] %>%
+    .[, c(2, 4, 7, 11, 15:21)] %>% 
+    setnames(c("pub_nbr"), c("patentNumber"))-> uspto_pq_2000
+
+dim(uspto_pq_2000)
+names(uspto_pq_2000)
+
+head(uspto_pq_2000)
+
+
+setkey(horbis_2010_us_with_cits, "patentNumber")
+setkey(uspto_pq_2000, "patentNumber")
+
+
+horbis_2010_us_with_cits_qi <- merge(horbis_2010_us_with_cits,
+                                        uspto_pq_2000, all.x = TRUE)
+
+dim(horbis_2010_us_with_cits_qi)
+names(horbis_2010_us_with_cits_qi)
+
+
+horbis_2010_us_with_cits_qi %>%
+    head()
+
+
+# merge with wo
+wo_len <- dim(horbis_2010_wo_with_zeros)[1]
+wo_temp2 <- data.table(
+    tech_field = c(rep(0, wo_len)),
+    family_size = c(rep(0, wo_len)),
+    claims = c(rep(0, wo_len)),
+    breakthrough = c(rep(0, wo_len)),
+    generality = c(rep(0, wo_len)),
+    originality = c(rep(0, wo_len)),
+    radicalness = c(rep(0, wo_len)),
+    renewal = c(rep(0, wo_len)),
+    quality_index_4 = c(rep(0, wo_len)),
+    quality_index_6 = c(rep(0, wo_len))
+)
+
+horbis_2010_wo_qi_with_zeros <- cbind(horbis_2010_wo_with_zeros,
+                                                wo_temp2)
+
+dim(horbis_2010_wo_qi_with_zeros)  # 15210 50
+
+
+# save the final dataset
+horbis_2010_patent_quality <- rbind(
+    horbis_2010_ep_with_cits_qi,
+    horbis_2010_us_with_cits_qi,
+    horbis_2010_wo_qi_with_zeros
+)
+
+
+dim(horbis_2010_patent_quality)
+names(horbis_2010_patent_quality)
+
+
+horbis_2010_patent_quality %>%
+    .[sample(.N, 5)]
+
+
+fwrite(horbis_2010_patent_quality, "./horbis_2010_final.csv")
