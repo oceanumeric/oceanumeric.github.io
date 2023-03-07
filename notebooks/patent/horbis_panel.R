@@ -85,8 +85,20 @@ horbis_2010 %>%
 ### panel: patent count, applications and granted ones 
 horbis_2010 %>%
     .[, .(patAppCount = .N, patGrantCount = uniqueN(.SD[granted == 1])),
-            by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
-    head()
+            by = .(HAN_ID, bvdid, name_internat, applicationYear)] -> pp_count
+
+
+# merge the dataset
+inventive_age %>%
+    .[, c(1, 4)] -> age_temp
+
+setkey(age_temp, "HAN_ID")
+setkey(pp_count, "HAN_ID")
+
+horbis_panel1 <- merge(pp_count, age_temp, by = "HAN_ID", all.x = TRUE)
+
+horbis_panel1 %>%
+    setnames(c("N"), c("inventive_age"))
 
 # patent scope: number of top IPC classes
 
@@ -137,9 +149,17 @@ horbis_2010 %>%
     .[, .(patAppCount = .N,
                     patGrantCount = uniqueN(.SD[granted == 1]),
                     avrgPatScope = round(mean(patentScope), 2)),
-            by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
-    head()
+            by = .(HAN_ID, bvdid, name_internat, applicationYear)] -> avrg_ps
 
+avrg_ps %>%
+    .[, c(1, 4, 7)] -> ps_temp
+
+
+setkeyv(horbis_panel1, c("HAN_ID", "applicationYear"))
+setkeyv(ps_temp, c("HAN_ID", "applicationYear"))
+
+horbis_panel2 <- merge(horbis_panel1, ps_temp,
+                    by = c("HAN_ID", "applicationYear"), all.x = TRUE)
 
 
 # total patent scope for firms at each year
@@ -183,15 +203,24 @@ horbis_2010 %>%
     #             by = .(HAN_ID,  bvdid, name_internat, applicationYear)] %>%
     # head()
     # option 2
-    .[, .(HHI = round(sum(hh_ratio), 4),
+    .[, .(patHHI = round(sum(hh_ratio), 4),
                 tt_ipc_scope = unique(tt_ipc_scope)),
                 by = .(HAN_ID,  bvdid, name_internat,
-                                        applicationYear)] %>%
-    head()
+                                        applicationYear)] -> pat_hhi_ttscope
+
+pat_hhi_ttscope %>%
+    .[, c(1, 4:6)] -> ttscope_temp
+
+setkeyv(ttscope_temp, c("HAN_ID", "applicationYear"))
+setkeyv(horbis_panel2, c("HAN_ID", "applicationYear"))
+
+
+# merge again
+horbis_panel3 <- merge(horbis_panel2, ttscope_temp,
+                            by = c("HAN_ID", "applicationYear"), all.x = TRUE)
 
 
 # patent citations 
-
 epo_cit_counts <- fread("./data/202208_EPO_CIT_COUNTS.txt")
 us_cit_counts <- fread("./data/202208_USPTO_CIT_COUNTS.txt")
 
@@ -320,8 +349,17 @@ horbis_2010_cits %>%
         total_forward = sum(forward_cits)
     ),
     by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
-    .[order(rank(applicationYear))] %>%
-    head()
+    .[order(rank(applicationYear))] -> tt_citations
+
+
+tt_citations %>%
+    .[, c(1, 4:8)] -> tt_cits_temp
+
+setkeyv(tt_cits_temp, c("HAN_ID", "applicationYear"))
+setkeyv(horbis_panel3, c("HAN_ID", "applicationYear"))
+
+horbis_panel4 <- merge(horbis_panel3, tt_cits_temp,
+                            by = c("HAN_ID", "applicationYear"), all.x = TRUE)
 
 
 # other patent quality
@@ -456,5 +494,150 @@ names(horbis_2010_patent_quality)
 horbis_2010_patent_quality %>%
     .[sample(.N, 5)]
 
+# fwrite(horbis_2010_patent_quality, "./horbis_2010_final.csv")
 
-fwrite(horbis_2010_patent_quality, "./horbis_2010_final.csv")
+# patent quality panel
+
+names(horbis_2010_patent_quality)
+
+# calculate average with na.rm = T 
+horbis_2010_patent_quality %>%
+    .[, .(
+        avrg_tech_field = mean(tech_field, na.rm = TRUE),
+        avrg_family_size = mean(family_size, na.rm = TRUE),
+        avrg_claims = mean(claims, na.rm = TRUE),
+        avrg_breakthrough = mean(breakthrough, na.rm = TRUE),
+        avrg_generality = mean(generality, na.rm = TRUE),
+        avrg_originality = mean(originality, na.rm = TRUE),
+        avrg_radicalness = mean(radicalness, na.rm = TRUE),
+        avrg_renewal = mean(renewal, na.rm = TRUE),
+        avrg_quality_idx4 = mean(quality_index_4, na.rm = TRUE),
+        avrg_quality_idx6 = mean(quality_index_6, na.rm = TRUE)
+    ), by = .(HAN_ID, bvdid, name_internat, applicationYear)] -> pq_temp
+
+
+pq_temp %>%
+    .[, c(1, 4:14)] -> pq_temp2 
+
+
+setkeyv(pq_temp2, c("HAN_ID", "applicationYear"))
+setkeyv(horbis_panel4, c("HAN_ID", "applicationYear"))
+
+horbis_panel5 <- merge(horbis_panel4, pq_temp2,
+                            by = c("HAN_ID", "applicationYear"), all.x = TRUE)
+
+
+fwrite(horbis_panel5, "./horbis_patent_panel_indicator.csv")
+
+
+# add horizon 2020 info
+horbis_df %>%
+    .[, .(avrg_funding = mean(totalCost, na.rm = TRUE)),
+                by = .(HAN_ID, bvdid, name_internat, startYear)] %>%
+    setnames(c("startYear"), c("applicationYear"))-> funding 
+    
+funding %>%
+    .[, c(1, 4, 5)] -> funding_temp 
+
+
+setkeyv(funding_temp, c("HAN_ID", "applicationYear"))
+setkeyv(horbis_panel5, c("HAN_ID", "applicationYear"))
+
+
+
+horbis_panel6 <- merge(horbis_panel5, funding_temp,
+                             by = c("HAN_ID", "applicationYear"), all.x = TRUE)
+
+
+## Financial information Panel 
+horbis_fins <- fread("./horbis_de_fins.csv")
+
+dim(horbis_fins)
+names(horbis_fins)
+
+head(horbis_fins)
+
+horbis_fins %>%
+    unique(by = "bvdid") %>%
+    dim()
+
+sapply(horbis_fins, function(x) sum(is.na(x))/6295) %>%
+    kable("pipe")
+
+
+horbis_fins %>%
+    .[closdate_year >= 2010] %>%
+    .[, .N, by = closdate_year] 
+
+
+horbis_fins %>%
+    .[closdate_year >= 2010] -> horbis_fins_2010
+
+
+dim(horbis_fins_2010)
+
+
+sapply(horbis_fins_2010, function(x) sum(is.na(x))/6295) %>%
+    kable("pipe")
+
+
+horbis_fins_2010 %>%
+    .[, c(1, 3:23)] -> horbis_fins_2010
+
+
+horbis_nace <- fread("./horbis_de_nace.csv")
+
+dim(horbis_nace)
+names(horbis_nace)
+head(horbis_nace)
+
+# add nace code
+
+horbis_nace %>%
+    .[, c(1, 2)] -> nace_temp
+
+
+setkey(nace_temp, "bvdid")
+setkey(horbis_fins_2010, "bvdid")
+
+
+horbis_fins_2010 <- merge(horbis_fins_2010, nace_temp, by = "bvdid", all.x = TRUE)
+
+
+# drop duplicated
+names(horbis_fins_2010)
+
+horbis_fins_2010[!duplicated(horbis_fins_2010[c(1, 2)]), ] %>%
+    .[, .N, by = closdate_year]
+
+horbis_fins_2010 %>%
+    unique(by = c("bvdid", "closdate_year")) -> horbis_panel7
+
+
+head(horbis_panel7)
+
+horbis_panel7$applicationYear <- as.integer(horbis_panel7$closdate_year)
+horbis_panel7$closdate_year <- NULL 
+
+head(horbis_panel7)
+
+# final merge
+setkeyv(horbis_panel6, c("bvdid", "applicationYear"))
+setkeyv(horbis_panel7, c("bvdid", "applicationYear"))
+
+
+
+
+
+horbis_panel_final <- merge(horbis_panel7, horbis_panel6,
+                            by = c("bvdid", "applicationYear"), all.x = TRUE)
+
+
+
+### final dataset
+head(horbis_panel_final)
+dim(horbis_panel_final)
+names(horbis_panel_final)
+
+fwrite(horbis_panel_final, "./horbis_panel_final.csv")
+
