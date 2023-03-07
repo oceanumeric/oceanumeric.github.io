@@ -193,6 +193,7 @@ horbis_2010 %>%
 # patent citations 
 
 epo_cit_counts <- fread("./data/202208_EPO_CIT_COUNTS.txt")
+us_cit_counts <- fread("./data/202208_USPTO_CIT_COUNTS.txt")
 
 epo_cit_counts %>%
     .[, c(1, 13:15, 30)] %>%
@@ -209,7 +210,7 @@ horbis_df %>%
     .[order(rank(Publn_auth))] %>%
     unique(by = "familyID") %>%
     .[applicationYear >= 2010] %>%
-    .[Publn_auth == "EP"] -> horbis_2010_ep 
+    .[Publn_auth == "EP"] -> horbis_2010_ep
 
 
 epo_cit_counts %>%
@@ -234,3 +235,96 @@ horbis_2010_ep_with_cits <- merge(horbis_2010_ep, epo_cit_sub,
 
 horbis_2010_ep_with_cits %>%
     dim()  # 40808 x 50
+
+
+# USA 
+horbis_df %>%
+    .[order(rank(Publn_auth))] %>%
+    unique(by = "familyID") %>%
+    .[applicationYear >= 2010] %>%
+    .[Publn_auth == "US"] -> horbis_2010_us
+
+dim(horbis_2010_us)
+
+
+us_cit_counts %>%
+    .[, c(1, 5:7, 10)] %>%
+    setnames(
+        c("US_Pub_nbr", "US_Pat_Cits",
+                "US_NPL_Cits", "Total_Cits", "Total_cits_Recd"),
+        c("patentNumber", "backward_pat_cits",
+                        "backward_NPL_cits",
+                        "backward_total_cits",
+                        "forward_cits")
+    ) -> us_cit_sub
+
+setkey(horbis_2010_us, "patentNumber")
+setkey(us_cit_sub, "patentNumber")
+
+
+horbis_2010_us_with_cits <- merge(horbis_2010_us,
+                                        us_cit_sub, all.x = TRUE)
+
+horbis_2010_us_with_cits %>% dim()  # 22745, 50
+
+
+# create wo
+horbis_df %>%
+    .[order(rank(Publn_auth))] %>%
+    unique(by = "familyID") %>%
+    .[applicationYear >= 2010] %>%
+    .[Publn_auth == "WO"] -> horbis_2010_wo
+
+dim(horbis_2010_wo)  # 15210, 46
+
+wo_len <- dim(horbis_2010_wo)[1]
+
+wo_temp <- data.table(
+    backward_pat_cits = c(rep(0, wo_len)),
+    backward_NPL_cits = c(rep(0, wo_len)),
+    backward_total_cits = c(rep(0, wo_len)),
+    forward_cits = c(rep(0, wo_len))
+)
+
+horbis_2010_wo_with_zeros <- cbind(horbis_2010_wo, wo_temp)
+
+dim(horbis_2010_wo)  # 15210 50
+
+
+horbis_2010_cits <- rbind(
+    horbis_2010_us_with_cits,
+    horbis_2010_ep_with_cits,
+    horbis_2010_wo_with_zeros
+)
+
+
+dim(horbis_2010_cits)
+names(horbis_2010_cits)
+
+# replace NA with 0s
+cit_names <- c("patentNumber", "backward_pat_cits",
+                "backward_NPL_cits", "backward_total_cits",
+                "forward_cits")
+for (j in cit_names){
+    set(horbis_2010_cits,
+            which(is.na(horbis_2010_cits[[j]])),
+            j, 0)
+}
+
+# calculate total citations for each year
+horbis_2010_cits %>%
+    .[, .(
+        total_backward_pat = sum(backward_pat_cits),
+        total_backward_npl = sum(backward_NPL_cits),
+        total_backward = sum(backward_total_cits),
+        total_forward = sum(forward_cits)
+    ),
+    by = .(HAN_ID, bvdid, name_internat, applicationYear)] %>%
+    .[order(rank(applicationYear))] %>%
+    head()
+
+
+# other patent quality
+
+
+

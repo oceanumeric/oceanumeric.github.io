@@ -117,7 +117,7 @@ horbis_linked %>%
     labs(title = "Trend of patent applications")
 
 
-## Combine tempdata
+### --------- Combine all datasets ------- ### 
 
 temp1 <- fread("./tempdata/epo_temp_batch1.csv")
 temp2 <-  fread("./tempdata/epo_temp_batch2.csv")
@@ -125,7 +125,7 @@ temp2 <-  fread("./tempdata/epo_temp_batch2.csv")
 temp <- rbind(temp1, temp2)
 
 
-for (i in 2:8) {
+for (i in 3:8) {
     file <- paste(
         "./tempdata/epo_temp_batch", i,
         ".csv", sep = "")
@@ -154,8 +154,17 @@ for (i in 10:29) {
 dim(temp)
 tail(temp, 1)
 
+## the final batch
+final_batch <- fread("./pyrio/pleft_epo.csv")
+final_batch %>%
+    .[!is.na(familyID)] -> final_batch
+
+
+temp <- rbind(temp, final_batch)
+
 
 temp %>%
+    .[patentNumber != ""] %>% 
     unique(by = "patentNumber") %>% dim()
 
 
@@ -173,11 +182,12 @@ setnames(foo, "Patent_number", "patentNumber")
 
 # delete empty ones
 temp %>%
-    .[patentNumber != ""] -> temp
+    .[patentNumber != ""] %>%
+    unique(by = "patentNumber") -> temp
 
 foo %>%
-    .[patentNumber != ""] -> foo
-
+    .[patentNumber != ""] %>%
+    unique(by = "patentNumber") -> foo
 
 
 setkey(foo, "patentNumber")
@@ -186,8 +196,9 @@ setkey(temp, "patentNumber")
 foo_merged <- merge(foo, temp, all.x = TRUE)
 
 
+### Clean the dataset again
 foo_merged %>%
-    .[!is.na(kindCode) & !is.na(familyID)] -> foo_merged
+    .[!is.na(familyID)] -> foo_merged
 
 
 dim(foo_merged)
@@ -195,7 +206,7 @@ names(foo_merged)
 
 foo_merged %>%
     unique(by = "bvdid") %>%
-    dim()  # 634 firms 
+    dim()  # 706 firms
 
 
 foo_merged %>%
@@ -216,6 +227,7 @@ foo_merged %>%
     dim()  # 135624/ unique 70605 
 
 
+### ------------ focus on year after 2010
 foo_merged %>%
     .[applicationYear >= 2010] -> foo_merged_2010
 
@@ -233,7 +245,7 @@ foo_merged_2010 %>%
 
 
 
-fwrite(foo_merged, "./pyrio/foo_merged.csv")
+fwrite(foo_merged, "./pyrio/horbis_dataset.csv")
 
 foo_merged2 <- fread("./pyrio/foo_merged2.csv")
 
@@ -510,6 +522,7 @@ foo_merged2_2010 %>%
 
 fwrite(ai_patents_1520, "./pyrio/ai_p1520.csv")
 
+
 ai_patents_1520 %>%
     .[abstract %like% "neural network"] %>%
     .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
@@ -523,9 +536,122 @@ ai_patents_1520 %>%
 
 
 ai_patents_1520 %>%
-    .[abstract %like% "object recogni"] %>%
+    .[abstract %like% "fuzzy system"] %>%
     .[, .N, by = .(bvdid, name_internat, svLevel2, totalCost)] %>%
     .[order(-rank(N))]
 
 
-dim(ai_patents_1520)
+
+################# --- AI Patents --- ######
+ipc1 <- fread("./AI/ipc/ai_patents_ipc1.csv")
+
+dim(ipc1)  # 36881
+
+for (i in 2:5) {
+    file <- paste(
+        "./AI/ipc/ai_patents_ipc1_batch", i,
+        ".csv", sep = "")
+    print(file)
+    csv <- fread(file)
+    ipc1 <- rbind(ipc1, csv)
+}
+
+dim(ipc1)
+
+ex1 <- fread("./AI/ipc/ai_patents_ipc1_extra1.csv")
+ex2 <- fread("./AI/ipc/ai_patents_ipc1_extra2.csv")
+
+ipc1 <- rbind(ipc1, ex1)
+ipc1 <- rbind(ipc1, ex2)
+
+dim(ipc1)  # 130803
+
+
+# unique by patentNumber
+ipc1 %>%
+    unique(by = "patentNumber") -> ipc1_unique
+
+dim(ipc1_unique)  # 120394 
+
+# check duplicates
+n_occur <- data.table(table(ipc1$patentNumber))
+
+n_occur %>%
+    .[N > 1] %>%
+    dim()
+
+
+n_occur %>%
+    .[N > 1] %>%
+    .[, .(total = sum(N))]
+
+
+
+ipc1$pubAuth <- substr(ipc1$patentNumber, 1, 2)
+
+# unique by familyID 
+ipc1_unique %>%
+    unique(by = "familyID") -> ipc1_unique
+
+dim(ipc1_unique)  # 87519
+
+fwrite(ipc1_unique, "./AI/ipc1.csv")
+
+
+# ipc2
+ipc2 <- fread("./AI/ipc/ai_patents_ipc2_batch1.csv")
+
+dim(ipc2)  # 211303
+names(ipc2)
+
+ipc2 %>%
+    unique(by = "patentNumber") %>%
+    dim()  # 198533
+
+ipc2 %>%
+    unique(by = "patentNumber") %>%
+    unique(by = "familyID") %>%
+    dim()  # 139040 
+
+ipc2$pubAuth <- substr(ipc2$patentNumber, 1, 2)
+
+ipc2 %>%
+    unique(by = "patentNumber") %>%
+    unique(by = "familyID") -> ipc2_unique
+
+dim(ipc2_unique)  # 139040 
+
+# save it
+fwrite(ipc2_unique, "./AI/ipc2.csv")
+
+
+# ipc3
+ipc3 <- fread("./AI/ipc/ai_patents_ipc3_batch1.csv")
+
+for (i in 2:4) {
+    file <- paste(
+        "./AI/ipc/ai_patents_ipc3_batch", i,
+        ".csv", sep = "")
+    print(file)
+    csv <- fread(file)
+    ipc1 <- rbind(ipc3, csv)
+}
+
+
+dim(ipc3)  # 30816
+names(ipc3)
+
+ipc3 %>%
+    unique(by = "patentNumber") %>%
+    unique(by = "familyID") %>%
+    dim()  # 23797
+
+ipc3 %>%
+    unique(by = "patentNumber") %>%
+    unique(by = "familyID") -> ipc3_unique
+
+
+fwrite(ipc3_unique, "./AI/ipc3.csv")
+
+
+foo <- fread("./AI/patents/ai_ipc2_batch10.csv")
