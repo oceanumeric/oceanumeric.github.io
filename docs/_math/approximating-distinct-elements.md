@@ -222,7 +222,130 @@ $$
 
 ## Median trick
 
+In equation (11), the space complexity for the hash function grows 20 times 
+if we set our failure rate $\delta = 0.05$,
 
+$$
+k = \frac{1}{0.05 \times \epsilon^2} = \frac{20}{\epsilon^2}
+$$
+
+If we want to reduce our space complexity, we could use the "median-of-means" 
+technique for error and success amplification, and analyze it using the Chernoff
+bound (Thomas Vidick, CMS139 notes). 
+
+Now, we set $t = O(\log1/\delta)$ and run $t$ trials each with failure probability
+$\delta = 1/5$, which gives us the value of $k = 5/\epsilon^2$ (the number of 
+hash functions we need). 
+
+Now, let $\hat{d}_1, \hat{d}_2, \cdots, \hat{d}_t$ be the outcomes of the
+$t$ trails, which is the estimated value of the number of distinct elements. Then,
+we set 
+
+$$
+\hat{d} = \mathrm{median}(\hat{d}_1, \hat{d}_2, \cdots, \hat{d}_t)
+$$
+
+We know that for the median $\tilde{\mu}$ of a random variable $X$ are 
+all points $x$ such that 
+
+$$
+\mathrm{Prob}(X \leq \tilde{\mu}) = \mathrm{Prob}(X \geq \tilde{\mu}) = \frac{1}{2} \tag{12}
+$$
+
+Assume the true value is $d$, and we bound our error with the following range
+
+$$
+[(1-4\epsilon)d, (1+4\epsilon)d]
+$$
+
+Then, if more than half of trials fill in the above range, then the equation (12)
+tells us that the median for sure will fall in the above range. Now, let's 
+assume that $2/3$ of trials fall in the range, then the median will fall in too.
+
+Since the failure probability $\delta = 1/5$ , then we know for all $t$ trials,
+each of them can fall in the the error bound with probability at least $4/5$ 
+(that's the meaning and purpose of failure probability). Now, we want to 
+estimate _the probability that the median $\hat{d}$ falling in the 
+error bound_ we set up.  
+
+Let random variable $X$ be  the number of trails of falling in 
+$[(1-4\epsilon)d, (1+4\epsilon)d]$, then we can have 
+
+$$
+\mathrm{Pr}\left ( \hat{d} \notin [(1-4\epsilon)d, (1+4\epsilon)d] \notin \right) \leq \mathrm{Pr}\left ( X < \frac{2}{3} t \right) \tag{13}
+$$
+
+The equations (13) means that the probability of median $\hat{d}$  does not 
+fall in the range is bounded by ${Pr}\left ( x < \frac{2}{3} t \right)$ for 
+the obvious reason (definition of median). 
+
+Since we set up $\delta = 1/5$, which means that each trail falls in the 
+range with probability at leas $4/5$, therefore we could have 
+
+$$
+\begin{aligned}
+\mathbb{E}[X] & = \mathbb{E} \left [ \sum_{i=0}^t I_i (\text{falling in the range}) \right] \\
+& =  \sum_{i=0}^t \mathbb{E} [ I_i (\text{falling in the range}) ]\\ 
+& = \sum_{i=0}^t 1 \cdot \mathrm{Pr}[I_i (\text{falling in the range}) ] \\ 
+& = \frac{4}{5} t \tag{14}
+\end{aligned}
+$$
+
+Now, substitute the equation (14) into the equation (13), we can have 
+
+$$
+\begin{aligned}
+\mathrm{Pr}\left ( \hat{d} \notin [(1-4\epsilon)d, (1+4\epsilon)d] \notin \right) & \leq \mathrm{Pr}\left ( X < \frac{2}{3} t \right) \\
+& = \mathrm{Pr}\left ( X < \frac{5}{6} \cdot \mathbb{E}[X] \right)  \\
+& = \mathrm{Pr}\left ( X -   \mathbb{E}[X] < - \frac{1}{6} \cdot \mathbb{E}[X] \right)  \\
+& = \mathrm{Pr}\left ( \mathbb{E}[X] - X >  \frac{1}{6} \cdot \mathbb{E}[X] \right) \\
+& \leq  \mathrm{Pr}\left ( | X - \mathbb{E}[X] | \geq  \frac{1}{6} \cdot \mathbb{E}[X] \right)
+\end{aligned}
+$$
+
+Now, apply the following Chernoff bound (there are variations of this bound, see
+[wikipedia](https://en.wikipedia.org/wiki/Chernoff_bound){:target="_blank"})
+
+$$
+\mathrm{Pr}(|X - \mu| \geq \epsilon \mu ) \leq 2 \exp \left ( \frac{-\epsilon^2 \mu}{3} \right),
+$$
+
+we could have 
+
+$$
+\mathrm{Pr}\left ( | X - \mathbb{E}[X] | \geq  \frac{1}{6} \cdot \mathbb{E}[X] \right) \leq 
+2 \exp  \left ( \frac{-(1/6)^2 \cdot (4/5)t}{3} \right) = O(e^{-ct}) \tag{15}
+$$
+
+Since we set $t = O(\log1/\delta)$, equation (15) shows the error is bounded by
+$\delta$ for sure. 
+
+In summary, for $t = O(\log1/\delta)$ trials, each using $k = 1/(\epsilon^2 \delta)$
+hash functions. With $\delta = 1/5$, the total space (hash function we need to 
+store) we will use is
+
+$$
+k = \frac{5t}{\epsilon^2} = O \left( \frac{\log(1/\delta)}{\epsilon^2} \right)
+$$
+
+This means the space complexity does not depend on the number of distinct 
+elements $d$ or the number of items in the stream $n$ (both of these numbers are
+typically very large). 
+
+
+## Algorithms in practice 
+
+
+Right now, our algorithm uses continuous valued fully random hash functions.
+Howwever, this can’t be implemented. Therefore, we need to extend the analysis
+into the discrete field. 
+
+In practice, it is pretty amazing that we can actually reduce the space 
+complexity down to $\log \log n$ bits (maybe not that amazing as we are only
+trying to get zero-moment from one data pass). This algorithm is 
+often referred to as "approximate counting", "probabilistic counting2,
+or simply the "LogLog algorithm" (with HyperLogLog being the most recent 
+version {% cite  flajolet2007hyperloglog %} ). 
 
 
 {% endkatexmm %}
