@@ -145,7 +145,7 @@ $$
 Take the derivative, we can have the CDF,
 
 $$
-f_Y(y) = \frac{m}{2} (1- y^{1/2})^{m-1} y^{-1/2}
+f_Y(y) = \frac{m}{2} (1- y^{1/2})^{m-1} y^{-1/2} \tag{6}
 $$
 
 Therefore,
@@ -157,20 +157,20 @@ $$
             & = \frac{m}{2} \int_0^1 y^{1/2} (1- y^{1/2})^{m-1} dy \\
             & = m \int_0^1 x^2 (1-x)^{m-1} dx \quad (y = x^2) \\
             & = -m \int_1^0 (1-u)^2 u^{m-1} du \quad (u = 1-x) \\
-            & = \frac{2}{(m+1)(m+2)}
+            & = \frac{2}{(m+1)(m+2)} \tag{7}
 \end{aligned}
 $$
 
 Then we can have
 
 $$
-\mathrm{Var}[X] = \frac{2}{(m+1)(m+2)} - \frac{1}{(m+1)^2} = \frac{m}{(m+1)^2(m+2)}
+\mathrm{Var}[X] = \frac{2}{(m+1)(m+2)} - \frac{1}{(m+1)^2} = \frac{m}{(m+1)^2(m+2)} \tag{8}
 $$
 
 Therefore, we can state
 
 $$
-\mathrm{Var}[X] < \frac{1}{(m+1)^2}
+\mathrm{Var}[X] < \frac{1}{(m+1)^2} \tag{9}
 $$
 
 With the Chebyshev's inequality, we can show
@@ -180,7 +180,48 @@ $$
 $$
 
 This means the bound is vacuous for any $\epsilon < 1$. Therefore, this 
-method is not very accurate. How could improve its accuracy? 
+method is not very accurate. How could improve its accuracy? We can leverage the law of large numbers. 
+
+
+If $X_1, \cdots, X_n$ are iid RVs with mean $\mu$ and variance $\sigma^2$, we'll show that the sample mean has the same variance 
+but lower variance based on linearity of expectation and variance. 
+
+$$
+\begin{aligned}
+\mathbb{E}[\bar{X}_n] & = \mathbb{E}\left[ \frac{1}{n} \sum_{i=1}^n X_i \right] = \frac{1}{n} \sum_{i=1}^n \mathbb{E}[X_i] = \frac{1}{n} n \mu = \mu  \\
+\mathrm{Var}[\bar{X}_n] & = \mathrm{Var}\left [ \frac{1}{n} \sum_{i=1}^n X_i \right] = \frac{1}{n^2} \sum_{i=1}^n \mathrm{Var}(X_i) = \frac{1}{n^2} n \sigma^2 = \frac{\sigma^2}{n} \tag{10}
+\end{aligned}
+$$
+
+With the equation (10), we can use $k$ hash functions instead of one
+as follows.
+
+| Stream $\rarr$ | 13 | 25 | 19 | 25 | 19 | 19 | val$_i$ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| $h_1$| 0.51 | 0.26 | 0.79 | 0.26 | 0.79 | 0.79 | 0.26 |
+| $h_2$ | 0.22 | 0.83 | 0.53 | 0.84 | 0.53 | 0.53 | 0.22 |
+| $\dots$ |$\dots$ | $\dots$  $\dots$ |$\dots$ | $\dots$  |$\dots$ | $\dots$ | $\dots$ | 
+| $h_k$ | 0.27 | 0.44 | 0.72 | 0.44 | 0.72 | 0.72 | 0.27 |
+
+Now, for
+improved accuracy, we just take the average of the $k$ minimums first, before reverse-solving. 
+
+With the Chebyshev's inequality, we can show
+
+$$
+\mathrm{Pr}(|X - \mathbb{E}[\bar{X}]| \geq \epsilon \mathbb{E}[\bar{X}]]) \leq \frac{\mathrm{Var}[\bar{X}]}{(\epsilon \mathbb{E}[\bar{X}])^2}  < \frac{1}{k \epsilon^2}
+$$
+
+If we want the error with the probability at most $\delta$, we can set
+the value of $k$ as 
+
+$$
+k = \frac{1}{\delta \epsilon^2} \tag{11}
+$$
+
+
+## Median trick
+
 
 
 
