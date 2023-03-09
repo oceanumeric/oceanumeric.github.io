@@ -125,10 +125,62 @@ $$
 m := \frac{1}{0.32} -1 \approx 3.125 -1 = 2.125 
 $$
 
+Now, we will derive the variance for random variable $X$ with the following formula,
 
+$$
+\mathrm{Var}[X] = \mathbb{E}[X^2] - \mathbb{E}[X]^2
+$$
 
+First, we set random variable $Y = X^2$ and derive its CDF and PDF. 
 
+$$
+\begin{aligned}
+F_Y(y) = \mathbb{P}(Y \leq y) & = \mathbb{P}(X^2 \leq y) \\
+& = \mathbb{P}(-\sqrt{y} \leq X \leq \sqrt{y}) \\
+& = \mathbb{P}(0 \leq X  \leq \sqrt{y}) \\
+& = 1 - (1-\sqrt{y})^m \quad (\text{using equation (3)})
+\end{aligned}
+$$
 
+Take the derivative, we can have the CDF,
+
+$$
+f_Y(y) = \frac{m}{2} (1- y^{1/2})^{m-1} y^{-1/2}
+$$
+
+Therefore,
+
+$$
+\begin{aligned}
+\mathbb{E}[Y] & = \int_0^1 y f_Y(y) dy \\
+            & = \int_0^1 y \frac{m}{2} (1- y^{1/2})^{m-1} y^{-1/2} dy \\
+            & = \frac{m}{2} \int_0^1 y^{1/2} (1- y^{1/2})^{m-1} dy \\
+            & = m \int_0^1 x^2 (1-x)^{m-1} dx \quad (y = x^2) \\
+            & = -m \int_1^0 (1-u)^2 u^{m-1} du \quad (u = 1-x) \\
+            & = \frac{2}{(m+1)(m+2)}
+\end{aligned}
+$$
+
+Then we can have
+
+$$
+\mathrm{Var}[X] = \frac{2}{(m+1)(m+2)} - \frac{1}{(m+1)^2} = \frac{m}{(m+1)^2(m+2)}
+$$
+
+Therefore, we can state
+
+$$
+\mathrm{Var}[X] < \frac{1}{(m+1)^2}
+$$
+
+With the Chebyshev's inequality, we can show
+
+$$
+\mathrm{Pr}(|X - \mathbb{E}[X]| \geq \epsilon \mathbb{E}[X]]) \leq \frac{\mathrm{Var}[X]}{(\epsilon \mathbb{E}[X])^2}  < \frac{1}{\epsilon^2}
+$$
+
+This means the bound is vacuous for any $\epsilon < 1$. Therefore, this 
+method is not very accurate. How could improve its accuracy? 
 
 
 
