@@ -369,6 +369,28 @@ into a vector of length 32; if it was a tail, then we mark it as $0$ and put it 
 </div>
 
 
+In the paper by [Flajolet and Martin (1985)](#flajolet1985probabilistic), they
+noticed that if the values hash function returns are uniformly distributed,
+the pattern of having $k$ consecutive tails (0) appears with probability 
+$2^{-k-1}$, which is aligned with our common sense. Assume we flip a coin
+three times, what's the probability of having 3 heads? It is $1/8 = 2^{-3}$.
+
+Now, let's run a simulation with `Python`. We want to run different times 
+of simulation and calculate the probability of having 3 consecutive trailing zeros 
+when we hash different amount of elements into the bit string of length 32. 
+
+
+<div class='figure'>
+    <img src="/math/images/fm_sim_plot.png"
+         alt="distinct values"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> plot of simulations that
+        calculates the probability of having 3 consecutive trailing zeros
+        when we hash different amount of distinct elements. 
+    </div>
+</div>
+
 
 
 
