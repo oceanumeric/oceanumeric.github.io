@@ -347,6 +347,30 @@ often referred to as "approximate counting", "probabilistic counting2,
 or simply the "LogLog algorithm" (with HyperLogLog being the most recent 
 version {% cite  flajolet2007hyperloglog %} ). 
 
+Before we implementing the Flajolet-Martin algorithm, let's frame the counting as a random process. When we talk about 'counting', the first
+thing comes to our mind is probably a sequence of numbers: $1, 2, 3, \cdots N$. However, any sequence could be taken as a counting process 
+naturally:
+
+- a, b, c, d, e, ...
+- user576, user213, user398, user470, ... 
+- $0101101010...$
+
+Now, let's do some magic stuff: _every time a new element comes in, we flip the coin, if it was a head, then we mark it as $1$ and put it
+into a vector of length 32; if it was a tail, then we mark it as $0$ and put it the vector_.  
+
+<div class='figure'>
+    <img src="/math/images/flajolet-martin.png"
+         alt="distinct values"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Illustration of
+        hash function as a machine of flipping coins. 
+    </div>
+</div>
+
+
+
+
 
 {% endkatexmm %}
 
