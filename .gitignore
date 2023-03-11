@@ -237,15 +237,5 @@ Thumbs.db
 blogenv
 
 
-epo_api.py
-horbis_patents.py
-horbis_bulk.py
 
 
-notebooks/patent/tempdata
-notebooks/patent/epodata
-notebooks/patent/pyrio
-notebooks/patent/euiri
-notebooks/patent/AI
-notebooks/patent/euiri/World2500
-notebooks/patent/euiri/2021cordip
