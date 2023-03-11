@@ -13,6 +13,11 @@ This post is based on notes by [Alex Tsun](https://www.alextsun.com/index.html){
 in the 1980s when the memory was very expensive has a huge number
 of applications in networking, database, and computer system  now - big data era {% cite flajolet1985probabilistic %}. 
 
+- [Motivation problem](#motivation-problem)
+- [Probabilistic reasoning](#probabilistic-reasoning)
+- [Median trick](#median-trick)
+- [Algorithms in practice](#algorithms-in-practice)
+
 
 ## Motivation problem
 
@@ -391,7 +396,82 @@ when we hash different amount of elements into the bit string of length 32.
     </div>
 </div>
 
+Firgure 3 shows that the probability of having $3$ consecutive trailing
+zeros becomes stable, which is around $0.06153$ when we have $1 \times 10^5$
+distinct values hashed as a bitstring of length 32, which is close to
 
+$$
+\frac{1}{2^4} = 0.0625
+$$
+
+It is this pattern that gives Flajolet and Martin's idea of probabilistic 
+counting algorithm, which means that the probability of a hash output 
+ending with $2^k$ (a one followed by $k$ zeros, such as $...1000$) is 
+$2^-(k+1)$, since this corresponds to flipping $k$ heads and then a tail
+with a fair coin. 
+
+Now, we will use this idea to count the distinct values. We assume that we have
+a hash function $h$ that maps each element to a bitstring of length $s$ (32), i.e.
+
+$$
+h: [n] \to \{0, 1\}^s
+$$
+
+We assume that $h$ is truly random, which means that for each $i \in [n]$,
+$h(i)$ is chosen uniformly at random from $\{0, 1\}^s$. 
+
+Next, for each $i \in [n]$, let $r(i)$ be the number of trailing 0's in $h(i)$.
+For example, 
+
+$$
+h(42) = 10111100010110001010010000110110, \quad \text{(1 zero)}
+$$
+
+so in this case, $r(42) = 1$. A useful observation about this quantity $r(i)$
+is that: 
+
+$$
+\mathrm{Pr} [ r(i) \geq k] = \frac{1}{2^k} \tag{16}
+$$
+
+_Remark:_ equation (16) gives the cumulative probability whereas the Figure 3 only
+shows the probability of $k= 3$. Here is the algorithm. 
+
+
+```python
+def fm_algorithm(num = 1000):
+    """
+    plot the probabilistic distinct elements counting algorithms
+    source: https://en.wikipedia.org/wiki/Flajolet%E2%80%93Martin_algorithm
+    """
+    bitmap = '0'*32
+    z = 0
+    for i in range(num):
+        hash_int = mmh3.hash(str(i), signed=False)
+        hash_str = "{0:b}".format(hash_int)
+        count_trailing0s = _calculate_trailing0s(hash_str)
+
+        bitmap = bitmap[:count_trailing0s] + '1' + bitmap[count_trailing0s+1:]
+
+    r = bitmap.find('0')
+    
+    return 2**r
+```
+
+As we have analyzed that using one hash function does not give very accurate
+estimation. We need to deploy more hash functions and use median trick to 
+improve the accuracy. 
+
+
+<div class='figure'>
+    <img src="/math/images/fm_count_plot.png"
+         alt="distinct values"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> plot of counting distinct
+        elements with Flajolet-Martin algorithm. 
+    </div>
+</div>
 
 
 {% endkatexmm %}

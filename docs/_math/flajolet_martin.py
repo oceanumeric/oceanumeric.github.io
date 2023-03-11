@@ -68,12 +68,51 @@ def plot_bitmap_pattern():
 
 
 
+def fm_algorithm(num = 1000):
+    """
+    plot the probabilistic distinct elements counting algorithms
+    """
+    bitmap = '0'*32
+    z = 0
+    for i in range(num):
+        hash_int = mmh3.hash(str(i), signed=False)
+        hash_str = "{0:b}".format(hash_int)
+        count_trailing0s = _calculate_trailing0s(hash_str)
+
+        bitmap = bitmap[:count_trailing0s] + '1' + bitmap[count_trailing0s+1:]
+
+    r = bitmap.find('0')
+    
+    return 2**r 
+
+
+def plot_fm_algorithm():
+
+    nrange = np.linspace(100, 1e5, 30, dtype=int)
+    estimation = []
+
+    for nn in nrange:
+        estim = fm_algorithm(nn)
+        estimation.append(estim)
+
+    fig, ax = plt.subplots(1, 1, figsize=(5, 3))
+    ax.plot(nrange, estimation, 'k--')
+    ax.plot(nrange, nrange, 'k')
+
+
+
+
 if __name__ == "__main__":
     print(os.getcwd())
-    
-    plot_bitmap_pattern()
 
-    plt.savefig('./docs/math/images/fm_sim_plot.png', dpi=300, bbox_inches="tight")
+    # print(fm_algorithm(num=83678))
+    
+    # plot_bitmap_pattern()
+
+    # plt.savefig('./docs/math/images/fm_sim_plot.png', dpi=300, bbox_inches="tight")
+
+    plot_fm_algorithm()
+    plt.savefig('./docs/math/images/fm_count_plot.png', dpi=300, bbox_inches="tight")
 
 
 
