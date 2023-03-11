@@ -406,7 +406,7 @@ def plot_false_positive_rate():
     
     print(rate[7])
     print(rate[11])
-    fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
+    fig, ax = plt.subplots(1, 1, figsize=(7, 3))
     ax.plot(mn_ratio, rate, 'k:', linewidth = 2)
     ax.plot(mn_ratio[7], rate[7], 'gs')
     ax.plot(mn_ratio[11], rate[11], 'gs')
