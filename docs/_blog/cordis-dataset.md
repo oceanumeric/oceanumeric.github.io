@@ -4,7 +4,7 @@ subtitle: The dataset contains all projects funded by the European Union from 19
 layout: blog_default
 date: 2023-02-21
 keywords: business analytic, CORDIS, Orbis, matching, WRDS, database, string-matching, open-data
-published: true
+published: false
 tags: data-science dataset python r business-analytics string-matching 
 ---
 
