@@ -167,7 +167,7 @@ with one pass, which means we want to get everything at once when we load the da
 
 Instead of calculating the full vector, we use $k$ hash functions to create a signature of each document and then compare those signatures pairwise to find similar documents. The intuition of this idea 
 is similar with that of finding the distinct values (read this
-[post](https://oceanumeric.github.io/math/2023/03/approximating-distinct-elements#algorithms-in-practice)). 
+[post](https://oceanumeric.github.io/math/2023/03/approximating-distinct-elements#algorithms-in-practice){:target="blank"}). 
 
 
 This means we will do two passes. Is it possible to calculate Jaccard similarity with only _one pass_? YES, it is! To do
@@ -208,11 +208,34 @@ However the running time for calculating the share of intersection still
 grows with $O(M^2)$. Can we do better with smart algorithm? The answer is YES!
 
 We can if we use Locality Sensitive Hashing (LSH) algorithm. Wouldn't it being
-amazing if we could calculate Jaccard similarities within $O(M \cdot k)$? I
+amazing if we could calculate Jaccard similarities within $\footnotesize O(M \cdot k)$? I
 hope you could appreciate the invention of LSH and understand now why they 
 won ACM Paris Kanellakis Theory and Practice Award.
 
 ## Locality sensitive hashing 
+
+In figure 1, we have end up having a $M \times k$ signature matrix. Now we will design a _band structure_ to filter (select) possible candidates before calculating Jaccard similarity pairwise. The idea is very similar to [two level hashing](https://oceanumeric.github.io/math/2023/02/probabilistic-thinking#example-4-hash-tables){:target="blank"}. In the end,
+we want to have a _grid_ of $b \times r$ where $b << M, r < k$.
+
+Recall that a hash table has a probability of collision (two different values are hashed as the same numeric value). But do not get confused with the collision. When we build a two level hashing, we want to avoid collision with the optimal 
+number of hashing functions. Here, we are trying to find the optimal number of
+hashing functions to find similar items. 
+
+For $x$ and $y$ with Jaccard similarity $J(x ,y) = p \in [0, 1]$, which is 
+equivalent with 
+
+$$
+\mathrm{Pr}[\text{MinHash}(x) = \text{MinHash}(y)] = J(x ,y) = p \in [0, 1]
+$$
+
+Now, with $r$ hash functions 
+
+Now we divide our signature matrix into $b$
+bands each of width $r$.
+
+
+
+
 
 
 {% endkatexmm %}
