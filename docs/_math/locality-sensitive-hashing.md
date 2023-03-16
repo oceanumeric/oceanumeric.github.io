@@ -170,25 +170,49 @@ is similar with that of finding the distinct values (read this
 [post](https://oceanumeric.github.io/math/2023/03/approximating-distinct-elements#algorithms-in-practice)). 
 
 
-
 This means we will do two passes. Is it possible to calculate Jaccard similarity with only _one pass_? YES, it is! To do
-this, we need our favorite _random process_. When we load in all elements, we hash each element and 
-
+this, we need our favorite _random process_.
 
 <div class='figure'>
     <img src="/math/images/min-hashing.png"
          alt="Inequality bounds compare"
          style="width: 90%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 3.</span> Plot of different inequality
-        bounds, which shows that Hoeffding's inequality follows the 
-        cumulative density function very closely. 
+        <span class='caption-label'>Figure 1.</span> Illustration of Minimum Hashing process.
     </div>
 </div>
 
+As it is shown in Figure 1, we will create n-Grams for each documents when 
+we read them in and then hash them with $k$ hash functions. For each batch of n-Grams of each document, we choose the minimum value among them and save 
+it into a signature vector of length $k$. 
+
+Once we have the signature vector, we could calculate the Jaccard similarity
+pairwise. 
+
+Compare to the native method, what did we gain from MinHash algorithm?
+
+|                                          | native method    | MinHash method  |
+|:------------------------------------------|------------------|-----------------|
+| load the dataset                         | M                | M               |
+| construct n-Grams sets                   | n                | n               |
+| encode each set as one-hot vector        | $\footnotesize n \times  N$     | 0               |
+| calculate Jaccard similarities pairwise | $\footnotesize (M \cdot N )^2$ | $\footnotesize (M \cdot k)^2$ |
 
 
-However the running time for calculating the share of intersection grows with $O(n^2)$, we need to design a _random process_ to reduce the running time. To reduce any running time, we need more _space_ (the old tradeoff). 
+As you can see, we save lots of space for one-hot vector encoding part and we 
+also save the running time for calculating Jaccard similarities. Since $N$ is 
+the population size, the saved running time is a big number. 
+
+
+However the running time for calculating the share of intersection still
+grows with $O(M^2)$. Can we do better with smart algorithm? The answer is YES!
+
+We can if we use Locality Sensitive Hashing (LSH) algorithm. Wouldn't it being
+amazing if we could calculate Jaccard similarities within $O(M \cdot k)$? I
+hope you could appreciate the invention of LSH and understand now why they 
+won ACM Paris Kanellakis Theory and Practice Award.
+
+## Locality sensitive hashing 
 
 
 {% endkatexmm %}
