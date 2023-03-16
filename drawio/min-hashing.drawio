@@ -1,4 +1,4 @@
-<mxfile host="65bd71144e">
+<mxfile host="65bd71144e" scale="3" border="0">
     <diagram id="ogyDEyI85q3y71w7RJhe" name="Page-1">
         <mxGraphModel dx="574" dy="568" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="#ffffff" math="0" shadow="0">
             <root>
@@ -7,7 +7,7 @@
                 <mxCell id="45" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;strokeColor=#1A1A1A;strokeWidth=2;fontSize=14;fontColor=#000000;fillColor=#FFFFFF;" vertex="1" parent="1">
                     <mxGeometry x="189" y="151" width="20" height="245" as="geometry"/>
                 </mxCell>
-                <mxCell id="113" value="save the mininum into the signature vector&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;dashPattern=1 2;strokeWidth=2;fontSize=14;fontColor=#000000;" vertex="1" parent="1">
+                <mxCell id="113" value="save the minimum into the signature vector&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;dashPattern=1 2;strokeWidth=2;fontSize=14;fontColor=#000000;" vertex="1" parent="1">
                     <mxGeometry x="502" y="129" width="296" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="116" value="" style="group" vertex="1" connectable="0" parent="1">
@@ -103,19 +103,19 @@
                 <mxCell id="148" value="k" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;dashPattern=8 8;strokeWidth=2;fontSize=14;fontColor=#000000;container=0;" vertex="1" parent="145">
                     <mxGeometry x="155.3903345724907" width="44.60966542750929" height="25.161290322580648" as="geometry"/>
                 </mxCell>
-                <mxCell id="149" value="" style="endArrow=classicThin;html=1;sketch=0;strokeColor=#333333;strokeWidth=2;fontSize=15;fontColor=#000000;fillColor=#000000;edgeStyle=elbowEdgeStyle;endFill=1;" edge="1" parent="1">
+                <mxCell id="149" value="" style="endArrow=classicThin;html=1;sketch=0;strokeColor=#333333;strokeWidth=2;fontSize=15;fontColor=#000000;fillColor=#000000;edgeStyle=elbowEdgeStyle;endFill=1;dashed=1;" edge="1" parent="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="334" y="166" as="sourcePoint"/>
                         <mxPoint x="380" y="286" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="152" value="" style="endArrow=none;html=1;sketch=0;strokeColor=#333333;strokeWidth=2;fontSize=15;fontColor=#000000;fillColor=#000000;edgeStyle=elbowEdgeStyle;endFill=0;" edge="1" parent="1" source="133">
+                <mxCell id="152" value="" style="endArrow=none;html=1;sketch=0;strokeColor=#333333;strokeWidth=2;fontSize=15;fontColor=#000000;fillColor=#000000;edgeStyle=elbowEdgeStyle;endFill=0;dashed=1;" edge="1" parent="1" source="134">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="344" y="176" as="sourcePoint"/>
                         <mxPoint x="374" y="286" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="153" value="" style="endArrow=none;html=1;sketch=0;strokeColor=#333333;strokeWidth=2;fontSize=15;fontColor=#000000;fillColor=#000000;edgeStyle=elbowEdgeStyle;endFill=0;" edge="1" parent="1">
+                <mxCell id="153" value="" style="endArrow=none;html=1;sketch=0;strokeColor=#333333;strokeWidth=2;fontSize=15;fontColor=#000000;fillColor=#000000;edgeStyle=elbowEdgeStyle;endFill=0;dashed=1;" edge="1" parent="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="334" y="416" as="sourcePoint"/>
                         <mxPoint x="364" y="286" as="targetPoint"/>
