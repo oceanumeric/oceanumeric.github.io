@@ -303,6 +303,23 @@ and $r$.
 As it has shown in Figure 3, the more bands you have the higher chance you get for having at least one matched pair in one block increases, which is aligned with our common sense. It is worth mentioning that 
 we do not need so many bands when two items are very similar. Considering we are only using $3$ hash functions, this works quite well.  
 
+Since in practice we do not know the probability $p$ of sample space, 
+we need to _tune_ $b$ and $r$ based on the threshold we set for $\mathrm{Pr}$(one match in one band). 
+
+Now, we will set the threshold $\mathrm{Pr} = 0.8$ and plot the relationship betweeon $p$ and $\mathrm{Pr}$ for different sets of $(b, r)$. 
+
+<div class='figure'>
+    <img src="/math/images/lsh_plot2.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> Illustration of LSH with different band sizes and $r$; notice the curve shift to the different directions for $b$ and $r$. 
+    </div>
+</div>
+
+
+With LSH, we will not compare each signature vector pairwise. Instead,
+we will select possible candidates from the _bucket_ first and then find those similar items. 
 
 
 {% endkatexmm %}
