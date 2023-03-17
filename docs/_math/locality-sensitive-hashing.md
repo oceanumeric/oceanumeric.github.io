@@ -225,14 +225,14 @@ For $x$ and $y$ with Jaccard similarity $J(x ,y) = p \in [0, 1]$, which is
 equivalent with 
 
 $$
-\mathrm{Pr}\left [ \text{MinHash}(x) = \text{MinHash}(y) \right ] = J(x ,y) = p \in [0, 1]
+\mathrm{Pr}\left [ \text{MinHash}(x) = \text{MinHash}(y) \right ] = J(x ,y) = p \in [0, 1] \tag{1}
 $$
 
 Now, with $r$ hash functions, probability that $x$ and $y$ having the matching
 signature vector is 
 
 $$
-\prod_{i=1}^r \mathrm{Pr}\left [ \text{MinHash}_i(x) = \text{MinHash}_i(y) \right ] = p^r 
+\prod_{i=1}^r \mathrm{Pr}\left [ \text{MinHash}_i(x) = \text{MinHash}_i(y) \right ] = p^r  \tag{2}
 $$
 
 Recall that in Figure 1, we compare the signature vector with length of $k$
@@ -254,10 +254,54 @@ Now we divide our signature matrix into $b$ bands each of $r$ columns, which is 
          style="width: 90%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 2.</span> Illustration of LSH.
+    </div>
+</div>
+
+In  Equation (1) and (2), we are only compare $x$ and $y$. However,
+when we search for similar items, we need to compare $x$ with all other members in our sample space. Now, with $b$ bands, the probability that _none_ of 
+$b$ bands match is given by 
+
+$$
+(1-p^r)^b
+$$
+
+Therefore, the probability that we will have a match from at least one band 
+is 
+
+$$
+\mathrm{Pr}(\text{one match in one band}) = [1- (1-p^r)^b] \tag{3}
+$$
+
+Now, we are interested in the optimal number of $b$ and $r$ as we want to 
+use as less as _blocks_ to get those similar items (instead of using $M \times k$ matrix). So, how do we find the optimal number of $b$ and $r$ then? Let's think about the boundaries first:
+
+- if we set $b = M$ and $r = k$, we are doing nothing them
+- if we set $b = 1$ and $r - 1$, then everything is similar as there is only one hash block. 
+
+Therefore, we would like to find $b$ and $r$ that could at least give
+us one match with some probability and then we do not have to iterate over all $M$ rows. Thinking of this problem like throwing many balls into different bins and what's the probability of having similar balls in one bin. 
+
+Again, we have two dimensions:
+
+- on population level, $J(x, y) = p$
+- on sample level, $\mathrm{Pr}(\text{one match in one band}) = [1- (1-p^r)^b]$
+
+Now, let's assume that $J(x,y) = 0.4$, then we want to find out 
+how likely they will be threw into the same bin with different $b$ 
+and $r$. 
+
+<div class='figure'>
+    <img src="/math/images/lsh_plot1.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Illustration of LSH with different band sizes and $r = 3$ for both lines. 
+    </div>
 </div>
 
 
-
+As it has shown in Figure 3, the more bands you have the higher chance you get for having at least one matched pair in one block increases, which is aligned with our common sense. It is worth mentioning that 
+we do not need so many bands when two items are very similar. Considering we are only using $3$ hash functions, this works quite well.  
 
 
 
