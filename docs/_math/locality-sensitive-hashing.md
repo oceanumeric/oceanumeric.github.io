@@ -225,13 +225,36 @@ For $x$ and $y$ with Jaccard similarity $J(x ,y) = p \in [0, 1]$, which is
 equivalent with 
 
 $$
-\mathrm{Pr}[\text{MinHash}(x) = \text{MinHash}(y)] = J(x ,y) = p \in [0, 1]
+\mathrm{Pr}\left [ \text{MinHash}(x) = \text{MinHash}(y) \right ] = J(x ,y) = p \in [0, 1]
 $$
 
-Now, with $r$ hash functions 
+Now, with $r$ hash functions, probability that $x$ and $y$ having the matching
+signature vector is 
 
-Now we divide our signature matrix into $b$
-bands each of width $r$.
+$$
+\prod_{i=1}^r \mathrm{Pr}\left [ \text{MinHash}_i(x) = \text{MinHash}_i(y) \right ] = p^r 
+$$
+
+Recall that in Figure 1, we compare the signature vector with length of $k$
+because we have $k$ hash functions, whereas we are using $r$ hashing functions.
+When two items have the same signature vector, they are _identical_; when 
+they have the high Jaccard similarity, they are similar.  
+
+Then the probability that $x$ and $t$ do not match is
+
+$$
+1 - p^r 
+$$
+
+Now we divide our signature matrix into $b$ bands each of $r$ columns, which is the key idea behind LSH. Figure 2 gives the illustration. 
+
+<div class='figure'>
+    <img src="/math/images/LSH.png"
+         alt="Inequality bounds compare"
+         style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Illustration of LSH.
+</div>
 
 
 
