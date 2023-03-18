@@ -10,7 +10,12 @@ tags: probability algorithm data-science machine-learning bloom-filter minhash L
 
 In 2012, minwise hashing and locality sensitive hashing (LSH) were recognized as a key breakthrough and inventors were awarded ACM Paris Kanellakis Theory and Practice Award. Those inventors were awarded for "their groundbreaking work on locality-sensitive hashing that has had great impact in many fields of computer science including computer vision, databases, information retrieval, machine learning, and signal processing". 
 
-In this post, we will learn those brilliant ideas behind LSH. Before we proceed, let's have a prelude on probabilistic reasoning. 
+In this post, we will learn those brilliant ideas behind LSH. Before we proceed, let's have a prelude on probabilistic reasoning.
+
+- [Probabilistic thinking again](#probabilistic-thinking-again)
+- [Similarity issue](#similarity-issue)
+- [Min hashing algorithm](#min-hashing-algorithm)
+- [Locality sensitive hashing](#locality-sensitive-hashing)
 
 
 ## Probabilistic thinking again
