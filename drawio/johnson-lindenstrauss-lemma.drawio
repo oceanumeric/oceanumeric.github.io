@@ -1,0 +1,55 @@
+<mxfile host="65bd71144e" scale="3" border="0">
+    <diagram id="5CCdg_e5tio-SbL0Xe0i" name="Page-1">
+        <mxGraphModel dx="419" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="#ffffff" math="1" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="89" y="159" width="281" height="121" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="0.03, -0.2, 0.34, -1.3, -0.49 ...&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontColor=#000000;fontFamily=Lucida Console;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="86" y="168" width="278" height="21" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="0.45, -0.12, 0.78, 1.2, 0.53 ...&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontColor=#000000;fontFamily=Lucida Console;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="82" y="199" width="278" height="21" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="A" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Lucida Console;fontColor=#000000;fontSize=23;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="231" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBorderColor=none;strokeColor=#000000;fontFamily=Lucida Console;fontSize=23;fontColor=#000000;fillColor=none;rotation=90;" vertex="1" parent="1">
+                    <mxGeometry x="298" y="264" width="246" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="x" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Lucida Console;fontSize=23;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="392" y="231" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="=" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Lucida Console;fontSize=23;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="445" y="204.5" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="507" y="158" width="34" height="121" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="random projection matrix" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Times New Roman;fontSize=17;fontColor=#000000;fontStyle=0" vertex="1" parent="1">
+                    <mxGeometry x="127.5" y="291.5" width="189" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="input vector&lt;br&gt;(high dimensons)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Times New Roman;fontSize=17;fontColor=#000000;fontStyle=2" vertex="1" parent="1">
+                    <mxGeometry x="267" y="386" width="127" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="output vector&lt;br&gt;(low dimensons)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Times New Roman;fontSize=17;fontColor=#000000;fontStyle=2" vertex="1" parent="1">
+                    <mxGeometry x="461" y="298" width="128" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="$$m \times d$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Times New Roman;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="195" y="119" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="$$d \times 1$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Times New Roman;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="392" y="117.05" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="$$m \times 1$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Times New Roman;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="496" y="117.05" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="$$\tilde{x}$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBorderColor=none;fontFamily=Times New Roman;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="495" y="204.5" width="60" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
