@@ -25,6 +25,10 @@ Therefore, we need to transfer high dimensional vectors into low dimension and a
 
 The Johnson Lindenstrauss lemma gives the answer. This blog is based on the course notes from [Anupam Gupta](http://www.cs.cmu.edu/~anupamg/){:target="_blank"}, [Daniel Raban](https://pillowmath.github.io/){:target="_blank"}, [MIT](http://courses.csail.mit.edu/6.854/16/Notes/n6-dim_reduction.html){:target="_blank"}, and the book by Blum et al {% cite blum2020foundations %}. 
 
+- [Markov's inequality and the Chernoff bound](#markovs-inequality-and-the-chernoff-bound)
+- [The Johnson Lindenstrauss lemma](#the-johnson-lindenstrauss-lemma)
+- [Comments about the Johnson Lindenstrauss lemma](#comments-about-the-johnson-lindenstrauss-lemma)
+
 ## Markov's inequality and the Chernoff bound
 
 {% katexmm %}
@@ -318,12 +322,12 @@ works for any set $X$ with high probability. Hence, we can pick this map $A$ bef
 
  - the second method is to use a _sparse_ random matrix $A$. This is called the _Sparse Random Projection_. The paper by Kane and Nelson (2014) shows there exists a way of sampling A
  to ensure that there is only at most $O(\frac{\log n}{\epsilon})$
- non-zero entries per column. (The distribution here cannot correspond to simple entry-wise independent sampling anymore.) {% cite kane2014sparse %}. 
+ non-zero entries per column. (The distribution here cannot correspond to simple entry-wise independent sampling anymore.) {% cite kane2014sparser %}. 
  
  - The paper by Achlioptas et al. (2003) shows that sampling each entry of $A$ independently from a Bernoulli distribution with parameter $p$ works well. For instance, $+1$ with probability $1/6$, $-1$ with probability $1/6$, and $0$ with probability $2/3$. This is called the _Bernoulli Random Projection_ {% cite achlioptas2003database %}. 
 
  - Natural question: Can we have such a strong dimensionality reduction phenomena also for other distances, e.g., $\ell_1$ or
- $\ell_{\infity}$ norms?
+ $\ell_{\inf}$ norms?
 
  - Unfortunately, no. It turns out that $\ell_2$-norm is very special. 
 
