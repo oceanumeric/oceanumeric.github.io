@@ -23,7 +23,7 @@ exponentially.
 
 Therefore, we need to transfer high dimensional vectors into low dimension and ask: how much of the feature and structure of high dimensional data will be preserved if we map it into the lower dimensional ones? 
 
-The Johnson Lindenstrauss lemma gives the answer. This blog is based on the course notes from [Anupam Gupta](http://www.cs.cmu.edu/~anupamg/){:target="_blank"}, [MIT](http://courses.csail.mit.edu/6.854/16/Notes/n6-dim_reduction.html){:target="_blank"}, and the book by Blum et al {% cite blum2020foundations %}. 
+The Johnson Lindenstrauss lemma gives the answer. This blog is based on the course notes from [Anupam Gupta](http://www.cs.cmu.edu/~anupamg/){:target="_blank"}, [Daniel Raban](https://pillowmath.github.io/){:target="_blank"}, [MIT](http://courses.csail.mit.edu/6.854/16/Notes/n6-dim_reduction.html){:target="_blank"}, and the book by Blum et al {% cite blum2020foundations %}. 
 
 ## Markov's inequality and the Chernoff bound
 
@@ -80,21 +80,81 @@ $$
 We get the same thing if we apply the argument to $-X$, so adding the two cases together gives 
 
 $$
-\mathbb{P}(|X-\mu| \geq a) \leq 2 \exp \left( - \frac{a^2}{2\sigma^2} \right)
+\mathbb{P}(|X-\mu| \geq a) \leq 2 \exp \left( - \frac{a^2}{2\sigma^2} \right) \tag{1}
 $$
 
+Now, we construct a random variable $\bar{X}$ such that it is an average of i.i.d. random variables $X_1, \cdots, X_n$, then we have
 
+$$
+\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i.
+$$
+
+Then, $\bar{X}$ follows the normal distribution with mean $\mu$ and variance $\frac{\sigma^2}{n}$. Then we apply the Chernoff bound to $\bar{X}$, we have
+
+$$
+\mathbb{P}(|\bar{X}-\mu| \geq a) \leq 2 \exp \left( - \frac{n a^2}{2\sigma^2 } \right)
+$$
+
+This type of inequality is called the _concentration inequality_.
+It tells us that the probability of a random variable being far away from its mean concentrates around the mean at an exponential rate.
+
+Using the above inequality, we can prove the Johnson Lindenstrauss lemma.
+
+We know that a random variable $X$ follows the Chi-square distribution with $m$ degrees of freedom if $X = \sum_{i=1}^m Z_i^2$, where $Z_i \sim \mathcal{N}(0, 1)$ are i.i.d. random variables. 
+
+We could calculate the first and second moments of $X$ as
+
+$$
+\begin{aligned}
+\mathbb{E}[X] & = \sum_{i=1}^m \mathbb{E}[Z_i^2] \\
+                & = m \\
+\mathbb{V}[X] & = \sum_{i=1}^m \mathbb{V}[Z_i^2] \\
+                & = 2m \\
+\end{aligned}
+$$
+
+This means for the average of $X$, we have
+
+$$
+\begin{aligned}
+\mathbb{E}[\bar{X}] & = \frac{1}{m} \sum_{i=1}^m \mathbb{E}[Z_i^2] \\
+                    & = \frac{1}{m} m \\
+                    & = 1 \\
+\mathbb{V}[\bar{X}] & = \frac{1}{m} \sum_{i=1}^m \mathbb{V}[Z_i^2] \\
+                    & = \frac{1}{m} 2m \\
+                    & = \frac{2}{m} \\
+\end{aligned}
+$$
+
+This gives us the following inequality if we substitute the above values ($\mu=1, \mathbb{V}=2/m$) into the Chernoff bound in the equation (1). 
+
+$$
+\mathbb{P}(|\bar{X}-1| \geq a) \leq 2 \exp \left( - \frac{m a^2}{8} \right)
+$$
+
+Or with the variable $Z$ involved, we have
+
+$$
+\mathbb{P} \left(\left | \frac{1}{m} \sum_{i=1}^m Z_i^2 - 1 \right | \geq a \right ) \leq 2 \exp \left( - \frac{m a^2}{8} \right), \tag{2}
+$$
+
+which is equivalent to
+
+$$
+\mathbb{P} \left( \left | \sum_{i=1}^m Z_i^2 - m \right | \geq ma  \right ) \leq 2 \exp \left( - \frac{m a^2}{8} \right). \tag{3}
+$$
+
+Now, we are ready to prove the Johnson Lindenstrauss lemma.
 
 
 ## The Johnson Lindenstrauss lemma
-
 
 
 Given any set of points $X = \{ x_1, x_2, \cdots, x_n \}$ in $\mathbb{R}^d$, and any $\epsilon \in (0, 1/2]$, there exists a linear map  $\Pi: \mathbb{R}^d \to \mathbb{R}^m$ with
 $m = O( \frac{\log n}{\epsilon^{2}})$ such that 
 
 $$
-1- \epsilon \leq \frac{||\Pi(x_i) - \Pi(x_j) ||_2^2}{||x_i - x_j||_2^2} \leq 1+ \epsilon \tag{1}
+1- \epsilon \leq \frac{||\Pi(x_i) - \Pi(x_j) ||_2^2}{||x_i - x_j||_2^2} \leq 1+ \epsilon \tag{4}
 $$
 
 for any $i$ and $j$. 
@@ -116,13 +176,12 @@ $$
 
 
 
-
 Now, let $A$ be a $m \times d$ matrix, such that every entry 
 of $A$ is filled with an i.i.d draw from a standard normal
 $a_{i, j} \sim N(0, 1/m)$ distribution (a.k.a the "Gaussian" distribution). For $x \in \mathbb{R}^d$, define 
 
 $$
-\Pi(x) = A x, \tag{2}
+\Pi(x) = A x, \tag{5}
 $$
 
 <div class='figure'>
@@ -139,21 +198,25 @@ Now, we will establish a certain norm preservation property of $A$.
 Specifically, it suffices to prove that, for any fixed vector $x \in \mathbb{R}^d$, we have that
 
 $$
-\mathbb{P} \bigg [ (1- \epsilon) ||x||_2^2 \leq ||A x||_2^2 \leq (1+\epsilon) ||x||_2^2 \bigg ] \geq 1 - \frac{1}{n^3} \tag{3}
+\mathbb{P} \bigg [ (1- \epsilon) ||x||_2^2 \leq ||A x||_2^2 \leq (1+\epsilon) ||x||_2^2 \bigg ] \geq 1 - \frac{1}{n^3} \tag{6}
 $$
 
-To prove equation (3), let us fix $x \in \mathbb{R}^d$, and consider
+To prove equation (6), let us fix $x \in \mathbb{R}^d$, and consider
 the distribution of the $i$-th coordinate $Y_i$ of the mapping $Ax$ 
 of $x$ 
 
 $$
-Y_i := (Ax)_i = \sum_{j=1}^d A_{i, j} x_j \tag{4}
+\begin{aligned}
+& Y_i := (Ax)_i  = \sum_{j=1}^d A_{i, j} x_j  \\
+& Ax  = \begin{bmatrix} Y_1 \\ Y_2 \\ \vdots \\ Y_m \end{bmatrix}
+\tag{7}
+\end{aligned}
 $$
 
 Each random variable $Y_i$ is a sum of Gaussian distributions. Specifically, we have that 
 
 $$
-Y_i \sim \sum_{j=1}^d \mathcal{N} \left (0, \frac{1}{m} \right ) x_j \sim  \sum_{j=1}^d \mathcal{N} \left(0, \frac{x_j^2}{k} \right ) \sim \mathcal{N} \left (0, \frac{||x||_2^2}{k} \right ), \tag{5}
+Y_i \sim \sum_{j=1}^d \mathcal{N} \left (0, \frac{1}{m} \right ) x_j \sim  \sum_{j=1}^d \mathcal{N} \left(0, \frac{x_j^2}{k} \right ) \sim \mathcal{N} \left (0, \frac{||x||_2^2}{k} \right ), \tag{8}
 $$
 
 where we used the crucial property of Gaussian distributions that they are closed (linear) under taking a sum. More precisely,
@@ -166,7 +229,7 @@ $$
 Consequently, we can conclude that 
 
 $$
-\mathbb{E} \big [ ||Ax||_2^2 \big] = \mathbb{E} \left [ \sum_{i=1}^m Y_i^2  \right ]= \sum_{i}^m \mathbb{E}[Y_i^2] = m \cdot \mathrm{Var}(Y_i) = m \cdot \frac{||x||_2^2}{m} = ||x||_2^2 . \tag{6}
+\mathbb{E} \big [ ||Ax||_2^2 \big] = \mathbb{E} \left [ \sum_{i=1}^m Y_i^2  \right ]= \sum_{i}^m \mathbb{E}[Y_i^2] = m \cdot \mathrm{Var}(Y_i) = m \cdot \frac{||x||_2^2}{m} = ||x||_2^2 . \tag{9}
 $$
 
 This means $\ell_2$ norm is preserved, but how about the concentration around this expectation? We need a tail bound. 
@@ -175,11 +238,65 @@ Recall that $||Ax||_2^2$ is distributed as Gaussian variable. We know that Gauss
 
 This strong concentration is quantified via _Chernoff bounds_ (for $\chi$-squared distributions). 
 
+In equation (9), we have shown 
 
+$$
+\mathbb{E} \big [ ||Ax||_2^2 \big] = \mathbb{E} \left [ \sum_{i=1}^m Y_i^2  \right ]= ||x||_2^2 \tag{10}
+$$
 
+In equation (10), we have shown
 
+$$
+Y_i \sim \mathcal{N} \left (0, \frac{||x||_2^2}{k} \right ), \tag{11}
+$$
 
+Now, we standardize the random variable $Y_i$ as follows:
 
+$$
+\frac{\sqrt{m}}{||x||_2} Y_i \sim \mathcal{N} \left (0, 1 \right ). \tag{12}
+$$
+
+This means $\sum_{i}^m Y_i^2$ follows the chi-squared distribution with $m$ degrees of freedom.
+
+Now, we can apply the Chernoff bound to the random variable $\sum_{i}^m Y_i^2$ to obtain the following bound:
+
+$$
+\begin{aligned}
+\mathbb{P} \left [ \bigg | ||Ax||_2^2 - \mathbb{E}[ ||Ax||_2^2] \bigg | \geq \epsilon ||x||_2^2 \right] & = \mathbb{P} \left [ \bigg | ||Ax||_2^2 - ||x||_2^2 \bigg  | \geq \epsilon ||x||_2^2 \right] \\
+& = \mathbb{P} \left [ \bigg | \sum_{i}^m Y_i^2 - ||x||_2^2 \bigg | \geq \epsilon ||x||_2^2 \right] \\
+& = \mathbb{P} \left [ \left | \sum_{i}^m  \left( \frac{\sqrt{m}}{||x||_2} Y_i  \right)^2 - m \right | \geq \epsilon m \right] \\ 
+& \leq 2 \exp \left ( - \frac{\epsilon^2 m}{8} \right ) \tag{13}
+\end{aligned}
+$$
+
+Now, if we set the value of $m$ as follows:
+
+$$
+m \geq  16 \cdot \epsilon^{-2} \log (\frac{n}{\sqrt{\epsilon}}) \tag{14}
+$$
+
+Then we could have 
+
+$$
+\begin{aligned}
+\mathbb{P} \left [ \bigg | ||Ax||_2^2 - ||x||_2^2 \bigg  | \geq \epsilon ||x||_2^2 \right] & \leq 2 \exp \left ( - 2 \log (n/\sqrt{\epsilon}) \right )  \\
+& =  2 \exp(\log n/\sqrt{\epsilon})^{-2} \\
+& = \frac{2\epsilon}{n^2}
+\end{aligned}
+$$
+
+Now, if we treat all the pairs of vectors $x$ in $\mathbb{R}^d$ as a random sample, then we can apply the union bound to obtain the following bound:
+
+$$
+\begin{aligned}
+& \mathbb{P} \left [ \bigg | ||A(x_i) - A(x_i)||_2^2 - ||x_i- x_j||_2^2 \bigg  | \geq \epsilon ||x_i - x_j||_2^2 \right] \\ 
+& \quad \quad  \leq \sum_{i \neq j} \mathbb{P} \left [ \bigg | ||A(x_i) - A(x_i)||_2^2 - ||x_i- x_j||_2^2 \bigg  | \geq \epsilon ||x_i - x_j||_2^2 \right] \\
+& \quad \quad \leq { n \choose 2} \cdot \frac{2\epsilon}{n^2}  \\
+& \quad \quad \leq \epsilon
+\end{aligned}
+$$
+
+This concludes the proof $\square$. 
 
 
 
