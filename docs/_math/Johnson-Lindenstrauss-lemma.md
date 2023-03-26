@@ -290,14 +290,42 @@ Now, if we treat all the pairs of vectors $x$ in $\mathbb{R}^d$ as a random samp
 $$
 \begin{aligned}
 & \mathbb{P} \left [ \bigg | ||A(x_i) - A(x_i)||_2^2 - ||x_i- x_j||_2^2 \bigg  | \geq \epsilon ||x_i - x_j||_2^2 \right] \\ 
-& \quad \quad  \leq \sum_{i \neq j} \mathbb{P} \left [ \bigg | ||A(x_i) - A(x_i)||_2^2 - ||x_i- x_j||_2^2 \bigg  | \geq \epsilon ||x_i - x_j||_2^2 \right] \\
-& \quad \quad \leq { n \choose 2} \cdot \frac{2\epsilon}{n^2}  \\
-& \quad \quad \leq \epsilon
+& \quad \quad \quad \quad  = \mathbb{P} \left [ \left | \frac{||A(x_i) - A(x_i)||_2^2 }{||x_i- x_j||_2^2} - 1 \right | \geq \epsilon \right] \\ 
+& \quad \quad  \quad \quad \leq \sum_{i \neq j} \mathbb{P} \left [ \bigg | ||A(x_i) - A(x_i)||_2^2 - ||x_i- x_j||_2^2 \bigg  | \geq \epsilon ||x_i - x_j||_2^2 \right] \\
+& \quad \quad  \quad \quad \leq { n \choose 2} \cdot \frac{2\epsilon}{n^2}  \\
+& \quad \quad  \quad \quad \leq \epsilon
 \end{aligned}
 $$
 
 This concludes the proof $\square$. 
 
+
+## Comments about the Johnson-Lindenstrauss Lemma
+
+
+- The above proof shows not only the existence of a good map, we also get that a random
+map as above works with constant probability! In other words, a Monte-Carlo randomized
+algorithm for dimension reduction. (Since we can efficiently check that the distances are
+preserved to within the prescribed bounds, we can convert this into a Las Vegas algorithm.)
+
+- The algorithm (at least the Monte Carlo version) does not even look at the set of points $X$: it
+works for any set $X$ with high probability. Hence, we can pick this map $A$ before the points in $X$ arrive. 
+
+- Two issues: the matrix A
+ we sample above has real-valued entries, and it is very dense, i.e., each entry is non-zero (with probability 1). This is not very practical.
+
+ - To deal with the first issue, we can replace the matrix $A$ with a random matrix $A$ with i.i.d. entries, and then normalize the columns of $A$ to have unit norm. This is called the _Gaussian Random Projection_.
+
+ - the second method is to use a _sparse_ random matrix $A$. This is called the _Sparse Random Projection_. The paper by Kane and Nelson (2014) shows there exists a way of sampling A
+ to ensure that there is only at most $O(\frac{\log n}{\epsilon})$
+ non-zero entries per column. (The distribution here cannot correspond to simple entry-wise independent sampling anymore.) {% cite kane2014sparse %}. 
+ 
+ - The paper by Achlioptas et al. (2003) shows that sampling each entry of $A$ independently from a Bernoulli distribution with parameter $p$ works well. For instance, $+1$ with probability $1/6$, $-1$ with probability $1/6$, and $0$ with probability $2/3$. This is called the _Bernoulli Random Projection_ {% cite achlioptas2003database %}. 
+
+ - Natural question: Can we have such a strong dimensionality reduction phenomena also for other distances, e.g., $\ell_1$ or
+ $\ell_{\infity}$ norms?
+
+ - Unfortunately, no. It turns out that $\ell_2$-norm is very special. 
 
 
 {% endkatexmm %}
