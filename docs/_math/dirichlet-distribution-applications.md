@@ -141,21 +141,86 @@ those outcomes correspondingly are: $p_A$, $p_B$, and $p_C$.
 Now, let vector $x = (x_1, x_2, \cdots, x_k)$ be the number of successes for each outcome, and $p = (p_1, p_2, \cdots, p_k)$. Then, the probability of getting $x$ is given by the multinomial distribution:
 
 $$
-\being{aligned}
+\begin{aligned}
 \mathcal{f}(x \mid n, p) & =  \binom{n}{x_1} \binom{n-x_1}{x_2} \cdots \binom{n-x_1-x_2-\cdots-x_{k-1}}{x_k} p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} \\
-\frac{n!}{x_1! x_2! \cdots x_k!} p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} 
-\tag{8}
+& = \frac{n!}{x_1!(n-x_1)!} \frac{(n-x_1)!}{x_2!(n-x_1-x_2)!} \cdots  \\
+&  \quad \quad \quad \frac{(n-x_1-x_2-\cdots-x_{k-1})!}{x_k!(n-x_1-x_2-\cdots-x_{k-1}-x_k)!} p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} \\
+& = \frac{n!}{x_1! x_2! \cdots x_k!} p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} \\
+& = \frac{n!}{\prod_{i=1}^k x_i!} \prod_{i=1}^k p_i^{x_i} \tag{8}
 \end{aligned}
 $$
 
 where $n = x_1 + x_2 + \cdots + x_k$, and $p_1 + p_2 + \cdots + p_k = 1$.
 
 
+As you can see in equation (8), we are using quite a lot of factorials. When it comes to factorials, we can leverage the Gamma function to simplify the expression. The Gamma function is defined as
+
+$$
+\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt \tag{9}
+$$
+
+where $t$ is a real number. Gamma function has a nice property which is given by the following equation:
+
+$$
+\Gamma(x+1) = x \Gamma(x) \tag{10}
+$$
+
+The proof of this equation is quite simple. We can use the following equation to prove it:
+
+$$
+\begin{aligned}
+\Gamma(x+1) & = \int_0^\infty t^x e^{-t} dt \\
+            & = \left [t^x (- e^{-t}) \right ]_0^\infty - \int_0^\infty (x t^{x-1} (-e^{-t})) dt \\
+            & = (0 - 0) + x \int_0^\infty t^{x-1} e^{-t} dt \\
+            & = x \Gamma(x) \tag{11}
+\end{aligned}
+$$
+
+For every positive integer $n$, we have
+
+$$
+\begin{aligned}
+\Gamma(n+1) & = n \Gamma(n) \\
+            & = n (n-1) \cdots 2 \cdot 1 \\
+            & = n! \tag{12}
+\end{aligned}
+$$
+
+Equation (12) is recursive. 
+
+The magic of Gamma function is that it can be used not only for positive integers, but also for real numbers. For example, we have
+
+$$
+\begin{aligned}
+\Gamma(\frac{1}{2}) = \sqrt{\pi} \tag{13}
+\end{aligned}
+$$
+
+To prove equation (13), we have to use the function of Gaussian distribution, which is given by
+
+$$
+\begin{aligned}
+\mathcal{f}(x \mid \mu, \sigma^2) & = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}} \tag{14}
+\end{aligned}
+$$
+
+where $\mu$ is the mean, and $\sigma^2$ is the variance. When $\mu = 0, \sigma^2 = 1$, we have
+
+$$
+\begin{aligned}
+\mathcal{f}(x \mid 0, 1) & = \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} \tag{15}
+\end{aligned}
+$$
+
+Since Gaussian distribution is symmetric around $x=0$, we have
+
+$$
+\begin{aligned}
+\int_{0}^\infty \mathcal{f}(x \mid 0, 1) dx & = \int_{0}^\infty \frac{1}{\pi} e^{-x^2} \\
+\end{aligned}
+$$
 
 
-
-
-Since we have multiple outcomes, it is natural to model the multinomial distribution as a vector of probabilities. 
 
 
 
