@@ -5,7 +5,7 @@ layout: math_page_template
 date: 2023-03-25
 keywords: probabilistic-thinking linear algebra Johnson Lindenstrauss lemma
 published: true
-tags: probability algorithm data-science machine-learning
+tags: probability algorithm data-science machine-learning high-dimensional-data
 ---
 
 Very high-dimensional vectors are ubiquitous in science, engineering, and machine learning.
