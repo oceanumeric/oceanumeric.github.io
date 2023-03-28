@@ -16,7 +16,7 @@ Both papers are great and worth reading, but they are not easy to understand. To
 
 In this post, I will try to explain the Dirichlet distribution in a simple way, and I will also discuss some of its applications.
 
-## The Dirichlet Distribution
+## From bernoulli to binomial to poisson
 
 {% katexmm %}
 
@@ -122,6 +122,43 @@ $$
 $$
 
 The intuition behind this derivation is that we fix the expectation of binomial distribution to be $\lambda$, and then we run $n \to \infty$ to check within a fixed interval of time, what's the probability of getting $x$ events. This is exactly the definition of the Poisson distribution.
+
+
+## Multnomial distribution
+
+The multinomial distribution is a generalization of the binomial distribution. Instead of having two possible outcomes, the multinomial distribution has $k$ possible outcomes with probabilities $p_1, p_2, \cdots, p_k$ for each outcome. The number of successes for each outcome is $x_1, x_2, \cdots, x_k$, respectively. 
+
+Let's have an example. Suppose we will run $n$ trials and each trial could
+have three possible outcomes. Here is the key points of this example:
+
+- $n$ trials
+- the possible outcomes are: $A$, $B$, and $C$
+- The probability of getting
+those outcomes correspondingly are: $p_A$, $p_B$, and $p_C$.
+- in $n$ trials, we could have all $A$'s, all $B$'s, all $C$'s, or a combination of $A$'s, $B$'s, and $C$'s.
+- this is then a problem of permutation (order matters)
+
+Now, let vector $x = (x_1, x_2, \cdots, x_k)$ be the number of successes for each outcome, and $p = (p_1, p_2, \cdots, p_k)$. Then, the probability of getting $x$ is given by the multinomial distribution:
+
+$$
+\being{aligned}
+\mathcal{f}(x \mid n, p) & =  \binom{n}{x_1} \binom{n-x_1}{x_2} \cdots \binom{n-x_1-x_2-\cdots-x_{k-1}}{x_k} p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} \\
+\frac{n!}{x_1! x_2! \cdots x_k!} p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} 
+\tag{8}
+\end{aligned}
+$$
+
+where $n = x_1 + x_2 + \cdots + x_k$, and $p_1 + p_2 + \cdots + p_k = 1$.
+
+
+
+
+
+
+Since we have multiple outcomes, it is natural to model the multinomial distribution as a vector of probabilities. 
+
+
+
 
 
 
