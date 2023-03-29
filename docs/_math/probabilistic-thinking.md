@@ -534,7 +534,7 @@ Why could not use array to build the dictionary, one array for keys and one arra
 value based on the key, say `dict_foo["B"]`. If all keys are numbers, then
 dictionary is equivalent to array. However, very often keys are strings. How
 could achieve $O(1)$ performance for finding `dict_foo["B"]`? A hash table 
-could do that by mapping keys into the indexes of an array ([for further explanation](../../../../pdf/lecture4_hashing.pdf){:target="_blank"}). 
+could do that by mapping keys into the indexes of an array ([for further explanation](../../pdf/lecture4_hashing.pdf){:target="_blank"}). 
 
 A hashing function could be either deterministic one (`Python` implemented it) or stochastic one. We will focus on the stochastic one. 
 

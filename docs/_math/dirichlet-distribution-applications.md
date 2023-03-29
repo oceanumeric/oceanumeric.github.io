@@ -204,11 +204,11 @@ $$
 \end{aligned}
 $$
 
-where $\mu$ is the mean, and $\sigma^2$ is the variance. When $\mu = 0, \sigma^2 = 1$, we have
+where $\mu$ is the mean, and $\sigma^2$ is the variance. When $\mu = 0, \sigma^2 = 1/2$, we have
 
 $$
 \begin{aligned}
-\mathcal{f}(x \mid 0, 1) & = \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} \tag{15}
+\mathcal{f}(x \mid 0, \frac{1}{2}) & = \frac{1}{\sqrt{ \pi}} e^{-x^2} \tag{15}
 \end{aligned}
 $$
 
@@ -216,9 +216,220 @@ Since Gaussian distribution is symmetric around $x=0$, we have
 
 $$
 \begin{aligned}
-\int_{0}^\infty \mathcal{f}(x \mid 0, 1) dx & = \int_{0}^\infty \frac{1}{\pi} e^{-x^2} \\
+\int_{0}^\infty \mathcal{f}(x \mid 0, \frac{1}{2}) dx & = \int_{0}^\infty \frac{1}{\sqrt{\pi}} e^{-x^2} dx \\
+& = \frac{1}{\sqrt{\pi}} \int_{0}^\infty e^{-x^2} dx \\
+& = \frac{1}{2} \quad \text{(half of the area under the curve)} \tag{16}
 \end{aligned}
 $$
+
+Therefore, we have
+
+$$
+\int_{0}^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2} \tag{17}
+$$
+
+With equation (17), we can prove equation (13) as follows:
+
+$$
+\begin{aligned}
+\Gamma(\frac{1}{2}) & = \int_0^\infty t^{-\frac{1}{2}} e^{-t} dt \\
+                    & = 2 \int_0^\infty e^{-u^2} du \\
+                    & = \sqrt{\pi} \tag{18}
+\end{aligned}                  
+$$
+
+We are using the substitution $u^2 = t$ in equation (18), which is valid because $u^2$ is always positive. Here is the process of substitution:
+
+$$
+\begin{aligned}
+u^2 = t & \Rightarrow u = t^{\frac{1}{2}} \\
+\frac{du}{dt}  = \frac{1}{2} t^{-\frac{1}{2}} & \Rightarrow 2 du = t^{-\frac{1}{2}} dt \\
+\end{aligned}
+$$
+
+## Jacobian matrix 
+
+In the last section, we said that we will deal with multi-category multinomial distribution. We state that we have $k$ categories, and each category has a probability $p_i$, where $i \in \{1, 2, \cdots, k\}$. For different categories, we have a vector $x = {x_1, x_2, \cdots, x_k}$, where $x_i$ is the number of samples in category $i$. 
+
+From data generating process, we can model different stages of this process. For instance,
+
+- we can model whether a category will show up or not in $n$ trials, and use one-hot encoding to represent the result, such as $x = [0, 1, 0, 0, 0]$, which means that the second category shows up in $n$ trials, and the rest of the categories do not show up in $n$ trials.
+- we can also model how many category will show up in $n$ trials, such as $x = [0, 1, 0, 0, 1]$, which means that the second category and the fifth category show up in $n$ trials, and the rest of the categories do not show up in $n$ trials.
+- we can also model the number of samples in each category, such as $x = [1, 6, 3, 4, 5]$, which means that the first category shows up once, the second category shows up six times, and so on.
+
+For each stage, no matter how we model the data, we can use a regression to link each element of the vector $x$ to a series of independent variables, such as 
+
+$$
+\begin{aligned}
+x_1 & = \Phi _1(y_1, y_2, \cdots, y_m) \\
+x_2 & = \Phi_2(y_1, y_2, \cdots, y_m) \\
+\vdots & \quad \quad \quad \quad \quad  \vdots \\
+x_k & = \Phi_k(y_1, y_2, \cdots, y_m) \\ \tag{19}
+\end{aligned}
+$$
+
+where $\Phi_i$ is a regression function, and $y_1, y_2, \cdots, y_m$ are independent variables. If we want to use machine learning or deep learning to learn the regression function $\Phi_i$, we need to know the Jacobian matrix of $\Phi_i$.
+
+The Jacobian matrix of $\Phi_i$ is given by
+
+$$
+\frac{\partial (x_1, x_2 \cdots x_k) }{\partial (y_1, y_2, \cdots, y_m)} = \begin{bmatrix}
+\frac{\partial x_1}{\partial y_1} & \frac{\partial x_1}{\partial y_2} & \cdots & \frac{\partial x_1}{\partial y_m} \\
+\frac{\partial x_2}{\partial y_1} & \frac{\partial x_2}{\partial y_2} & \cdots & \frac{\partial x_2}{\partial y_m} \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial x_k}{\partial y_1} & \frac{\partial x_k}{\partial y_2} & \cdots & \frac{\partial x_k}{\partial y_m} \\
+\end{bmatrix} \tag{20}
+$$
+
+where we use the chain rule in equation (20).
+
+Now, to make our life easier, we will set $m = k$, which means we have $k$ independent variables, and $k$ regression functions. In this case, we can use the following equation to calculate the Jacobian matrix:
+
+$$
+\frac{\partial (x_1, x_2 \cdots x_k) }{\partial (y_1, y_2, \cdots, y_k)} = \begin{bmatrix}
+\frac{\partial x_1}{\partial y_1} & \frac{\partial x_1}{\partial y_2} & \cdots & \frac{\partial x_1}{\partial y_k} \\
+\frac{\partial x_2}{\partial y_1} & \frac{\partial x_2}{\partial y_2} & \cdots & \frac{\partial x_2}{\partial y_k} \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial x_k}{\partial y_1} & \frac{\partial x_k}{\partial y_2} & \cdots & \frac{\partial x_k}{\partial y_k} \\
+\end{bmatrix} \tag{21}
+$$
+
+The good thing about using the same dimension for $m$ and $k$ is that we preserve structure of the linear space as they have the same number of coordinates. Then, the intuitive meaning of integral (whether it is area or volume) is preserved but stretched or compressed with the determinant of the Jacobian matrix.
+
+We denote $J$ as the determinant of the Jacobian matrix, which is given by
+
+$$
+J =  \left| \frac{\partial (x_1, x_2 \cdots x_k) }{\partial (y_1, y_2, \cdots, y_k)} \right| \tag{22}
+$$
+
+Now, when we map a region $D$ in $k$-dimensional space to another region $D'$ in $k$-dimensional space, we can use the following equation to calculate the volume of $D'$:
+
+$$
+\int \dotsi_{D} \int f(x_1, x_2, \cdots, x_k) dx_1 dx_2 \cdots dx_k = \int \dotsi_{D'} \int f(y_1, y_2, \cdots, y_k) J dy_1 dy_2 \cdots dy_k\tag{23}
+$$
+
+For those who want to refresh their memory about the Jacobian matrix, please refer to the following documents:[Jacobian](../../pdf/jacobian_examples.pdf){:target="_blank"}.
+
+
+
+## From Chi-square distribution to Gamma distribution to Beta distribution
+
+A random variable $X$ has a chi-square distribution with $k$ degrees of freedom if its probability density function is given by
+
+$$
+X = Y_1^2 + Y_2^2 + \cdots + Y_k^2 \tag{24}
+$$
+
+where $Y_1, Y_2, \cdots, Y_k$ are independent and identically distributed random variables with a _standard normal distribution_.
+
+The Gamma distribution is a generalization of the chi-square distribution.
+If a random variable $Z$ has a Chi-square distribution with $k$ degrees of freedom, and $\theta$ is a positive constant, then the random variable $X$ defined by
+
+$$
+X = \frac{\theta }{k} Z \tag{25}
+$$
+
+has a Gamma distribution with shape parameter $k$ and scale parameter $\theta$. We often use $\alpha$ to denote the shape parameter, and $\beta$ to denote the scale parameter. Then, probability density function of the Gamma distribution is given by
+
+$$
+f(x) = \begin{cases}
+\frac{1}{\Gamma(\alpha) \beta^\alpha} x^{\alpha - 1} e^{-\frac{x}{\beta}} & x > 0 \\
+0 & x \leq 0
+\end{cases} \tag{26}
+$$
+
+where $\alpha > 0, \beta > 0, \Gamma(\alpha)$ is the gamma function, which is given by
+
+$$
+\Gamma(\alpha) = \int_0^\infty t^{\alpha - 1} e^{-t} dt \tag{27}
+$$
+
+The Beta distribution is a generalization of the Gamma distribution. If a random variable $X \sim \mathrm{Gamma}(\alpha, 1)$ and $Y \sim \mathrm{Gamma}(\beta, 1)$, then the random variable $Z = \frac{X}{X + Y}$ has a Beta distribution with parameters $\alpha$ and $\beta$:
+
+$$
+\frac{X}{X + Y} \sim \mathrm{Beta}(\alpha, \beta) \tag{28}
+$$
+
+The probability density function of the Beta distribution is given by
+
+$$
+f(x) = \begin{cases}
+\frac{1}{B(\alpha, \beta)} x^{\alpha - 1} (1 - x)^{\beta - 1} & 0 < x < 1 \\
+0 & \text{otherwise}
+\end{cases} \tag{29}
+$$
+
+where $B(\alpha, \beta)$ is the beta function, which is given by
+
+$$
+B(\alpha, \beta) = \int_0^1 t^{\alpha - 1} (1 - t)^{\beta - 1} dt \tag{30}
+$$
+
+
+We could also express equation (30) as
+
+$$
+B(\alpha, \beta) = \frac{\Gamma(\alpha) \Gamma(\beta)}{\Gamma(\alpha + \beta)} \tag{31}
+$$
+
+To derive equation (31), we will first show 
+
+$$
+\begin{aligned}
+& \int_0^1 f(x) dx = 1 = \int_0^1 \frac{1}{B(\alpha, \beta)} x^{\alpha - 1} (1 - x)^{\beta - 1} dx \\ 
+& \Rightarrow B(\alpha, \beta) = \int_0^1 x^{\alpha - 1} (1 - x)^{\beta - 1} dx \quad \text{same as equation (30)} \\
+\end{aligned} \tag{32}
+$$
+
+Now, let's calculate the value of $\Gamma(\alpha) \Gamma(\beta)$:
+
+$$
+\begin{aligned}
+\Gamma(\alpha) \Gamma(\beta) & = \int_0^\infty u^{(\alpha - 1)} e^{-u} du \int_0^\infty v^{(\beta - 1)} e^{-v} dv \\
+& = \int_0^\infty \int_0^\infty u^{(\alpha - 1)} v^{(\beta - 1)} e^{-(u + v)} du dv 
+\end{aligned}
+$$
+
+Now, we set $x = \frac{u}{u + v}$ and $y = u+v$, with the bounds $0 \leq x \leq 1$ and $0 \leq y \leq \infty$. Then, we have the mapping from $uv$ to $xy$:
+
+$$
+u = xy, \quad v = (1-x)y \tag{33}
+$$
+
+The Jacobian matrix is given by
+
+$$
+\frac{\partial (u, v)}{\partial (x, y)} = 
+\begin{bmatrix}
+\frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\
+\frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+\end{bmatrix} = 
+\begin{bmatrix}
+y & x \\
+-y & 1 - x
+\end{bmatrix} \tag{34}
+$$
+
+The jacobian is then given by
+
+$$
+J = \left| \frac{\partial (u, v)}{\partial (x, y)} \right|  = y(1-x) - x(-y) = y \tag{35}
+$$
+
+By transforming the integral, we have
+
+$$
+\begin{aligned}
+\Gamma(\alpha) \Gamma(\beta) & = \int_{y=0}^\infty \int_{x=0}^1 (xy)^{(\alpha - 1)} [(1 - x)y]^{(\beta - 1)} e^{-y} J dx dy \\
+& = \int_{y=0}^\infty y^{(\alpha + \beta - 1)} e^{-y} dy \int_{x=0}^1 x^{\alpha - 1} (1 - x)^{\beta - 1} dx \\
+& = \Gamma(\alpha + \beta) \int_{x=0}^1 x^{\alpha - 1} (1 - x)^{\beta - 1} dx \\
+& = \Gamma(\alpha + \beta) B(\alpha, \beta) 
+\end{aligned} \tag{36}
+$$
+
+This concludes the proof of equation (31).
+
+
 
 
 
