@@ -135,7 +135,7 @@ $$
 \end{aligned}
 $$
 
-Note: the full derivation of the posterior distribution is beyond the scope of this course. If you are interested in the derivation, you could refer to the following resources: [conjugate prior](https://en.wikipedia.org/wiki/Conjugate_prior){target="_blank"}.
+Note: the full derivation of the posterior distribution is beyond the scope of this course. If you are interested in the derivation, you could refer to the following resources: [conjugate prior](https://en.wikipedia.org/wiki/Conjugate_prior){:target="_blank"}.
 
 Therefore, $\alpha+x$ and $\beta+n-x$ are the new parameters of the posterior distribution. The posterior distribution is also a beta distribution.
 
