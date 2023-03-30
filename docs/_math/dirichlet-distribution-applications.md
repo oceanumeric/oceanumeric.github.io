@@ -560,7 +560,98 @@ How could we transfer our multinomial distribution into a representation of valu
 Then the distribution of those probabilities (the random variable now is probability instead of frequency) in row-wise defines a topic, whereas the distribution of those probabilities in column-wise defines the probability of the words in the dictionary (each cell defines the probability of the word in the dictionary given the topic).
 
 
+Now, let's put everything together:
 
+- For the length of a document, we will choose $N \sim \text{Poisson}(\lambda)$, where $\lambda$ is a hyperparameter.
+- For the probability of the topics, we will choose $\theta \sim \text{Dirichlet}(\alpha)$, where $\alpha$ is a hyperparameter.
+- Assume there exists a matrix $\beta$ with $k$ rows and $V$ columns, where $k$ is the number of topics and $V$ is the size of the dictionary. The value of the matrix is the probability of the words given the topics. For instance, the following table shows the probability of the words from each topic.
+
+$$
+\beta = \begin{pmatrix}
+p_{11} & p_{12} & \cdots & p_{1V} \\
+p_{21} & p_{22} & \cdots & p_{2V} \\
+\vdots & \vdots & \ddots & \vdots \\
+p_{k1} & p_{k2} & \cdots & p_{kV}
+\end{pmatrix}
+$$
+
+- For each of the $N$ words $w_i$:
+    - we will choose a topic $z_i \sim \text{Multinomial}(\theta)$.
+    - then we will choose a word $w_i$ from a function $\pi(w_i |z_i, \beta)$, where $\pi(w_i |z_i, \beta)$ is a multinomial distribution with parameter $\beta$ and conditioned on the topic $z_i$.
+
+<div class='figure'>
+    <img src="/math/images/LDA.png"
+         alt="LDA illustration2"
+         class="zoom-img"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The illustration of LDA for parameters (you can zoom the image if you want to see the details).
+    </div>
+</div>
+
+Remark: I love matrix! It is so convenient to represent the model. Everything we have discussed could be summarized as a matrix product process. 
+
+$$
+\underbrace{
+\begin{bmatrix}
+ & & & & \\
+& & & & \\
+& & N \times K & & \\
+& & & & \\
+& & & &
+\end{bmatrix}}_{\text{Topic assignment}} \times \underbrace{\begin{bmatrix}
+ & & & & \\
+& & & & \\
+& & K \times V & & \\
+& & & & \\
+& & & &
+\end{bmatrix}}_{\beta} \approx \underbrace{\begin{bmatrix}
+ & & & & \\
+& & & & \\
+& & N \times V & & \\
+& & & & \\
+& & & &
+\end{bmatrix}}_{\text{Document}}
+$$
+
+Base on the figure 4, given the parameters $\alpha$ and $\beta$, the joint distribution of a topic mixture $\theta$ (a vector of length $k$), a topic assignment $z$ (a vector of length $N$), and a document $w$ (a vector of length $N$) is given by
+
+$$
+\pi(\theta, z, w | \alpha, \beta) = \pi(\theta | \alpha) \prod_{i=1}^N \pi(z_i | \theta) \pi(w_i | z_i, \beta) \tag{45}
+$$
+
+The model is called LDA because the topic assignment $z$ is latent. We do not know what topic each word belongs to. We only know the topic mixture $\theta$ and the probability of the words given the topics $\beta$.
+
+For each component of equation (45), we should discuss it in detail.
+
+- The first component is the prior distribution of the topic mixture $\theta$. It is a Dirichlet distribution with parameter $\alpha$, which is a vector of length $k$, such as $\alpha = (\alpha_1, \alpha_2, \cdots, \alpha_k)$.
+
+- The second component is the conditional distribution of the topic assignment $z$. You can understand it as the probability of the topic assignment given the topic mixture $\theta$. Intuitively, it is the color of the word in the figure 4. Notice the world 'bank' is colored differently in the two topics. Conditional on the topic mixture $\theta$, the topic assignment $z$ is a multinomial distribution with parameter $\theta$, which is given:
+
+$$
+\prod_{i=1}^N \pi(z_i | \theta) \pi(w_i | z_i, \beta)  \tag {46}
+$$
+
+If we reorder the equation (45), we could get the following equation:
+
+$$
+\pi(\theta, z, w | \alpha, \beta) = \prod_{i=1}^N \pi(w_i | z_i, \beta) \pi(z_i | \theta) \pi(\theta | \alpha) \tag{47}
+$$
+
+This means that the topic assignment $z$ is independent of the topic mixture $\theta$ given the document $w$ and the parameters $\alpha$ and $\beta$. This is a very important property of the LDA model. It means that we could sample the topic assignment $z$ and the topic mixture $\theta$ separately.
+
+This is the reason why we could use Gibbs sampling to sample the topic assignment $z$ and the topic mixture $\theta$.
+
+The chain of conditions in equation (47) is summarized in the following figure.
+
+<div class='figure'>
+    <img src="/math/images/LDA2.png"
+         alt="LDA illustration3"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> The Graphical model of LDA to illustrate the conditional independence.
+    </div>
+</div>
 
 
 
