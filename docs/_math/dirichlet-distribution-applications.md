@@ -446,7 +446,7 @@ $$
 \pi(\mathbf{p} | \alpha) \sim \mathrm{Dirichlet}(\alpha) \tag{38}
 $$
 
-where $\alpha = (\alpha_1, \alpha_2, \cdots, \alpha_k)$ is a vector of positive real numbers, which means it has support on the interval $[0, 1]$ such that $\sum_{i=1}^K \p_i = 1$. The probability density function of the Dirichlet distribution is given by
+where $\alpha = (\alpha_1, \alpha_2, \cdots, \alpha_k)$ is a vector of positive real numbers, which means it has support on the interval $[0, 1]$ such that $\sum_{i=1}^K p_i = 1$. The probability density function of the Dirichlet distribution is given by
 
 $$
 f(\mathbf{p}) = \frac{1}{B(\alpha)} \prod_{i=1}^k p_i^{\alpha_i - 1} \tag{39}
@@ -491,6 +491,78 @@ $$
 $$
 
 The posterior distribution is the product of the likelihood distribution and the prior distribution. Therefore, if we have a conjugate prior, then the posterior distribution is also a conjugate prior. This is very convenient because we can use the posterior distribution as the prior distribution for the next round of data.
+
+
+
+## Latent Dirichlet allocation
+
+Latent Dirichlet allocation (LDA) is a generative model for text data. It is a probabilistic model that assumes that each document is a mixture of topics, and each topic is a mixture of words. 
+
+Now let's set up our notation.
+
+- A _corpus_ is a collection of $M$ documents denoted by $\mathcal{C} = \{d_1, d_2, \cdots, d_M\}$, where $d_i$ is a document.
+
+- A _document_ is a collection of $N$ words denoted by $d = (w_1, w_2, \cdots, w_N)$, where $w_i$ is the $i$th word in the document.
+
+- A _word_ is the basic unit of discrete data, denoted by $w$.
+
+- A _dictionary_ is a collection of all distinct words (either in the corpus you collected or in the whole world). The size of the dictionary is denoted by $V$.
+
+The easiest way to represent a corpus is to use a matrix. Each row of the matrix represents a document, and each column of the matrix represents a word. The value of the matrix is the number of times the word appears in the document. For instance, the following matrix represents a corpus with two documents, where the first document has 2 words (hello hello) and the second document has 4 words (world, you, you, you). However, we are using the frequency of the words, so we are not using the actual words.
+
+|document| hello  |  world |  you |
+| --- | --- | --- | --- |
+|d1| 2 | 0 | 0 |
+|d2| 0 | 1 | 3 |
+
+
+Different from tf-idf, LDA does not care about the frequency of the words. It only cares about the _co-occurrence_ of the words. It is also a generative model, which means that we can generate new documents from the model. To put it simply, LDA is a model about topics. 
+
+- We have a dictionary with many words.
+- The combination or co-occurrence of the words is the topic.
+- The topic is the probability distribution of the words.
+- The combination of the topics is the document.
+- The document is the probability distribution of words from different topics.
+
+<div class='figure'>
+    <img src="/math/images/dirichlet-distribution.png"
+         alt="LDA illustration"
+         class="zoom-img"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> The illustration of LDA (you can zoom the image if you want to see the details).
+    </div>
+</div>
+
+Figure 3 shows the illustration of LDA. It speaks for itself. If you ponder on it for a while, you will understand how LDA works and how it is different from tf-idf, which is a bag-of-words model and only cares the cooccurrence of the words rather than the frequency of the words.
+
+As it is illustrated in Figure 3, we need a prior distribution to describe the probability of the topics. The Dirichlet distribution is a good choice because it is a conjugate prior of the multinomial distribution. Therefore, we could use the Dirichlet distribution to describe the probability of the topics, which is given by
+
+$$
+\begin{aligned}
+f(p | \alpha) & = \frac{1}{B(\alpha)} \prod_{i=1}^k p_i^{\alpha_i - 1} \\
+            & = \frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k \Gamma(\alpha_i)} \prod_{i=1}^k p_i^{\alpha_i - 1} 
+\end{aligned} \tag{44}
+$$
+
+Remark: the dimension of topic is $k$, which is assumed to be known and fixed. 
+
+Now, if you look at the Figure 3, where $x = (x_1, x_2, \cdots, x_k)$ is the
+the number of words from each topic. However, we do not know what kind of words and how many words are from each topic. That's why the model was called latent Dirichlet allocation. The words are latent variables. According to the dictionary of Oxford, the word 'latent' means 'hidden'.
+
+How could we transfer our multinomial distribution into a representation of value for words? Instead of using the frequency of the words, we could use the probability of the words. If we align all all the words in the dictionary into a row and align all the topics into a column, then we could assign a probability value to each word-topic pair. For instance, the following table shows the probability of the words from each topic.
+
+|topic| hello  |  world |  you |
+| --- | --- | --- | --- |
+|t1| 0.2 | 0.1 | 0.7 |
+|t2| 0.3 | 0.6 | 0.1 |
+
+Then the distribution of those probabilities (the random variable now is probability instead of frequency) in row-wise defines a topic, whereas the distribution of those probabilities in column-wise defines the probability of the words in the dictionary (each cell defines the probability of the word in the dictionary given the topic).
+
+
+
+
+
 
 
 {% endkatexmm %}
