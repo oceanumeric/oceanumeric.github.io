@@ -429,14 +429,68 @@ $$
 
 This concludes the proof of equation (31).
 
+Before we talk about Dirichlet distribution, there is one thing you need to know, which is the _conjugate prior_. For instance, beta distribution is the conjugate prior of the binomial distribution. This means that if we have a binomial distribution with parameters $n$ and $p$, then the beta distribution with parameters $\alpha$ and $\beta$ is the conjugate prior of the binomial distribution. We could write this as
+
+$$
+\pi(p | x, n, \alpha, \beta) \sim \mathrm{Beta}(x + \alpha, n - x + \beta) \tag{37}
+$$
+
+I have a [post](https://oceanumeric.github.io/math/2023/03/conjugate-priors){:target="_blank"} about conjugate priors, so I won't go into details here.
+
+## Dirichlet distribution
 
 
+The Dirichlet distribution is a generalization of the Beta distribution. It is a probability distribution describing the probability of a vector of probabilities. For instance, if we have a vector of probabilities $\mathbf{p} = (p_1, p_2, \cdots, p_k)$, then the Dirichlet distribution is given by
+
+$$
+\pi(\mathbf{p} | \alpha) \sim \mathrm{Dirichlet}(\alpha) \tag{38}
+$$
+
+where $\alpha = (\alpha_1, \alpha_2, \cdots, \alpha_k)$ is a vector of positive real numbers, which means it has support on the interval $[0, 1]$ such that $\sum_{i=1}^K \p_i = 1$. The probability density function of the Dirichlet distribution is given by
+
+$$
+f(\mathbf{p}) = \frac{1}{B(\alpha)} \prod_{i=1}^k p_i^{\alpha_i - 1} \tag{39}
+$$
+
+where $B(\alpha)$ is the multivariate beta function, which is given by
+
+$$
+B(\alpha) = \frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)} \tag{40}
+$$
+
+If we set $k=2$, then we have the beta distribution. 
+
+The Dirichlet distribution is a conjugate prior of the multinomial distribution. This means that if we have a multinomial distribution with parameters $n$ and $\mathbf{p}$, then the Dirichlet distribution with parameters $\alpha$ is the conjugate prior of the multinomial distribution. We could write this as
+
+$$
+\pi(\mathbf{p} | x, n, \alpha) \sim \mathrm{Dirichlet}(x + \alpha) \tag{41}
+$$
+
+where $x$ is a vector of counts. 
 
 
+## Comments
 
+For a undergraduate student, probability of a model is often given such as in Bernoulli distribution of flipping a coin. However, in real life, the probability of a model is often unknown. In this case, we could use a prior distribution to represent our belief about the probability of a model.
 
+Therefore, overall we have two kinds of distributions: 
 
+- the probability distribution that describes the 'event' (e.g. flipping a coin)
+- the probability distribution that describes our belief about the probability of a model (e.g. the probability of flipping a coin)
 
+The first kind of distribution is called the likelihood distribution, and the second kind of distribution is called the prior distribution. The posterior distribution is the distribution that describes our belief about the probability of a model after we have observed the data. The posterior distribution is given by
+
+$$
+\pi(\theta | x) = \frac{\pi(x | \theta) \pi(\theta)}{\pi(x)} \tag{42}
+$$
+
+where $\pi(x | \theta)$ is the likelihood distribution, $\pi(\theta)$ is the prior distribution, and $\pi(x)$ is the marginal likelihood. The marginal likelihood is given by
+
+$$
+\pi(x) = \int \pi(x | \theta) \pi(\theta) d\theta \tag{43}
+$$
+
+The posterior distribution is the product of the likelihood distribution and the prior distribution. Therefore, if we have a conjugate prior, then the posterior distribution is also a conjugate prior. This is very convenient because we can use the posterior distribution as the prior distribution for the next round of data.
 
 
 {% endkatexmm %}
