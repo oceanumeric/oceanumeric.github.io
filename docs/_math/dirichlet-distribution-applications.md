@@ -16,6 +16,13 @@ Both papers are great and worth reading, but they are not easy to understand. To
 
 In this post, I will try to explain the Dirichlet distribution in a simple way, and I will also discuss some of its applications.
 
+- [From bernoulli to binomial to poisson](#from-bernoulli-to-binomial-to-poisson)
+- [Multinomial distribution](#multinomial-distribution)
+- [From Chi-square distribution to Gamma distribution to Beta distribution](#from-chi-square-distribution-to-gamma-distribution-to-beta-distribution)
+- [Dirichlet distribution](#dirichlet-distribution)
+- [Latent Dirichlet allocation](#latent-dirichlet-allocation)
+
+
 ## From bernoulli to binomial to poisson
 
 {% katexmm %}
@@ -124,7 +131,7 @@ $$
 The intuition behind this derivation is that we fix the expectation of binomial distribution to be $\lambda$, and then we run $n \to \infty$ to check within a fixed interval of time, what's the probability of getting $x$ events. This is exactly the definition of the Poisson distribution.
 
 
-## Multnomial distribution
+## Multinomial distribution
 
 The multinomial distribution is a generalization of the binomial distribution. Instead of having two possible outcomes, the multinomial distribution has $k$ possible outcomes with probabilities $p_1, p_2, \cdots, p_k$ for each outcome. The number of successes for each outcome is $x_1, x_2, \cdots, x_k$, respectively. 
 
@@ -653,6 +660,7 @@ The chain of conditions in equation (47) is summarized in the following figure.
     </div>
 </div>
 
+This is the end of this post. In the future, I will discuss how to sample the topic assignment $z$ and the topic mixture $\theta$ using Gibbs sampling.
 
 
 
