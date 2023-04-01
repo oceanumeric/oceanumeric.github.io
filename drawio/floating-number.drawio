@@ -1,0 +1,46 @@
+<mxfile host="65bd71144e" scale="3" border="10">
+    <diagram id="aAy1q5zNQFmuPvB3ZcGu" name="Page-1">
+        <mxGraphModel dx="717" dy="651" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="#ffffff" math="1" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="\(3.140625 = + (significant)2^1\)" style="text;html=1;strokeColor=#666666;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;fontSize=19;fontFamily=Lucida Console;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="70" width="304" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="binary: &lt;font color=&quot;#ff0000&quot;&gt;0&lt;/font&gt; &lt;font color=&quot;#4343a8&quot;&gt;10000000&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#1c8a53&quot;&gt;10010010000000000000000&lt;/font&gt;&amp;nbsp;&lt;svg style=&quot;vertical-align: 0px;&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; viewBox=&quot;0 0 17 17&quot; role=&quot;img&quot; height=&quot;0.038ex&quot; width=&quot;0.038ex&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;defs&gt;&lt;/defs&gt;&lt;g transform=&quot;scale(1,-1)&quot; stroke-width=&quot;0&quot; fill=&quot;currentColor&quot; stroke=&quot;currentColor&quot;&gt;&lt;g data-mml-node=&quot;math&quot;&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Lucida Console;fontSize=17;fontColor=#000000;perimeterSpacing=0;" vertex="1" parent="1">
+                    <mxGeometry x="138" y="128" width="480" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.205;entryY=1.25;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Lucida Console;fontSize=17;fontColor=#4343A8;strokeColor=#666666;endArrow=none;endFill=0;strokeWidth=1.5;startArrow=classicThin;startFill=1;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="237" y="188" as="sourcePoint"/>
+                        <mxPoint x="243.39999999999998" y="151" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="5" value="sign" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Lucida Console;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="190" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="exponent" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Lucida Console;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="286" y="189" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="significant" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Lucida Console;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="421" y="189" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=none;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;fontFamily=Lucida Console;fontSize=17;fontColor=#4343A8;strokeColor=#666666;endArrow=none;endFill=0;strokeWidth=1.5;startArrow=classicThin;startFill=1;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="301" y="190" as="sourcePoint"/>
+                        <mxPoint x="300" y="150" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.572;entryY=1.1;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Lucida Console;fontSize=17;fontColor=#4343A8;strokeColor=#666666;endArrow=none;endFill=0;strokeWidth=1.5;startArrow=classicThin;startFill=1;" edge="1" parent="1" target="3">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="450" y="192" as="sourcePoint"/>
+                        <mxPoint x="475.4000000000001" y="150" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" value="&lt;div&gt;&amp;nbsp;Decimal: \(1.5703125 \times 2^1 = 3.140625\)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; Binary: \(1.1001001 \times 2^1\)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; Sign: 0 (+)&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Mantissa: 1001001 (0.5703125)&lt;/div&gt;&lt;div&gt;Exponent: 1 (1)&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Lucida Console;fontSize=17;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="240" width="400" height="120" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
