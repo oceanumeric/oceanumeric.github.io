@@ -159,6 +159,10 @@ space
 
 _Remark_: There are spaces between floating point numbers as it is shown in figure 3. Therefore, numbers will be rounded to the nearest number in the computer system. 
 
+
+## Roundoff errors 
+
+
 If you do a calculation that puts you somewhere between the space of two numbers, the computer will automatically round to the nearest one. I like to think of this as a mountain range in the computer. The valleys are representable numbers. If a calculation puts us on a mountain side, we’ll roll down the mountain to the closest valley. For example, spacing for the number 1 is $2^{-52}$, so if we don't add at least half that, we won't 
 reach the next representable number (__therefore, this might give us roundoff errors__):
 
