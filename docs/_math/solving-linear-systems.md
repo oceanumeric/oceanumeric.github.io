@@ -2,7 +2,7 @@
 title: Solving Linear Systems
 subtitle: Linear systems of equations are the bread and butter of numerical linear algebra. Solving them is at the core of many machine learning algorithms and engineering applications.
 layout: math_page_template
-date: 2023-04-02
+date: 2023-04-01
 keywords: linear systems, linear algebra, numerical linear algebra, machine learning, data science, python
 published: true
 tags: algorithm data-science machine-learning numerical-linear-algebra python
