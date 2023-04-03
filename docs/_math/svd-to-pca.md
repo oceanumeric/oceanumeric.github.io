@@ -278,9 +278,142 @@ want to refresh your memory about the QR decomposition, you can check out
 [my another post](https://oceanumeric.github.io/math/2023/04/QR-factorization){:target="_blank"}.
 
 
+```python
+def qr_iteration(A:np.ndarray, num_simulations:int):
+    """Returns all eigenpairs of A.
+
+    Parameters
+    ----------
+    A : ndarray
+        Square matrix.
+    num_simulations : int
+        Number of QR iterations to perform.
+
+    Returns
+    -------
+    v : ndarray
+        all eigenvectors.
+    lambda : float
+        all eigenvalues.
+    """
+ 
+    for _ in range(num_simulations):
+        Q, R = np.linalg.qr(A)
+        A = R @ Q
+
+    v = Q
+    lambda_all = A.diagonal()
+    return v, lambda_all
+```
 
 
+_Remark_: when the matrix $A$ is symmetric, there are more efficient ways to find the eigenvalues and eigenvectors, such as Jacobi method and Householder method. We will not cover these methods in this post.
 
+
+## Improving the convergence of QR iteration
+
+The QR iteration algorithm is very powerful, but it is not very efficient. The reason is that the QR decomposition is very expensive to compute. In fact, the QR decomposition is $O(n^3)$, which is much more expensive than the power iteration algorithm. There are two ways to improve the convergence of the QR iteration algorithm:
+
+- Transform the matrix $A$ into upper Hessenberg form.
+- Use the shift-invert method.
+
+The first variant is called the _Hessenberg QR iteration_ and the second variant is called the _shifted QR iteration_. The first one is very easy to implement, we just need to transform the matrix $A$ into upper Hessenberg form and then perform the QR iteration. The second one is a little bit more complicated, but it is still very easy to implement.
+
+```python
+import scipy as sp
+
+
+def qr_iteration_with_hessenberg(A:np.ndarray, num_simulations:int):
+
+
+    H = sp.linalg.hessenberg(A)
+    for _ in range(num_simulations):
+        Q, R = np.linalg.qr(H)
+        H = R @ Q
+
+    v = Q
+    lambda_all = H.diagonal()
+    return v, lambda_all
+```
+
+The Hessenberg QR iteration algorithm is much more efficient than the basic QR iteration algorithm. The reason is that the Hessenberg QR iteration algorithm only requires $O(n^2)$ operations to compute the QR decomposition. The basic QR iteration algorithm requires $O(n^3)$ operations to compute the QR decomposition. However, the Hessenberg QR iteration algorithm is still not as efficient as it converges much slower
+than shifted QR iteration algorithm.
+
+The shifted QR iteration algorithm combines the QR iteration algorithm with the shift-invert method, which uses equation (7) to compute the eigenvalues. When we talk about _inverse iteration_, we state that if we know an approximation $u$ of an eigenvector, then we can compute the eigenvalue by using the following matrix
+
+$$
+(A- uI)^{-1} \tag{10}
+$$
+
+as its eigenvalue must be very big. The shifted QR iteration algorithm uses the same idea. 
+
+Notice that if $A_k$ - which converging to upper-triangular - had the following form
+
+$$
+A_k = \begin{bmatrix}
+\* & \* & \* & \cdots & \* \\
+\* & \* & \* & \cdots & \* \\
+ & \* & \* & \cdots & \* \\
+    &  & \ddots & \ddots & \vdots \\
+    &  &  & 0 & \* \\
+\end{bmatrix} = \begin{bmatrix}
+B_{11} & U \\
+0^T & \lambda
+\end{bmatrix}
+$$
+
+Then $\lambda$ is the eigenvalue of $A_k$ and the remaining matrix $B_{11}$ has the same eigenvalues as $A_k[:n-1, :n-1]$. The shifted QR iteration algorithm uses this idea to compute the eigenvalues.
+
+Here is the implementation of the shifted QR iteration algorithm.
+
+1. Set $A = Q_H^T A Q_H$ where $Q_H$ is the orthogonal matrix that transforms $A$ into upper Hessenberg form.
+2. Repeat the following steps until convergence:
+    1. Compute a shift $u$ by using equation (11).
+    2. Compute $Q_kR_k \leftarrow (A_{k-1} - uI)$.
+    3. Set $A_k = R_kQ_k + u_k I$.
+
+We are not using Rayleigh quotient to compute the shift $u$ because it is very expensive to compute the inverse of a matrix. Instead, we use the 
+Wilkinson's shift, which is given by
+
+$$
+B = \begin{bmatrix}
+a & b \\
+b & c
+\end{bmatrix} \quad \quad u = c - \frac{\mathrm{sign}(\delta)b^2}{|\delta| + \sqrt{\delta^2 + b^2}} \tag{11}
+$$
+
+where $\delta = (a - c)/2$. 
+
+Here is the implementation of the shifted QR iteration algorithm.
+
+```python
+def wilkinson_shift(a, b, c):
+    # Calculate Wilkinson's shift for symmetric matrices: 
+    delta = (a-c)/2
+    shift = c - np.sign(delta)*b**2/(np.abs(delta) + np.sqrt(delta**2+b**2))
+    return shift
+
+
+def qr_with_shift(A:np.ndarray, num_iterations:int):
+    
+    n, m = A.shape
+    eigen_values = []
+    if n != m:
+        raise ValueError('A must be a symmetric matrix.')
+    
+    I = np.eye(n)
+    
+    H = sp.linalg.hessenberg(A)
+    for _ in range(num_iterations):
+        u = wilkinson_shift(H[n-2, n-2], H[n-1, n-1], H[n-2, n-1])
+        Q, R = np.linalg.qr(H - u*I)
+        H = R @ Q + u*I
+    
+    v = Q
+    lambda_all = H.diagonal()
+    return v, lambda_all
+
+```
 
 
 
