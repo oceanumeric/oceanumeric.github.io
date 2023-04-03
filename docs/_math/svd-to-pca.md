@@ -351,11 +351,11 @@ Notice that if $A_k$ - which converging to upper-triangular - had the following 
 
 $$
 A_k = \begin{bmatrix}
-\* & \* & \* & \cdots & \* \\
-\* & \* & \* & \cdots & \* \\
- & \* & \* & \cdots & \* \\
+a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \\
+a_{21} & a_{22} & a_{23} & \cdots & a_{2n} \\
+ & a_{32} & a_{33} & \cdots & a_{3n} \\
     &  & \ddots & \ddots & \vdots \\
-    &  &  & 0 & \* \\
+    &  &  & 0 & a_{nn} \\
 \end{bmatrix} = \begin{bmatrix}
 B_{11} & U \\
 0^T & \lambda
