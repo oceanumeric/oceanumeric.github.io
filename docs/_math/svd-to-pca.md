@@ -427,7 +427,7 @@ where $U^T U = I_m$ and $V^TV = I_n$. How could we find the SVD of a matrix?
 
 Calculating the SVD of a matrix is very easy. We just need to find the eigenvalues and eigenvectors of $A^TA$ and $AA^T$. The SVD of $A$ is given by
 
-
+shdg 
 
 
 
