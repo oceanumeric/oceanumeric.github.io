@@ -15,6 +15,8 @@ will learn how to use SVD to find principal components.
 
 - [Eigenvalues and eigenvectors](#eigenvalues-and-eigenvectors)
 - [Basic QR iteration](#basic-qr-iteration)
+- [Improving the convergence of QR iteration](#improving-the-convergence-of-qr-iteration)
+- [Principal Component Analysis (PCA)](#principal-component-analysis-pca)
 
 ## Eigenvalues and eigenvectors
 
