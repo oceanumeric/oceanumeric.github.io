@@ -34,6 +34,32 @@ def power_iteration(A:np.ndarray, num_simulations:int):
     return v, lambda_top
 
 
+def qr_iteration(A:np.ndarray, num_simulations:int):
+    """Returns all eigenpairs of A.
+
+    Parameters
+    ----------
+    A : ndarray
+        Square matrix.
+    num_simulations : int
+        Number of QR iterations to perform.
+
+    Returns
+    -------
+    v : ndarray
+        all eigenvectors.
+    lambda : float
+        all eigenvalues.
+    """
+ 
+    for _ in range(num_simulations):
+        Q, R = np.linalg.qr(A)
+        A = R @ Q
+
+    v = Q
+    lambda_all = A.diagonal()
+    return v, lambda_all
+
 
 if __name__ == '__main__':
     np.random.seed(789)
@@ -43,3 +69,8 @@ if __name__ == '__main__':
     print('v =', v)
     print('lambda =', lambda_top)
     print('result from numpy:', np.linalg.eig(A)[0][0])
+    v_all, lambda_all = qr_iteration(A, 40)
+    print('v_all =', v_all, '\n')
+    print('lambda_all =', lambda_all, '\n')
+    v_temp
+    print("result from numpy:", )
