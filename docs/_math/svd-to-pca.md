@@ -1,6 +1,6 @@
 ---
 title: From SVD to PCA
-subtitle: The applications of SVD are manifold. In this post, we will focus on the application of SVD to PCA, which is a great tool for dimensionality reduction.
+subtitle: The applications of Singular Value Decomposition (SVD) are manifold. In this post, we will focus on the application of SVD to PCA, which is a great tool for dimensionality reduction.
 layout: math_page_template
 date: 2023-04-03 
 keywords: linear-algebra, svd, pca, dimensionality-reduction
@@ -8,7 +8,7 @@ published: true
 tags: probability algorithm data-science machine-learning numerical-linear-algebra
 ---
 
-Principal Component Analysis (PCA) is a dimensionality reduction technique that is widely used in data science. In this post, we will focus on the application of SVD to PCA, which is a great tool for dimensionality reduction. 
+Principal Component Analysis (PCA) is a dimensionality reduction technique that is widely used in data science. In this post, we will focus on the application of Singular Value Decomposition (SVD) to PCA, which is a great tool for dimensionality reduction. 
 
 First, we will learn how to find eigenvalues and eigenvectors of a matrix. Then, we
 will learn how to use SVD to find principal components.
@@ -414,6 +414,19 @@ def qr_with_shift(A:np.ndarray, num_iterations:int):
     return v, lambda_all
 
 ```
+
+## Singular Value Decomposition (SVD)
+
+For a matrix $A$ of  $m \times n$,  the SVD is given by
+
+$$
+A = U \Sigma V^T \tag{12}
+$$
+
+where $U^T U = I_m$ and $V^TV = I_n$. How could we find the SVD of a matrix? 
+
+Calculating the SVD of a matrix is very easy. We just need to find the eigenvalues and eigenvectors of $A^TA$ and $AA^T$. The SVD of $A$ is given by
+
 
 
 
