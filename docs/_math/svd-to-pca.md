@@ -425,15 +425,49 @@ $$
 
 where $U^T U = I_m$ and $V^TV = I_n$. How could we find the SVD of a matrix? 
 
-Calculating the SVD of a matrix is very easy. We just need to find the eigenvalues and eigenvectors of $A^TA$ and $AA^T$. The SVD of $A$ is given by
+Calculating the SVD of a matrix is very easy. We just need to find the eigenvalues and eigenvectors of $A^TA$ and $AA^T$ because
 
-shdg 
+$$
+A^TA = V \Sigma^2 V^T \quad \quad AA^T = U \Sigma^2 U^T \tag{13}
+$$
+
+In particular, the eigenvectors of $A^TA$ are the columns of $V$ and the eigenvectors of $AA^T$ are the columns of $U$. The eigenvalues of $A^TA$ are the squares of the singular values of $A$ and the eigenvalues of $AA^T$ are the squares of the singular values of $A$.
 
 
+## Principal Component Analysis (PCA)
+
+Principal Component Analysis (PCA) is a very powerful technique that is used to reduce the dimensionality of a dataset. The idea is that we can find a new basis that is orthogonal to each other and that is a linear combination of the original basis. The new basis is called the _principal components_ and the linear combination is called the _principal components scores_. The principal components are the eigenvectors of the covariance matrix of the dataset. The principal components scores are the eigenvalues of the covariance matrix of the dataset.
 
 
+Suppose we have a dataset $X$ of $n$ samples and $m$ features. The covariance matrix of $X$ is given by
+
+$$
+\Sigma = \frac{1}{n} X^T X \tag{14}
+$$
+
+The covariance matrix $\Sigma$ is a symmetric matrix. The eigenvectors of $\Sigma$ are the principal components of $X$ and the eigenvalues of $\Sigma$ are the principal components scores of $X$.
+
+When the matrix $A$ is symmetric, the eigenvectors of $A$ are orthogonal to each other. This means we can have
+
+$$
+A = U \Lambda U^T \tag{15}
+$$
+
+<div class='figure'>
+    <img src="/math/images/linear-system-decomposition.png"
+         alt="floating number illustrated"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The illustration of the SVD transformation.
+    </div>
+</div>
 
 
+What PCA does is to project the data onto the principal components, which are the eigenvectors corresponding to the largest eigenvalues.
+
+The PCA method makes the fundamental assumption that the data is centered. This means that the mean of each feature is zero. If the data is not centered, then we need to subtract the mean of each feature from the data before applying PCA. It also makes the fundamental assumption that the data is normalized. This means that the variance of each feature is one. If the data is not normalized, then we need to divide each feature by its standard deviation before applying PCA.
+
+Then, we will have a linear transformation which makes the data have variables that is as much uncorrelated as possible. 
 
 
 
