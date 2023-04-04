@@ -455,6 +455,70 @@ $$
 You see that the error doesn't decrease below a certain level due to the regularization term. This is not a bad thing. In fact, the regularization term gives as strong convexity which leads to convergence in domain again. 
 
 
+##  Conditional gradient method
+
+Before we move on to the next topic, let's talk about "projection" in general, especially in the context of linear algebra. The dot product of two vectors is a projection of one vector onto the other. If you look at many equations in the above sections, we have done many dot products. For example, this one 
+
+$$
+f(y) - f(x) \geq \nabla f(x)^T (y - x)  + \frac{\alpha}{2} \|y - x\|^2 
+$$
+
+The dot product $\nabla f(x)^T (y - x)$ is a projection of the gradient of $f$ onto the direction of $y - x$. This is a very important concept in optimization.
+
+The derivative of $f(x)$ not only tells us the direction of the steepest descent, but also the magnitude of the steepest descent. The magnitude of the steepest descent is the projection of the gradient of $f$ onto the direction of $y - x$. 
+
+Again, the optimization problem is to solve the problems of form
+
+$$
+\text{minimize}_{x} f(x) 
+$$
+
+Therefore, the optimization problem can be summarized as: __finding the minimum of a function by searching $x$ in the domain of $f$.__ But, how do we search $x$ in the domain of $f$? Any problem of searching is a problem of _finding directions_.
+
+Let's state the algorithm of conditional gradient method first, then we will explain it in detail.
+
+Again, we start from the initial guess $x_0$ and we set
+
+$$
+x_{t+1} = x_t + \eta_t (\tilde{x}_t - x_t) \tag{30}
+$$
+
+where 
+
+$$
+\tilde{x}_t = \text{argmin}_{x} \left \{ f(x_t) + \nabla f(x_t)^T(x - x_t) \right \} \tag{31}
+$$
+
+Since $f(x_t)$ is pre-determined, we can simplify the above equation to
+
+$$
+\tilde{x}_t = \text{argmin}_{x}  \nabla f(x_t)^Tx  \tag{32}
+$$
+
+Compared the above equation with the equation of projection:
+
+- $x_{t+1} = x_t - \eta_t \nabla f(x_t)$
+- $x_{t+1} = \mathrm{proj}_{\Omega}(x_{t+1})$
+
+
+The gradient descent in the above updating is to search $x^*$ by following the direction and magnitude of the gradient $\nabla f(x_t)$, whereas the conditional gradient method in equation (30) and (32) is to search $x^*$ by following the projection of the gradient onto the whole domain.
+
+When we are dealing with function in one dimension, the conditional gradient method is equivalent to the gradient descent method. However, when we are dealing with function in higher dimensions, the conditional gradient method is more efficient than the gradient descent method.
+
+Here is the algorithm, starting from $x_0 \in \mathbb{R}^n$, repeat the following steps until convergence:
+
+- Compute $\tilde{x}_t = \text{argmin}_{x}  \nabla f(x_t)^Tx$ (linear search because it is just a dot product)
+- Compute $x_{t+1} = x_t + \eta_t (\tilde{x}_t - x_t)$ (update step)
+
+As it turns out, conditional gradient enjoys a convergence guarantee similar to the one
+we saw for projected gradient descent.
+
+
+
+
+
+
+
 
 
 
