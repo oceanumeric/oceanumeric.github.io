@@ -21,6 +21,7 @@ For the broad class of convex function, gradient descent is guaranteed to conver
 
 - [Convexity](#convexity)
 - [Gradient Descent](#gradient-descent)
+- [Some applications of gradient descent](#some-applications-of-gradient-descent)
 
 
 ## Convexity
@@ -281,8 +282,90 @@ f(y) - f(x) \geq \nabla f(x)^T (y - x) + \frac{\alpha}{2} \|x - y\|^2 \tag{20}
 $$
 
 
+<div class='figure'>
+    <img src="/math/images/smooth-and-strong.png"
+         alt="Inequality bounds compare"
+         style="width: 50%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> The illustration of $\beta$-smooth and $\alpha$-strong convexity (figure was taken from Francis Bach). 
+    </div>
+</div>
 
 
+In figure 5, the blue cure is function $f$ which is $\beta$-smooth and $\alpha$-strong convex; it is possible to create global upper and lower quadratic bounds from every point $x \in \mathbb{R}^n$ with respect to curvatures $\beta$ and $\alpha$. 
+
+
+(Condition number) Let $f$ be a $\beta$-smooth and $\alpha$-strongly convex function on $\mathbb{R}^n$. Then, the condition number of $f$ is defined as
+
+$$
+\kappa(f) = \frac{\beta}{\alpha} \tag{21}
+$$
+
+For a positive-definite quadratic function f , this definition of the condition number
+corresponds with the perhaps more familiar definition of the condition number of the
+matrix defining the quadratic.
+
+Now, let's summarize what we have learned into a table. 
+
+
+|  | Convex | Strongly convex |
+|:---|:---:|:---:|
+| Lipschitz | $\epsilon \leq \mathcal{O}(1 / t^{1/2})$ | $\epsilon \leq \mathcal{O}(1/t)$ |
+| Smooth | $\epsilon \leq \mathcal{O}(1/t)$ | $\epsilon \leq e^{-\alpha t} $ |
+
+
+
+## Some applications of gradient descent
+
+In this section, we will discuss some applications of gradient descent and implement them in Python.
+
+
+One of the most fundamental data analysis tools is linear least squares. Given an $m \times n$ matrix $A$ and an $m$-dimensional vector $b$, the goal is to find the $n$-dimensional vector $x$ that minimizes the squared error
+
+$$
+f(x) = \frac{1}{2m} \|Ax - b\|^2 \tag{22}
+$$
+
+We can verify 
+
+$$
+\nabla f(x) =  A^T (Ax - b); \quad \nabla^2 f(x) =  A^T A \tag{23}
+$$ 
+
+This means $f$ that $f$ is $\beta$-smooth and $\alpha$-strongly convex with 
+
+$$
+\beta = \lambda_{\max}(A^T A) \quad \text{and} \quad \alpha =  \lambda_{\min}(A^T A) \tag{24}
+$$
+
+Now, we will simulate a dataset with $m = 100$ and $n = 3$ and solve the least squares problem using gradient descent. The following tables 
+gives the true coefficients $x$, the initial guess $x_0$, and the final solution $x_t$.
+
+
+ |   Initial guess (x0) |   True coefficient (x) |   Estimated coefficients (xt) |
+|:---------------------|:-----------------------|:------------------------------|
+|           -0.831995  |              -1.94281  |                     -1.93834  |
+|           -0.0319888 |               1.51628  |                      1.53504  |
+|           -0.187633  |              -0.737795 |                     -0.736319 |
+
+
+<div class='figure'>
+    <img src="/math/images/gradient-ols.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 6.</span> The plot of the loss function and its convergence process. 
+    </div>
+</div>
+
+
+From the figure 6, we can see that the loss function converges to a minimum after 20 iterations.
+
+The above simulation assumes $m \gg n$. In practice, we often have $m \ll n$ and the least squares problem is ill-posed. Since the matrix is not full rank, the objective function now is no longer strongly convex because 
+
+$$
+\lambda_{\min}(A^T A) = 0 \tag{25}
+$$
 
 
 {% endkatexmm %}
