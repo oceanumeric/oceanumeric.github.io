@@ -139,8 +139,72 @@ def case_study2():
     
     print(df.head().to_markdown())
     
+
+def least_square_sums_l2(A, b, x, lam):
+    """
+    leaste square objective function that should be minimized
+    Input:
+        A: matrix, m by n   
+        b: vector, m by 1
+        x: vector, n by 1
+        lam: regularization parameter
+    """
+    m, n = A.shape
+    return least_square_sums(A, b, x) + lam/2 * np.linalg.norm(x) ** 2
+
+
+def least_square_gradient_l2(A, b, x, lam):
+    """
+    leaste square gradient function (first order derivative)
+    Input:
+        A: matrix, m by n   
+        b: vector, m by 1
+        x: vector, n by 1
+        lam: regularization parameter
+    """
+    m, n = A.shape
+    return leaste_square_gradient(A, b, x) + lam * x
+
+
+def case_study3():
+    np.random.seed(1337)
+    m = 100
+    n = 1000
+    A = np.random.normal(0, 1, (m, n))
+    b = np.random.normal(0, 1, m)
+    lam = 0.1
+    # the optimal solution is given by the closed form solution
+    x_opt = np.linalg.pinv(A.T @ A + lam * np.eye(n)) @ A.T @ b
+    objective = lambda x: least_square_sums_l2(A, b, x, lam)
+    gradient = lambda x: least_square_gradient_l2(A, b, x, lam)
+    
+    x0 = np.random.normal(0, 1, n)
+    xs = gradient_descent(x0, [0.1]*500, gradient)
+    
+    fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
+    ax.plot([objective(x) for x in xs], "k", label="error term")
+    ax.set_yscale("log")
+    ax.plot([least_square_sums_l2(A, b, x_opt, lam)]*len(xs), 'k--',
+                        label="true error term")
+    ax.set_title("Gradient Descent for Least Square")
+    ax.set_xlabel("Iteration")
+    ax.set_ylabel("Sum of Squares Error (log scale)") 
+    ax.legend()
+    plt.savefig('../math/images/gradient-ols3.png',
+                dpi=300, bbox_inches="tight")
+    df = pd.DataFrame.from_dict(
+        {
+            "Initial guess (x0)": x0.flatten(),
+            "True coefficient (x)": x_opt.flatten(),
+            "Estimated coefficients (xt)": xs[-1].flatten()
+        }
+    )
+    
+    print(df.head().to_markdown())
+    
 if __name__ == "__main__":
-    case_study2()
+    print("Hello world!")
+    case_study3()
     
     
     

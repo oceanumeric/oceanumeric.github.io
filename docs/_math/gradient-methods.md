@@ -243,7 +243,7 @@ This means that the gradient update decreases the function value by an amount pr
 __Lemma 2.__ Let $f$ be a $\beta$-smooth function. Then, for any $x, y \in \mathbb{R}^n$, we have
 
 $$
-f(x) - f(y) \leq \nabla f(x)^T (x - y) + \frac{1}{2 \beta} \| \nabla f(x) - \nabla f(y) \|^2 \tag{17}
+f(x) - f(y) \leq \nabla f(x)^T (x - y) + \frac{\beta}{2} \| x - y  \|^2 \tag{17}
 $$
 
 We will show that gradient descent with the update rule
@@ -313,6 +313,32 @@ Now, let's summarize what we have learned into a table.
 | Lipschitz | $\epsilon \leq \mathcal{O}(1 / t^{1/2})$ | $\epsilon \leq \mathcal{O}(1/t)$ |
 | Smooth | $\epsilon \leq \mathcal{O}(1/t)$ | $\epsilon \leq e^{-\alpha t} $ |
 
+Before we move on, let's elaborate on the lower and upper bounds from equation (17) and (19). 
+
+The goal of gradient descent is to find a local minimum of a function $f$. Now, let's assume the optimal value is $x^*$, which means $f(x^*) = \min f(x)$. When we iterate the gradient descent algorithm, we will eventually reach a point $x_t$ that is close to $x^*$. Let's rewrite the inequality (17) as
+
+$$
+f(x_t) \leq  f(x^*)  +  \nabla f(x^*)^T (x_t - x^*) + \frac{\beta}{2} \|x_t - x^*\|^2 \tag{22}
+$$
+
+and the inequality (19) as
+
+$$
+f(x_t) \geq f(x^*)  + \nabla f(x^*)^T (x_t - x^*) + \frac{\alpha}{2} \| x_t - x^* \|^2 \tag{23}
+$$
+
+<div class='figure'>
+    <img src="/math/images/smooth-and-convex.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> The illustration of $\beta$-smooth and $\alpha$-strong convexity again (figure was taken from zhengwenjie). 
+    </div>
+</div>
+
+The idea is that we are using the parabola approximation of $f$ around $x^*$ to bound the value of $f$ at $x_t$. In practice, having some knowledge of lower and upper bounds on the value of $f$ at $x_t$ is very useful. 
+
+To gain deep understanding of the convergence rate of gradient descent, we need to practice more with concrete examples. In the next section, we will discuss some applications of gradient descent and implement them in Python.
 
 
 ## Some applications of gradient descent
@@ -323,19 +349,19 @@ In this section, we will discuss some applications of gradient descent and imple
 One of the most fundamental data analysis tools is linear least squares. Given an $m \times n$ matrix $A$ and an $m$-dimensional vector $b$, the goal is to find the $n$-dimensional vector $x$ that minimizes the squared error
 
 $$
-f(x) = \frac{1}{2m} \|Ax - b\|^2 \tag{22}
+f(x) = \frac{1}{2m} \|Ax - b\|^2 \tag{24}
 $$
 
 We can verify 
 
 $$
-\nabla f(x) =  A^T (Ax - b); \quad \nabla^2 f(x) =  A^T A \tag{23}
+\nabla f(x) =  A^T (Ax - b); \quad \nabla^2 f(x) =  A^T A \tag{25}
 $$ 
 
 This means $f$ that $f$ is $\beta$-smooth and $\alpha$-strongly convex with 
 
 $$
-\beta = \lambda_{\max}(A^T A) \quad \text{and} \quad \alpha =  \lambda_{\min}(A^T A) \tag{24}
+\beta = \lambda_{\max}(A^T A) \quad \text{and} \quad \alpha =  \lambda_{\min}(A^T A) \tag{26}
 $$
 
 Now, we will simulate a dataset with $m = 100$ and $n = 3$ and solve the least squares problem using gradient descent. The following tables 
@@ -364,7 +390,7 @@ From the figure 6, we can see that the loss function converges to a minimum afte
 The above simulation assumes $m \gg n$. In practice, we often have $m \ll n$ and the least squares problem is ill-posed. Since the matrix is not full rank, the objective function now is no longer strongly convex because 
 
 $$
-\lambda_{\min}(A^T A) = 0 \tag{25}
+\lambda_{\min}(A^T A) = 0 \tag{27}
 $$
 
 The following table gives the first five true coefficients $x$, the initial guess $x_0$, and the final solution $x_t$.
@@ -392,12 +418,41 @@ As it is shown in figure 7, the loss function does not converge to a minimum. Th
 It is also called the regularized gradient descent algorithm. The proximal term is a regularization term that penalizes the magnitude of the coefficients. The proximal term is defined as
 
 $$
-\text{prox}_{\gamma g}(x) = \text{argmin}_{y} \frac{1}{2} \|y - x\|^2 + \gamma g(y) \tag{26}
+\text{prox}_{g}(x) = \text{argmin}_{y} \left \{ \frac{1}{2} \|y - x\|^2 +g(y) \right \} \tag{28}
 $$
 
+Very often, we will focus on the $\ell_1$-norm and the $\ell_2$-norm as the regularization term:
+
+- Ridge penalization: $\ell_2$-norm where $g(y) = \frac{\lambda}{2} \|y\|^2$
+- Laplace penalization: $\ell_1$-norm where $g(y) = \lambda \|y\|_1$
 
 
+Now, for the least squares problem, we can add the ridge penelization term to the objective function. The new objective function is
 
+$$
+f(x) = \frac{1}{2m} \|Ax - b\|^2 + \frac{\lambda}{2} \|x\|^2 \tag{29}
+$$
+
+|   Initial guess (x0) |   True coefficient (x) |   Estimated coefficients (xt) |
+|---:|---------------------:|-----------------------:|------------------------------:|
+ |            1.32252   |            6.40826e-05 |                    0.00770425 |
+|           -0.980389  |           -0.00379448  |                   -0.0115582  |
+|           -0.011439  |            0.00818096  |                    0.00947045 |
+|           -0.0894514 |            0.0064178   |                    0.00469251 |
+|           -0.131615  |           -0.00768739  |                   -0.00732296 |
+
+
+<div class='figure'>
+    <img src="/math/images/gradient-ols3.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 7.</span> The plot of the loss function and its convergence process for underdetermined least squares problem with ridge penality. 
+    </div>
+</div>
+
+
+You see that the error doesn't decrease below a certain level due to the regularization term. This is not a bad thing. In fact, the regularization term gives as strong convexity which leads to convergence in domain again. 
 
 
 
