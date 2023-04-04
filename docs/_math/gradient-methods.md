@@ -19,6 +19,9 @@ Gradient descent at core is a form of _local search_. It starts with an initial 
 
 For the broad class of convex function, gradient descent is guaranteed to converge to the _global minimum_. For non-convex functions, it is possible that the algorithm converges to a _local minimum_. In practice, it is often used to find a good local minimum.
 
+- [Convexity](#convexity)
+- [Gradient Descent](#gradient-descent)
+
 
 ## Convexity
 
@@ -204,8 +207,78 @@ proportional to $1/\sqrt{t}$. This is a very useful result, because it tells us 
 The proof of Theorem 1 is not difficult, but it is a bit tedious. We will skip the proof here. If you are interested, you can find the proof in the book _Convex Optimization_ by Boyd and Vandenberghe.
 
 
+After learning the bound on the convergence rate, we now discuss the _smoothness_ of the objective function.  
+
+A continuously differentiable function $f: \mathbb{R}^n \to \mathbb{R}^n$ is 
+$\beta$ _smooth_ if the gradient map $\nabla f$ is $\beta$-Lipschitz continuous, meaning
+
+$$
+\| \nabla f(x) - \nabla f(y) \| \leq \beta \|x - y\| \tag{14}
+$$
+
+_Why do we care about the smoothness of the objective function?_  In the gradient descent algorithm, we need to decide the step size $\eta$. If the gradient changes too quickly, we need to adjust the step size quickly as well.The smoothness of the objective function tells us how quickly the gradient changes. In summary, for the objective function, we care two things:
+
+- the Lipschitz constant of the objective function
+- the smoothness of the objective function
+
+The first one gives the range of gradient values, and the second one tells us how quickly the gradient changes.
 
 
+__Lemma 1.__ Let $f$ be a f $\beta$-smooth function. Then, for any $x, y \in \mathbb{R}^n$, we have
+
+$$
+\left | f(y) - f(x) - \nabla f(x)^T (y - x) \right | \leq \frac{\beta}{2} \|y - x\|^2 \tag{15}
+$$
+
+The significance of this lemma is that we can choose $ y = x - \frac{1}{\beta} \nabla f(x)$ to minimize the right hand side of the above inequality. This gives us:
+
+$$
+f(y) - f(x) \leq - \frac{1}{2\beta} || \nabla f(x) ||^2 \tag{16}
+$$
+
+This means that the gradient update decreases the function value by an amount proportional to the squared norm of the gradient. This is a very useful result, because it tells us that the gradient descent algorithm is guaranteed to decrease the function value at each iteration.
+
+
+__Lemma 2.__ Let $f$ be a $\beta$-smooth function. Then, for any $x, y \in \mathbb{R}^n$, we have
+
+$$
+f(x) - f(y) \leq \nabla f(x)^T (x - y) + \frac{1}{2 \beta} \| \nabla f(x) - \nabla f(y) \|^2 \tag{17}
+$$
+
+We will show that gradient descent with the update rule
+
+$$
+x_{t+1} = x_t - \eta_t \nabla f(x_t) 
+$$
+
+attains a faster convergence rate under the smoothness condition. 
+
+__Theorem 2.__ Let $f$ be a $\beta$-smooth function on $\mathbb{R}^n$ then gradient descent with the step size $\eta_t = \frac{1}{\beta t}$ 
+satisfies 
+
+$$
+f(x_t) - f(x^*) \leq \frac{2 \beta || x_1 - x^* ||^2}{t-1} \tag{18}
+$$
+
+which means that the convergence rate of gradient descent is $\mathcal{O}(1/t)$.
+
+
+Now, we will introduce the notion of strong convexity and combines it with smoothness
+to develop the concept of condition number. While smoothness gave as an upper bound
+on the second-order term in Taylor’s approximation, strong convexity will give us a lower bound. Taking together, those two assumptions are very powerful as they lead to a much faster convergence rate of the form $\exp(-\alpha t)$, where $\alpha$ is a constant.
+
+
+A function $f: \Omega \to \mathbb{R}$ is _strongly convex_ with constant $\alpha > 0 $ if for all $x, y \in \Omega$, we have
+
+$$
+f(y) \geq f(x) + \nabla f(x)^T (y - x) + \frac{\alpha}{2} \|y - x\|^2 \tag{19}
+$$
+
+or in different expression
+
+$$
+f(y) - f(x) \geq \nabla f(x)^T (y - x) + \frac{\alpha}{2} \|x - y\|^2 \tag{20}
+$$
 
 
 
