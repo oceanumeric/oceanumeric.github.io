@@ -343,7 +343,7 @@ gives the true coefficients $x$, the initial guess $x_0$, and the final solution
 
 
  |   Initial guess (x0) |   True coefficient (x) |   Estimated coefficients (xt) |
-|:---------------------|:-----------------------|:------------------------------|
+|---------------------:|-----------------------:|------------------------------:|
 |           -0.831995  |              -1.94281  |                     -1.93834  |
 |           -0.0319888 |               1.51628  |                      1.53504  |
 |           -0.187633  |              -0.737795 |                     -0.736319 |
@@ -366,6 +366,44 @@ The above simulation assumes $m \gg n$. In practice, we often have $m \ll n$ and
 $$
 \lambda_{\min}(A^T A) = 0 \tag{25}
 $$
+
+The following table gives the first five true coefficients $x$, the initial guess $x_0$, and the final solution $x_t$.
+
+ |   Initial guess (x0) |   True coefficient (x) |   Estimated coefficients (xt) |
+|---------------------:|-----------------------:|------------------------------:|
+ |            -2.38525  |             0.00156901 |                     -2.3963   |
+|            -0.877133 |            -0.00940305 |                     -0.76494  |
+|            -0.166967 |            -0.00913699 |                     -0.1627   |
+|            -0.797044 |            -0.00410237 |                     -0.264272 |
+|            -0.611308 |            -0.0141191  |                     -0.868437 |
+
+
+<div class='figure'>
+    <img src="/math/images/gradient-ols2.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 7.</span> The plot of the loss function and its convergence process for underdetermined least squares problem.
+    </div>
+</div>
+
+As it is shown in figure 7, the loss function does not converge to a minimum. This is because the objective function is not strongly convex. In this case, we can use the proximal gradient descent algorithm to solve the problem. The proximal gradient descent algorithm is a variant of gradient descent that adds a proximal term to the objective function.
+
+It is also called the regularized gradient descent algorithm. The proximal term is a regularization term that penalizes the magnitude of the coefficients. The proximal term is defined as
+
+$$
+\text{prox}_{\gamma g}(x) = \text{argmin}_{y} \frac{1}{2} \|y - x\|^2 + \gamma g(y) \tag{26}
+$$
+
+
+
+
+
+
+
+
+
+
 
 
 {% endkatexmm %}

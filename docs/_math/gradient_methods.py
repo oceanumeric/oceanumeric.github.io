@@ -65,12 +65,10 @@ def simulate_data(m, n):
     return A, b, x 
     
 
-    
-    
-if __name__ == "__main__":
+def case_study1():
     # assume m > n
     m = 100  # number of samples
-    n = 3  # number of features
+    n = 3 # number of features
     # x is coefficient vector
     A, b, x = simulate_data(m, n)
     # calculate objective function and gradient
@@ -88,14 +86,15 @@ if __name__ == "__main__":
     # plot the error term (the sums of squares error)
     fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
     ax.plot([objective(x) for x in xt], "k" ,label="error term")
+    ax.set_yscale("log")
     ax.set_title("Gradient Descent for Least Square")
     ax.plot([least_square_sums(A, b, x)]*len(xt), 'k--',
                     label="true error term")
     ax.set_xlabel("Iteration")
-    ax.set_ylabel("Sum of Squares Error") 
+    ax.set_ylabel("Sum of Squares Error (log scale)") 
     ax.legend()
-    # plt.savefig('../math/images/gradient-ols.png',
-    #             dpi=300, bbox_inches="tight")
+    plt.savefig('../math/images/gradient-ols.png',
+                dpi=300, bbox_inches="tight")
     df = pd.DataFrame.from_dict(
         {
             "Initial guess (x0)": x0.flatten(),
@@ -103,6 +102,47 @@ if __name__ == "__main__":
             "Estimated coefficients (xt)": xt[-1].flatten()
         }
     )
+    
+    print(df.to_markdown())
+
+
+def case_study2():
+    m, n = 100, 1000
+    A = np.random.normal(0, 1, (m, n))
+    b = np.random.normal(0, 1, m)
+    # The least norm solution is given by the pseudo-inverse
+    x_opt = np.linalg.pinv(A.T @ A) @ A.T @ b
+    objective = lambda x: least_square_sums(A, b, x)
+    gradient = lambda x: leaste_square_gradient(A, b, x)
+    
+    x0 = np.random.normal(0, 1, n)
+    xs = gradient_descent(x0, [0.1]*100, gradient)
+    
+    fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
+    ax.plot([objective(x) for x in xs], "k", label="error term")
+    ax.set_yscale("log")
+    ax.plot([least_square_sums(A, b, x_opt)]*len(xs), 'k--',
+                        label="true error term")
+    ax.set_title("Gradient Descent for Least Square")
+    ax.set_xlabel("Iteration")
+    ax.set_ylabel("Sum of Squares Error (log scale)") 
+    ax.legend()
+    plt.savefig('../math/images/gradient-ols2.png',
+                dpi=300, bbox_inches="tight")
+    df = pd.DataFrame.from_dict(
+        {
+            "Initial guess (x0)": x0.flatten(),
+            "True coefficient (x)": x_opt.flatten(),
+            "Estimated coefficients (xt)": xs[-1].flatten()
+        }
+    )
+    
+    print(df.head().to_markdown())
+    
+if __name__ == "__main__":
+    case_study2()
+    
+    
     
 
 
