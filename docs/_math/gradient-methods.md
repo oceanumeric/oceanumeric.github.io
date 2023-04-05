@@ -514,9 +514,13 @@ As it turns out, conditional gradient enjoys a convergence guarantee similar to 
 we saw for projected gradient descent.
 
 
+__Remark:__ we know when two vectors have positive correlation, the dot product is positive. When two vectors have negative correlation, the dot product is negative. When two vectors are orthogonal, the dot product is zero. Therefore, the conditional gradient method is a method that searches $x$ in the direction of the gradient. It is a method that searches $x$ in the direction that correlates most with the steepest descent. Be careful that this is not the same as the steepest descent method. The steepest descent method searches $x$ in the direction of the steepest descent, which is orthogonal to the gradient of $f$.
 
+__It is very important to know that it makes no sense to use the conditional gradient method for the unconstrained optimization problem.__ This is because the linear search in the conditional gradient method needs to know $x$ in the following equation:
 
-
+$$
+\tilde{x}_t = \text{argmin}_{x}  \nabla f(x_t)^Tx , \quad \text{there is no t in } \ x 
+$$
 
 
 

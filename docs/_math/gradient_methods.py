@@ -202,9 +202,75 @@ def case_study3():
     
     print(df.head().to_markdown())
     
+    
+def frank_wolfe_descent(x0, alphas, grad):
+    
+    n, _ = x0.shape
+    xt = [x0]
+    
+    # construct the domain of x
+    foo = np.linspace(-2, 2, 1000).reshape(-1, 1)
+    foo2 = np.hstack([foo]*3)
+    x_domain = foo2.T
+    for step in alphas:
+        foo = grad(xt[-1]).T @ x_domain
+        x_tilde = np.amin(np.abs(foo))
+        xt.append(xt[-1] + step * (x_tilde - xt[-1]))
+    return xt
+        
+    
+def case_study4():
+    np.random.seed(1337)
+    # assume m > n
+    m = 100  # number of samples
+    n = 3 # number of features
+    # x is coefficient vector
+    A, b, x = simulate_data(m, n)
+    # calculate objective function and gradient
+    # least square sums that should be minimized
+    objective = lambda x: least_square_sums(A, b, x)
+    # gradient descent for least square
+    gradient = lambda x: leaste_square_gradient(A, b, x)
+    
+    # initialize x0
+    x0 = np.random.normal(0, 1, (n, 1))
+    
+    # 100 iterations
+    xt = gradient_descent(x0, [0.1]*100, gradient)
+    xt_frank_wolfe = frank_wolfe_descent(x0, [0.1]*100, gradient)
+    
+    # plot the error term (the sums of squares error)
+    fig, ax = plt.subplots(1, 1, figsize=(7, 3.5))
+    ax.plot([objective(x) for x in xt], "k" ,label="error term")
+    ax.plot([objective(x) for x in xt_frank_wolfe], "k:",
+                            label="error term (frank wolfe)")
+    ax.set_yscale("log")
+    ax.set_title("Gradient Descent for Least Square")
+    ax.plot([least_square_sums(A, b, x)]*len(xt), 'k--',
+                    label="true error term")
+    ax.set_xlabel("Iteration")
+    ax.set_ylabel("Sum of Squares Error (log scale)") 
+    ax.legend()
+    # plt.savefig('../math/images/gradient-ols.png',
+    #             dpi=300, bbox_inches="tight")
+    df = pd.DataFrame.from_dict(
+        {
+            "Initial guess (x0)": x0.flatten(),
+            "True coefficient (x)": x.flatten(),
+            "Estimated coefficients (xt)": xt[-1].flatten(),
+            "Estimated coefficients (xt_frank_wolfe)": xt_frank_wolfe[-1].flatten()
+        }
+    )
+    
+    print(df.to_markdown())
+
+    
+    
+
+    
 if __name__ == "__main__":
     print("Hello world!")
-    case_study3()
+    case_study4()
     
     
     
