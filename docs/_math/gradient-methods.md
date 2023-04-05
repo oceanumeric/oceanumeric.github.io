@@ -524,6 +524,7 @@ $$
 
 Fabian Pedregosa has a very nice [blog post](https://fa.bianp.net/blog/2018/notes-on-the-frank-wolfe-algorithm-part-i/#mjx-eqn-eq%3Aline_search) on the conditional gradient method. Please read it if you want to know how to implement the conditional gradient method for constrained optimization problem such as Lasso.
 
+One of the most important applications of the conditional gradient method is low-rank matrix completion, which we will not cover in this post. But, be ware of this as you might encounter this problem in the future, such as the Netflix problem.
 
 
 
