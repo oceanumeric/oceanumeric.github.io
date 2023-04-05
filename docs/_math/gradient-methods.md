@@ -522,6 +522,7 @@ $$
 \tilde{x}_t = \text{argmin}_{x}  \nabla f(x_t)^Tx , \quad \text{there is no t in } \ x 
 $$
 
+Fabian Pedregosa has a very nice [blog post](https://fa.bianp.net/blog/2018/notes-on-the-frank-wolfe-algorithm-part-i/#mjx-eqn-eq%3Aline_search) on the conditional gradient method. Please read it if you want to know how to implement the conditional gradient method for constrained optimization problem such as Lasso.
 
 
 
