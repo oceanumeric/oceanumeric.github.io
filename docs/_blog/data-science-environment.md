@@ -415,5 +415,28 @@ but it can via `conda install -c conda-forge r-sparql`.
 ENJOY :) 
 
 
+## GPU support
 
+Recently, I have been working on a project that requires GPU support with a new framework called JAX. It is weird that I could run the script with GPU support in the command line, but not in the jupyter notebook. 
 
+Then I need a docker image with GPU support.
+
+```bash
+docker run \
+        -it --rm \
+        --gpus all --ipc=host \
+        --ulimit memlock=-1 \
+        --ulimit stack=67108864 \
+        --shm-size=8gb \
+        -p 7070:7070 \
+        -v "${PWD}":/home/work \
+        vsc-cuda-container-92f8d0bcb7ce38ae6a144f94ac61d015 
+
+# install jupyter notebook
+pip install jupyter
+# start jupyter notebook
+jupyter-lab --ip 0.0.0.0 --port=7070 --no-browser --allow-root \
+        --ServerApp.token="innolab" --ServerApp.password="innolab"
+``` 
+
+Now you can access the jupyter notebook with GPU support.
