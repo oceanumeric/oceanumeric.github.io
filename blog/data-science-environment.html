@@ -497,6 +497,30 @@ but it can via <code class="language-plaintext highlighter-rouge">conda install 
 
 <p>ENJOY :)</p>
 
+<h2 id="gpu-support">GPU support</h2>
+
+<p>Recently, I have been working on a project that requires GPU support with a new framework called JAX. It is weird that I could run the script with GPU support in the command line, but not in the jupyter notebook.</p>
+
+<p>Then I need a docker image with GPU support.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+        <span class="nt">-it</span> <span class="nt">--rm</span> <span class="se">\</span>
+        <span class="nt">--gpus</span> all <span class="nt">--ipc</span><span class="o">=</span>host <span class="se">\</span>
+        <span class="nt">--ulimit</span> <span class="nv">memlock</span><span class="o">=</span><span class="nt">-1</span> <span class="se">\</span>
+        <span class="nt">--ulimit</span> <span class="nv">stack</span><span class="o">=</span>67108864 <span class="se">\</span>
+        <span class="nt">--shm-size</span><span class="o">=</span>8gb <span class="se">\</span>
+        <span class="nt">-p</span> 7070:7070 <span class="se">\</span>
+        <span class="nt">-v</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span><span class="s2">"</span>:/home/work <span class="se">\</span>
+        vsc-cuda-container-92f8d0bcb7ce38ae6a144f94ac61d015 
+
+<span class="c"># install jupyter notebook</span>
+pip <span class="nb">install </span>jupyter
+<span class="c"># start jupyter notebook</span>
+jupyter-lab <span class="nt">--ip</span> 0.0.0.0 <span class="nt">--port</span><span class="o">=</span>7070 <span class="nt">--no-browser</span> <span class="nt">--allow-root</span> <span class="se">\</span>
+        <span class="nt">--ServerApp</span>.token<span class="o">=</span><span class="s2">"innolab"</span> <span class="nt">--ServerApp</span>.password<span class="o">=</span><span class="s2">"innolab"</span>
+</code></pre></div></div>
+
+<p>Now you can access the jupyter notebook with GPU support.</p>
 
     </div>
     <div id='bibliography'>
