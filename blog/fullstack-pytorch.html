@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Full Stack Deep Learning with PyTorch
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='deep learning, pytorch, data science, data collection, data processing, data analysis, model training'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Full Stack Deep Learning with PyTorch</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Full Stack Deep Learning with PyTorch" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Back in 2017, I have to use numpy to train a neural network. It was a pain. One has to write a lot of code to train a simple neural network. The chance of having a bug is high. Later, I went to study math and statistics. I did not follow the deep learning trend. I thought it would be better to learn the math and statistics first, which should be the foundation of deep learning, such as optimization, probability, and statistics." />
+<meta property="og:description" content="Back in 2017, I have to use numpy to train a neural network. It was a pain. One has to write a lot of code to train a simple neural network. The chance of having a bug is high. Later, I went to study math and statistics. I did not follow the deep learning trend. I thought it would be better to learn the math and statistics first, which should be the foundation of deep learning, such as optimization, probability, and statistics." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/fullstack-pytorch" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/fullstack-pytorch" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-08T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Full Stack Deep Learning with PyTorch" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-04-08T00:00:00+00:00","datePublished":"2023-04-08T00:00:00+00:00","description":"Back in 2017, I have to use numpy to train a neural network. It was a pain. One has to write a lot of code to train a simple neural network. The chance of having a bug is high. Later, I went to study math and statistics. I did not follow the deep learning trend. I thought it would be better to learn the math and statistics first, which should be the foundation of deep learning, such as optimization, probability, and statistics.","headline":"Full Stack Deep Learning with PyTorch","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/fullstack-pytorch"},"url":"https://oceanumeric.github.io//blog/fullstack-pytorch"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Full Stack Deep Learning with PyTorch</h1>
+            <h4>A guide to building a full stack deep learning application with PyTorch in a small scale, from data collection to model saving without deploying to production.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/deep-learning">deep-learning</a>, 
+                            
+                            <a href="/blog-tags/pytorch">pytorch</a>, 
+                            
+                            <a href="/blog-tags/data-science">data-science</a>, 
+                            
+                            <a href="/blog-tags/python">python</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>08 April 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>Back in 2017, I have to use <code class="language-plaintext highlighter-rouge">numpy</code> to train a neural network. It was a pain. One has to write a lot of code 
+to train a simple neural network. The chance of having a bug is high. Later, I went to study math and statistics. I did not follow the deep learning trend. I thought it would be better to learn the math and statistics first, which should be the foundation of deep learning, such as optimization, probability, and statistics.</p>
+
+<p>I gained a lot of knowledge from the math and statistics courses. This year, I started to train neural networks again. I found that the deep learning frameworks have become much more mature. I am very impressed by the <code class="language-plaintext highlighter-rouge">pytorch</code> framework.</p>
+
+<p>In this post, I will show you how to train a neural network with <code class="language-plaintext highlighter-rouge">pytorch</code>. I will use the <code class="language-plaintext highlighter-rouge">pytorch</code> framework to train a neural network to classify the fashion-MNIST dataset. The fashion-MNIST dataset is a dataset of Zalando’s article images. It is a drop-in replacement for the MNIST dataset. It has 10 classes, such as T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, and Ankle boot. The dataset has 60,000 training examples and 10,000 testing examples.</p>
+
+<h2 id="roadmap">Roadmap</h2>
+
+<p>We will grow the code base step by step. The code base will be organized in a modular way. We will use the test driven development (TDD) method to develop the code.</p>
+
+<p>The style of the post is more like a tutorial step by step. It not only shows you how to train a neural network with <code class="language-plaintext highlighter-rouge">pytorch</code>, but also shows you how to build up a code base that is easy to debug and easy to maintain and extend.</p>
+
+<ul>
+  <li><a href="#the-complexity-of-training-a-neural-network">The complexity of training a neural network</a></li>
+  <li><a href="#managing-the-dataset">Managing the dataset</a></li>
+  <li><a href="#test-driven-development">Test driven development</a></li>
+  <li><a href="#the-data-preprocessing">The data preprocessing</a></li>
+  <li><a href="#build-a-model">Build a model</a></li>
+  <li><a href="#train-the-model">Train the model</a></li>
+</ul>
+
+<h2 id="the-complexity-of-training-a-neural-network">The complexity of training a neural network</h2>
+
+<p>The training of a neural network is a complex process. It involves many steps. It also involves many hyperparameters turning. The hyperparameters include the learning rate, the number of epochs, the batch size, the optimizer, the loss function, the activation function, the initialization method, and so on.</p>
+
+<p>All those hyperparameters are important. They can affect the performance of the neural network. Therefore, training a neural network is a time-consuming process. It is becoming more or less an art, which is highly of practical skills.</p>
+
+<p>Besides, there are many steps in the training of a neural network. It involves the data preprocessing, the data loading, the model building, the model training, the model evaluation, and the model saving.</p>
+
+<p>Therefore, it is important to build up a code base that is easy to debug and easy to maintain. It is also important to have a structure that is easy to extend.</p>
+
+<p>Since modules and functions of  <code class="language-plaintext highlighter-rouge">pytorch</code> itself have grown a lot, it
+is better to import packages separately. The following code imports
+the packages that we will use in this post. It also sets up the device 
+and other parameters.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import packages that are not related to torch
+</span><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">math</span>
+<span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span> 
+<span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="c1"># torch import
+</span><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">import</span> <span class="n">torch.utils.data</span> <span class="k">as</span> <span class="n">tu_data</span>
+<span class="kn">from</span> <span class="n">torchvision.datasets</span> <span class="kn">import</span> <span class="n">FashionMNIST</span>
+
+
+<span class="c1">### --------- environment setup --------- ###
+# set up the data path
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
+
+<span class="c1"># function for setting seed
+</span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        
+<span class="c1"># set up seed globally and deterministically
+</span><span class="nf">set_seed</span><span class="p">(</span><span class="mi">76</span><span class="p">)</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c1"># set up device
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="managing-the-dataset">Managing the dataset</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">pytorch</code> framework provides a lot of datasets. We can use the <code class="language-plaintext highlighter-rouge">torchvision.datasets</code> package to manage the datasets. The following code downloads the fashion-MNIST dataset and transforms it into a tensor. The <code class="language-plaintext highlighter-rouge">transforms</code> package provides a lot of transformation functions. We can use the <code class="language-plaintext highlighter-rouge">transforms.Compose</code> function to compose a transformation. The <code class="language-plaintext highlighter-rouge">transforms.Normalize</code> function normalizes the data. The <code class="language-plaintext highlighter-rouge">transforms.ToTensor</code> function transforms the data into a tensor.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># set up the transformation
+</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
+<span class="p">])</span>
+<span class="c1"># download the dataset
+</span><span class="n">train_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">test_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If you collect and organize the data by yourself, you can use the <code class="language-plaintext highlighter-rouge">torch.utils.data.TensorDataset</code> class to create a dataset. We will talk about this in the second part of this post.</p>
+
+<h2 id="test-driven-development">Test driven development</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">pytorch</code> framework provides a lot of modules and functions. It is easy to make mistakes. Therefore, we should use the test driven development (TDD) method to develop the code. The TDD method is a software development process that relies on the repetition of a very short development cycle: requirements are turned into very specific test cases, then the software is improved to pass the new tests, only.</p>
+
+<p>The key idea of the TDD method is to write a test before writing the code. However, since we are training a neural network, it does not make sense to write so many tests before writing the code. Furthermore, the training of a neural network is different from developing a software, especially at the early stage. Much of the work involves <em>trial and error</em>.</p>
+
+<p>However, we still want to build up our code base in a testable way.
+How could we do this? I think the best way is to use <code class="language-plaintext highlighter-rouge">functions</code> and <code class="language-plaintext highlighter-rouge">classes</code> to build up the code base. The <code class="language-plaintext highlighter-rouge">functions</code> and <code class="language-plaintext highlighter-rouge">classes</code> are the basic building blocks of the <code class="language-plaintext highlighter-rouge">pytorch</code> framework. We can use them to build up the code base.</p>
+
+<p>Once you have different <code class="language-plaintext highlighter-rouge">functions</code> and <code class="language-plaintext highlighter-rouge">classes</code>, we can call them in the manner of a pipeline. This means we can debug each <code class="language-plaintext highlighter-rouge">function</code> and <code class="language-plaintext highlighter-rouge">class</code> separately in the pipeline.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fun1</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="n">Class</span> <span class="nc">Class1</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">fun2</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="c1"># build up the pipeline
+</span>    <span class="nf">fun1</span><span class="p">()</span>
+    <span class="n">class1</span> <span class="o">=</span> <span class="nc">Class1</span><span class="p">()</span>
+    <span class="n">class1</span><span class="p">.</span><span class="nf">fun2</span><span class="p">()</span>
+    <span class="c1"># debug each function and class separately
+</span></code></pre></div></div>
+
+<h2 id="the-data-preprocessing">The data preprocessing</h2>
+
+<p>The data preprocessing is the first step in the training of a neural network. It involves the data loading, the data splitting, and the data normalization.</p>
+
+<p>Here is the code at this stage.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># %% 
+# import packages that are not related to torch
+</span><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">math</span>
+<span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span> 
+<span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="c1"># torch import
+</span><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">import</span> <span class="n">torch.utils.data</span> <span class="k">as</span> <span class="n">tu_data</span>
+<span class="kn">from</span> <span class="n">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="n">torchvision.datasets</span> <span class="kn">import</span> <span class="n">FashionMNIST</span>
+
+
+<span class="c1">### --------- environment setup --------- ###
+# set up the data path
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
+
+<span class="c1"># function for setting seed
+</span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        
+<span class="c1"># set up seed globally and deterministically
+</span><span class="nf">set_seed</span><span class="p">(</span><span class="mi">76</span><span class="p">)</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c1"># set up device
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+
+
+<span class="c1">### --------- data preprocessing --------- ###
+</span>
+<span class="k">def</span> <span class="nf">_get_data</span><span class="p">():</span>
+    <span class="s">"""
+    download the dataset from FashionMNIST and transfom it to tensor
+    """</span>
+    <span class="c1"># set up the transformation
+</span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
+        <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
+    <span class="p">])</span>
+    
+    <span class="c1"># download the dataset
+</span>    <span class="n">train_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                    <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">test_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                    <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span>
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Using torch"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Using device"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># download the dataset
+</span>    <span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="nf">_get_data</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>You can run above code in the interactive window in VS Code or in command line. It is important to know:</p>
+
+<ul>
+  <li>anything is wrapped in the function will be only executed when you call the function.</li>
+  <li>anything is not wrapped in the function will be executed when you run the script. For instance, <code class="language-plaintext highlighter-rouge">set_seed(76)</code> will be executed when you run the script.</li>
+</ul>
+
+<p>What are advantages of using the TDD-oriented code? This allows us:</p>
+
+<ul>
+  <li>to debug each function and class separately.</li>
+  <li>to build up the code base in a testable way.</li>
+  <li>to set up global variables in a testable way.</li>
+  <li>to organize the code in a pipeline way.</li>
+  <li>to have a clear idea of the data flow and structure that allows us to extend and scale the code base.</li>
+</ul>
+
+<p>There are two main <code class="language-plaintext highlighter-rouge">attributes</code> of the dataset: <code class="language-plaintext highlighter-rouge">train_set.data</code> and <code class="language-plaintext highlighter-rouge">train_set.targets</code>. The <code class="language-plaintext highlighter-rouge">train_set.data</code> is a tensor with shape <code class="language-plaintext highlighter-rouge">(60000, 28, 28)</code>. The <code class="language-plaintext highlighter-rouge">train_set.targets</code> is a tensor with shape <code class="language-plaintext highlighter-rouge">(60000,)</code>. The <code class="language-plaintext highlighter-rouge">train_set.data</code> is the input data. The <code class="language-plaintext highlighter-rouge">train_set.targets</code> is the label data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># understand the dataset
+</span><span class="nf">print</span><span class="p">(</span><span class="s">"The size of the training set is"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_set</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"The dimension of the training set is"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"The dimension of the training label is"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">targets</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"The labels are"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">classes</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"The labels with index are"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">class_to_idx</span><span class="p">)</span>
+
+<span class="c1"># The size of the training set is 60000
+# The dimension of the training set is torch.Size([60000, 28, 28])
+# The dimension of the training label is torch.Size([60000])
+</span></code></pre></div></div>
+
+<p>The attributes of the training dataset in <code class="language-plaintext highlighter-rouge">pytorch</code> are quite important and useful. In the sense that we can learn how to build up the training dataset for our own data.</p>
+
+<p>Since many of the attributes are not intuitive, we can use the <code class="language-plaintext highlighter-rouge">dir</code> function to check the attributes of the dataset.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># check the attributes of the dataset
+</span><span class="nf">print</span><span class="p">(</span><span class="nf">dir</span><span class="p">(</span><span class="n">train_set</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>One of the attribute is <code class="language-plaintext highlighter-rouge">__getitem__</code>. This attribute allows us to access the data and label by index.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># access the data and label by index
+</span><span class="n">feature</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>The easiest way to learn more about the attributes of the dataset is to check the source code of the dataset <a href="https://pytorch.org/vision/main/_modules/torchvision/datasets/mnist.html#FashionMNIST" target="_blank">here</a>.</p>
+
+<p>When we train a neural network, we need to split the dataset into training set and validation set. The validation set is used to evaluate the performance of the model during the training process. The validation set is not used to train the model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># split the dataset into training set and validation set
+</span><span class="n">train_size</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_set</span><span class="p">))</span>
+<span class="n">val_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span> <span class="o">-</span> <span class="n">train_size</span>
+<span class="n">train_set</span><span class="p">,</span> <span class="n">val_set</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nf">random_split</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="p">[</span><span class="n">train_size</span><span class="p">,</span> <span class="n">val_size</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="build-a-model">Build a model</h2>
+
+<p>The model is the core of the neural network. The model is a class that inherits from the <code class="language-plaintext highlighter-rouge">nn.Module</code> class. The <code class="language-plaintext highlighter-rouge">nn.Module</code> class is the base class for all neural network modules. The <code class="language-plaintext highlighter-rouge">nn.Module</code> class provides a lot of useful attributes and methods.</p>
+
+<p>A neural network module has two main methods: <code class="language-plaintext highlighter-rouge">__init__</code> and <code class="language-plaintext highlighter-rouge">forward</code>. The <code class="language-plaintext highlighter-rouge">__init__</code> method is used to initialize the parameters of the model. The <code class="language-plaintext highlighter-rouge">forward</code> method is used to define the forward pass of the model.</p>
+
+<p>Building a model is a very important step in the deep learning pipeline. The model is the core of the neural network. When you have many layers of the neural network, it is very important to organize the model in a modular way. <strong>it is also very important to track the dimension of the data in each layer</strong>. To do this, we need a helper function <code class="language-plaintext highlighter-rouge">_layer_summary</code> to print out the dimension of the data in each layer.</p>
+
+<p>The following code shows how I build up a neural network model based on LeNet-5 architecture at this stage. The model has not been fully built up yet. I just want to show you the process of building up a model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># %% 
+# import packages that are not related to torch
+</span><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">math</span>
+<span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span> 
+<span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="c1"># torch import
+</span><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">import</span> <span class="n">torch.utils.data</span> <span class="k">as</span> <span class="n">tu_data</span>
+<span class="kn">from</span> <span class="n">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="n">torchvision.datasets</span> <span class="kn">import</span> <span class="n">FashionMNIST</span>
+
+
+<span class="c1">### --------- environment setup --------- ###
+# set up the data path
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
+
+<span class="c1"># function for setting seed
+</span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        
+<span class="c1"># set up seed globally and deterministically
+</span><span class="nf">set_seed</span><span class="p">(</span><span class="mi">76</span><span class="p">)</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c1"># set up device
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+
+
+<span class="c1">### --------- data preprocessing --------- ###
+</span>
+<span class="k">def</span> <span class="nf">_get_data</span><span class="p">():</span>
+    <span class="s">"""
+    download the dataset from FashionMNIST and transfom it to tensor
+    """</span>
+    <span class="c1"># set up the transformation
+</span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
+        <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
+    <span class="p">])</span>
+    
+    <span class="c1"># download the dataset
+</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                    <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                    <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span>
+
+
+<span class="k">def</span> <span class="nf">_visualize_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">):</span>
+    <span class="s">"""
+    visualize the dataset by randomly sampling
+    9 images from the dataset
+    """</span>
+    <span class="c1"># set up the figure
+</span>    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">col</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">*</span><span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">sample_idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">]</span>
+        <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="s">"off"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+        
+
+<span class="c1"># build the model
+</span><span class="k">class</span> <span class="nc">FashionClassifier</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="c1"># initialize the parent class
+</span>        <span class="c1"># super() allows us to access methods from a parent class
+</span>        <span class="nf">super</span><span class="p">(</span><span class="n">FashionClassifier</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="c1"># define the neural network
+</span>        <span class="c1"># based on architecture of LeNet-5
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="c1"># convolutional layers
+</span>            <span class="c1"># input channel 1 (grayscale), output channel 6
+</span>            <span class="c1"># kernel size 5 and stride is default 1
+</span>            <span class="c1"># kernel is just a fancy name for filter
+</span>            <span class="c1"># here we are using 5 x 5 filter
+</span>            <span class="c1"># we are using padding to keep the output size the same
+</span>            <span class="c1"># the output size is (28 - 5 + 2 * 2) / 1 + 1 = 28
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                     <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="c1"># activation function sigmoid
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Sigmoid</span><span class="p">(),</span>
+            <span class="c1"># average pooling layer
+</span>            <span class="c1"># the output size is (28 - 2) / 2 + 1 = 14
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">AvgPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="c1"># the output size is (14 - 5) / 1 + 1 = 10
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Sigmoid</span><span class="p">(),</span>
+            <span class="c1"># the output size is (10 - 2) / 2 + 1 = 5
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">AvgPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="c1"># dense layers or fully connected layers
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Flatten</span><span class="p">()</span>
+        <span class="p">)</span>
+        
+        
+    <span class="k">def</span> <span class="nf">_layer_summary</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">):</span>
+        <span class="s">"""
+        print the summary of the model
+        Input:
+            input_size: the size of the input tensor
+                        in the form of (batch_size, channel, height, width)
+        note: using * to unpack the tuple
+        """</span>
+        <span class="c1"># generate a random input tensor
+</span>        <span class="c1"># 
+</span>        <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="o">*</span><span class="n">input_size</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">net</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="nf">layer</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s">"output shape:</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+        
+    
+
+<span class="c1"># function for training the model
+</span><span class="k">def</span> <span class="nf">train_the_model</span><span class="p">(</span><span class="n">training_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">):</span>
+    
+    <span class="c1"># create the loader
+</span>    <span class="n">training_loader</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">training_dataset</span><span class="p">,</span>
+                                            <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+                                            <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">validation_loader</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span>
+                                            <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+                                            <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># download the dataset
+</span>    <span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span> <span class="o">=</span> <span class="nf">_get_data</span><span class="p">()</span>
+    <span class="nf">_visualize_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">)</span>
+    
+    <span class="c1"># split the dataset into train and validation
+</span>    <span class="n">train_size</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))</span>
+    <span class="n">val_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">)</span> <span class="o">-</span> <span class="n">train_size</span>
+    <span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nf">random_split</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
+                                                      <span class="p">[</span><span class="n">train_size</span><span class="p">,</span> <span class="n">val_size</span><span class="p">])</span>
+
+    
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Using torch"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Using device"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># check layer summary
+</span>    <span class="n">foo_model</span> <span class="o">=</span> <span class="nc">FashionClassifier</span><span class="p">()</span>
+    <span class="n">foo_model</span><span class="p">.</span><span class="nf">_layer_summary</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+    
+</code></pre></div></div>
+
+<p>You can notice that I added a <code class="language-plaintext highlighter-rouge">main()</code> function which is slowly building up my pipeline. At the same time, I am using the code after the <code class="language-plaintext highlighter-rouge">if __name__ == "__main__":</code> to test the code. The <code class="language-plaintext highlighter-rouge">main()</code> function will be called at the end of the script.</p>
+
+<p>I think now you can appreciate the power of test driven development.
+For instance, in the above code, I am testing a new function called <code class="language-plaintext highlighter-rouge">_layer_summary()</code> which will print the summary of each layer in the neural network and help me to trace the dimension of the tensor.</p>
+
+<p>Anyone who has some experience in building a neural network will know that the dimension of the tensor is very important. You know what I am talking about if you have ever encountered the error message <code class="language-plaintext highlighter-rouge">RuntimeError: Given groups=1, weight of size [6, 1, 5, 5], expected input[64, 6, 28, 28] to have 1 channels, but got 6 channels instead</code>.</p>
+
+<h2 id="train-the-model">Train the model</h2>
+
+<p>Once we have the training set and validation set, we can build up the training dataset and validation dataset.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># build up the training dataset and validation dataset
+</span><span class="n">train_loader</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">val_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">batch_size</code> is the number of samples in each batch. The <code class="language-plaintext highlighter-rouge">shuffle</code> is a boolean value. If <code class="language-plaintext highlighter-rouge">shuffle=True</code>, the data will be shuffled before each epoch. The idea of having a <code class="language-plaintext highlighter-rouge">batch_size</code> links to the idea of <code class="language-plaintext highlighter-rouge">mini-batch</code>. The <code class="language-plaintext highlighter-rouge">mini-batch</code> is a subset of the training set. The <code class="language-plaintext highlighter-rouge">mini-batch</code> is used to train the model. The <code class="language-plaintext highlighter-rouge">mini-batch</code> is randomly sampled from the training set. The <code class="language-plaintext highlighter-rouge">mini-batch</code> is used to approximate the gradient of the loss function with stochastic gradient descent.</p>
+
+<p>One should be aware that the <code class="language-plaintext highlighter-rouge">batch_size</code> will affect the training process and the performance of the model. The <code class="language-plaintext highlighter-rouge">batch_size</code> is a hyperparameter. The <code class="language-plaintext highlighter-rouge">batch_size</code> is a hyperparameter that we need to tune.</p>
+
+<p>To learn more about the <code class="language-plaintext highlighter-rouge">data loader</code>, you can check the <a href="https://pytorch.org/docs/stable/data.html" target="_blank">documentation</a>.</p>
+
+<p>After loading the dataset, we need to set up loss function and optimizer. The loss function is used to measure the performance of the model. The optimizer is used to update the parameters of the model.</p>
+
+<p>Here is the full code.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># %% 
+# import packages that are not related to torch
+</span><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">math</span>
+<span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span> 
+<span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="c1"># torch import
+</span><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">import</span> <span class="n">torch.utils.data</span> <span class="k">as</span> <span class="n">tu_data</span>
+<span class="kn">from</span> <span class="n">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="n">torchvision.datasets</span> <span class="kn">import</span> <span class="n">FashionMNIST</span>
+
+
+<span class="c1">#region ###### ---------  environment setup --------- ######
+</span>
+<span class="c1"># set up the data path
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
+<span class="n">SAVE_PATH</span> <span class="o">=</span> <span class="s">"../pretrained"</span>
+
+<span class="c1"># function for setting seed
+</span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        
+<span class="c1"># set up seed globally and deterministically
+</span><span class="nf">set_seed</span><span class="p">(</span><span class="mi">76</span><span class="p">)</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c1"># set up device
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+<span class="c1">#endregion
+</span>
+
+<span class="c1">#region ######  -------- data preprocessing -------- #######
+</span><span class="k">def</span> <span class="nf">_get_data</span><span class="p">():</span>
+    <span class="s">"""
+    download the dataset from FashionMNIST and transfom it to tensor
+    """</span>
+    <span class="c1"># set up the transformation
+</span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
+        <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
+    <span class="p">])</span>
+    
+    <span class="c1"># download the dataset
+</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                    <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                    <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span>
+
+
+<span class="k">def</span> <span class="nf">_visualize_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">):</span>
+    <span class="s">"""
+    visualize the dataset by randomly sampling
+    9 images from the dataset
+    """</span>
+    <span class="c1"># set up the figure
+</span>    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">col</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">*</span><span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">sample_idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">]</span>
+        <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="s">"off"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+ <span class="c1">#endregion       
+</span>
+
+<span class="c1">#region ######  -------- build up neural network -------- #######
+</span><span class="k">class</span> <span class="nc">FashionClassifier</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="c1"># initialize the parent class
+</span>        <span class="c1"># super() allows us to access methods from a parent class
+</span>        <span class="nf">super</span><span class="p">(</span><span class="n">FashionClassifier</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="c1"># define the neural network
+</span>        <span class="c1"># based on architecture of LeNet-5
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="c1"># convolutional layers
+</span>            <span class="c1"># input channel 1 (grayscale), output channel 6
+</span>            <span class="c1"># kernel size 5 and stride is default 1
+</span>            <span class="c1"># kernel is just a fancy name for filter
+</span>            <span class="c1"># here we are using 5 x 5 filter
+</span>            <span class="c1"># we are using padding to keep the output size the same
+</span>            <span class="c1"># the output size is (28 - 5 + 2 * 2) / 1 + 1 = 28
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                     <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="c1"># activation function sigmoid
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Sigmoid</span><span class="p">(),</span>
+            <span class="c1"># average pooling layer
+</span>            <span class="c1"># the output size is (28 - 2) / 2 + 1 = 14
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">AvgPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="c1"># the output size is (14 - 5) / 1 + 1 = 10
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Sigmoid</span><span class="p">(),</span>
+            <span class="c1"># the output size is (10 - 2) / 2 + 1 = 5
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">AvgPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="c1"># dense layers or fully connected layers
+</span>            <span class="c1"># Flatten is recommended to use instead of view
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Flatten</span><span class="p">(),</span>
+            <span class="c1"># lienar layer
+</span>            <span class="c1"># intput size is 16 * 5 * 5 = 400
+</span>            <span class="c1"># why 400? because the output size of the last layer is 5 x 5
+</span>            <span class="c1"># with 16 channels
+</span>            <span class="c1"># using _layer_summary() to check the output size
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">120</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">84</span><span class="p">),</span>
+            <span class="c1"># output layer, 10 classes
+</span>            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+        
+    <span class="k">def</span> <span class="nf">_layer_summary</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">):</span>
+        <span class="s">"""
+        print the summary of the model
+        Input:
+            input_size: the size of the input tensor
+                        in the form of (batch_size, channel, height, width)
+        note: using * to unpack the tuple
+        """</span>
+        <span class="c1"># generate a random input tensor
+</span>        <span class="c1"># 
+</span>        <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="o">*</span><span class="n">input_size</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">net</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="nf">layer</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s">"output shape:</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+ <span class="c1">#endregion     
+</span>           
+    
+<span class="c1">#region ######  -------- function to train the model  -------- #######
+</span><span class="k">def</span> <span class="nf">train_the_model</span><span class="p">(</span><span class="n">network_model</span><span class="p">,</span> <span class="n">training_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">,</span>
+                                    <span class="n">num_epochs</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span>
+                                    <span class="n">patience</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
+    <span class="s">"""
+    Train the neural network model, we stop if the validation loss
+    does not improve for a certain number of epochs (patience=7)
+    Inputs:
+        network_model: the neural network model
+        training_dataset: the training dataset
+        val_dataset: the validation dataset
+        num_epochs: the number of epochs
+        patience: the number of epochs to wait before early stopping
+    Output:
+        the trained model
+    """</span>
+    
+    <span class="c1"># initialize the model
+</span>    <span class="n">model</span> <span class="o">=</span> <span class="nf">network_model</span><span class="p">()</span>
+    <span class="c1"># push the model to the device
+</span>    <span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># hyperparameters setting
+</span>    <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+    
+    <span class="c1"># create the loader
+</span>    <span class="n">training_loader</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">training_dataset</span><span class="p">,</span>
+                                            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                            <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">validation_loader</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span>
+                                            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                            <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="c1"># define the loss function
+</span>    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">CrossEntropyLoss</span><span class="p">()</span>
+    
+    <span class="c1"># define the optimizer
+</span>    <span class="c1"># we are using stochastic gradient descent
+</span>    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="nc">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span>
+                                <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span>
+                                <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    
+    <span class="c1"># print out the model summary
+</span>    <span class="nf">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    
+    <span class="c1"># loss tracker
+</span>    <span class="n">loss_scores</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># validation score tracker
+</span>    <span class="n">val_scores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">best_val_score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="c1"># begin training
+</span>    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">tqdm</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">)):</span>
+        <span class="c1"># set the model to training mode
+</span>        <span class="n">model</span><span class="p">.</span><span class="nf">train</span><span class="p">()</span>
+        <span class="n">correct_preds</span><span class="p">,</span> <span class="n">total_preds</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">imgs</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">training_loader</span><span class="p">:</span>
+            <span class="c1"># push the data to the device
+</span>            <span class="n">imgs</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            
+            <span class="c1"># forward pass
+</span>            <span class="n">preds</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+            
+            <span class="c1"># backward pass
+</span>            <span class="c1"># zero the gradient
+</span>            <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+            <span class="c1"># calculate the gradient
+</span>            <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+            <span class="c1"># update the weights
+</span>            <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+            
+            <span class="c1"># calculate the accuracy
+</span>            <span class="n">correct_preds</span> <span class="o">+=</span> <span class="n">preds</span><span class="p">.</span><span class="nf">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="nf">eq</span><span class="p">(</span><span class="n">labels</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+            <span class="n">total_preds</span> <span class="o">+=</span> <span class="nf">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        
+        <span class="c1"># append the loss score
+</span>        <span class="n">loss_scores</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">())</span>
+        
+        <span class="c1"># calculate the training accuracy
+</span>        <span class="n">train_acc</span> <span class="o">=</span> <span class="n">correct_preds</span> <span class="o">/</span> <span class="n">total_preds</span>
+        <span class="c1"># calculate the validation accuracy
+</span>        <span class="n">val_acc</span> <span class="o">=</span> <span class="nf">test_the_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">validation_loader</span><span class="p">)</span>
+        <span class="n">val_scores</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">val_acc</span><span class="p">)</span>
+        
+        <span class="c1"># print out the training and validation accuracy
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"### ----- Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="mi">2</span><span class="n">d</span><span class="si">}</span><span class="s"> Training accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"                    Validation accuracy: </span><span class="si">{</span><span class="n">val_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">val_acc</span> <span class="o">&gt;</span> <span class="n">val_scores</span><span class="p">[</span><span class="n">best_val_score</span><span class="p">]</span> <span class="ow">or</span> <span class="n">best_val_score</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">best_val_score</span> <span class="o">=</span> <span class="n">epoch</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># one could save the model here
+</span>            <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="s">"/best_model.pt"</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"We have not improved for </span><span class="si">{</span><span class="n">patience</span><span class="si">}</span><span class="s"> epochs, stopping..."</span><span class="p">)</span>
+            <span class="k">break</span> 
+        
+    <span class="c1"># plot the loss scores and validation scores
+</span>    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">loss_scores</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="n">loss_scores</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="s">"Loss"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">val_scores</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="n">val_scores</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="s">"Validation Accuracy"</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="s">"Loss and Validation Accuracy of LeNet-5 for Fashion MNIST"</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">.</span><span class="nf">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.45</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">test_the_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">val_data_loader</span><span class="p">):</span>
+    <span class="s">"""
+    Test the model on the validation dataset
+    Input:
+        model: the trained model
+        val_data_loader: the validation data loader
+    """</span>
+    <span class="c1"># set the model to evaluation mode
+</span>    <span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+    
+    <span class="n">correct_preds</span><span class="p">,</span> <span class="n">total_preds</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">imgs</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">val_data_loader</span><span class="p">:</span>
+        <span class="c1"># push the data to the device
+</span>        <span class="n">imgs</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        
+        <span class="c1"># no need to calculate the gradient
+</span>        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+            <span class="n">preds</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+            <span class="c1"># get the index of the max log-probability
+</span>            <span class="c1"># output is [batch_size, 10]
+</span>            <span class="n">preds</span> <span class="o">=</span> <span class="n">preds</span><span class="p">.</span><span class="nf">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="c1"># item() is used to get the value of a tensor
+</span>            <span class="c1"># move the tensor to the cpu
+</span>            <span class="n">correct_preds</span> <span class="o">+=</span> <span class="n">preds</span><span class="p">.</span><span class="nf">eq</span><span class="p">(</span><span class="n">labels</span><span class="p">.</span><span class="nf">view_as</span><span class="p">(</span><span class="n">preds</span><span class="p">)).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+            <span class="n">total_preds</span> <span class="o">+=</span> <span class="nf">len</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+    
+    <span class="n">test_acc</span> <span class="o">=</span> <span class="n">correct_preds</span> <span class="o">/</span> <span class="n">total_preds</span>
+    
+    <span class="k">return</span> <span class="n">test_acc</span>
+    
+ <span class="c1">#endregion
+</span> 
+ 
+    
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># download the dataset
+</span>    <span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span> <span class="o">=</span> <span class="nf">_get_data</span><span class="p">()</span>
+    <span class="c1"># _visualize_data(train_dataset, test_dataset)
+</span>    
+    <span class="c1"># split the dataset into train and validation
+</span>    <span class="n">train_size</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))</span>
+    <span class="n">val_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">)</span> <span class="o">-</span> <span class="n">train_size</span>
+    <span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">tu_data</span><span class="p">.</span><span class="nf">random_split</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
+                                                      <span class="p">[</span><span class="n">train_size</span><span class="p">,</span> <span class="n">val_size</span><span class="p">])</span>
+    <span class="nf">train_the_model</span><span class="p">(</span><span class="n">FashionClassifier</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">)</span>
+    
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Using torch"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Using device"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+    <span class="nf">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Although the code is a bit long, it is much easier to understand than the code written with <code class="language-plaintext highlighter-rouge">numpy</code>. One can see that the code is much more concise and readable. The code is also much more efficient, as we are using the GPU to train the model. The code is also much more flexible, as we can easily change the model architecture, the optimizer, the loss function, and the hyperparameters. The code is also much more modular, as we can easily reuse the code for other projects.</p>
+
+<p>It takes less than one minute to train the model with one GPU. The model achieves a validation accuracy of 72.38% after 7 epochs.</p>
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
