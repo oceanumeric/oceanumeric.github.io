@@ -20,6 +20,7 @@ goes wrong, we have to halt our project.
 - [Build a docker image](#build-a-docker-image)
 - [Using datascience-notebook image](#using-datascience-notebook-image)
 - [Using datascience-notebook image as a server](#using-datascience-notebook-image-as-a-server)
+- [GPU support](#gpu-support)
 
 ## An unpleasant experience 
 

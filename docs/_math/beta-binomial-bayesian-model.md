@@ -51,6 +51,90 @@ $$
 
 It is easy to verify we have $f(x) = 1$ when $\alpha = \beta = 1$. The Beta distribution is symmetric when $\alpha = \beta$. The Beta distribution is skewed to the left when $\alpha > \beta$. The Beta distribution is skewed to the right when $\alpha < \beta$.
 
+<div class='figure'>
+    <img src="/math/images/beta_dist.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The plot of the beta distribution with different values of $\alpha$ and $\beta$.
+    </div>
+</div>
+
+_Remark:_ The Beta distribution is symmetric when $\alpha = \beta$. 
+
+Now, let's list some properties of the Beta distribution. 
+
+$$
+\begin{aligned}
+\text{E}[X] &= \int x \cdot f(x) dx =  \frac{\alpha}{\alpha + \beta} \\
+\text{Var}[X] &= \int (x - \mathrm{E}(x))^2 \cdot  f(x) dx =  \frac{\alpha \beta}{(\alpha + \beta)^2(\alpha + \beta + 1)} \\
+\text{Mode}[X] &= \argmax_x f(x) =  \frac{\alpha - 1}{\alpha + \beta - 2} 
+\end{aligned}
+$$
+
+It is important to know that $\alpha, \beta$ could be any real numbers with $\alpha > 0$ and $\beta > 0$. 
+
+
+<div class='figure'>
+    <img src="/math/images/beta_distribution.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> The plot of the beta distribution. 
+    </div>
+</div>
+
+
+## A simple example
+
+Let's consider a simple example. Suppose you are basketball coach. Now, you are recruiting a new player. You ask this player to shoot 10 free throws. Assume that the player's probability of making a free throw is $p$. We can model this process as a Binomial distribution with $n = 10$ and $p$.
+
+$$
+X \sim \text{Binomial}(n=10, p) = \binom{10}{x} p^x (1-p)^{10-x}
+$$
+
+Now, let's assume three different scenarios:
+
+- Scenario 1: this player is a rookie, which means his probability of making a free throw is $p = 0.5$.
+- Scenario 2: this player is a veteran, which means his probability of making a free throw is $p = 0.7$.
+- Scenario 3: this player is a superstar, which means his probability of making a free throw is $p = 0.9$.
+
+We plot the distribution of $X$ in the three scenarios in Figure 3.
+
+<div class='figure'>
+    <img src="/math/images/free_throws.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> The plot of binomial distribution with different values of $p$.
+    </div>
+</div>
+
+Now, image that we ask this player to shoot 10 free throws. We observe that he makes 6 free throws. Can you tell which scenario is more likely? From figure 3, we can make
+
+- Scenario 1: $p = 0.5$, $X = 6$, $f(x) = 0.205$
+- Scenario 2: $p = 0.7$, $X = 6$, $f(x) = 0.200$
+- Scenario 3: $p = 0.9$, $X = 6$, $f(x) = 0.011$
+
+This means the likelihood of Scenario 3 is much smaller than the likelihood of Scenario 1 and Scenario 2. Therefore, we can conclude that the player is more likely to be a rookie or a veteran.
+
+But, how confident are we about this conclusion? Right now, we only have one observation. We do not know the distribution of $X$. We do not know the sample size. We do not know the true value of $p$. We only know that the player is more likely to be a rookie or a veteran.
+
+There are two ways to solve this problem. The first way is to use frequentist statistics. The second way is to use Bayesian statistics. 
+
+With frequentist statistics, we can ask our friend to shoot 10 free throws again and again (let's say 5 round). Then, we can calculate the average of likelihood and make a conclusion.
+
+With Bayesian statistics, we can use the Beta distribution to model the distribution of $p$. Then, we can use the posterior distribution to make a conclusion.
+
+When should one use frequentist statistics and when should one use Bayesian statistics? The answer is that it depends on the problem. In this example, we can use either frequentist statistics or Bayesian statistics.
+
+But for many problems, we can only use Bayesian statistics. For example, if we want to estimate the probability of a person having a disease, we can only use Bayesian statistics. We cannot use frequentist statistics because we do not have a large sample size.
+
+You get the idea. Bayesian statistics is more flexible than frequentist statistics. But, Bayesian statistics is also more complicated than frequentist statistics, which needs a prior distribution and a posterior distribution.
+
+### Tune the hyperparameters for prior distribution
+
+
 
 
 

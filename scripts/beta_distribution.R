@@ -1,6 +1,7 @@
 library(dplyr)
 library(data.table)
 library(knitr)
+library(ggplot2)
 # plot beta distribution for different values of alpha and beta
 # save the plot as beta_distribution.png
 
@@ -114,3 +115,28 @@ lines(p_seq, dbeta(p_seq, alpha[idx] + x, beta[idx] + n - x),
 legend("topright", legend = c("prior", "posterior"), 
     col = c("black", "red"), lty = 1, lwd = 2)
 dev.off()
+
+
+# plot beta distribution for different values of alpha and beta
+# generate a grid of alpha and beta
+i = 1
+df_list = list()
+for(a in c(1, 3, 7, 20)){
+    for(b in c(1, 3, 7, 20)){
+        x = seq(0, 1, 0.01)
+        y = dbeta(x, shape1=a, shape2=b)
+        df_list[[i]] = data.frame(x=x, y=y, 
+                                  group = paste("a =", a, ", b =", b))
+        i = i + 1
+    }
+}
+
+df = do.call(rbind, df_list)
+
+ggplot(df, aes(x, y)) + 
+    geom_line()+
+  facet_wrap(~ group)+
+  coord_cartesian(ylim=c(0,7))+
+  xlab(expression(x))+
+  ylab(expression(f(x)))
+
