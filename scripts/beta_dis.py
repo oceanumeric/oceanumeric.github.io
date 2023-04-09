@@ -1,14 +1,11 @@
 # %%
 import os
-import sys
 import itertools
 import numpy as np
 import scipy as sp
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-# set seaborn style
-sns.set_style()
 
 
 # jax imports
@@ -57,8 +54,39 @@ def free_throws():
     ax.axvline(x=6, color="b", linestyle="-.")
     ax.set_title("Binomial distribution for free throws")
     plt.legend()
-    plt.savefig('./docs/math/images/free_throws.png', dpi=300, bbox_inches='tight')
+    plt.savefig('./docs/math/images/free_throws.png', dpi=300,
+                                    bbox_inches='tight')
+        
+def tuning_beta():
+    """plot beta distribution for tuning parameters
+    alpha = 3 beta 
+    """
+    hyperparams = [(3, 1), (15, 5), (30, 10)]
+    fig, axes = plt.subplots(1, 3, figsize=(8.5, 3))
+    axes = axes.flatten()
+    for idx, (alpha, beta) in enumerate(hyperparams):
+        x = np.linspace(0, 1, 1000)
+        y = sp.stats.beta.pdf(x, alpha, beta)
+        axes[idx].plot(x, y, "k-")
+        axes[idx].set_ylim(0, 6)
+        axes[idx].set_title(f"$\\alpha={alpha}, \\beta$={beta}")
+    plt.savefig('./docs/math/images/tuning_beta.png', dpi=300,
+                                    bbox_inches='tight')
 
+
+def plot_posterior():
+    x = np.linspace(0, 1, 1000)
+    hyperparams = [(15, 5), (21, 9)]
+    fig, ax = plt.subplots(figsize=(7, 3.5))
+    for alpha, beta in hyperparams:
+        y = sp.stats.beta.pdf(x, alpha, beta)
+        ax.plot(x, y, label=f"$\\alpha={alpha}, \\beta={beta}$")
+    ax.set_title("Posterior distribution for free throws")
+    ax.set_xlabel("p")
+    ax.set_ylabel("Density")
+    plt.legend()
+    fig.savefig('./docs/math/images/free_throws_posterior.png', dpi=300,
+                                    bbox_inches='tight')
 
 
 if __name__ == "__main__":
@@ -66,7 +94,10 @@ if __name__ == "__main__":
     # plt.style.use('default')
     # plt.style.use('seaborn')
     # plot_beta_dist()
-    free_throws()
+    # free_throws()
+    # tuning_beta()
+    plot_posterior()
 
    
+
 # %%

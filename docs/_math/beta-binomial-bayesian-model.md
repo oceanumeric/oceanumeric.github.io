@@ -59,8 +59,7 @@ It is easy to verify we have $f(x) = 1$ when $\alpha = \beta = 1$. The Beta dist
         <span class='caption-label'>Figure 1.</span> The plot of the beta distribution with different values of $\alpha$ and $\beta$.
     </div>
 </div>
-
-_Remark:_ The Beta distribution is symmetric when $\alpha = \beta$. 
+ 
 
 Now, let's list some properties of the Beta distribution. 
 
@@ -132,10 +131,194 @@ But for many problems, we can only use Bayesian statistics. For example, if we w
 
 You get the idea. Bayesian statistics is more flexible than frequentist statistics. But, Bayesian statistics is also more complicated than frequentist statistics, which needs a prior distribution and a posterior distribution.
 
-### Tune the hyperparameters for prior distribution
+### Tuning the hyperparameters for prior distribution
+
+According to a post from [Wikipedia](https://en.wikipedia.org/wiki/Free_throw){:target="_blank"}, the average free throw percentage in the NBA is $0.75$. This means the average value of $p$ is $0.75$. The share of players who make more than $0.75$ is rare. This means the distribution of $p$ is skewed to the left. Therefore we have to choose a beta distribution with $\alpha > \beta$ and
+
+$$
+\mathrm{E}[p] = \frac{\alpha}{\alpha + \beta} = 0.75; \Rightarrow \alpha = 3 \beta 
+$$
+
+<div class='figure'>
+    <img src="/math/images/tuning_beta.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The plot of beta distribution with different values of $\alpha$ and $\beta$.
+    </div>
+</div>
+
+Based on Figure 4, we choose $\alpha = 15$ and $\beta = 5$. Then, we can calculate the posterior distribution of $p$.
+
+First, let's review the formula of the Bayesian update. The posterior distribution is
+
+$$
+\begin{aligned}
+f(\theta | \text{data}) & = \frac{f(\text{data} | \theta) f(\theta)}{f(\text{data})}  \\
+\text{posterior} &  \varpropto \frac{\text{likelihood} \cdot \text{prior}}{\text{evidence}}
+\end{aligned}
+$$
+
+where $f(\text{data})$ is the evidence, which is the sum of the likelihood and the prior:
+
+$$
+f(\text{data}) = \int f(\text{data} | \theta) f(\theta) d\theta \quad \text{or} \quad f(\text{data}) = \sum_{i=1}^n f(\text{data} | \theta_i) f(\theta_i)
+$$
+
+We can calculate the posterior distribution of $p$ as follows (assume our player makes 6 free throws):
+
+$$
+\begin{aligned}
+\pi(p |x=6, n = 10, alpha = 15, beta = 5) & = \mathrm{Beta}(p | \alpha + x, \beta + n - x) \\ 
+& = \mathrm{Beta}(p | 15 + 6, 5 + 10 - 6) \\
+& = \mathrm{Beta}(p | 21, 9)
+\end{aligned}
+$$
+
+## Calculating the posterior distribution
+
+Now, we can calculate the posterior distribution of $p$.
+
+<div class='figure'>
+    <img src="/math/images/free_throws_posterior.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> The plot of beta distribution and the posterior distribution of $p$.
+    </div>
+</div>
+
+From Figure 5, we can see that the posterior distribution shifts to the left. This means the player is more likely to be a rookie or a veteran. How could interpret the posterior distribution?
+
+If the blue curve is the prior distribution, which gives the probability of $p$ based on our prior knowledge. The red curve is the posterior distribution, which gives the probability of $p$ based on our prior knowledge and the observation.
+
+In this example, the prior distribution gives the distribution of $p$ based on our observation of all NBA players. The posterior distribution gives the distribution of $p$ based on our observation of all NBA players and the observation of our player. 
+
+The posterior distribution could be used to estimate the value of this basketball player. As it not just gives this player's free throw percentage, but also gives the uncertainty of this player's free throw percentage.
 
 
+```python
+# %%
+import os
+import itertools
+import numpy as np
+import scipy as sp
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+
+def plot_beta_dist():
+    
+    hyperparams = [1, 3, 10]
+    alpha_beta = list(itertools.product(hyperparams, hyperparams))
+    
+    # random variable
+    x = np.linspace(0, 1, 1000)
+    
+    fig, axes = plt.subplots(3, 3, figsize=(9, 8))
+    axes = axes.flatten()
+    for idx, (alpha, beta) in enumerate(alpha_beta):
+        y = sp.stats.beta.pdf(x, alpha, beta)
+        axes[idx].plot(x, y, "k-")
+        axes[idx].set_ylim(0, 6)
+        axes[idx].set_title(f"alpha={alpha}, beta={beta}")
+    fig.subplots_adjust(hspace=0.5)
+    # plt.savefig('./docs/math/images/beta_dist.png', dpi=300, bbox_inches='tight')
+    
+
+def free_throws():
+    """Plot binomial distribution for free throws"""
+    p_vals = [0.5, 0.7, 0.9]
+    markers = ["ko-", "ko--", "ko:"]
+    n = 10
+    x = np.arange(0, n+1, 1)
+    fig, ax = plt.subplots(figsize=(7, 3.5))
+    for idx in range(len(p_vals)):
+        p = p_vals[idx]
+        y = sp.stats.binom.pmf(x, n, p)
+        mk = markers[idx]
+        ax.plot(x, y, mk, label=f"p={p}")
+    # add a vertical line at x=6
+    ax.axvline(x=6, color="b", linestyle="-.")
+    ax.set_title("Binomial distribution for free throws")
+    plt.legend()
+    plt.savefig('./docs/math/images/free_throws.png', dpi=300,
+                                    bbox_inches='tight')
+        
+def tuning_beta():
+    """plot beta distribution for tuning parameters
+    alpha = 3 beta 
+    """
+    hyperparams = [(3, 1), (15, 5), (30, 10)]
+    fig, axes = plt.subplots(1, 3, figsize=(8.5, 3))
+    axes = axes.flatten()
+    for idx, (alpha, beta) in enumerate(hyperparams):
+        x = np.linspace(0, 1, 1000)
+        y = sp.stats.beta.pdf(x, alpha, beta)
+        axes[idx].plot(x, y, "k-")
+        axes[idx].set_ylim(0, 6)
+        axes[idx].set_title(f"alpha={alpha}, beta={beta}")
+    plt.savefig('./docs/math/images/tuning_beta.png', dpi=300,
+                                    bbox_inches='tight')
+
+
+def plot_posterior():
+    x = np.linspace(0, 1, 1000)
+    hyperparams = [(15, 5), (21, 9)]
+    fig, ax = plt.subplots(figsize=(7, 3.5))
+    for alpha, beta in hyperparams:
+        y = sp.stats.beta.pdf(x, alpha, beta)
+        ax.plot(x, y, label=f"alpha={alpha}, beta={beta}")
+    ax.set_title("Posterior distribution for free throws")
+    ax.set_xlabel("p")
+    ax.set_ylabel("Density")
+    plt.legend()
+    fig.savefig('./docs/math/images/free_throws_posterior.png', dpi=300,
+                                    bbox_inches='tight')
+
+
+if __name__ == "__main__":
+    print(os.getcwd())
+    # plt.style.use('default')
+    # plt.style.use('seaborn')
+    # plot_beta_dist()
+    # free_throws()
+    # tuning_beta()
+    plot_posterior()
+```
+
+## Baseball example
+
+Let's take another example with the baseball data. To be honest, I do not know much about baseball. But I think this example is interesting.
+I guess in baseball, you use batting average to measure the performance of a player. The batting average is the number of hits divided by the number of at bats. For example, if a player has 100 at bats and 30 hits, then the batting average is $0.3$. Again, I have no idea what those terms mean. 
+
+The data is from a R package called [Lahman](https://cran.r-project.org/web/packages/Lahman/index.html){:target="_blank"}. The data contains the batting average of all players in the MLB from 1871 to 2016. 
+
+|name           |    H|    AB(at bats)| average|
+|:--------------|----:|-----:|-------:|
+|Hank Aaron     | 3771| 12364|   0.305|
+|Tommie Aaron   |  216|   944|   0.229|
+|Andy Abad      |    2|    21|   0.095|
+|John Abadie    |   11|    49|   0.224|
+|Ed Abbaticchio |  772|  3044|   0.254|
+
+Now, if we want to use the batting average to measure the performance of a player, we will face the issue of proportion. For example, if we want to measure the performance of a player who has 100 at bats and 30 hits, we will get a batting average of $0.3$. But if we want to measure the performance of a player who has 1000 at bats and 300 hits, we will get a batting average of $0.3$ again. But which player is better? For instance, the following table gives the top 5 players with the highest batting average. 
+
+|name             |  H| AB| average|
+|:----------------|--:|--:|-------:|
+|Jeff Banister    |  1|  1|       1|
+|Doc Bass         |  1|  1|       1|
+|Steve Biras      |  2|  2|       1|
+|C. B. Burns      |  1|  1|       1|
+|Jackie Gallagher |  1|  1|       1|
+
+If you look at the table, you can see that we could not say Jeff Banister is the best player.
+
+The intuition is that we need to take into account the number of at bats because one could get lucky and get a lot of hits with a small number of at bats.
+
+
+### Get a distribution as a prior
 
 
 
