@@ -513,11 +513,16 @@ but it can via <code class="language-plaintext highlighter-rouge">conda install 
         <span class="nt">-v</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span><span class="s2">"</span>:/home/work <span class="se">\</span>
         vsc-cuda-container-92f8d0bcb7ce38ae6a144f94ac61d015 
 
+docker <span class="nb">exec</span> <span class="nt">-it</span> thirsty_perlman /bin/bash
+
+<span class="c"># install jupyter notebook</span>
+pip <span class="nb">install </span>jupyterlab
 <span class="c"># install jupyter notebook</span>
 pip <span class="nb">install </span>jupyter
 <span class="c"># start jupyter notebook</span>
-jupyter-lab <span class="nt">--ip</span> 0.0.0.0 <span class="nt">--port</span><span class="o">=</span>7070 <span class="nt">--no-browser</span> <span class="nt">--allow-root</span> <span class="se">\</span>
-        <span class="nt">--ServerApp</span>.token<span class="o">=</span><span class="s2">"innolab"</span> <span class="nt">--ServerApp</span>.password<span class="o">=</span><span class="s2">"innolab"</span>
+<span class="c"># &amp; is used to run the command in background</span>
+<span class="nb">nohup </span>jupyter-lab <span class="nt">--ip</span> 0.0.0.0 <span class="nt">--port</span><span class="o">=</span>7070 <span class="nt">--no-browser</span> <span class="nt">--allow-root</span> <span class="se">\</span>
+        <span class="nt">--ServerApp</span>.token<span class="o">=</span><span class="s2">"innolab"</span> <span class="nt">--ServerApp</span>.password<span class="o">=</span><span class="s2">"innolab"</span> &amp;
 </code></pre></div></div>
 
 <p>Now you can access the jupyter notebook with GPU support.</p>
