@@ -13,6 +13,15 @@ In one of previous posts, I introduced the Beta-Binomial Bayesian model and its 
 
 I strongly believe that Bayesian statistics will play a much bigger role in the future. That's why I am investing a lot of time in learning Bayesian statistics. I am also writing this series of posts on Bayesian statistics. I hope that this series of posts will help you to learn Bayesian statistics as well.
 
+- [Philosophy of Bayesian Statistics](#philosophy-of-bayesian-statistics)
+- [The Beta distribution](#the-beta-distribution)
+- [A simple example](#a-simple-example)
+- [Tuning the hyperparameters for prior distribution](#tuning-the-hyperparameters-for-prior-distribution)
+- [Calculating the posterior distribution](#calculating-the-posterior-distribution)
+- [Baseball example](#baseball-example)
+- [Conclusion](#conclusion)
+
+
 ## Philosophy of Bayesian Statistics
 
 {% katexmm %}
@@ -520,7 +529,7 @@ career %>%
 References
 
 1. [Bayes Rules](https://www.bayesrulesbook.com/chapter-3.html#milgram-3){:target="_blank"}
-- [David Robinson's post](http://varianceexplained.org/r/empirical_bayes_baseball/)
+2. [David Robinson's post](http://varianceexplained.org/r/empirical_bayes_baseball/)
 
 
 
