@@ -472,6 +472,284 @@ I guess in baseball, you use batting average to measure the performance of a pla
 
 <h3 id="get-a-distribution-as-a-prior">Get a distribution as a prior</h3>
 
+<div class="figure">
+    <img src="/math/images/baseball_batting_hist.png" alt="Inequality bounds compare" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 6.</span> The plot of the batting average of all players in the MLB from 1871 to 2016 and its fitted beta distribution.
+    </div>
+</div>
+
+<p>As it is shown in Figure 6, by fitting a beta distribution to the batting average, we can get a distribution as a prior. The parameters of the beta distribution are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>79.43</mn></mrow><annotation encoding="application/x-tex">\alpha=79.43</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">9</span><span class="mord">.</span><span class="mord">4</span><span class="mord">3</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mn>228</mn></mrow><annotation encoding="application/x-tex">\beta=228</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">2</span><span class="mord">8</span></span></span></span>, which means that the success probability is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2584</mn></mrow><annotation encoding="application/x-tex">0.2584</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">2</span><span class="mord">5</span><span class="mord">8</span><span class="mord">4</span></span></span></span> and the number of trials is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>307</mn></mrow><annotation encoding="application/x-tex">307</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">0</span><span class="mord">7</span></span></span></span>.</p>
+
+<p>Now we can use this prior to update the posterior distribution after we get new data. For example, if we get a new player who has 100 at bats and 30 hits, we can update the posterior distribution by using the following formula:</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>30</mn><mo>+</mo><mn>79.43</mn></mrow><mrow><mn>100</mn><mo>+</mo><mn>79.43</mn><mo>+</mo><mn>228</mn></mrow></mfrac><mo>≈</mo><mn>0.2686</mn></mrow><annotation encoding="application/x-tex">
+\frac{30 + 79.43}{100 + 79.43 + 228} \approx 0.2686
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.09077em;vertical-align:-0.7693300000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">7</span><span class="mord">9</span><span class="mord">.</span><span class="mord">4</span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">2</span><span class="mord">2</span><span class="mord">8</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">7</span><span class="mord">9</span><span class="mord">.</span><span class="mord">4</span><span class="mord">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693300000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">2</span><span class="mord">6</span><span class="mord">8</span><span class="mord">6</span></span></span></span></span></p>
+
+<p>How about the player who has 10 at bats and 4 hits? We can update the posterior distribution by using the following formula:</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>4</mn><mo>+</mo><mn>79.43</mn></mrow><mrow><mn>10</mn><mo>+</mo><mn>79.43</mn><mo>+</mo><mn>228</mn></mrow></mfrac><mo>≈</mo><mn>0.2628</mn></mrow><annotation encoding="application/x-tex">
+\frac{4 + 79.43}{10 + 79.43 + 228} \approx 0.2628
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.09077em;vertical-align:-0.7693300000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">7</span><span class="mord">9</span><span class="mord">.</span><span class="mord">4</span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">2</span><span class="mord">2</span><span class="mord">8</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">7</span><span class="mord">9</span><span class="mord">.</span><span class="mord">4</span><span class="mord">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693300000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">2</span><span class="mord">6</span><span class="mord">2</span><span class="mord">8</span></span></span></span></span></p>
+
+<p>Therefore, we can see that the posterior distribution is updated by the new data. Even though <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi mathvariant="normal">/</mi><mn>10</mn><mo>&gt;</mo><mn>30</mn><mi mathvariant="normal">/</mi><mn>100</mn></mrow><annotation encoding="application/x-tex">4/10 &gt; 30/100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">4</span><span class="mord">/</span><span class="mord">1</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mord">0</span><span class="mord">/</span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span></span></span></span>, the posterior distribution is updated to a lower value.</p>
+
+<p>The following table gives the ranking of the top 5 players with the highest batting average after we update the posterior distribution.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">name</th>
+      <th style="text-align: right">H</th>
+      <th style="text-align: right">AB</th>
+      <th style="text-align: right">average</th>
+      <th style="text-align: right">posterior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Rogers Hornsby</td>
+      <td style="text-align: right">2930</td>
+      <td style="text-align: right">8173</td>
+      <td style="text-align: right">0.358</td>
+      <td style="text-align: right">0.355</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Shoeless Joe Jackson</td>
+      <td style="text-align: right">1772</td>
+      <td style="text-align: right">4981</td>
+      <td style="text-align: right">0.356</td>
+      <td style="text-align: right">0.350</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Ed Delahanty</td>
+      <td style="text-align: right">2597</td>
+      <td style="text-align: right">7510</td>
+      <td style="text-align: right">0.346</td>
+      <td style="text-align: right">0.342</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Billy Hamilton</td>
+      <td style="text-align: right">2164</td>
+      <td style="text-align: right">6283</td>
+      <td style="text-align: right">0.344</td>
+      <td style="text-align: right">0.340</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Harry Heilmann</td>
+      <td style="text-align: right">2660</td>
+      <td style="text-align: right">7787</td>
+      <td style="text-align: right">0.342</td>
+      <td style="text-align: right">0.338</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The following table gives the ranking of the worst 5 players with the lowest batting average after we update the posterior distribution.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">name</th>
+      <th style="text-align: right">H</th>
+      <th style="text-align: right">AB</th>
+      <th style="text-align: right">average</th>
+      <th style="text-align: right">posterior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Bill Bergen</td>
+      <td style="text-align: right">516</td>
+      <td style="text-align: right">3028</td>
+      <td style="text-align: right">0.170</td>
+      <td style="text-align: right">0.178</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Ray Oyler</td>
+      <td style="text-align: right">221</td>
+      <td style="text-align: right">1265</td>
+      <td style="text-align: right">0.175</td>
+      <td style="text-align: right">0.191</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">John Vukovich</td>
+      <td style="text-align: right">90</td>
+      <td style="text-align: right">559</td>
+      <td style="text-align: right">0.161</td>
+      <td style="text-align: right">0.195</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">John Humphries</td>
+      <td style="text-align: right">52</td>
+      <td style="text-align: right">364</td>
+      <td style="text-align: right">0.143</td>
+      <td style="text-align: right">0.195</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">George Baker</td>
+      <td style="text-align: right">74</td>
+      <td style="text-align: right">474</td>
+      <td style="text-align: right">0.156</td>
+      <td style="text-align: right">0.196</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notice that in each of these cases, empirical Bayes didn’t simply pick the players who had 1 or 2 at-bats. It found players who batted well, or poorly, across a long career. What a load off our minds: we can start using these empirical Bayes estimates in downstream analyses and algorithms, and not worry that we’re accidentally letting 0/1 or 1/1 cases ruin everything.</p>
+
+<div class="figure">
+    <img src="/math/images/baseball_posterior.png" alt="Inequality bounds compare" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 7.</span> The plot of the batting average of all players and its estimated average after we update the posterior distribution.
+    </div>
+</div>
+
+<p>Figure 7 tells us those who have high AB (at bats) serves as a benchmark for the performance of a player, which is used as a prior to update the posterior distribution. That’s why dots with red color are located around diagonal line. Those who have low AB but high H (hits) are outliers. They (green dots) are shrinked to the blue dashed line, which makes them close to the average of the posterior distribution.</p>
+
+<p>The idea behind the figure 7 is that we’ve moved all our estimates towards the average. How much it moves these estimates depends on how much evidence we have: if we have very little evidence (4 hits out of 10) we move it a lot, if we have a lot of evidence (300 hits out of 1000) we move it only a little. This is why we call this kind of process <em>“shrinking towards the prior”</em>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this post we have discussed the concept of empirical Bayes and how to use it to update the posterior distribution. We have also discussed the application of empirical Bayes in baseball.</p>
+
+<p>One can see that the key step in empirical Bayes is to get a prior distribution. That’s why some scholars criticize empirical Bayes method subjectively. However, I think it is a good method to update the posterior distribution. It is easy to implement and it is easy to understand.</p>
+
+<p>with more and more data, the posterior distribution will be more and more accurate. One could also construct the prior distribution by modeling different factors, such as the age of a player, the league of a player, etc. This will give us <a href="https://en.wikipedia.org/wiki/Bayesian_hierarchical_modeling" target="_blank">Bayesian hierarchical model</a>, which is a powerful tool to analyze data.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pacman</span><span class="p">)</span><span class="w">
+</span><span class="n">p_load</span><span class="p">(</span><span class="w">
+    </span><span class="n">tidyverse</span><span class="p">,</span><span class="w"> </span><span class="n">data.table</span><span class="p">,</span><span class="w"> </span><span class="n">dtplyr</span><span class="p">,</span><span class="w"> </span><span class="n">reshape2</span><span class="p">,</span><span class="w">
+    </span><span class="n">kableExtra</span><span class="p">,</span><span class="w"> </span><span class="n">janitor</span><span class="p">,</span><span class="w"> </span><span class="n">readxl</span><span class="p">,</span><span class="w"> </span><span class="n">png</span><span class="p">,</span><span class="w"> </span><span class="n">Cairo</span><span class="p">,</span><span class="w"> </span><span class="n">rbenchmark</span><span class="p">,</span><span class="w">
+    </span><span class="n">httr</span><span class="p">,</span><span class="w"> </span><span class="n">jsonlite</span><span class="p">,</span><span class="w"> </span><span class="n">fedmatch</span><span class="p">,</span><span class="w"> </span><span class="n">patchwork</span><span class="p">,</span><span class="w">
+    </span><span class="n">corrplot</span><span class="p">,</span><span class="w"> </span><span class="n">tidygraph</span><span class="p">,</span><span class="w"> </span><span class="n">ggraph</span><span class="p">,</span><span class="w"> </span><span class="n">igraph</span><span class="p">,</span><span class="w">
+    </span><span class="n">treemap</span><span class="p">,</span><span class="w"> </span><span class="n">splitstackshape</span><span class="p">,</span><span class="w"> </span><span class="n">stringr</span><span class="p">,</span><span class="w"> </span><span class="n">lubridate</span><span class="p">,</span><span class="w">
+    </span><span class="n">poweRlaw</span><span class="p">,</span><span class="w"> </span><span class="n">voronoiTreemap</span><span class="p">,</span><span class="w"> </span><span class="n">ggridges</span><span class="p">,</span><span class="w">
+    </span><span class="n">DescTools</span><span class="p">,</span><span class="w"> </span><span class="n">stringi</span><span class="p">,</span><span class="w"> </span><span class="n">kit</span><span class="p">,</span><span class="w"> </span><span class="n">pheatmap</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="c1"># set option</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">dplyr.summarise.inform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">jupyter.plot_mimetypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"image/png"</span><span class="p">)</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+
+</span><span class="n">gray_scale</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#F3F4F8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#D2D4DA"</span><span class="p">,</span><span class="w">  </span><span class="s2">"#bcc0ca"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#D3D3D3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#B3B5BD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#838383"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#9496A1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7d7f89"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#777986"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#656673"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#5B5D6B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4d505e"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#404352"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#2b2d3b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#2B2B2B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#282A3A"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#1b1c2a"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#191a2b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#141626"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#101223"</span><span class="p">)</span><span class="w">
+</span><span class="n">color_scale</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#BB4444"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#EE9988"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FFFFFF"</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"#77AADD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4477AA"</span><span class="p">)</span><span class="w">
+</span><span class="n">blue_scale</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#DBE7F5"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#95BCE3"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#699BCB"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#6597C7"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4879A9"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"#206BAD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#11549B"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cor_col</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colorRampPalette</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#BB4444"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#EE9988"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FFFFFF"</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"#77AADD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4477AA"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># check working directory</span><span class="w">
+</span><span class="n">getwd</span><span class="p">()</span><span class="w">
+
+</span><span class="n">peepsample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">peephead</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">### ------- get to know the data ------- ###</span><span class="w">
+</span><span class="c1"># use a package called Lahman</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">Lahman</span><span class="p">)</span><span class="w">
+</span><span class="n">Batting</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as.data.table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">str</span><span class="p">()</span><span class="w">
+</span><span class="n">Pitching</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as.data.table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">str</span><span class="p">()</span><span class="w">
+</span><span class="n">People</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as.data.table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># create a subset of the data</span><span class="w">
+</span><span class="n">career</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Batting</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">AB</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">anti_join</span><span class="p">(</span><span class="n">Pitching</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"playerID"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">playerID</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">H</span><span class="p">),</span><span class="w"> </span><span class="n">AB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">AB</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">H</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">AB</span><span class="p">)</span><span class="w">
+
+</span><span class="n">career</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">People</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">as_tibble</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">playerID</span><span class="p">,</span><span class="w"> </span><span class="n">nameFirst</span><span class="p">,</span><span class="w"> </span><span class="n">nameLast</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">nameFirst</span><span class="p">,</span><span class="w"> </span><span class="n">nameLast</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">career</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"playerID"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">playerID</span><span class="p">)</span><span class="w">
+
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as.data.table</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">career</span><span class="w">
+
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="o">-</span><span class="n">average</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">peephead</span><span class="p">(</span><span class="m">5</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># fit with beta distribution</span><span class="w">
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">AB</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">500</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">MASS</span><span class="o">::</span><span class="n">fitdistr</span><span class="p">(</span><span class="n">average</span><span class="p">,</span><span class="w"> </span><span class="s2">"beta"</span><span class="p">,</span><span class="w">
+                </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">shape1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">shape2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">pluck</span><span class="p">(</span><span class="s2">"estimate"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p_seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w">
+
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w">
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">AB</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">500</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">hist</span><span class="p">(</span><span class="n">average</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+              </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Career Batting Average"</span><span class="p">,</span><span class="w">
+    </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of Career Batting Average"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">lines</span><span class="p">(</span><span class="n">p_seq</span><span class="p">,</span><span class="w"> </span><span class="n">dbeta</span><span class="p">(</span><span class="n">p_seq</span><span class="p">,</span><span class="w"> </span><span class="m">79</span><span class="p">,</span><span class="w"> </span><span class="m">228</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">legend</span><span class="p">(</span><span class="s2">"topright"</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"data"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fitted beta"</span><span class="p">),</span><span class="w">
+                </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#242222"</span><span class="p">,</span><span class="w"> </span><span class="s2">"red"</span><span class="p">),</span><span class="w"> </span><span class="n">lty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+
+
+</span><span class="c1"># calculate the posterior distribution</span><span class="w">
+
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">posterior</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="m">79</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">H</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">79</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">228</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">AB</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">posterior</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">head</span><span class="p">(</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">career</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">average</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">posterior</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AB</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.259</span><span class="p">,</span><span class="w"> </span><span class="n">slope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+                    </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Batting Average"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Posterior Estimated Average"</span><span class="p">,</span><span class="w">
+         </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Posterior Probability of Baseball Batting Average"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#848588"</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e03a0c"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="c1"># hightlight selected observations</span><span class="w">
+    </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">career</span><span class="p">[</span><span class="n">average</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1.0</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#238420"</span><span class="p">,</span><span class="w">
+                                        </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">career</span><span class="p">[</span><span class="n">average</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0.0</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#238420"</span><span class="p">,</span><span class="w">
+                                        </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">)</span><span class="w"> 
+</span></code></pre></div></div>
+
+<p>References</p>
+
+<ol>
+  <li><a href="https://www.bayesrulesbook.com/chapter-3.html#milgram-3" target="_blank">Bayes Rules</a>
+    <ul>
+      <li><a href="http://varianceexplained.org/r/empirical_bayes_baseball/">David Robinson’s post</a></li>
+    </ul>
+  </li>
+</ol>
+
 
     </div>
     <div id='bibliography'>
