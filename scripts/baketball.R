@@ -76,9 +76,47 @@ career %>%
     .[order(-average)] %>% peephead(5)
 
 
-options(repr.plot.width = 8, repr.plot.height = 5)
+# fit with beta distribution
 career %>%
-    .[AB > 500] %>%
-    ggplot(aes(x = average)) +
-    geom_histogram(bins = 50) +
-    theme_bw() + labs(x = "Batting Average", y = "Count")
+    .[AB >= 500] %>%
+    with(MASS::fitdistr(average, "beta",
+                start = list(shape1 = 1, shape2 = 10))) %>%
+    pluck("estimate") %>% round(2)
+
+p_seq = seq(0.1, 0.4, 0.01)
+
+options(repr.plot.width = 9, repr.plot.height = 6)
+career %>%
+    .[AB >= 500] %>%
+    with(hist(average, breaks = 20, freq = FALSE,
+              xlab = "Career Batting Average",
+    main = "Histogram of Career Batting Average")) %>%
+    with(lines(p_seq, dbeta(p_seq, 79, 228), col = "red")) %>%
+    with(legend("topright", legend = c("data", "fitted beta"),
+                col = c("#242222", "red"), lty = 1, lwd = 2))
+
+
+# calculate the posterior distribution
+
+career %>%
+    .[, posterior := (79 + H) / (79 + 228 + AB)] %>%
+    .[order(posterior)] %>%
+    head(5) %>% kable("pipe", digits = 3)
+
+
+career %>%
+    ggplot(aes(x = average, y = posterior, color = AB)) +
+    geom_point() +
+    theme_bw() +
+    geom_abline(intercept = 0.259, slope = 0, lty = 2,
+                    col = "blue") +
+    labs(x = "Batting Average", y = "Posterior Estimated Average",
+         title = "Posterior Probability of Baseball Batting Average") +
+    scale_color_gradient(low = "#848588", high = "#e03a0c") +
+    # hightlight selected observations
+    geom_point(data = career[average == 1.0], color = "#238420",
+                                        size = 2.5) +
+    geom_point(data = career[average == 0.0], color = "#238420",
+                                        size = 2.5) 
+
+

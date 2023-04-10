@@ -320,6 +320,77 @@ The intuition is that we need to take into account the number of at bats because
 
 ### Get a distribution as a prior
 
+<div class='figure'>
+    <img src="/math/images/baseball_batting_hist.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 6.</span> The plot of the batting average of all players in the MLB from 1871 to 2016 and its fitted beta distribution.
+    </div>
+</div>
+
+As it is shown in Figure 6, by fitting a beta distribution to the batting average, we can get a distribution as a prior. The parameters of the beta distribution are $\alpha=79.43$ and $\beta=228$, which means that the success probability is $0.2584$ and the number of trials is $307$.
+
+Now we can use this prior to update the posterior distribution after we get new data. For example, if we get a new player who has 100 at bats and 30 hits, we can update the posterior distribution by using the following formula:
+
+$$
+\frac{30 + 79.43}{100 + 79.43 + 228} \approx 0.2686
+$$
+
+How about the player who has 10 at bats and 4 hits? We can update the posterior distribution by using the following formula:
+
+$$
+\frac{4 + 79.43}{10 + 79.43 + 228} \approx 0.2628
+$$
+
+Therefore, we can see that the posterior distribution is updated by the new data. Even though $4/10 > 30/100$, the posterior distribution is updated to a lower value. 
+
+The following table gives the ranking of the top 5 players with the highest batting average after we update the posterior distribution.
+
+|name                 |    H|   AB| average| posterior|
+|:--------------------|----:|----:|-------:|---------:|
+|Rogers Hornsby       | 2930| 8173|   0.358|     0.355|
+|Shoeless Joe Jackson | 1772| 4981|   0.356|     0.350|
+|Ed Delahanty         | 2597| 7510|   0.346|     0.342|
+|Billy Hamilton       | 2164| 6283|   0.344|     0.340|
+|Harry Heilmann       | 2660| 7787|   0.342|     0.338|
+
+The following table gives the ranking of the worst 5 players with the lowest batting average after we update the posterior distribution.
+
+|name           |   H|   AB| average| posterior|
+|:--------------|---:|----:|-------:|---------:|
+|Bill Bergen    | 516| 3028|   0.170|     0.178|
+|Ray Oyler      | 221| 1265|   0.175|     0.191|
+|John Vukovich  |  90|  559|   0.161|     0.195|
+|John Humphries |  52|  364|   0.143|     0.195|
+|George Baker   |  74|  474|   0.156|     0.196|
+
+
+Notice that in each of these cases, empirical Bayes didn’t simply pick the players who had 1 or 2 at-bats. It found players who batted well, or poorly, across a long career. What a load off our minds: we can start using these empirical Bayes estimates in downstream analyses and algorithms, and not worry that we’re accidentally letting 0/1 or 1/1 cases ruin everything.
+
+
+<div class='figure'>
+    <img src="/math/images/baseball_posterior.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 7.</span> The plot of the batting average of all players and its estimated average after we update the posterior distribution.
+    </div>
+</div>
+
+Figure 7 tells us those who have high AB (at bats) serves as a benchmark for the performance of a player, which is used as a prior to update the posterior distribution. That's why dots with red color are located around diagonal line. Those who have low AB but high H (hits) are outliers. They (green dots) are shrinked to the blue dashed line, which makes them close to the average of the posterior distribution.
+
+The idea behind the figure 7 is that we’ve moved all our estimates towards the average. How much it moves these estimates depends on how much evidence we have: if we have very little evidence (4 hits out of 10) we move it a lot, if we have a lot of evidence (300 hits out of 1000) we move it only a little. This is why we call this kind of process _“shrinking towards the prior”_.
+
+
+## Conclusion
+
+In this post we have discussed the concept of empirical Bayes and how to use it to update the posterior distribution. We have also discussed the application of empirical Bayes in baseball.
+
+One can see that the key step in empirical Bayes is to get a prior distribution. That's why some scholars criticize empirical Bayes method subjectively. However, I think it is a good method to update the posterior distribution. It is easy to implement and it is easy to understand.
+
+with more and more data, the posterior distribution will be more and more accurate. One could also construct the prior distribution by modeling different factors, such as the age of a player, the league of a player, etc. This will give us [Bayesian hierarchical model](https://en.wikipedia.org/wiki/Bayesian_hierarchical_modeling){:target="_blank"}, which is a powerful tool to analyze data.
+
 
 
 
