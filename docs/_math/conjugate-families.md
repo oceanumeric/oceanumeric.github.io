@@ -11,6 +11,9 @@ tags: probability algorithm data-science machine-learning binomial-distribution 
 Having some conjugate priors in our toolbox is very useful. In this post, we will look at some of the most common conjugate priors.
 
 
+- [Gamma-Poisson conjugate family](#gamma-poisson-conjugate-family)
+- [Normal-Normal Bayesian model](#normal-normal-bayesian-model)
+
 ## Gamma-Poisson conjugate family
 
 
@@ -87,8 +90,95 @@ $$
 
 The Gamma distribution is a generalization of the exponential distribution. The exponential distribution is a special case of the Gamma distribution with $\alpha = 1$ and $\beta = \lambda$. This means that the exponential distribution gives the probability of observing the first event in a time interval, while the Gamma distribution gives the probability of observing $k$-th event in a time interval.
 
+<div class='figure'>
+    <img src="/math/images/gamma_dist.png"
+            alt="Inequality bounds compare"
+            style="width: 90%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> The plot of the Gamma distribution with different values of $\alpha$ and $\beta$. Note that the x-axis is scaled by $\alpha/\beta$.
+    </div>
+</div>
+ 
+Now, we will introduce the Gamma-Poisson Bayesian model. 
+
+Let $\lambda > 0$ be an unknown parameter. We assume that $\lambda$ follows a Gamma distribution with parameters $\alpha$ and $\beta$. We also assume that the number of events $X$ follows a Poisson distribution with parameter $\lambda$. The Gamma-Poisson Bayesian model is given by
+
+$$
+X_i | \lambda \sim_{i.i.d.} \text{Poisson}(\lambda) \quad \text{and} \quad \lambda \sim \text{Gamma}(\alpha, \beta)
+$$
+
+Upon observing $X_1, \ldots, X_n$, we can update our belief about $\lambda$ by using the posterior distribution
+
+$$
+\lambda | X_1, \ldots, X_n \sim \text{Gamma}(\alpha + \sum_{i=1}^n X_i, \beta + n)
+$$
 
 
+Now, let's walk through an example of the Gamma-Poisson Bayesian model. Suppose we have a Poisson distribution with parameter $\lambda = 3$. We can generate some random samples from this distribution:
 
+```R
+# sample size = 5
+n <- 5
+lambda_true <- 3
+set.seed(123)
+y <- rpois(n, lambda_true)
+# 2, 4, 2, 5, 6
+
+# chose prior
+alpha <- 1
+beta <- 1
+
+# set lambda sequence
+lambda_seq <- seq(0, 7, 0.1)
+
+options(repr.plot.width = 7, repr.plot.height = 5)
+plot(lambda_seq, dgamma(lambda_seq, shape = alpha, rate = beta),
+    type = "l", lwd = 2, 
+    xlab = "lambda", ylab = "P(lambda)",
+    main = "Gamma Prior")
+lines(lambda_seq, dgamma(lambda_seq, shape = alpha + sum(y), rate = beta +n),
+    type = "l", lwd = 2, col = "blue")
+abline(v = lambda_true, lty = 2)
+legend('topright', inset = .02, legend = c('prior', 'posterior'),
+       col = c('black', 'blue'), lwd = 2)
+```
+
+<div class='figure'>
+    <img src="/math/images/gamma_prior1.png"
+            alt="Inequality bounds compare"
+            style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The plot of the Gamma prior and posterior distributions.
+    </div>
+</div>
+
+
+We will simulate the Bayesian updating process by drawing different number of observations from the Poisson distribution. As it is shown in figure 4, the posterior distribution concentrate more heavily on the neighborhood of the true parameter value as more observations are drawn.
+
+
+<div class='figure'>
+    <img src="/math/images/gamma_prior2.png"
+            alt="Inequality bounds compare"
+            style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> The plot of the Gamma prior and posterior distributions with different number of observations.
+    </div>
+</div>
+
+
+After the first two observations the posterior is still quite close to the prior distribution, but the third observation, which was an outlier, shifts the peak of the posterior from the left side of the mean heavily to the right. But when more observations are drawn, we can observe that the posterior starts to concentrate more heavily on the neighborhood of the true parameter value.
+
+
+## Normal-Normal Bayesian model
+
+For the Normal-Normal bayesian model, we refer the reader to the [Normal-Normal Bayesian model](https://www.bayesrulesbook.com/chapter-5.html#ch5-n-n-section){:target="_blank"} section of the _Bayes Rules_ book.
+
+
+## References
+
+1. [Bayes Rules](https://www.bayesrulesbook.com/){:target="_blank"} by 
+Alicia A. Johnson, Miles Q. Ott, Mine Dogucu
+
+2. [Conjugate distributions](https://vioshyvo.github.io/Bayesian_inference/conjugate-distributions.html#one-parameter-conjugate-models){:target="_blank"} 
 
 {% endkatexmm %}
