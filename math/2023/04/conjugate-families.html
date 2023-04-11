@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Conjugate Families
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='probabilistic-thinking machine-learning bayesian-inference bayesian-statistics conjugate-prior conjugate-family'>
+      <link rel="stylesheet" href="/css/math.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href='https://fonts.googleapis.com/css?family=Fira Sans' rel='stylesheet'>
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Conjugate Families</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Conjugate Families" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Having some conjugate priors in our toolbox is very useful. In this post, we will look at some of the most common conjugate priors." />
+<meta property="og:description" content="Having some conjugate priors in our toolbox is very useful. In this post, we will look at some of the most common conjugate priors." />
+<link rel="canonical" href="https://oceanumeric.github.io//math/2023/04/conjugate-families" />
+<meta property="og:url" content="https://oceanumeric.github.io//math/2023/04/conjugate-families" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-11T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Conjugate Families" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-04-11T00:00:00+00:00","datePublished":"2023-04-11T00:00:00+00:00","description":"Having some conjugate priors in our toolbox is very useful. In this post, we will look at some of the most common conjugate priors.","headline":"Conjugate Families","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//math/2023/04/conjugate-families"},"url":"https://oceanumeric.github.io//math/2023/04/conjugate-families"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Conjugate Families</h1>
+            <h4>When we build a model, we need to choose a prior distribution. If we choose a prior distribution from the same family as the posterior distribution, we can use the posterior distribution as the new prior distribution. This is called a conjugate prior. In this post, we will look at some of the most common conjugate priors.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/math-tags/probability">probability</a>, 
+                            
+                            <a href="/math-tags/algorithm">algorithm</a>, 
+                            
+                            <a href="/math-tags/data-science">data-science</a>, 
+                            
+                            <a href="/math-tags/machine-learning">machine-learning</a>, 
+                            
+                            <a href="/math-tags/binomial-distribution">binomial-distribution</a>, 
+                            
+                            <a href="/math-tags/bayesian-statistics">bayesian-statistics</a>, 
+                            
+                            <a href="/math-tags/beta-distribution">beta-distribution</a>, 
+                            
+                            <a href="/math-tags/conjugate-prior">conjugate-prior</a>, 
+                            
+                            <a href="/math-tags/normal-distribution">normal-distribution</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>11 April 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>Having some conjugate priors in our toolbox is very useful. In this post, we will look at some of the most common conjugate priors.</p>
+
+<h2 id="gamma-poisson-conjugate-family">Gamma-Poisson conjugate family</h2>
+
+<p>A Poisson distribution is a <em>discrete</em> distribution which can get any non-negative integer values. It is a natural distribution for modelling counts, such as goals in a football game, or a number of bicycles passing a certain point of the road in one day, or a number of people who visit a website in one day, or a number of fraud call you receive in one day. The Poisson distribution is defined by a single parameter <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi></mrow><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">λ</span></span></span></span>, which is the expected value of the distribution. The <em>probability mass function</em> of the Poisson distribution is given by</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mi mathvariant="normal">∣</mi><mi>λ</mi><mo>∼</mo><mtext>Poisson</mtext><mo stretchy="false">(</mo><mi>λ</mi><mo stretchy="false">)</mo><mspace width="1em"></mspace><mtext>with</mtext><mspace width="1em"></mspace><mi>f</mi><mo stretchy="false">(</mo><mi>X</mi><mo>=</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><msup><mi>λ</mi><mi>k</mi></msup><msup><mi>e</mi><mrow><mo>−</mo><mi>λ</mi></mrow></msup></mrow><mrow><mi>k</mi><mo stretchy="false">!</mo></mrow></mfrac><mtext>  for </mtext><mi>k</mi><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo></mrow><annotation encoding="application/x-tex">
+X | \lambda \sim \text{Poisson}(\lambda) \quad \text{with} \quad f(X = k) = \frac{\lambda^k e^{-\lambda}}{k!} \ \ \text{for} \ k = 0, 1, 2, \ldots
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mord">∣</span><span class="mord mathdefault">λ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Poisson</span></span><span class="mopen">(</span><span class="mord mathdefault">λ</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">with</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.212108em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.526108em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">!</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">λ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathdefault mtight">λ</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace"> </span><span class="mspace"> </span><span class="mord text"><span class="mord">for</span></span><span class="mspace"> </span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span></span></span></span></span></p>
+
+<p>The Poisson distribution has equal expected value and variance, which is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi></mrow><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">λ</span></span></span></span>:</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">E</mi><mo stretchy="false">[</mo><mi>X</mi><mo stretchy="false">]</mo><mo>=</mo><mi mathvariant="double-struck">V</mi><mo stretchy="false">[</mo><mi>X</mi><mo stretchy="false">]</mo><mo>=</mo><mi>λ</mi></mrow><annotation encoding="application/x-tex">
+\mathbb{E}[X] = \mathbb{V}[X] = \lambda
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbb">E</span></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbb">V</span></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">λ</span></span></span></span></span></p>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
