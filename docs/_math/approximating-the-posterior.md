@@ -81,6 +81,8 @@ We can compare the posterior distribution of $\theta$ in Figure 1 with the beta 
 
 If you look at Figure 1 and 2 carefully, you will find that the y-axis in Figure 1 is different from the y-axis in Figure 2. The y-axis in Figure 1 is the posterior probability, while the y-axis in Figure 2 is the density of the beta distribution. To create a density plot, we have to sample from the posterior distribution and then use the density function to calculate the density. The following code shows how to create a density plot of the posterior distribution of $\theta$ when $Y = 9$ and $n = 10$ based on grid approximation.
 
+{% endkatexmm %}
+
 ```R
 # sample from grid_data
 set.seed(89756)
@@ -108,6 +110,8 @@ grid_sample %>%
                     lty = 1, lwd = 2, y.intersp = 1.5))
 ```
 
+{% katexmm %}
+
 <div class='figure'>
     <img src="/math/images/grid_approx_sample.png"
          alt="Inequality bounds compare"
@@ -118,12 +122,15 @@ grid_sample %>%
 </div>
 
 
-
-
-
-
-
-
-
-
 {% endkatexmm %}
+
+
+
+
+
+
+
+
+
+
+
