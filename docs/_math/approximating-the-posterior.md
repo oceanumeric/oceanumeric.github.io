@@ -10,6 +10,11 @@ tags: probability algorithm data-science machine-learning binomial-distribution 
 
 In previous posts, we have looked at the Bayesian inference framework. In this post, we will look at some methods for approximating the posterior distribution. 
 
+- [Grid approximation](#grid-approximation)
+- [MCMC approximation with rstan](#mcmc-approximation-with-rstan)
+- [Markov chain diagnostics](#markov-chain-diagnostics)
+
+
 ## Grid approximation
 
 {% katexmm %}
