@@ -6,7 +6,7 @@ p_load(
     corrplot, tidygraph, ggraph, igraph,
     treemap, splitstackshape, stringr, lubridate,
     poweRlaw, voronoiTreemap, ggridges,
-    DescTools, stringi, kit, pheatmap, rstan
+    DescTools, stringi, kit, pheatmap, rstan, bayesplot
 )
 # set option
 options(dplyr.summarise.inform = FALSE)
@@ -84,8 +84,78 @@ grid_sample %>%
     with(curve(dbeta(x, 11, 3), from = 0, to = 1, lwd = 2,
                             col = "red", add=TRUE)) %>%
     with(legend(0.24, 3.8,
-                    legend = c("Posterior", "Beta", "Estimated Density"),
+                    legend = c("Posterior", "Beta(11, 3)", "Estimated Density"),
                     col = c("gray", "red", "blue"),
                     lty = 1, lwd = 2, y.intersp = 1.5))
     
+
+### ------- MCMC with rstan ------- ###
+
+# define the model
+bb_model <- "
+    data {
+        int<lower=0, upper=10> Y;
+    }
+    parameters {
+        real<lower=0, upper=1> theta;
+    }
+    model {
+        theta ~ beta(2, 2);
+        Y ~ binomial(10, theta);
+    }
+"
+
+# compile the model
+bb_model_sim <- stan(model_code = bb_model,
+                                    data = list(Y = 9),
+                                    chains = 4,
+                                    iter = 10000,
+                                    seed = 89756)
+
+bb_model_sim %>% 
+    as.array() %>% dim()  # 4 chains, 5000 iterations
+# 5000, 4, 2
+
+bb_model_sim %>%
+    as.array() -> bb_model_sim_array
+
+bb_model_sim_array[1:5, 1:4, 1] %>%
+        kable("pipe", digits = 3)
+
+# plot for one chain
+bb_model_sim_array[, 1:4, 1] %>%
+    as.data.table() %>%
+    setnames(c("chain1", "chain2", "chain3", "chain4")) %>%
+    # plot chain4
+    with(plot(chain4, type = 'l',
+                col = gray_scale[7],
+                xlab = "Iteration", ylab = "Theta",
+                main = "Trace Plot of Theta for Chain 4"))
+
+
+# plot all chains
+mcmc_trace(bb_model_sim, pars = "theta", size = 0.1)
+
+# plot hist and density
+
+bb_model_sim %>%
+    as.data.table() -> bb_model_dt
+
+options(repr.plot.width = 9, repr.plot.height = 5)
+par(mfrow = c(1, 2))
+bb_model_dt %>%
+    with(hist(theta, main = "Posterior of Theta",
+            xlab = "Theta", ylab = "Count",
+            lwd = 2))
+plot(density(bb_model_dt$theta), col = "blue", lwd = 1.5,
+                xlab = "Theta", ylab = "Probability Density",
+                main = "Posterior of Theta")
+curve(dbeta(x, 11, 3), from = 0, to = 1, lwd = 1.5, lty = 2,
+                        col = "red", add = TRUE)
+legend("topleft", legend = c("Estimation", "Beta(11, 3)"),
+        bg = "transparent", box.col = "transparent",
+        col = c("blue", "red"),
+        lty = c(1, 2), lwd = c(1.5, 1.5))
+    
+
 

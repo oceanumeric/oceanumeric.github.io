@@ -122,6 +122,82 @@ grid_sample %>%
 </div>
 
 
+## MCMC approximation with rstan
+
+We will continue to use the same model as above. However, we will use MCMC to approximate the posterior distribution with rstan. Stan is a probabilistic programming language that is used to fit Bayesian models. The following code shows how to use rstan to approximate the posterior distribution of $\theta$ when $Y = 9$ and $n = 10$.
+
+There are three key elements in Stan: data, parameters, and model. The data element is used to store the observed data. The parameters element is used to store the parameters that we want to estimate. The model element is used to store the model. The following code shows how to define the data, parameters, and model in Stan.
+
+```R
+bb_model <- "
+    data {
+        int<lower=0, upper=10> Y;
+    }
+    parameters {
+        real<lower=0, upper=1> theta;
+    }
+    model {
+        theta ~ beta(2, 2);
+        Y ~ binomial(10, theta);
+    }
+"
+
+# compile the model
+bb_model_sim <- stan(model_code = bb_model,
+                                    data = list(Y = 9),
+                                    chains = 4,
+                                    iter = 10000,
+                                    seed = 89756)
+
+bb_model_sim %>% 
+    as.array() %>% dim()  # 4 chains, 5000 iterations
+# 5000, 4, 2
+
+bb_model_sim %>%
+    as.array() -> bb_model_sim_array
+
+bb_model_sim_array[1:5, 1:4, 1] %>%
+        kable("pipe", digits = 3)
+```
+
+The above code gives the following table, which shows the first five iterations of the four chains. Each chain is a Markov chain. Instead of searching in the grid space, the Markov chain searches in the parameter space. The Markov chain starts from a random point in the parameter space and then moves to a new point in the parameter space. The new point is chosen based on the current point. We will discuss the algorithm of the Markov chain in the next post.
+
+
+| chain1| chain2| chain3| chain4|
+|:-------:|:-------:|:-------:|:-------:|
+|   0.791|   0.743|   0.736|   0.852|
+|   0.803|   0.844|   0.844|   0.759|
+|   0.777|   0.901|   0.878|   0.822|
+|   0.973|   0.910|   0.896|   0.877|
+|   0.917|   0.882|   0.783|   0.769|
+
+
+
+<div class='figure'>
+    <img src="/math/images/approx_stan_trace1.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The trace plot of the posterior distribution of $\theta$ when $Y = 9$ and $n = 10$ based on MCMC approximation.
+    </div>
+</div>
+
+Marking the sequence of the chain values, the trace plots in Figure 4 illuminate the Markov chains’ longitudinal behavior. We also want to examine the distribution of the values these chains visit along their journey, ignoring the order of these visits. Figure 5 gives the distribution of posterior, which shows that the estimation is very close to the true value (beta distribution).
+
+<div class='figure'>
+    <img src="/math/images/rstan_approx_posterior.png"
+         alt="Inequality bounds compare"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> The hist and density plot of the posterior distribution of $\theta$ when $Y = 9$ and $n = 10$ based on MCMC approximation.
+    </div>
+</div>
+
+
+
+
+
+
 {% endkatexmm %}
 
 
