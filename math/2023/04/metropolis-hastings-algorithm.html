@@ -308,6 +308,238 @@ q(\mu | \mu&#x27;) = q(\mu&#x27; | \mu) = \begin{cases}
 
 <p>Scenario 1 is easy to understand. Scenario 2 is a little bit tricky. We will use an example to illustrate this scenario.</p>
 
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># scenario 2</span><span class="w">
+</span><span class="n">y_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">6.25</span><span class="w">
+</span><span class="n">current_u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">3</span><span class="w">
+
+</span><span class="n">set.seed</span><span class="p">(</span><span class="m">8</span><span class="p">)</span><span class="w">
+</span><span class="c1"># set width = 1 and draw from uniform distribution</span><span class="w">
+</span><span class="n">proposal_u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_u</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_u</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="c1"># proposal_u = 2.93259</span><span class="w">
+
+</span><span class="c1"># calculate likelihood</span><span class="w">
+</span><span class="c1"># likelihood is just the probability of the data given the parameter</span><span class="w">
+</span><span class="n">likelihood_current</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">y_data</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_u</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w">
+</span><span class="n">likelihood_proposal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">y_data</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proposal_u</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w">
+</span><span class="c1"># calculate bayesian product = likelihood * prior</span><span class="w">
+</span><span class="n">bayes_prod_current</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">likelihood_current</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">current_u</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">bayes_prod_proposal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">likelihood_proposal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">proposal_u</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># calculate alpha</span><span class="w">
+</span><span class="n">alpha</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">bayes_prod_proposal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">bayes_prod_current</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># accept or reject</span><span class="w">
+</span><span class="n">next_u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">proposal_u</span><span class="p">,</span><span class="w"> </span><span class="n">current_u</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+                        </span><span class="n">prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="p">))</span><span class="w">
+
+
+</span><span class="c1"># make a table to show the results</span><span class="w">
+</span><span class="n">mh_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+    </span><span class="n">current_u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_u</span><span class="p">,</span><span class="w">
+    </span><span class="n">proposal_u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proposal_u</span><span class="p">,</span><span class="w">
+    </span><span class="n">likelihood_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">likelihood_current</span><span class="p">,</span><span class="w">
+    </span><span class="n">likelihood_proposal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">likelihood_proposal</span><span class="p">,</span><span class="w">
+    </span><span class="n">bayes_prod_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bayes_prod_current</span><span class="p">,</span><span class="w">
+    </span><span class="n">bayes_prod_proposal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bayes_prod_proposal</span><span class="p">,</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w">
+    </span><span class="n">next_u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next_u</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># transpose the table</span><span class="w">
+</span><span class="n">mh_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">t</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Parameter</th>
+      <th style="text-align: right">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">current_u</td>
+      <td style="text-align: right">3.0000000</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">proposal_u</td>
+      <td style="text-align: right">2.9325905</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">likelihood_current</td>
+      <td style="text-align: right">0.0000445</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">likelihood_proposal</td>
+      <td style="text-align: right">0.0000300</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bayes_prod_current</td>
+      <td style="text-align: right">0.0000002</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bayes_prod_proposal</td>
+      <td style="text-align: right">0.0000002</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">alpha</td>
+      <td style="text-align: right">0.8240205</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">next_u</td>
+      <td style="text-align: right">2.9325905</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This is merely one of countless possible outcomes for a single iteration of the Metropolis-Hastings algorithm for our Normal posterior. The Metropolis-Hastings algorithm is a stochastic algorithm, so the outcome of each iteration is random. The outcome of the algorithm depends on the initial value of the chain, the proposal distribution, and the data. The outcome of the algorithm is not deterministic.</p>
+
+<p>Now, we will wrap the code above into a function and run the algorithm with different seeds to see how the chain moves.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## write a function to simulate the MH algorithm</span><span class="w">
+</span><span class="n">one_mh_iteration</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">y_data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="c1"># a function to simulate one iteration of the MH algorithm</span><span class="w">
+    </span><span class="c1"># w is the width of the proposal distribution</span><span class="w">
+    </span><span class="c1"># current is the current value of the parameter</span><span class="w">
+    </span><span class="c1"># we are using unif(w) to draw from the proposal distribution</span><span class="w">
+    </span><span class="c1"># prior is normal(0, 1)</span><span class="w">
+    </span><span class="c1"># likelihood is normal(y_data, sd = 0.75)</span><span class="w">
+
+    </span><span class="c1"># draw from the proposal distribution</span><span class="w">
+    </span><span class="n">proposal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1"># update the parameter based on the bayesian product</span><span class="w">
+    </span><span class="c1"># calculate the likelihood</span><span class="w">
+    </span><span class="n">likelihood_current</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">y_data</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w">
+    </span><span class="n">likelihood_proposal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">y_data</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proposal</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1"># calculate the bayesian product</span><span class="w">
+    </span><span class="n">bayes_prod_current</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">likelihood_current</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="w">
+                                                            </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
+                                                            </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+    </span><span class="n">bayes_prod_proposal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">likelihood_proposal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="n">proposal</span><span class="p">,</span><span class="w">
+                                                            </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
+                                                            </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1"># calculate alpha</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">bayes_prod_proposal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">bayes_prod_current</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1"># accept or reject</span><span class="w">
+    </span><span class="n">next_u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">proposal</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+                        </span><span class="n">prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="p">))</span><span class="w">
+
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">data.frame</span><span class="p">(</span><span class="n">proposal</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">next_u</span><span class="p">))</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">set.seed</span><span class="p">(</span><span class="m">8</span><span class="p">)</span><span class="w">
+</span><span class="n">one_mh_iteration</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">6.25</span><span class="p">)</span><span class="w">
+
+</span><span class="n">set.seed</span><span class="p">(</span><span class="m">83</span><span class="p">)</span><span class="w">
+</span><span class="n">one_mh_iteration</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">6.25</span><span class="p">)</span><span class="w">
+
+</span><span class="n">seed_vec</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="m">83</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w"> </span><span class="c1"># set seed</span><span class="w">
+</span><span class="n">foo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">()</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">seed_vec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">set.seed</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
+    </span><span class="n">temp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">one_mh_iteration</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">6.25</span><span class="p">)</span><span class="w">
+    </span><span class="n">foo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rbind</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="n">temp</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">foo</span><span class="o">$</span><span class="n">seed</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seed_vec</span><span class="w">
+
+</span><span class="c1"># reorder the columns</span><span class="w">
+</span><span class="n">foo</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"seed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"proposal"</span><span class="p">,</span><span class="w"> </span><span class="s2">"alpha"</span><span class="p">,</span><span class="w"> </span><span class="s2">"next_u"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'c'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">seed</th>
+      <th style="text-align: center">proposal</th>
+      <th style="text-align: center">alpha</th>
+      <th style="text-align: center">next_u</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">8</td>
+      <td style="text-align: center">2.933</td>
+      <td style="text-align: center">0.824</td>
+      <td style="text-align: center">2.933</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">83</td>
+      <td style="text-align: center">2.018</td>
+      <td style="text-align: center">0.017</td>
+      <td style="text-align: center">3.000</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">7</td>
+      <td style="text-align: center">3.978</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">3.978</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now, we are ready to run the Metropolis-Hastings algorithm. We will run the algorithm for N iterations and plot the chain.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mh_sim</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+
+    </span><span class="c1"># set up the initial values</span><span class="w">
+    </span><span class="n">current_u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">3</span><span class="w">
+
+    </span><span class="c1"># initialize mu vector</span><span class="w">
+    </span><span class="n">mu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1"># simulate N iterations</span><span class="w">
+    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="c1"># simulate one iteration of the MH algorithm</span><span class="w">
+        </span><span class="n">temp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">one_mh_iteration</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">current_u</span><span class="p">,</span><span class="w"> </span><span class="m">6.25</span><span class="p">)</span><span class="w">
+
+        </span><span class="c1"># update the current value</span><span class="w">
+        </span><span class="n">current_u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">temp</span><span class="o">$</span><span class="n">next_u</span><span class="w">
+
+        </span><span class="c1"># store the current value</span><span class="w">
+        </span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">current_u</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="c1"># return data.frame</span><span class="w">
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">data.frame</span><span class="p">(</span><span class="n">iteration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu</span><span class="p">))</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">set.seed</span><span class="p">(</span><span class="m">84735</span><span class="p">)</span><span class="w">
+</span><span class="n">mh_simulate1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mh_sim</span><span class="p">(</span><span class="m">5000</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># plot the results</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">mh_simulate1</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">with</span><span class="p">(</span><span class="n">plot</span><span class="p">(</span><span class="n">iteration</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"l"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+                    </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="m">0.7</span><span class="p">),</span><span class="w">
+                    </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Trace of mu"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">hist</span><span class="p">(</span><span class="n">mh_simulate1</span><span class="o">$</span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+                    </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"mu"</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of mu"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">curve</span><span class="p">(</span><span class="n">dnorm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">),</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+                    </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">legend</span><span class="p">(</span><span class="s2">"topleft"</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"(4, 0.6)"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">,</span><span class="w">
+                    </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"transparent"</span><span class="p">,</span><span class="w"> </span><span class="n">box.col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"transparent"</span><span class="p">,</span><span class="w">
+                    </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="figure">
+    <img src="/math/images/mh_simulation.png" alt="Inequality bounds compare" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> The plot of MCMC chain and the histogram of the posterior distribution based on Metropolis-Hastings algorithm.
+    </div>
+</div>
+
+<p>As it is shown in Figure 1, the chain converges to the posterior distribution. The posterior distribution is centered at 4 and has a standard deviation of 0.6. The posterior distribution is close to the true posterior distribution as we derived in the previous section.</p>
+
 
     </div>
     <div id='bibliography'>
