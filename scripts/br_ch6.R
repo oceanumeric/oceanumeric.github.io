@@ -158,4 +158,60 @@ legend("topleft", legend = c("Estimation", "Beta(11, 3)"),
         lty = c(1, 2), lwd = c(1.5, 1.5))
     
 
+### ------- MCMC with rstan: Gamma Poisson model ------- ###
 
+# sequence data y1, y2 as number of events in each time interval
+# y is integer 
+gp_model <- "
+    data {
+        int<lower=0> Y[2];
+    }
+    parameters {
+        real<lower=0> lambda;
+    }
+    model {
+        lambda ~ gamma(3, 1);
+        Y ~ poisson(lambda);
+    }
+"
+
+# run the simulation
+gp_sim <- stan(model_code = gp_model,
+                            data = list(Y = c(2, 8)),
+                            chains = 4,
+                            iter = 10000,
+                            seed = 89756)
+
+# plot the trace plot, histogram and density
+mcmc_trace(gp_sim, pars = "lambda", size = 0.1) -> p1
+
+mcmc_hist(gp_sim, pars = "lambda") + yaxis_text(TRUE) + ylab("Count") -> p2
+
+mcmc_dens(gp_sim, pars = "lambda") + yaxis_text(TRUE) + 
+                            ylab("Probability Density") -> p3
+
+options(repr.plot.width = 9, repr.plot.height = 6)
+p1 / (p2 + p3)
+
+
+# compare parallel chains
+options(repr.plot.width = 8, repr.plot.height = 5)
+mcmc_dens_overlay(gp_sim, pars = "lambda") + ylab("Probability Density") 
+
+# simulate a short model
+gp_sim_short <- stan(model_code = gp_model,
+                            data = list(Y = c(2, 8)),
+                            chains = 4,
+                            iter = 100,
+                            seed = 89756)
+
+# compare the two models
+mcmc_trace(gp_sim_short, pars = "lambda")
+mcmc_dens_overlay(gp_sim_short, pars = "lambda")
+
+neff_ratio(gp_sim)
+
+options(repr.plot.width = 7, repr.plot.height = 5)
+mcmc_acf(gp_sim, pars = "lambda")
+
+rhat(gp_sim)

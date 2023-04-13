@@ -194,6 +194,149 @@ Marking the sequence of the chain values, the trace plots in Figure 4 illuminate
 </div>
 
 
+Let's see another example that uses the Gamma-Poisson model. The Gamma-Poisson model has a Gamma distribution as the prior and a Poisson distribution as the posterior.
+Let $Y$ be the number of events that occur in a one-hour period, where events
+occur at an average rate of $\lambda$ per hour. Suppose, we collect two 
+data points $(Y_1, Y_2)$, and place a Gamma prior on $\lambda$ with parameters
+$\alpha = 3$ and $\beta = 1$:
+
+$$
+\begin{aligned}
+Y_i | \lambda &\sim \text{Poisson}(\lambda) \\
+\lambda &\sim \text{Gamma}(3, 1) 
+\end{aligned}
+$$
+
+If we observe $Y_i = 2$ events in the first-hour observation period and 
+$Y_2 = 8$ in the next, then according to the conjugate prior, the posterior
+will be: 
+
+$$
+\begin{aligned}
+\lambda | Y_1 = 2, Y_2 = 8 & \sim \text{Gamma}(\alpha + \sum_{i=1}^2 Y_i, \beta + 2) \\
+&= \text{Gamma}(3 + 2 + 8, 1 + 2) \\
+&= \text{Gamma}(13, 3) 
+\end{aligned}
+$$
+
+Now, instead of using the conjugate prior, we will use the MCMC approximation to estimate the posterior distribution.
+
+```R
+gp_model <- "
+    data {
+        int<lower=0> Y[2];
+    }
+    parameters {
+        real<lower=0> lambda;
+    }
+    model {
+        lambda ~ gamma(3, 1);
+        Y ~ poisson(lambda);
+    }
+"
+
+# run the simulation
+gp_sim <- stan(model_code = gp_model,
+                            data = list(Y = c(2, 8)),
+                            chains = 4,
+                            iter = 10000,
+                            seed = 89756)
+
+# plot the trace plot, histogram and density
+mcmc_trace(gp_sim, pars = "lambda", size = 0.1) -> p1
+
+mcmc_hist(gp_sim, pars = "lambda") + yaxis_text(TRUE) + ylab("Count") -> p2
+
+mcmc_dens(gp_sim, pars = "lambda") + yaxis_text(TRUE) + 
+                            ylab("Probability Density") -> p3
+
+options(repr.plot.width = 9, repr.plot.height = 6)
+p1 / (p2 + p3)
+```
+
+<div class='figure'>
+    <img src="/math/images/rstan_approx_gp.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 6.</span> The plot of MCMC trace
+        , histogram and density of the posterior distribution of $\lambda$ when $Y_1 = 2$ and $Y_2 = 8$ based on MCMC approximation.
+    </div>
+</div>
+
+
+## Markov chain diagnostics
+
+The convergence of the Markov chain is an important issue in MCMC. The convergence of the Markov chain means that the Markov chain has reached the stationary distribution. The convergence of the Markov chain is important because the posterior distribution should
+be a stationary one. If the Markov chain does not converge, the posterior distribution will not be the true posterior distribution. The convergence of the Markov chain can be checked by the following three criteria:
+
+- The mean of the Markov chain should be close to the true value.
+- The variance of the Markov chain should be small.
+- The autocorrelation of the Markov chain should be small.
+
+To tell whether a Markov chain has converged, we can combine visual inspection and numerical diagnostics. The visual inspection is to plot the trace plot, histogram and density plot of the Markov chain. The numerical diagnostics is to calculate the autocorrelation of the Markov chain.
+
+Here is the R code to plot the overlay of the density for different chains. 
+
+```R
+# compare parallel chains
+options(repr.plot.width = 8, repr.plot.height = 5)
+mcmc_dens_overlay(gp_sim, pars = "lambda") + ylab("Probability Density") 
+
+# simulate a short model
+gp_sim_short <- stan(model_code = gp_model,
+                            data = list(Y = c(2, 8)),
+                            chains = 4,
+                            iter = 100,
+                            seed = 89756)
+
+# compare the two models
+mcmc_trace(gp_sim_short, pars = "lambda")
+mcmc_dens_overlay(gp_sim_short, pars = "lambda")
+```
+
+When we simulate our model, it is better for us to know how big the sample size
+should be to get a good estimation. To calculate this, we can use `neff_ratio`
+function in `bayesplot` package.
+
+Autocorrelation provides another metric by which to evaluate whether our 
+Markov chain has converged. The autocorrelation is the correlation between
+the current value and the value of the chain at a previous time step. The
+autocorrelation should reach zero as the chain converges.
+
+<div class='figure'>
+    <img src="/math/images/approx_rstan_acf.png"
+         alt="Inequality bounds compare"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 7.</span> The acf plot. 
+    </div>
+</div>
+
+
+Another way to do MCMC diagnostic is to calculate R-hat. Consider a Markov chain
+simulation of parameter $\theta$ with $K$ chains. The R-hat is defined as:
+
+$$
+\hat{R} = \sqrt{\frac{\text{Var}_{combined}}{\text{Var}_{within}}}
+$$
+
+where $\text{Var}_{combined}$ is the variance of the combined chains and
+$\text{Var}_{within}$ is the variance of the within chains. The R-hat should
+be close to 1 if the Markov chain has converged. 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
