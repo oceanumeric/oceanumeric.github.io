@@ -207,6 +207,104 @@ Y | \theta &amp;\sim \text{Binomial}(n, \theta) \\
     </div>
 </div>
 
+<h2 id="mcmc-approximation-with-rstan">MCMC approximation with rstan</h2>
+
+<p>We will continue to use the same model as above. However, we will use MCMC to approximate the posterior distribution with rstan. Stan is a probabilistic programming language that is used to fit Bayesian models. The following code shows how to use rstan to approximate the posterior distribution of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">Y = 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">n = 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span></span></span></span>.</p>
+
+<p>There are three key elements in Stan: data, parameters, and model. The data element is used to store the observed data. The parameters element is used to store the parameters that we want to estimate. The model element is used to store the model. The following code shows how to define the data, parameters, and model in Stan.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bb_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"
+    data {
+        int&lt;lower=0, upper=10&gt; Y;
+    }
+    parameters {
+        real&lt;lower=0, upper=1&gt; theta;
+    }
+    model {
+        theta ~ beta(2, 2);
+        Y ~ binomial(10, theta);
+    }
+"</span><span class="w">
+
+</span><span class="c1"># compile the model</span><span class="w">
+</span><span class="n">bb_model_sim</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">stan</span><span class="p">(</span><span class="n">model_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bb_model</span><span class="p">,</span><span class="w">
+                                    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">),</span><span class="w">
+                                    </span><span class="n">chains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w">
+                                    </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w">
+                                    </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">89756</span><span class="p">)</span><span class="w">
+
+</span><span class="n">bb_model_sim</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">as.array</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">dim</span><span class="p">()</span><span class="w">  </span><span class="c1"># 4 chains, 5000 iterations</span><span class="w">
+</span><span class="c1"># 5000, 4, 2</span><span class="w">
+
+</span><span class="n">bb_model_sim</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">as.array</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">bb_model_sim_array</span><span class="w">
+
+</span><span class="n">bb_model_sim_array</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+        </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The above code gives the following table, which shows the first five iterations of the four chains. Each chain is a Markov chain. Instead of searching in the grid space, the Markov chain searches in the parameter space. The Markov chain starts from a random point in the parameter space and then moves to a new point in the parameter space. The new point is chosen based on the current point. We will discuss the algorithm of the Markov chain in the next post.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">chain1</th>
+      <th style="text-align: center">chain2</th>
+      <th style="text-align: center">chain3</th>
+      <th style="text-align: center">chain4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">0.791</td>
+      <td style="text-align: center">0.743</td>
+      <td style="text-align: center">0.736</td>
+      <td style="text-align: center">0.852</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">0.803</td>
+      <td style="text-align: center">0.844</td>
+      <td style="text-align: center">0.844</td>
+      <td style="text-align: center">0.759</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">0.777</td>
+      <td style="text-align: center">0.901</td>
+      <td style="text-align: center">0.878</td>
+      <td style="text-align: center">0.822</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">0.973</td>
+      <td style="text-align: center">0.910</td>
+      <td style="text-align: center">0.896</td>
+      <td style="text-align: center">0.877</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">0.917</td>
+      <td style="text-align: center">0.882</td>
+      <td style="text-align: center">0.783</td>
+      <td style="text-align: center">0.769</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="figure">
+    <img src="/math/images/approx_stan_trace1.png" alt="Inequality bounds compare" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 4.</span> The trace plot of the posterior distribution of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">Y = 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">n = 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span></span></span></span> based on MCMC approximation.
+    </div>
+</div>
+
+<p>Marking the sequence of the chain values, the trace plots in Figure 4 illuminate the Markov chains’ longitudinal behavior. We also want to examine the distribution of the values these chains visit along their journey, ignoring the order of these visits. Figure 5 gives the distribution of posterior, which shows that the estimation is very close to the true value (beta distribution).</p>
+
+<div class="figure">
+    <img src="/math/images/rstan_approx_posterior.png" alt="Inequality bounds compare" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 5.</span> The hist and density plot of the posterior distribution of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">Y = 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">n = 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span></span></span></span> based on MCMC approximation.
+    </div>
+</div>
+
 
     </div>
     <div id='bibliography'>
