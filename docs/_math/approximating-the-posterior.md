@@ -5,7 +5,7 @@ layout: math_page_template
 date: 2023-04-12
 keywords: probabilistic-thinking machine-learning bayesian-inference bayesian-statistics conjugate-prior conjugate-family
 published: true
-tags: probability algorithm data-science machine-learning binomial-distribution bayesian-statistics beta-distribution conjugate-prior normal-distribution
+tags: probability algorithm data-science machine-learning binomial-distribution bayesian-statistics beta-distribution conjugate-prior mcmc
 ---
 
 In previous posts, we have looked at the Bayesian inference framework. In this post, we will look at some methods for approximating the posterior distribution. 
