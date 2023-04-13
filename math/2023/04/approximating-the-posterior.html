@@ -111,6 +111,12 @@
     <div class='wrap article'>
         <p>In previous posts, we have looked at the Bayesian inference framework. In this post, we will look at some methods for approximating the posterior distribution.</p>
 
+<ul>
+  <li><a href="#grid-approximation">Grid approximation</a></li>
+  <li><a href="#mcmc-approximation-with-rstan">MCMC approximation with rstan</a></li>
+  <li><a href="#markov-chain-diagnostics">Markov chain diagnostics</a></li>
+</ul>
+
 <h2 id="grid-approximation">Grid approximation</h2>
 
 <p>With the beta-binomial bayesian model, we can update the posterior distribution by using the conjugate prior. However, in general, we cannot use the conjugate prior to update the posterior distribution. In this case, we need to use numerical methods to approximate the posterior distribution. One of the simplest methods is the grid approximation.</p>
