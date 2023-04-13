@@ -287,7 +287,6 @@ one_mh_iteration <- function(w, current, y_data) {
 
     return(data.frame(proposal, alpha, next_u))
 
-
 }
 
 set.seed(8)
@@ -318,7 +317,64 @@ foo[, c("seed", "proposal", "alpha", "next_u")] %>%
 |7    |3.978    |1.000 |3.978  |
 
 
-Now, we are ready to run the Metropolis-Hastings algorithm. We will run the algorithm for $N$ iterations and plot the chain.
+Now, we are ready to run the Metropolis-Hastings algorithm. We will run the algorithm for N iterations and plot the chain.
+
+```R
+mh_sim <- function(n, w) {
+
+    # set up the initial values
+    current_u <- 3
+
+    # initialize mu vector
+    mu <- rep(0, n)
+
+    # simulate N iterations
+    for (i in 1:n) {
+        # simulate one iteration of the MH algorithm
+        temp <- one_mh_iteration(w, current_u, 6.25)
+
+        # update the current value
+        current_u <- temp$next_u
+
+        # store the current value
+        mu[i] <- current_u
+    }
+
+    # return data.frame
+    return(data.frame(iteration = c(1:n), mu = mu))
+}
+
+set.seed(84735)
+mh_simulate1 <- mh_sim(5000, 1)
+
+# plot the results
+options(repr.plot.width = 10, repr.plot.height = 5)
+par(mfrow = c(1, 2))
+mh_simulate1 %>% 
+    with(plot(iteration, mu, type = "l", lwd = 1,
+                    col = gray(0.1, 0.7),
+                    main = "Trace of mu")) %>%
+    with(hist(mh_simulate1$mu, breaks = 50, prob = TRUE,
+                    xlab = "mu", main = "Histogram of mu")) %>%
+    with(curve(dnorm(x, mean = 4, sd = 0.6), add = TRUE,
+                    col = "red", lwd = 2)) %>%
+    with(legend("topleft", legend = "(4, 0.6)", cex = 0.8,
+                    bg = "transparent", box.col = "transparent",
+                    col = "red", lwd = 2))
+```
+
+<div class='figure'>
+    <img src="/math/images/mh_simulation.png"
+         alt="Inequality bounds compare"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The plot of MCMC chain and the histogram of the posterior distribution based on Metropolis-Hastings algorithm.
+    </div>
+</div>
+
+As it is shown in Figure 1, the chain converges to the posterior distribution. The posterior distribution is centered at 4 and has a standard deviation of 0.6. The posterior distribution is close to the true posterior distribution as we derived in the previous section.
+
+
 
 
 

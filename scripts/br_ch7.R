@@ -143,3 +143,48 @@ foo$seed <- seed_vec
 # reorder the columns
 foo[, c("seed", "proposal", "alpha", "next_u")] %>%
     kable("pipe", digits = 3, align = 'l')
+
+
+# write a function to simulate the MH algorithm with N iterations
+
+mh_sim <- function(n, w) {
+
+    # set up the initial values
+    current_u <- 3
+
+    # initialize mu vector
+    mu <- rep(0, n)
+
+    # simulate N iterations
+    for (i in 1:n) {
+        # simulate one iteration of the MH algorithm
+        temp <- one_mh_iteration(w, current_u, 6.25)
+
+        # update the current value
+        current_u <- temp$next_u
+
+        # store the current value
+        mu[i] <- current_u
+    }
+
+    # return data.frame
+    return(data.frame(iteration = c(1:n), mu = mu))
+}
+
+set.seed(84735)
+mh_simulate1 <- mh_sim(5000, 1)
+
+# plot the results
+options(repr.plot.width = 10, repr.plot.height = 5)
+par(mfrow = c(1, 2))
+mh_simulate1 %>% 
+    with(plot(iteration, mu, type = "l", lwd = 1,
+                    col = gray(0.1, 0.7),
+                    main = "Trace of mu")) %>%
+    with(hist(mh_simulate1$mu, breaks = 50, prob = TRUE,
+                    xlab = "mu", main = "Histogram of mu")) %>%
+    with(curve(dnorm(x, mean = 4, sd = 0.6), add = TRUE,
+                    col = "red", lwd = 2)) %>%
+    with(legend("topleft", legend = "(4, 0.6)", cex = 0.8,
+                    bg = "transparent", box.col = "transparent",
+                    col = "red", lwd = 2))
