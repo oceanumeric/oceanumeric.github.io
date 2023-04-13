@@ -44,3 +44,102 @@ peephead <- function(dt, x=5) {
 }
 
 ### --- Simulate Metropolis-Hastings Algorithm --- ###
+# scenario 2
+y_data <- 6.25
+current_u <- 3
+
+set.seed(8)
+# set width = 1 and draw from uniform distribution
+proposal_u <- runif(1, min = current_u - 1, max = current_u + 1)
+# proposal_u = 2.93259
+
+# calculate likelihood
+# likelihood is just the probability of the data given the parameter
+likelihood_current <- dnorm(y_data, mean = current_u, sd = 0.75)
+likelihood_proposal <- dnorm(y_data, mean = proposal_u, sd = 0.75)
+# calculate bayesian product = likelihood * prior
+bayes_prod_current <- likelihood_current * dnorm(current_u, mean = 0, sd = 1)
+bayes_prod_proposal <- likelihood_proposal * dnorm(proposal_u, mean = 0, sd = 1)
+
+# calculate alpha
+alpha <- min(1, bayes_prod_proposal / bayes_prod_current)
+
+# accept or reject
+next_u <- sample(c(proposal_u, current_u), size = 1,
+                        prob = c(alpha, 1 - alpha))
+
+
+# make a table to show the results
+mh_table <- data.frame(
+    current_u = current_u,
+    proposal_u = proposal_u,
+    likelihood_current = likelihood_current,
+    likelihood_proposal = likelihood_proposal,
+    bayes_prod_current = bayes_prod_current,
+    bayes_prod_proposal = bayes_prod_proposal,
+    alpha = alpha,
+    next_u = next_u
+)
+
+# transpose the table
+mh_table %>%
+    t() %>%
+    kable("pipe")
+
+
+## write a function to simulate the MH algorithm
+one_mh_iteration <- function(w, current, y_data) {
+    # a function to simulate one iteration of the MH algorithm
+    # w is the width of the proposal distribution
+    # current is the current value of the parameter
+    # we are using unif(w) to draw from the proposal distribution
+    # prior is normal(0, 1)
+    # likelihood is normal(y_data, sd = 0.75)
+
+    # draw from the proposal distribution
+    proposal <- runif(1, min = current - w, max = current + w)
+
+    # update the parameter based on the bayesian product
+    # calculate the likelihood
+    likelihood_current <- dnorm(y_data, mean = current, sd = 0.75)
+    likelihood_proposal <- dnorm(y_data, mean = proposal, sd = 0.75)
+
+    # calculate the bayesian product
+    bayes_prod_current <- likelihood_current * dnorm(current,
+                                                            mean = 0,
+                                                            sd = 1)
+    bayes_prod_proposal <- likelihood_proposal * dnorm(proposal,
+                                                            mean = 0,
+                                                            sd = 1)
+
+    # calculate alpha
+    alpha <- min(1, bayes_prod_proposal / bayes_prod_current)
+
+    # accept or reject
+    next_u <- sample(c(proposal, current), size = 1,
+                        prob = c(alpha, 1 - alpha))
+
+    return(data.frame(proposal, alpha, next_u))
+
+
+}
+
+set.seed(8)
+one_mh_iteration(1, 3, 6.25)
+
+set.seed(83)
+one_mh_iteration(1, 3, 6.25)
+
+seed_vec <- c(8, 83, 7) # set seed
+foo <- data.frame()
+for (s in seed_vec) {
+    set.seed(s)
+    temp <- one_mh_iteration(1, 3, 6.25)
+    foo <- rbind(foo, temp)
+}
+
+foo$seed <- seed_vec
+
+# reorder the columns
+foo[, c("seed", "proposal", "alpha", "next_u")] %>%
+    kable("pipe", digits = 3, align = 'l')
