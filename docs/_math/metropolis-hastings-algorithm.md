@@ -422,30 +422,115 @@ $$
 $$
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endkatexmm %}
+
+Here is the code.
+
+```R
+bb_one_iteration <- function(a, b, current) {
+
+    # simulate one iteration of the MH algorithm
+
+    # step 1 - draw from the proposal distribution
+    proposal <- rbeta(1, shape1 = a, shape2 = b)
+
+    # step 2 - calculate the likelihood
+    likelihood_current <- dbinom(1, size = 2, prob = current)
+    likelihood_proposal <- dbinom(1, size = 2, prob = proposal)
+
+    # step 3 - calculate the bayesian product with the prior
+    # prior = dbeta(, 2, 3)
+    bayes_prod_current <- likelihood_current * dbeta(current, 2, 3)
+    bayes_prod_proposal <- likelihood_proposal * dbeta(proposal, 2, 3)
+
+    # calculate independent pdf of the proposal distribution
+    pdf_current <- dbeta(current, a, b)
+    pdf_proposal <- dbeta(proposal, a, b)
+
+    # calculate alpha
+    alpha <- min(1, bayes_prod_proposal / bayes_prod_current *
+                    pdf_current / pdf_proposal)
+
+    # accept or reject
+    next_theta <- sample(c(proposal, current), size = 1,
+                        prob = c(alpha, 1 - alpha))
+    
+    return(data.frame(proposal, alpha, next_theta))
+}
+
+
+bb_sim <- function(n, a, b) {
+
+    # initialize the current value
+    current_theta <- 0.5
+
+    # initialize theta vector
+    theta <- rep(0, n)
+
+    # simulate N iterations
+    for (i in 1:n) {
+        # simulate one iteration of the MH algorithm
+        temp <- bb_one_iteration(a, b, current_theta)
+
+        # update the current value
+        current_theta <- temp$next_theta
+
+        # store the current value
+        theta[i] <- current_theta
+    }
+
+    # return data.frame
+    return(data.frame(iteration = c(1:n), theta = theta))
+
+}
+
+
+
+set.seed(84735)
+bb_simulate1 <- bb_sim(5000, 1, 1)
+
+# plot the results
+options(repr.plot.width = 10, repr.plot.height = 5)
+par(mfrow = c(1, 2))
+bb_simulate1 %>% 
+    with(plot(iteration, theta, type = "l", lwd = 1,
+                    col = gray(0.1, 0.7),
+                    main = "Trace of theta")) %>%
+    with(hist(bb_simulate1$theta, breaks = 50, prob = TRUE,
+                    xlab = "theta", main = "Histogram of theta")) %>%
+    with(curve(dbeta(x, 3, 4), add = TRUE,
+                    col = "red", lwd = 2)) %>%
+    with(legend("topleft", legend = "Beta(3, 4)", cex = 0.8,
+                    bg = "transparent", box.col = "transparent",
+                    col = "red", lwd = 2))
+```
+
+<div class='figure'>
+    <img src="/math/images/bb_mh_simulation2.png"
+         alt="Inequality bounds compare"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The plot of MCMC chain and the histogram of the posterior distribution based on Metropolis-Hastings algorithm for
+        the Beta-Binomial model.
+    </div>
+</div>
+
+We finish the post here. Hope you now know how to use the Metropolis-Hastings algorithm to estimate the posterior distribution.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
