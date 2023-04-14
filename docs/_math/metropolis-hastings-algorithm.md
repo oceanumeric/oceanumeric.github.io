@@ -372,8 +372,54 @@ mh_simulate1 %>%
     </div>
 </div>
 
+{% katexmm %}
+
 As it is shown in Figure 1, the chain converges to the posterior distribution. The posterior distribution is centered at 4 and has a standard deviation of 0.6. The posterior distribution is close to the true posterior distribution as we derived in the previous section.
 
+If you look at the above code, you should realize that two things are important for the Metropolis-Hastings algorithm to work. First, the proposal distribution should be symmetric. Second, the proposal distribution should be wide enough to cover the posterior distribution. If the proposal distribution is too narrow, the chain will not be able to explore the posterior distribution. If the proposal distribution is too wide, the chain will not be able to converge to the posterior distribution. The proposal distribution should be wide enough to cover the posterior distribution but not too wide to cover the posterior distribution.
+
+Second, the initial value of the chain is important. If the initial value is too far away from the posterior distribution, the chain will not be able to converge to the posterior distribution. If the initial value is too close to the posterior distribution, the chain will not be able to explore the posterior distribution.
+
+How could we choose the initial value? We can use the prior distribution and the
+evidence (data) we have to guide us. For instance, in the above example, we 
+have $y = 6.25$, then choose the initial value to be $3$, which is not very far
+away from our data. 
+
+
+## A Beta-Binomial example
+
+For extra practice, let's try to use the Metropolis-Hastings algorithm to estimate
+a Beta-Binomial model. Let $n = 2$ be number of trials and $y = 1$ be the number
+of successes. The prior distribution is $Beta(\alpha = 2, \beta = 3)$ and the
+model is
+
+$$
+\begin{aligned}
+Y | \theta &\sim Binomial(n, \theta) \\
+\theta &\sim Beta(\alpha = 2, \beta = 3)
+\end{aligned}
+$$
+
+We know the closed form of the posterior distribution is
+
+$$
+\theta | y \sim Beta(\alpha = 2 + y, \beta = 3 + n - y) = Beta(\alpha = 3, \beta = 4)
+$$
+
+Instead of using the closed form of the posterior distribution, we will use the
+Metropolis-Hastings algorithm to estimate the posterior distribution. 
+
+This time, we will implement a special version of the Metropolis-Hastings algorithm
+, which is referred to as the independent Metropolis-Hastings algorithm. In the 
+equation (3), the pdf of the proposal distribution is a function of conditional
+probability. In the independent Metropolis-Hastings algorithm, the pdf of the
+proposal distribution is a function of the current value of the chain. 
+
+This means we should have 
+
+$$
+\alpha = \min \left \{ 1, \frac{f(\theta') L(\theta'|y)}{f(\theta)L(\theta | y)} \frac{q(\theta)}{q(\theta')}    \right \} \tag{6}
+$$
 
 
 
@@ -381,7 +427,17 @@ As it is shown in Figure 1, the chain converges to the posterior distribution. T
 
 
 
-{% katexmm %}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
