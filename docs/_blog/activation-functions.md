@@ -147,7 +147,7 @@ The activation functions are used to introduce non-linearity to the neural netwo
          alt="Pytorch autograd illustration"
          style="width: 80%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 1.</span> The computational graph.
+        <span class='caption-label'>Figure 2.</span> The visualization of the activation functions.
     </div>
 </div>
 
@@ -167,7 +167,7 @@ gradient will not vanish or explode. Since PyTorch has a built-in function, the 
          alt="Pytorch autograd illustration" class = "zoom-img"
          style="width: 90%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 2.</span> The histogram of the gradient for different activation functions (you can zoom in to see the details).
+        <span class='caption-label'>Figure 3.</span> The histogram of the gradient for different activation functions (you can zoom in to see the details).
     </div>
 </div>
 
