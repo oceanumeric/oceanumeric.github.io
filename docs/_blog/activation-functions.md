@@ -164,10 +164,10 @@ gradient will not vanish or explode. Since PyTorch has a built-in function, the 
 
 <div class='figure'>
     <img src="/images/blog/activation-funs-2.png"
-         alt="Pytorch autograd illustration"
+         alt="Pytorch autograd illustration" class = "zoom-img"
          style="width: 90%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 2.</span> The histogram of the gradient for different activation functions.
+        <span class='caption-label'>Figure 2.</span> The histogram of the gradient for different activation functions (you can zoom in to see the details).
     </div>
 </div>
 
