@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Deep Learning Parameters Initialization and Optimization
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='deep learning, pytorch, data science, data collection, data processing, data analysis, model training'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Deep Learning Parameters Initialization and Optimization</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Deep Learning Parameters Initialization and Optimization" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In previous posts, I have explained why we should treat deep learning as an architecture construction problem, which means one should think of the neural network as an architecture that can be built from a set of components:" />
+<meta property="og:description" content="In previous posts, I have explained why we should treat deep learning as an architecture construction problem, which means one should think of the neural network as an architecture that can be built from a set of components:" />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/initialization-and-optimization" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/initialization-and-optimization" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-16T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deep Learning Parameters Initialization and Optimization" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-04-16T00:00:00+00:00","datePublished":"2023-04-16T00:00:00+00:00","description":"In previous posts, I have explained why we should treat deep learning as an architecture construction problem, which means one should think of the neural network as an architecture that can be built from a set of components:","headline":"Deep Learning Parameters Initialization and Optimization","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/initialization-and-optimization"},"url":"https://oceanumeric.github.io//blog/initialization-and-optimization"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Deep Learning Parameters Initialization and Optimization</h1>
+            <h4>Training and tuning a deep learning model is a complex process. This post will cover the basics of how to initialize and optimize the parameters of a deep learning model.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/deep-learning">deep-learning</a>, 
+                            
+                            <a href="/blog-tags/pytorch">pytorch</a>, 
+                            
+                            <a href="/blog-tags/data-science">data-science</a>, 
+                            
+                            <a href="/blog-tags/python">python</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>16 April 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>In previous posts, I have explained why we should treat deep learning as an architecture construction problem, which means one should think of the neural network as an architecture that can be built from a set of components:</p>
+
+<ul>
+  <li>the material used to build the architecture (the data)</li>
+  <li>the infrastructure used to build the architecture (the hardware)</li>
+  <li>the tools used to build the architecture (the software)</li>
+  <li>the design of the architecture (the model)</li>
+</ul>
+
+<p>In this post, I will focus on the design of the architecture, which is the model. The model needs to be trained and tuned to achieve the best performance with many parameters to be set. This post will cover the basics of how to initialize and optimize the parameters of a deep learning model.</p>
+
+<ul>
+  <li><a href="#big-idea">Big idea</a></li>
+  <li><a href="#data-distribution">Data distribution</a></li>
+</ul>
+
+<h2 id="big-idea">Big idea</h2>
+
+<p>Deep learning models are about mapping a set of inputs to a set of outputs. The best model is to link inputs to outputs with the smallest error. The error is the difference between the predicted output and the actual output.</p>
+
+<p>From the perspective of <em>information theory</em>, the best model is the one that minimizes the <em>cross entropy</em> between the predicted output and the actual output. The cross entropy is a measure of the difference between two probability distributions. The cross entropy is defined as:</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo stretchy="false">(</mo><mi>p</mi><mo separator="true">,</mo><mi>q</mi><mo stretchy="false">)</mo><mo>=</mo><mo>−</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>p</mi><mi>i</mi></msub><mi>log</mi><mo>⁡</mo><msub><mi>q</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">H(p,q) = -\sum_{i=1}^n p_i \log q_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathdefault">p</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.929066em;vertical-align:-1.277669em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6513970000000002em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> \tag{1}</p>
+
+<p>where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span> is the actual probability distribution and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span></span></span></span> is the predicted probability distribution. The cross entropy is a measure of the difference between the actual distribution and the predicted distribution. The smaller the cross entropy, the better the model. To be honest, I don’t fully understand equation (1). I might write a post about it in the future. But, right now, we could still understand the importance of initialization and optimization from the perspective of information theory without digging into equation (1).</p>
+
+<p>Intuitively, <em>we want to extract the most information from the data and preserve the most information across different layers of neural networks</em>. The more information we can extract from the data, the better the model. The more information we can preserve across different layers of neural networks, the better the model.</p>
+
+<p>There is a very good book discussing neural networks from the perspective of information theory: <em>Information Theory, Inference, and Learning Algorithms</em> by David MacKay <a class="citation" href="#mackay2003information">(MacKay, 2003)</a>. I highly recommend this book to anyone who wants to understand neural networks from the perspective of information theory.</p>
+
+<h2 id="data-distribution">Data distribution</h2>
+
+<p>There are many ways to quantify the information in a dataset. The simplest way is to use the distribution of the data. In this post, we will focus on the first two moments of the data distribution: the mean and the variance.</p>
+
+<p>The idea is that <em>we want to initialize the parameters of the model such that the mean and the variance of the data are preserved across different layers of the neural network</em>. When we talk about the preservation of the mean and the variance, we are more interested in
+the overall shape of the distribution because there is no way to preserve the exact mean and the exact variance with many layers of neural networks (there are so many transformations involved in a neural network).</p>
+
+<p>We will use Fashion-MNIST dataset to illustrate the idea as we did it in <a href="https://oceanumeric.github.io/blog/activation-functions">previous posts</a>.</p>
+
+<p>The following comments shows the mean and the variance of the data distribution before and after normalization. The purpose of normalization is to make the mean of the data distribution to be zero and the variance of the data distribution to be one. Then, it will be easier to compare the mean and the variance of the data distribution across different layers of the neural network.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># code to produce the following comments will be given at the end of this post
+# Train set size: 60000
+# Test set size: 10000
+# The shape of the image: torch.Size([1, 28, 28])
+# The size of vectorized image: torch.Size([784])
+# check features torch.Size([60000, 28, 28])
+# check labels torch.Size([60000])
+# The mean of the image: tensor(0.2860)
+# The standard deviation of the image: tensor(0.3530)
+</span>
+<span class="c1"># ------------- after normalization -------------
+# Mean: -0.006
+# Standard deviation: 0.999
+# Maximum: 2.023
+# Minimum: -0.810
+# Shape of tensor: torch.Size([1024, 1, 28, 28])
+</span></code></pre></div></div>
+<p>If you look at the last line of the comments, you will see the tensor is four-dimensional. PyTorch convert the images into one-dimensional vectors for calculating mean and standard deviation. We will not cover how PyTorch does it in this post. But, it is important to be aware of dimensions of our data.</p>
+
+<p>To learn how initialization will affect the mean and variance of the data distribution, gradient descent and activation functions, we will define several functions to visualize the data distribution. Those functions will help us:</p>
+
+<ul>
+  <li>visualize the weight/parameter distribution</li>
+  <li>visualize the gradient distribution</li>
+  <li>visualize the data distribution after activation function (propagation)</li>
+</ul>
+
+<h2 id="constant-initialization">Constant initialization</h2>
+
+<p>When we train a neural network with PyTorch, PyTorch will initialize the parameters of the model automatically. We can also initialize the parameters of the model manually. In this section, we will initialize the parameters of the model with a constant value. Then, we will visualize the data distribution after the propagation to see how the mean and the variance of the data distribution are affected by the constant initialization.</p>
+
+<div class="figure">
+    <img src="/images/blog/initialization-gradients-1.png" alt="Pytorch autograd illustration" class="zoom-img" style="width: 100%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> The visualization of the gradients with constant initialization = 0.005 (you can click on the image to zoom in).
+    </div>
+</div>
+
+<p>As we can see, only the first and the last layer have diverse gradient distributions while the other three layers have the same gradient for all weights (note that this value is unequal 0, but often very close to it). Having the same gradient for parameters that have been initialized with the same values means that we will always have the same value for those parameters. This would make our layer useless and reduce our effective number of parameters to 1 (meaning that we could have just used a single parameter instead of many).</p>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"><li><span id="mackay2003information">MacKay, D. J. C. (2003). <i>Information theory, inference and learning algorithms</i>. Cambridge university press.</span></li></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
