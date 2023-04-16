@@ -821,3 +821,4 @@ if __name__ == "__main__":
 ## References
 
 1. [How Computational Graphs are Executed in PyTorch](https://pytorch.org/blog/how-computational-graphs-are-executed-in-pytorch/){:target="_blank"}
+2. [Activation Tutorial](https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial3/Activation_Functions.html){:target="_blank"}
