@@ -482,61 +482,49 @@
     <img src="/images/blog/lda-tuning-topicnum.png" alt="fp7 totalcost hist1" style="width: 70%; display: block; margin: 0 auto;" />
     <div class="caption">
         <span class="caption-label">Figure 4.</span> the plot of the optimal number of topics based on the CaoJuan2009 and Deveaud2014 metrics.
+    </div>
 </div>
 
+<p>From the plot above, we will choose 9 as the optimal number of topics. The following code fits with LDA and plot the topics.</p>
 
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">789</span><span class="p">)</span><span class="w">
+</span><span class="n">lda_fit2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">LDA</span><span class="p">(</span><span class="n">dtm_objective_filtered</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gibbs"</span><span class="p">,</span><span class="w">
+                                        </span><span class="n">control</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">
+                                                        </span><span class="n">verbose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">))</span><span class="w">
 
-From the plot above, we will choose <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">k=9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span></span></span></span> as the optimal number of topics. The following code fits with LDA and plot the topics. 
+</span><span class="c1"># get values of theta</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">)</span><span class="w">
+</span><span class="n">tidy</span><span class="p">(</span><span class="n">lda_fit2</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"beta"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">group_by</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">slice_max</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">arrange</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">beta</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">word</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder_within</span><span class="p">(</span><span class="n">term</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">topic</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_col</span><span class="p">(</span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.85</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">expression</span><span class="p">(</span><span class="n">beta</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="c1"># make x axis labels more readable with bold font</span><span class="w">
+    </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+            </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+            </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
 
-```R
-# we choose 9 topics
-set.seed(789)
-lda_fit2 &lt;- LDA(dtm_objective_filtered, k = 9, method = "Gibbs",
-                                        control = list(iter = 1000,
-                                                        verbose = 50))
-
-# get values of theta
-options(repr.plot.width = 11, repr.plot.height = 9)
-tidy(lda_fit2, matrix = "beta") %&gt;% 
-    group_by(topic) %&gt;%
-    slice_max(beta, n = 10) %&gt;%
-    ungroup() %&gt;%
-    arrange(topic, -beta) %&gt;%
-    mutate(word = reorder_within(term, beta, topic, sep="")) %&gt;%
-    ggplot(aes(word, beta, fill = factor(topic))) +
-    geom_col(show.legend = FALSE, alpha = 0.85) +
-    coord_flip() +
-    facet_wrap(~topic, scales = "free") +
-    labs(x = NULL, y = expression(beta)) +
-    theme_bw() +
-    # make x axis labels more readable with bold font
-    theme(axis.text.y = element_text(face = "bold", size = 10),
-            panel.grid.major = element_blank(),
-            panel.grid.minor = element_blank())
-```
+<p>By look at words in each topic, we can interpret the topics in Figure 5. For example, topic 1 is about quantum computing, topic 3 is probably about the smart manufacturing with mobile devices, and topic 6 is more about the economic policy on ICT.</p>
 
 <div class="figure">
     <img src="/images/blog/fp7-objectives-topics.png" alt="fp7 topics" class="zoom-img" style="width: 70%; display: block; margin: 0 auto;" />
     <div class="caption">
-        <span class="caption-label">Figure 5.</span> the plot of topics based on the objectives of the projects in the ICT theme.
+        <span class="caption-label">Figure 5.</span> the plot of topics based on the objectives of the projects in the ICT theme (you can click on the image to zoom in).
+    </div>
 </div>
 
+<p>I also found topic 4 and 9 are interesting. Topic 4 is about social media and topic 9 is about the platform for digital economy.</p>
 
+<p>Figure 5 shows that Latent Dirichlet Allocation (LDA) is a useful tool to understand the topics of the projects in the ICT theme. The topics are not perfect, but they are useful to understand the projects in a very efficient way (assuming she/he will not read all the project objectives by herself/himself).</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div></div>
 
     </div>
     <div id='bibliography'>
