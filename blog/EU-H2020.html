@@ -409,7 +409,7 @@
 </span><span class="c1">#  28.0   166.0   177.0   174.8   186.0   318.0</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The shortest project objective has 28 words, and the longest one has 318 words. The average project objective has 175 words. The following code creates a document-term matrix and a term-document matrix.</p>
+<p>The shortest project objective has 28 words, and the longest one has 318 words. The average project objective has 175 words. The following code creates a document-term matrix and a term-document matrix. We first drop the documents with less than 100 words in order to reduce the sparsity of the document-term matrix.</p>
 
 <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create a document-term matrix</span><span class="w">
 </span><span class="c1"># we will filter out documents with more than 100 words</span><span class="w">
@@ -524,6 +524,118 @@
 <p>I also found topic 4 and 9 are interesting. Topic 4 is about social media and topic 9 is about the platform for digital economy.</p>
 
 <p>Figure 5 shows that Latent Dirichlet Allocation (LDA) is a useful tool to understand the topics of the projects in the ICT theme. The topics are not perfect, but they are useful to understand the projects in a very efficient way (assuming she/he will not read all the project objectives by herself/himself).</p>
+
+<p>With those 9 topics we classified, we can now answer the following questions:</p>
+
+<ol>
+  <li>What are the most popular topics in the ICT theme?</li>
+  <li>Which topic receives the most funding?</li>
+</ol>
+
+<div class="figure">
+    <img src="/images/blog/fp7-topics-hist1.png" alt="fp7 topics" class="zoom-img" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 6.</span> histogram of the number of projects in each topic
+    </div>
+</div>
+
+<p>Figure 6 shows that there are more or less equal number of projects in each topic. The most popular topic is topic 1, which is about quantum computing. The following table shows the top 10 topics in terms of the total cost of the projects and the average cost of the projects in each topic.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">topic</th>
+      <th style="text-align: center">totalCost(million)</th>
+      <th style="text-align: center">avrgCost(million)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">3</td>
+      <td style="text-align: center">1747.42</td>
+      <td style="text-align: center">5.64</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1</td>
+      <td style="text-align: center">1681.41</td>
+      <td style="text-align: center">5.08</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">8</td>
+      <td style="text-align: center">1434.17</td>
+      <td style="text-align: center">5.22</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">7</td>
+      <td style="text-align: center">1329.14</td>
+      <td style="text-align: center">4.43</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">4</td>
+      <td style="text-align: center">1318.15</td>
+      <td style="text-align: center">4.76</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">9</td>
+      <td style="text-align: center">1276.01</td>
+      <td style="text-align: center">6.51</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">5</td>
+      <td style="text-align: center">1102.56</td>
+      <td style="text-align: center">5.63</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">6</td>
+      <td style="text-align: center">726.44</td>
+      <td style="text-align: center">2.34</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: center">302.68</td>
+      <td style="text-align: center">4.39</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can see that European Commission invests more in topic 3, which is about smart manufacturing and energy with mobile devices. In general, topic 3 is all about using ICT to improve the efficiency of the manufacturing, transportation, and energy sectors. The following table gives some sample projects in topic 3.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">id</th>
+      <th style="text-align: left">topic</th>
+      <th style="text-align: left">title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">314328</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">SMART MOBILITY IN SMART CITY</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">223937</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">SMART-antenna multimode wireless mesh Network</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">257544</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">Smart and Efficient Location, idEntification, and Cooperation Techniques</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">287534</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">Semantic Tools for Carbon Reduction in Urban Planning</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">314331</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">Optimized electric Drivetrain by INtegration</td>
+    </tr>
+  </tbody>
+</table>
 
 
     </div>
