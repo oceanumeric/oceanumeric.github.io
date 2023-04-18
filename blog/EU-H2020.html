@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      European Research and Innovation Program
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='Europe H2020, data science, research policy'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>European Research and Innovation Program</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="European Research and Innovation Program" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="On European level, the European Research and Innovation Program (H2020) is the main funding instrument for research and innovation. It is a very large program with a budget of 80 billion euros for the period 2014-2020. The program is divided into different parts, each with its own budget and focus. It is the consecutive program of FP7 (another large European research program)." />
+<meta property="og:description" content="On European level, the European Research and Innovation Program (H2020) is the main funding instrument for research and innovation. It is a very large program with a budget of 80 billion euros for the period 2014-2020. The program is divided into different parts, each with its own budget and focus. It is the consecutive program of FP7 (another large European research program)." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/EU-H2020" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/EU-H2020" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-18T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="European Research and Innovation Program" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-04-18T00:00:00+00:00","datePublished":"2023-04-18T00:00:00+00:00","description":"On European level, the European Research and Innovation Program (H2020) is the main funding instrument for research and innovation. It is a very large program with a budget of 80 billion euros for the period 2014-2020. The program is divided into different parts, each with its own budget and focus. It is the consecutive program of FP7 (another large European research program).","headline":"European Research and Innovation Program","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/EU-H2020"},"url":"https://oceanumeric.github.io//blog/EU-H2020"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>European Research and Innovation Program</h1>
+            <h4>There are many projects in the European Union that are funded by the European Research and Innovation Programme. To make sense of those projects and their results, we have to do lots of data processing and analysis.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/data-science">data-science</a>, 
+                            
+                            <a href="/blog-tags/r">r</a>, 
+                            
+                            <a href="/blog-tags/eh-h2020">eh-h2020</a>, 
+                            
+                            <a href="/blog-tags/research-policy">research-policy</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>18 April 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>On European level, the European Research and Innovation Program (H2020) is the main funding instrument for research and innovation. It is a very large program with a budget of 80 billion euros for the period 2014-2020. The program is divided into different parts, each with its own budget and focus. It is the consecutive program of FP7 (another large European research program).</p>
+
+<p>I have tried to make sense of those research program by analyzing the projects and their results, such as who are funded and what they do. This post will try to give an overview of those projects and construct a more structured dataset from the raw data for further analysis.</p>
+
+<p>I have built a dataset and save it to Kaggle. One can follow <a href="https://www.kaggle.com/datasets/oceanumeric/cordis" target="_blank">this link</a> to download the dataset.</p>
+
+<h2 id="projects-and-organizations">Projects and organizations</h2>
+
+<p>Each research program has two datasets: projects and organizations. The projects dataset contains information about the projects, such as the title, the abstract, the budget, the start and end date, the project coordinator, the participants, the topics, the call, etc. The organizations dataset contains information about the organizations, such as the name, the country, the type, the address, etc.</p>
+
+<p>The organizations dataset tells <em>who is involved</em> in the projects. The projects dataset tells <em>what is done</em> in the projects. The following code gives a glimpse of the projects dataset.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./cordis/fp7/data/csv/project.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">,</span><span class="w">  </span><span class="n">strict.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cut"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Classes ‘data.table’ and 'data.frame':	25785 obs. of  25 variables:</span><span class="w">
+</span><span class="c1">#  $ id                : int  223925 315871 229760 286978 211948 28306..</span><span class="w">
+</span><span class="c1">#  $ acronym           : chr  "LENVIS" "APT-STEP" "FORUM GMES" "BIOCA"..</span><span class="w">
+</span><span class="c1">#  $ status            : chr  "CLO" "CLO" "CLO" "CLO" ...</span><span class="w">
+</span><span class="c1">#  $ title             : chr  "Localised environmental and health inf"..</span><span class="w">
+</span><span class="c1">#  $ startDate         : chr  "2008-09-01" "2012-10-01" "2008-04-01" "..</span><span class="w">
+</span><span class="c1">#  $ endDate           : IDate, format: "2012-01-31" ...</span><span class="w">
+</span><span class="c1">#  $ totalCost         : chr  "3131818" "1150921,4" "239699" "1410933"..</span><span class="w">
+</span><span class="c1">#  $ ecMaxContribution : chr  "2232223" "1150921" "150000" "1004500" ...</span><span class="w">
+</span><span class="c1">#  $ legalBasis        : chr  "FP7-ICT" "FP7-REGPOT" "FP7-SPACE" "FP7"..</span><span class="w">
+</span><span class="c1">#  $ topics            : chr  "ICT-2007.6.3" "REGPOT-2012-2013-1" "SP"..</span><span class="w">
+</span><span class="c1">#  $ ecSignatureDate   : chr  "" "" "" "" ...</span><span class="w">
+</span><span class="c1">#  $ frameworkProgramme: chr  "FP7" "FP7" "FP7" "FP7" ...</span><span class="w">
+</span><span class="c1">#  $ masterCall        : chr  "" "" "" "" ...</span><span class="w">
+</span><span class="c1">#  $ subCall           : chr  "FP7-ICT-2007-2" "FP7-REGPOT-2012-2013-"..</span><span class="w">
+</span><span class="c1">#  $ fundingScheme     : chr  "CP" "CSA-SA" "CSA-SA" "BSG-SME" ...</span><span class="w">
+</span><span class="c1">#  $ nature            : chr  "" "" "" "" ...</span><span class="w">
+</span><span class="c1">#  $ objective         : chr  "The main goal of the LENVIS project is"..</span><span class="w">
+</span><span class="c1">#  $ contentUpdateDate : chr  "2019-07-16 12:16:47" "2017-09-24 09:38"..</span><span class="w">
+</span><span class="c1">#  $ rcn               : chr  "87602" "104995" "87337" "100971" ...</span><span class="w">
+</span><span class="c1">#  $ grantDoi          : chr  "" "" "" "" ...</span><span class="w">
+</span><span class="c1">#  $ V21               : chr  "" "" "" "" ...</span><span class="w">
+</span><span class="c1">#  $ V22               : chr  "" "" "" "" ...</span><span class="w">
+</span><span class="c1">#  $ V23               : chr  "" "" "" "" ...</span><span class="w">
+</span><span class="c1">#  $ V24               : POSIXct, format: NA ...</span><span class="w">
+</span><span class="c1">#  $ V25               : int  NA NA NA NA NA NA NA NA NA NA ...</span><span class="w">
+</span><span class="c1">#  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </span><span class="w">
+
+</span><span class="c1">### --------------- Clean the data ------------------ ###</span><span class="w">
+</span><span class="c1"># convert to numberic values </span><span class="w">
+</span><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">totalCost</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.double</span><span class="p">(</span><span class="w">
+        </span><span class="n">str_replace</span><span class="p">(</span><span class="n">totalCost</span><span class="p">,</span><span class="w"> </span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="s2">"."</span><span class="p">)</span><span class="w">
+        </span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">ecMaxContribution</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="w">
+        </span><span class="n">str_replace</span><span class="p">(</span><span class="n">ecMaxContribution</span><span class="p">,</span><span class="w"> </span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="s2">"."</span><span class="p">)</span><span class="w">
+        </span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+
+</span><span class="c1"># get start and end year</span><span class="w">
+</span><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">startDate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">as.IDate</span><span class="p">(</span><span class="n">startDate</span><span class="p">,</span><span class="w"> </span><span class="s2">"%Y-%m-%d"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># add project span in months, startYear, endYear</span><span class="w">
+</span><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">projSpan</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">interval</span><span class="p">(</span><span class="n">startDate</span><span class="p">,</span><span class="w"> </span><span class="n">endDate</span><span class="p">)</span><span class="w"> </span><span class="o">%/%</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">startYear</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">startDate</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">endYear</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">endDate</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># legalBasis group</span><span class="w">
+</span><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">legalBasis</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">N</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">10</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="o">-</span><span class="n">rank</span><span class="p">(</span><span class="n">N</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The variable <code class="language-plaintext highlighter-rouge">legalBasis</code> tells us the theme of the project, for instance, ‘FP7-SPACE’ is about space technology. The following table gives an overview of the themes.</p>
+
+<div class="table-figure-wrapper">
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Legal Basis</th>
+        <th style="text-align: right">No.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">FP7-PEOPLE</td>
+        <td style="text-align: right">11103</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-IDEAS-ERC</td>
+        <td style="text-align: right">4553</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-ICT</td>
+        <td style="text-align: right">2325</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-SME</td>
+        <td style="text-align: right">1036</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-HEALTH</td>
+        <td style="text-align: right">1003</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-JTI</td>
+        <td style="text-align: right">807</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-NMP</td>
+        <td style="text-align: right">805</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-TRANSPORT</td>
+        <td style="text-align: right">720</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-KBBE</td>
+        <td style="text-align: right">516</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">FP7-ENVIRONMENT</td>
+        <td style="text-align: right">493</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sub-figure">
+    <img src="/images/blog/fp7-contributions.png" alt="Airbus patents distribution" class="zoom-img" style="width: 60%; display: block; margin: 0 auto;" />
+</div>
+
+  <div class="caption">
+        <span class="caption-label">Figure 1.</span> The table gives the top 10 themes in terms of number of projects and the figure gives the distribution of the projects in terms of grant amount (in million euros). You can zoom in the figure by clicking on it.
+</div>
+</div>
+
+<p>The above figure was produced by the following code.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
+</span><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">grep</span><span class="p">(</span><span class="s2">"FP"</span><span class="p">,</span><span class="w"> </span><span class="n">legalBasis</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">ecMaxContribution</span><span class="p">)</span><span class="o">/</span><span class="m">1e6</span><span class="p">),</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">legalBasis</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">budget2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">budget</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">budgetIndex</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">legalBasis</span><span class="p">,</span><span class="w"> </span><span class="n">budget2</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">treemap</span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"budgetIndex"</span><span class="p">,</span><span class="w">
+            </span><span class="n">vSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"budget"</span><span class="p">,</span><span class="w">
+            </span><span class="n">vColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"budget"</span><span class="p">,</span><span class="w">
+            </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"manual"</span><span class="p">,</span><span class="w">
+            </span><span class="n">palette</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Blues"</span><span class="p">,</span><span class="w">
+            </span><span class="n">algorithm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"squarified"</span><span class="p">,</span><span class="w">
+            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Total EU Contribution in different programmes"</span><span class="p">,</span><span class="w">
+            </span><span class="n">title.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"million"</span><span class="p">,</span><span class="w">
+            </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">),</span><span class="w">  </span><span class="n">border.lwds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
