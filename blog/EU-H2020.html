@@ -104,7 +104,7 @@
 
 <p>I have built a dataset and save it to Kaggle. One can follow <a href="https://www.kaggle.com/datasets/oceanumeric/cordis" target="_blank">this link</a> to download the dataset.</p>
 
-<h2 id="projects-and-organizations">Projects and organizations</h2>
+<h2 id="fp7-projects">FP7 projects</h2>
 
 <p>Each research program has two datasets: projects and organizations. The projects dataset contains information about the projects, such as the title, the abstract, the budget, the start and end date, the project coordinator, the participants, the topics, the call, etc. The organizations dataset contains information about the organizations, such as the name, the country, the type, the address, etc.</p>
 
@@ -291,7 +291,7 @@
 <div class="figure">
     <img src="/images/blog/fp7-totalcost-hist1.png" alt="fp7 totalcost hist1" style="width: 80%; display: block; margin: 0 auto;" />
     <div class="caption">
-        <span class="caption-label">Figure 2.</span> Histogram of the the grant amount and its log transformation in the ICT theme. 
+        <span class="caption-label">Figure 2.</span> Histogram of the the grant amount and its log transformation in the FP7 program. 
     </div>
 </div>
 
@@ -515,7 +515,7 @@
 <p>By look at words in each topic, we can interpret the topics in Figure 5. For example, topic 1 is about quantum computing, topic 3 is probably about the smart manufacturing with mobile devices, and topic 6 is more about the economic policy on ICT.</p>
 
 <div class="figure">
-    <img src="/images/blog/fp7-objectives-topics.png" alt="fp7 topics" class="zoom-img" style="width: 70%; display: block; margin: 0 auto;" />
+    <img src="/images/blog/fp7-objectives-topics.png" alt="fp7 topics" class="zoom-img" style="width: 80%; display: block; margin: 0 auto;" />
     <div class="caption">
         <span class="caption-label">Figure 5.</span> the plot of topics based on the objectives of the projects in the ICT theme (you can click on the image to zoom in).
     </div>
@@ -533,7 +533,7 @@
 </ol>
 
 <div class="figure">
-    <img src="/images/blog/fp7-topics-hist1.png" alt="fp7 topics" class="zoom-img" style="width: 70%; display: block; margin: 0 auto;" />
+    <img src="/images/blog/fp7-topics-hist1.png" alt="fp7 topics" style="width: 70%; display: block; margin: 0 auto;" />
     <div class="caption">
         <span class="caption-label">Figure 6.</span> histogram of the number of projects in each topic
     </div>
@@ -604,35 +604,410 @@
   <thead>
     <tr>
       <th style="text-align: left">id</th>
-      <th style="text-align: left">topic</th>
-      <th style="text-align: left">title</th>
+      <th style="text-align: right">topic</th>
+      <th style="text-align: right">title</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td style="text-align: left">314328</td>
-      <td style="text-align: left">3</td>
-      <td style="text-align: left">SMART MOBILITY IN SMART CITY</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">SMART MOBILITY IN SMART CITY</td>
     </tr>
     <tr>
       <td style="text-align: left">223937</td>
-      <td style="text-align: left">3</td>
-      <td style="text-align: left">SMART-antenna multimode wireless mesh Network</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">SMART-antenna multimode wireless mesh Network</td>
     </tr>
     <tr>
       <td style="text-align: left">257544</td>
-      <td style="text-align: left">3</td>
-      <td style="text-align: left">Smart and Efficient Location, idEntification, and Cooperation Techniques</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">Smart and Efficient Location, idEntification, and Cooperation Techniques</td>
     </tr>
     <tr>
       <td style="text-align: left">287534</td>
-      <td style="text-align: left">3</td>
-      <td style="text-align: left">Semantic Tools for Carbon Reduction in Urban Planning</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">Semantic Tools for Carbon Reduction in Urban Planning</td>
     </tr>
     <tr>
       <td style="text-align: left">314331</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">Optimized electric Drivetrain by INtegration</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="h2020-projects">H2020 projects</h2>
+
+<p>After analyzing the FP7 program, we will do the same analysis for the H2020 program. The H2020 program is a continuation of the FP7 program. The H2020 program has a budget of 80 billion euros for the period 2014-2020.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">legalBasis</th>
+      <th style="text-align: center">N</th>
+      <th style="text-align: right">Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">H2020-EU.1.3.</td>
+      <td style="text-align: center">11700</td>
+      <td style="text-align: right">EXCELLENT SCIENCE - Marie Skłodowska-Curie Actions (MSCA)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.1.1.</td>
+      <td style="text-align: center">7792</td>
+      <td style="text-align: right">EXCELLENT SCIENCE - European Research Council (ERC)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.2.3.</td>
+      <td style="text-align: center">3162</td>
+      <td style="text-align: right">INDUSTRIAL LEADERSHIP - Innovation In SMEs</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.2.1.1.</td>
+      <td style="text-align: center">1870</td>
+      <td style="text-align: right">INDUSTRIAL LEADERSHIP - ICT enabling</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.3.4.</td>
+      <td style="text-align: center">1756</td>
+      <td style="text-align: right">SOCIETAL CHALLENGES - Smart, Green And Integrated Transport</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.3.3.</td>
+      <td style="text-align: center">1450</td>
+      <td style="text-align: right">SOCIETAL CHALLENGES - Secure, clean and efficient energy</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.3.1.</td>
+      <td style="text-align: center">1196</td>
+      <td style="text-align: right">SOCIETAL CHALLENGES - Health, demographic change and well-being</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.3.2.</td>
+      <td style="text-align: center">914</td>
+      <td style="text-align: right">SOCIETAL CHALLENGES - Food security, etc.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.3.5.</td>
+      <td style="text-align: center">739</td>
+      <td style="text-align: right">SOCIETAL CHALLENGES - Climate action, Environment, ect.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">H2020-EU.1.2.</td>
+      <td style="text-align: center">618</td>
+      <td style="text-align: right">EXCELLENT SCIENCE - Future and Emerging Technologies (FET)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="figure">
+    <img src="/images/blog/h2020-totalcost-treemap.png" alt="fp7 topics" class="zoom-img" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 7.</span> distribution of the total cost of the projects in the H2020 program (you can click on the image to zoom in).
+    </div>
+</div>
+
+<p>The following tables compares the total cost and the average cost of the projects in the H2020 program and the FP7 program for the ICT theme.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Program</th>
+      <th style="text-align: center">Min.</th>
+      <th style="text-align: center">1st Qu.</th>
+      <th style="text-align: center">Median</th>
+      <th style="text-align: center">Mean</th>
+      <th style="text-align: center">3rd Qu.</th>
+      <th style="text-align: center">Max.</th>
+      <th style="text-align: center">N</th>
+      <th style="text-align: center">TotalCost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">FP7</td>
+      <td style="text-align: center">0.12</td>
+      <td style="text-align: center">2.59</td>
+      <td style="text-align: center">3.84</td>
+      <td style="text-align: center">4.79</td>
+      <td style="text-align: center">5.16</td>
+      <td style="text-align: center">74.98</td>
+      <td style="text-align: center">2325</td>
+      <td style="text-align: center">7.8 billion</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">H2020</td>
+      <td style="text-align: center">0.07</td>
+      <td style="text-align: center">0.48</td>
+      <td style="text-align: center">3.12</td>
+      <td style="text-align: center">5.69</td>
+      <td style="text-align: center">5.4</td>
+      <td style="text-align: center">180.32</td>
+      <td style="text-align: center">1870</td>
+      <td style="text-align: center">6.7 billion</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can see that the total cost of the projects in the H2020 program is lower than the total cost of the projects in the FP7 program. The average cost of the projects in the H2020 program is higher than the average cost of the projects in the FP7 program due to the fact that the distribution of the total cost of the projects in the H2020 program is more skewed than that of the FP7 program.</p>
+
+<div class="figure">
+    <img src="/images/blog/h2020-totalcost-hist1.png" alt="fp7 totalcost hist1" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 8.</span> Histogram of the the grant amount and its log transformation in the H2020 program.
+    </div>
+</div>
+
+<p>Now, we will find top 10 keywords in the ICT theme of the H2020 program. The following table shows the top 10 keywords in the ICT theme of the H2020 program, and compares them with the top 10 keywords in the ICT theme of the FP7 program. It shows that data and smart system becomes more popular. This might be due to the fact that AI and machine learning are becoming more popular in the ICT field.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">word (H2020)</th>
+      <th style="text-align: center">N (H2020)</th>
+      <th style="text-align: center">word (FP7)</th>
+      <th style="text-align: center">N (FP7)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">platform</td>
+      <td style="text-align: center">179</td>
+      <td style="text-align: center">systems</td>
+      <td style="text-align: center">212</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">data</td>
+      <td style="text-align: center">169</td>
+      <td style="text-align: center">based</td>
+      <td style="text-align: center">157</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">smart</td>
+      <td style="text-align: center">133</td>
+      <td style="text-align: center">future</td>
+      <td style="text-align: center">130</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">based</td>
+      <td style="text-align: center">130</td>
+      <td style="text-align: center">internet</td>
+      <td style="text-align: center">123</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">european</td>
+      <td style="text-align: center">113</td>
+      <td style="text-align: center">european</td>
+      <td style="text-align: center">122</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">system</td>
+      <td style="text-align: center">108</td>
+      <td style="text-align: center">energy</td>
+      <td style="text-align: center">119</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">systems</td>
+      <td style="text-align: center">107</td>
+      <td style="text-align: center">research</td>
+      <td style="text-align: center">118</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">digital</td>
+      <td style="text-align: center">105</td>
+      <td style="text-align: center">management</td>
+      <td style="text-align: center">113</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">cloud</td>
+      <td style="text-align: center">100</td>
+      <td style="text-align: center">data</td>
+      <td style="text-align: center">106</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5g</td>
+      <td style="text-align: center">91</td>
+      <td style="text-align: center">services</td>
+      <td style="text-align: center">104</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We will not plot the word cloud for the H2020 program because the word cloud is not very informative. The above table gives us a glimpse of the projects in the ICT theme of the H2020 program. Instead, we will use the LDA model to find the topics in the H2020 program.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;&lt;DocumentTermMatrix (documents: 1792, terms: 18750)&gt;&gt;</span><span class="w">
+</span><span class="c1"># Non-/sparse entries: 217873/33382127</span><span class="w">
+</span><span class="c1"># Sparsity           : 99%</span><span class="w">
+</span><span class="c1"># Maximal term length: 114</span><span class="w">
+</span><span class="c1"># Weighting          : term frequency (tf)</span><span class="w">
+</span><span class="c1"># Sample             :</span><span class="w">
+</span><span class="c1">#       Terms</span><span class="w">
+</span><span class="c1"># Docs   data develop innov market project provid system technolog use will</span><span class="w">
+</span><span class="c1">#   1187    7       0     0      1       1      2      0         1   0    2</span><span class="w">
+</span><span class="c1">#   1358   19       1     0      0       0      4      0         5   3    5</span><span class="w">
+</span><span class="c1">#   1756    0       2     4      1       4      1      0         3   0    4</span><span class="w">
+</span><span class="c1">#   1777   12       1     1      0       5      1      0         1   1    5</span><span class="w">
+</span><span class="c1">#   286     0       1     1      2       0      2      0         0   1    3</span><span class="w">
+</span><span class="c1">#   35     18       3     2      2       0      2     10         4   3    5</span><span class="w">
+</span><span class="c1">#   449     2       1     2      2       2      1      1         0   0    9</span><span class="w">
+</span><span class="c1">#   566     0       0     5      3       0      1      3         4   0    5</span><span class="w">
+</span><span class="c1">#   659     0       4     0      1       1      0      0         1   1    5</span><span class="w">
+</span><span class="c1">#   973     0       2     4      0       3      1      1         4   0    1</span><span class="w">
+</span></code></pre></div></div>
+
+<p>There are 1792 projects whose objective has length greater than 100, which is less than the number of projects in the FP7 program. This does not mean European Commission invest less in the ICT theme of the H2020 program. It might be due to the fact that some topics in the ICT theme of the FP7 becomes an independent theme in the H2020 program. For example, H2020-EU.3.4. and H2020-EU.3.3. are the topics in the ICT theme of the FP7 program. However, they are independent topics in the H2020 program.</p>
+
+<div class="figure">
+    <img src="/images/blog/h2020-lda-tuning1.png" alt="fp7 totalcost hist1" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 9.</span> the plot of the optimal number of topics for H2020 program.
+    </div>
+</div>
+
+<p>The optimal number of topics for the H2020 program is 12, which is higher than the optimal number of topics for the FP7 program. This might be due to the fact that the topics in the H2020 program are more specific than those in the FP7 program. This also makes sense as the technology is becoming more advanced our knowledge about the technology is becoming more specific and complex.</p>
+
+<div class="figure">
+    <img src="/images/blog/h2020-objectives-topics.png" alt="fp7 topics" class="zoom-img" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 10.</span> the plot of topics based on the objectives of the projects in the ICT theme for H2020 program (you can click on the image to zoom in).
+    </div>
+</div>
+
+<p>Figure 10 tells us lots of information about the projects in the ICT theme of the H2020 program. First, topic 1 is still about quantum information and communication,
+which is the same as the FP7 program. This shows the consistency of European Commission in the ICT theme. Some topics like topics 7 to 12 are very similar to the topics in the FP7 program. However, some topics like topics 2, 3, 4, 5, and 6 are very different from the topics in the FP7 program. For instance, topic 4 is about AI, which is new in the H2020 program. This shows that European Commission is trying to invest more in the AI field. Topic 6 is about building up an ecosystem for small and medium enterprises (SMEs) to develop their products with ICT technology.</p>
+
+<div class="figure">
+    <img src="/images/blog/h2020-topics-hist1.png" alt="fp7 topics" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 11.</span> histogram of the number of projects in each topic for H2020 program.
+    </div>
+</div>
+
+<p>Figure 11 shows the number of projects in each topic for the H2020 program. It shows that topic 7 has the smallest number of projects. This makes sense as the topic 7 is about designing and evaluating the research policy on the ICT technology, which is not a very practical topic.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">topic</th>
+      <th style="text-align: left">totalCost</th>
+      <th style="text-align: left">avrgCost</th>
+      <th style="text-align: right">Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">3039.39</td>
+      <td style="text-align: left">16.89</td>
+      <td style="text-align: right">Photonics based manufacturing</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">1102.04</td>
+      <td style="text-align: left">12.97</td>
+      <td style="text-align: right">Smart Manufacturing</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">974.39</td>
+      <td style="text-align: left">6.29</td>
+      <td style="text-align: right">5G Infrastructure</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">960.45</td>
+      <td style="text-align: left">6.20</td>
+      <td style="text-align: right">AI</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">12</td>
+      <td style="text-align: left">941.58</td>
+      <td style="text-align: left">7.08</td>
+      <td style="text-align: right">ICT Enabled Sustainable Growth</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">911.34</td>
+      <td style="text-align: left">6.33</td>
+      <td style="text-align: right">Big Data</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">875.62</td>
+      <td style="text-align: left">6.30</td>
+      <td style="text-align: right">Ecosystem for SMEs</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">11</td>
+      <td style="text-align: left">590.24</td>
+      <td style="text-align: left">3.06</td>
+      <td style="text-align: right">ICT for Health</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">447.26</td>
+      <td style="text-align: left">2.31</td>
+      <td style="text-align: right">ICT for Education</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">337.20</td>
+      <td style="text-align: left">2.37</td>
+      <td style="text-align: right">Research Policy on ICT</td>
+    </tr>
+    <tr>
       <td style="text-align: left">3</td>
-      <td style="text-align: left">Optimized electric Drivetrain by INtegration</td>
+      <td style="text-align: left">120.78</td>
+      <td style="text-align: left">0.54</td>
+      <td style="text-align: right">Ecommerce</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">77.07</td>
+      <td style="text-align: left">1.64</td>
+      <td style="text-align: right">Others</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Latent Dirichlet Allocation (LDA) is really helpful and can help us to summarize topics very efficiently. For instance, topic 2 is about smart manufacturing and the following table gives 5 samples of projects in this topic. You can see that one could make inferences on the topic based on the key words in Figure 10.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">id</th>
+      <th style="text-align: right">topic</th>
+      <th style="text-align: left">title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">723145</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">Ecosystem for Collaborative Manufacturing Processes – Intra- and Interfactory Integration and Automation</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">692466</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">Power Semiconductor and Electronics Manufacturing 4.0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">871875</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">A “Smart” Self-monitoring composite tool for aerospace composite manufacturing using Silicon photonic multi-sEnsors Embedded using through-thickness Reinforcement techniques</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">723699</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">Driving up Reliability and Efficiency of Additive Manufacturing</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">101017284</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">AI-Driven Cognitive Robotic Platform for Agile Production environments</td>
     </tr>
   </tbody>
 </table>
