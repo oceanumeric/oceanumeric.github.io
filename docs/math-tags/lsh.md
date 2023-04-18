@@ -1,6 +1,6 @@
 ---
 layout: math_tagpage
-title: "Tag: LSH"
-tag: LSH
+title: "Tag: lsh"
+tag: lsh
 robots: noindex
 ---
