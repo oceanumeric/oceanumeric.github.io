@@ -108,7 +108,7 @@
 
 <p>Each research program has two datasets: projects and organizations. The projects dataset contains information about the projects, such as the title, the abstract, the budget, the start and end date, the project coordinator, the participants, the topics, the call, etc. The organizations dataset contains information about the organizations, such as the name, the country, the type, the address, etc.</p>
 
-<p>The organizations dataset tells <em>who is involved</em> in the projects. The projects dataset tells <em>what is done</em> in the projects. The following code gives a glimpse of the projects dataset.</p>
+<p>The organizations dataset tells <em>who is involved</em> in the projects. The projects dataset tells <em>what is done</em> in the projects. The following code gives a glimpse of the projects dataset for FP7 (the predecessor of H2020).</p>
 
 <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"./cordis/fp7/data/csv/project.csv"</span><span class="p">)</span><span class="w">
 </span><span class="n">str</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">,</span><span class="w">  </span><span class="n">strict.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cut"</span><span class="p">)</span><span class="w">
@@ -232,7 +232,7 @@
   </table>
 
   <div class="sub-figure">
-    <img src="/images/blog/fp7-contributions.png" alt="Airbus patents distribution" class="zoom-img" style="width: 60%; display: block; margin: 0 auto;" />
+    <img src="/images/blog/fp7-contributions.png" alt="Airbus patents distribution" class="zoom-img" style="width: 67%; display: block; margin: 0 auto;" />
 </div>
 
   <div class="caption">
@@ -240,7 +240,9 @@
 </div>
 </div>
 
-<p>The above figure was produced by the following code.</p>
+<p>The above table shows that the most popular theme is FP7-PEOPLE, which is about creating a more human society. The second most popular theme is FP7-IDEAS-ERC, which is about basic research. The third most popular theme is FP7-ICT, which is about information and communication technology. The fourth most popular theme is FP7-SME, which is about small and medium enterprises.</p>
+
+<p>In terms of the total grant amount, the most two popular themes are FP7-ICT and FP7-IDEAS-ERC, which receive around 7.7 and 7.8 billion euros respectively. Figure 1 was produced by the following code.</p>
 
 <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
 </span><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
@@ -259,6 +261,282 @@
             </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">),</span><span class="w">  </span><span class="n">border.lwds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
+<p>Since there are many themes, we will focus on ICT, which is the one that receives the most grant amount. There are 2325 projects in the ICT theme, and the average project span is around 36 months (three years). The average grant amount is 4.8 million euros. However, the maximum grant amount is 74.98 million euros. The following table gives the summary statistics of the grant amount in the ICT theme, which shows that the grant amount is highly skewed.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Min.</th>
+      <th style="text-align: center">1st Qu.</th>
+      <th style="text-align: center">Median</th>
+      <th style="text-align: center">Mean</th>
+      <th style="text-align: center">3rd Qu.</th>
+      <th style="text-align: center">Max.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">0.12</td>
+      <td style="text-align: center">2.59</td>
+      <td style="text-align: center">3.84</td>
+      <td style="text-align: center">4.79</td>
+      <td style="text-align: center">5.16</td>
+      <td style="text-align: center">74.98</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Like many variables in the business world, only the log of the grant amount is normally distributed. The following figure shows the distribution of the log of the grant amount in the ICT theme.</p>
+
+<div class="figure">
+    <img src="/images/blog/fp7-totalcost-hist1.png" alt="fp7 totalcost hist1" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 2.</span> Histogram of the the grant amount and its log transformation in the ICT theme. 
+    </div>
+</div>
+
+<p>Here is the code to produce the above table and figure.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">legalBasis</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"FP7-ICT"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"id"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">totalCost</span><span class="p">)</span><span class="o">/</span><span class="m">1000000</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">as.matrix</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">t</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">as.data.frame</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="s2">"pipe"</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"c"</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="n">project</span><span class="o">$</span><span class="n">totalCost</span><span class="o">/</span><span class="m">1000000</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey"</span><span class="p">,</span><span class="w">
+                </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Total Cost (million)"</span><span class="p">,</span><span class="w">
+                </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of Total Cost"</span><span class="p">)</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">project</span><span class="o">$</span><span class="n">totalCost</span><span class="p">),</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey"</span><span class="p">,</span><span class="w">
+                </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log(Total Cost)"</span><span class="p">,</span><span class="w">
+                </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram Log(Total Cost)"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now, we will try to understand the topic of the projects in the ICT theme. The following table gives the top 10 words in the project titles in the ICT theme and wordclouds of the project titles in the ICT theme.</p>
+
+<div class="table-figure-wrapper">
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">word</th>
+        <th style="text-align: right">N</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">systems</td>
+        <td style="text-align: right">212</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">based</td>
+        <td style="text-align: right">157</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">future</td>
+        <td style="text-align: right">130</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">internet</td>
+        <td style="text-align: right">123</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">european</td>
+        <td style="text-align: right">122</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">energy</td>
+        <td style="text-align: right">119</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">research</td>
+        <td style="text-align: right">118</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">management</td>
+        <td style="text-align: right">113</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">data</td>
+        <td style="text-align: right">106</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">services</td>
+        <td style="text-align: right">104</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sub-figure">
+    <img src="/images/blog/fp7-title-wordcloud.png" alt="Airbus patents distribution" style="width: 60%; display: block; margin: 0 auto;" />
+</div>
+
+  <div class="caption">
+        <span class="caption-label">Figure 3.</span> The table gives the top 10 words in the project titles in the ICT theme and the figure gives the wordcloud of the project titles in the ICT theme.
+</div>
+</div>
+
+<p>As we can see that the top frequency words and wordclouds are not very informative. We will try to use the topic model to understand the topic of the projects in the ICT theme. The following code cleans the project objectives and gives the summary statistics of the number of words in the project objectives.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">legalBasis</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"FP7-ICT"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"id"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="c1"># remove punctuation</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">objective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"[[:punct:]]"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># remove control characters</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">objective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"[[:cntrl:]]"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># to lower case</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">objective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># remove numbers</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">objective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"[[:digit:]]"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># remove stop words with tm package</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">objective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">removeWords</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span><span class="w"> </span><span class="n">stopwords</span><span class="p">(</span><span class="s2">"english"</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># strip white spaces</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">objective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">stripWhitespace</span><span class="p">(</span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># stemming</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">objective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">stemDocument</span><span class="p">(</span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># now we have the clean text data</span><span class="w">
+    </span><span class="c1"># we need to convert it to a document-term matrix</span><span class="w">
+    </span><span class="c1"># add document length</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">doc_length</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">str_count</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span><span class="w"> </span><span class="s2">"\\S+"</span><span class="p">)]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">project_doc</span><span class="w">
+
+</span><span class="n">summary</span><span class="p">(</span><span class="n">project_doc</span><span class="o">$</span><span class="n">doc_length</span><span class="p">)</span><span class="w">
+</span><span class="c1">#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span><span class="w">
+</span><span class="c1">#  28.0   166.0   177.0   174.8   186.0   318.0</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The shortest project objective has 28 words, and the longest one has 318 words. The average project objective has 175 words. The following code creates a document-term matrix and a term-document matrix.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create a document-term matrix</span><span class="w">
+</span><span class="c1"># we will filter out documents with more than 100 words</span><span class="w">
+</span><span class="c1"># create document index</span><span class="w">
+</span><span class="n">project_doc</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">doc_length</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">100</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">doc_id</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">.I</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># create a document-term matrix</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">doc_id</span><span class="p">,</span><span class="w"> </span><span class="n">objective</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">unnest_tokens</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">objective</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"doc_id"</span><span class="p">,</span><span class="w"> </span><span class="s2">"word"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">doc_id</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">as.data.frame</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">cast_dtm</span><span class="p">(</span><span class="n">doc_id</span><span class="p">,</span><span class="w"> </span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">dtm_objective</span><span class="w">
+
+</span><span class="c1"># understand the document-term matrix</span><span class="w">
+</span><span class="n">inspect</span><span class="p">(</span><span class="n">dtm_objective</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># &lt;&lt;DocumentTermMatrix (documents: 2265, terms: 22694)&gt;&gt;</span><span class="w">
+</span><span class="c1"># Non-/sparse entries: 272039/51129871</span><span class="w">
+</span><span class="c1"># Sparsity           : 99%</span><span class="w">
+</span><span class="c1"># Maximal term length: 56</span><span class="w">
+</span><span class="c1"># Weighting          : term frequency (tf)</span><span class="w">
+</span><span class="c1"># selected sample docs and terms </span><span class="w">
+</span><span class="c1">#        Terms</span><span class="w">
+</span><span class="c1"># Docs   data develop network project research servic system technolog use will</span><span class="w">
+</span><span class="c1">#   103     0       3       0       4        0      0      3         4   1   13</span><span class="w">
+</span><span class="c1">#   145     0       1       0       4        0      0      4         0   3    3</span><span class="w">
+</span><span class="c1">#   1722    0       1       1       4        0      0      7         3   8    8</span><span class="w">
+</span><span class="c1">#   1794    0       1       0       1        0     16      6         0   3    3</span><span class="w">
+</span><span class="c1">#   1811    1       1       1       1        0      5      1         1   1    0</span><span class="w">
+</span><span class="c1">#   1925    5       2       1       1        0      2      3         1   2    4</span><span class="w">
+</span><span class="c1">#   1948    7       1       0       3        6      0      5         0   3    8</span><span class="w">
+</span><span class="c1">#   23      0       0       0       2        0      0      3         0   5    6</span><span class="w">
+</span><span class="c1">#   715     2       1       2       3        9      1      0         2   0    4</span><span class="w">
+</span><span class="c1">#   727     0       2       2       2        0      0      4         4   3    8</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We have 2265 documents and 22694 terms in the document-term matrix. The table above shows the selected sample of the document-term matrix, which is a sparse matrix. Now, we will remove the terms that appear in less than 5 documents and more than 90% of the documents. Doing so will give us a collection of terms that are more informative, which balances the uniqueness and the commonality of the terms (i.e., the terms that are too unique or too common are not informative).</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">word_term</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">findFreqTerms</span><span class="p">(</span><span class="n">dtm_objective</span><span class="p">,</span><span class="w">
+                        </span><span class="n">lowfreq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w">
+                        </span><span class="n">highfreq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">dtm_objective</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># create a new document-term matrix with the filtered words</span><span class="w">
+</span><span class="n">dtm_objective_filtered</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dtm_objective</span><span class="p">[,</span><span class="w"> </span><span class="n">word_term</span><span class="p">]</span><span class="w">
+</span><span class="n">dtm_objective_filtered</span><span class="w">
+</span><span class="c1"># &lt;&lt;DocumentTermMatrix (documents: 2265, terms: 4851)&gt;&gt;</span><span class="w">
+</span><span class="c1"># Non-/sparse entries: 232500/10755015</span><span class="w">
+</span><span class="c1"># Sparsity           : 98%</span><span class="w">
+</span><span class="c1"># Maximal term length: 20</span><span class="w">
+</span><span class="c1"># Weighting          : term frequency (tf)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>After dropping the terms that are too unique or too common, we have 4851 terms in the document-term matrix. The term-document matrix also becomes less sparse.</p>
+
+<p>Now, we will use the LDA model to understand the topics of the projects in the ICT theme. First, we need to define the number of topics. We will use a package called <code class="language-plaintext highlighter-rouge">ldatuning</code> to find the optimal number of topics.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lda_fit1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ldatuning</span><span class="o">::</span><span class="n">FindTopicsNumber</span><span class="p">(</span><span class="n">dtm_objective_filtered</span><span class="p">,</span><span class="w">
+                                        </span><span class="n">topics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+                                        </span><span class="n">metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"CaoJuan2009"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Deveaud2014"</span><span class="p">),</span><span class="w">
+                                        </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gibbs"</span><span class="p">,</span><span class="w">
+                                        </span><span class="n">control</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">789</span><span class="p">),</span><span class="w">
+                                        </span><span class="n">verbose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">FindTopicsNumber_plot</span><span class="p">(</span><span class="n">lda_fit1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="figure">
+    <img src="/images/blog/lda-tuning-topicnum.png" alt="fp7 totalcost hist1" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 4.</span> the plot of the optimal number of topics based on the CaoJuan2009 and Deveaud2014 metrics.
+</div>
+
+
+
+From the plot above, we will choose <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">k=9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span></span></span></span> as the optimal number of topics. The following code fits with LDA and plot the topics. 
+
+```R
+# we choose 9 topics
+set.seed(789)
+lda_fit2 &lt;- LDA(dtm_objective_filtered, k = 9, method = "Gibbs",
+                                        control = list(iter = 1000,
+                                                        verbose = 50))
+
+# get values of theta
+options(repr.plot.width = 11, repr.plot.height = 9)
+tidy(lda_fit2, matrix = "beta") %&gt;% 
+    group_by(topic) %&gt;%
+    slice_max(beta, n = 10) %&gt;%
+    ungroup() %&gt;%
+    arrange(topic, -beta) %&gt;%
+    mutate(word = reorder_within(term, beta, topic, sep="")) %&gt;%
+    ggplot(aes(word, beta, fill = factor(topic))) +
+    geom_col(show.legend = FALSE, alpha = 0.85) +
+    coord_flip() +
+    facet_wrap(~topic, scales = "free") +
+    labs(x = NULL, y = expression(beta)) +
+    theme_bw() +
+    # make x axis labels more readable with bold font
+    theme(axis.text.y = element_text(face = "bold", size = 10),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank())
+```
+
+<div class="figure">
+    <img src="/images/blog/fp7-objectives-topics.png" alt="fp7 topics" class="zoom-img" style="width: 70%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 5.</span> the plot of topics based on the objectives of the projects in the ICT theme.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
 
     </div>
     <div id='bibliography'>
