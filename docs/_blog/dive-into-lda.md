@@ -132,7 +132,7 @@ The original paper by Blei et al. did not use the above matrix representation. B
 <div class='figure'>
     <img src="/images/blog/lda-illustration-blei2.png"
          alt="fp7 totalcost hist1"
-         style="width: 60%; display: block; margin: 0 auto;"/>
+         style="width: 65%; display: block; margin: 0 auto;"/>
     <div class='caption'>
         <span class='caption-label'>Figure 3.</span> The original illustration of LDA in terms of generating a document from Blei et al. (2003). 
     </div>
@@ -157,6 +157,11 @@ f(x, \theta, N) = \frac{N!}{x_1! \cdots x_k!} \prod_{i=1}^{k} \theta_{i}^{x_{i}}
 $$
 
 with $x = (x_1, \cdots, x_k)$, $x_i \geq 0$ and $\sum_{i=1}^{k} x_{i} = N$.
+
+
+## The estimation of LDA
+
+
 
 
 
