@@ -603,7 +603,7 @@ $$
 \begin{bmatrix}
  & & & & \\
 & & & & \\
-& & N \times K & & \\
+& & M \times K & & \\
 & & & & \\
 & & & &
 \end{bmatrix}}_{\text{Topic assignment}} \times \underbrace{\begin{bmatrix}
@@ -618,7 +618,7 @@ $$
 & & N \times V & & \\
 & & & & \\
 & & & &
-\end{bmatrix}}_{\text{Document}}
+\end{bmatrix}}_{\text{Corpus}}
 $$
 
 Base on the figure 4, given the parameters $\alpha$ and $\beta$, the joint distribution of a topic mixture $\theta$ (a vector of length $k$), a topic assignment $z$ (a vector of length $N$), and a document $w$ (a vector of length $N$) is given by
