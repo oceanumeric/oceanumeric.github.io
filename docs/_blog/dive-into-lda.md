@@ -107,12 +107,12 @@ If we put everything into a matrix, we have:
 $$
 \underbrace{
 \begin{bmatrix}
-\theta_{11} & \theta_{12} & \cdots & \cdots & \theta_{1k} \\
-& & & & \\
-& & M \times K & & \\
-& & & & \\
-& & & &
-\end{bmatrix}}_{\text{Topic assignment}} \times \underbrace{\begin{bmatrix}
+\theta_{11}  & \cdots & \theta_{1k} \\
+& &   \\
+&   M \times K  & \\
+& &   \\
+\theta_{m1}  & \cdots & \theta_{mk} 
+\end{bmatrix}}_{\text{Topic assignment} \ \theta \sim \text{Dir}(\alpha) } \ \  \underbrace{\begin{bmatrix}
  & & & & \\
 & & & & \\
 & & K \times V & & \\
@@ -124,10 +124,39 @@ $$
 & & N \times V & & \\
 & & & & \\
 & & & &
-\end{bmatrix}}_{\text{Corpus}}
+\end{bmatrix}}_{\text{Corpus}} \tag{1}
 $$
 
+The original paper by Blei et al. did not use the above matrix representation. But they did give the following graphical representation, which is very helpful to understand the generating process of LDA. 
 
+<div class='figure'>
+    <img src="/images/blog/lda-illustration-blei2.png"
+         alt="fp7 totalcost hist1"
+         style="width: 60%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> The original illustration of LDA in terms of generating a document from Blei et al. (2003). 
+    </div>
+</div>
+
+Now, it's the time to understand the probability distributions. For a vector $\theta_i \in \mathbb{R}^{k}$, which follows a $k$-dimensional Dirichlet distribution with parameter $\alpha$, we have:
+
+$$
+\begin{aligned}
+\sum_{i=1}^{k} \theta_{i} &= 1 \\
+f(\theta, \alpha) & = \frac{1}{B(\alpha)} \prod_{i=1}^{k} \theta_{i}^{\alpha_{i} - 1} \\
+B(\alpha) & = \frac{\prod_{i=1}^{k} \Gamma(\alpha_{i})}{\Gamma(\sum_{i=1}^{k} \alpha_{i})}
+\end{aligned} \tag{2}
+$$
+
+where $\alpha = (\alpha_1, \alpha_2, \cdots, \alpha_k)$, $\alpha_i > 0$ and $B(\alpha)$ is the normalizing constant (a multivariate generalization of the beta function).
+
+For $N$ number of trials, the probability mass function of a multinomial distribution with parameter $\theta = (\theta_1, \cdots \theta_k)$ and $\sum_{i=1}^{k} \theta_{i} = 1$ is:
+
+$$
+f(x, \theta, N) = \frac{N!}{x_1! \cdots x_k!} \prod_{i=1}^{k} \theta_{i}^{x_{i}} \tag{3}
+$$
+
+with $x = (x_1, \cdots, x_k)$, $x_i \geq 0$ and $\sum_{i=1}^{k} x_{i} = N$.
 
 
 
