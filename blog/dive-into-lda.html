@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Dive into Latent Dirichlet Allocation Model
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='Latent Dirichlet Allocation, LDA, Topic Modeling, Machine Learning, Deep Learning'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Dive into Latent Dirichlet Allocation Model</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Dive into Latent Dirichlet Allocation Model" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="What we talk about when we talk about machine learning and deep learning? It is hard to say as there are so many things going on right now. They say one should follow a saint in turbulent times. Who should we follow and where should we start then? I think we should start with the basics and follow our intuition and logics." />
+<meta property="og:description" content="What we talk about when we talk about machine learning and deep learning? It is hard to say as there are so many things going on right now. They say one should follow a saint in turbulent times. Who should we follow and where should we start then? I think we should start with the basics and follow our intuition and logics." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/dive-into-lda" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/dive-into-lda" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-19T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Dive into Latent Dirichlet Allocation Model" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-04-19T00:00:00+00:00","datePublished":"2023-04-19T00:00:00+00:00","description":"What we talk about when we talk about machine learning and deep learning? It is hard to say as there are so many things going on right now. They say one should follow a saint in turbulent times. Who should we follow and where should we start then? I think we should start with the basics and follow our intuition and logics.","headline":"Dive into Latent Dirichlet Allocation Model","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/dive-into-lda"},"url":"https://oceanumeric.github.io//blog/dive-into-lda"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Dive into Latent Dirichlet Allocation Model</h1>
+            <h4>Not many models balance complexity and effectiveness as well as LDA. I like this model so much as it is perhaps the best model to start with when you want to learn about machine learning and deep learning models. Why? I will explain in this post.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/machine-learning">machine-learning</a>, 
+                            
+                            <a href="/blog-tags/deep-learning">deep-learning</a>, 
+                            
+                            <a href="/blog-tags/topic-modeling">topic-modeling</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>19 April 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>What we talk about when we talk about machine learning and deep learning? It is hard to say as there are so many things going on right now. They say one should follow a saint in turbulent times. Who should we follow and where should we start then? I think we should start with the basics and follow our intuition and logics.</p>
+
+<p>So, let’s quote ‘the Godfater’ of deep learning, Geoffrey Hinton, who said: <em>“The deep learning revolution has transformed the field of machine learning over the last decade. It was inspired by attempts to mimic the way the brain learns but it is grounded in basic principles of statistics, information theory, decision theory and optimization.”</em>.</p>
+
+<p>To illustrate the above quote, I will use a simple model called Latent Dirichlet Allocation (LDA) to explain the basic principles of machine learning and deep learning. I think after understanding LDA, one could easily understand the basic principles of machine learning and deep learning.</p>
+
+<p>This post is based on the paper by the author of LDA, David Blei, titled <em>Probabilistic Topic Models</em> <a class="citation" href="#blei2012probabilistic">(Blei, 2012)</a>. I will recommend you to read the paper after reading this post. Here is the roadmap of this post:</p>
+
+<ul>
+  <li><a href="#the-big-picture">The big picture</a></li>
+  <li><a href="#the-probability-distributions">The probability distributions</a></li>
+  <li><a href="#the-estimation-of-lda">The estimation of LDA</a></li>
+  <li><a href="#a-simple-example">A simple example</a></li>
+</ul>
+
+<h2 id="the-big-picture">The big picture</h2>
+
+<p>Please look at the following figure. Notice that words are <mark style="background-color:#FA3C92">highlighted</mark> <mark style="background-color:#7FFDFD">in different</mark> <mark>colors</mark>. This is because we want to show that words are grouped into different topics.</p>
+
+<div class="figure">
+    <img src="/images/blog/lda-illustration-blei.png" alt="fp7 totalcost hist1" class="zoom-img" style="width: 80%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> The illustration of LDA from the paper by David Blei (2012). You can click on the image to zoom in.
+    </div>
+</div>
+
+<p>In the above article titled <em>Seeking Life’s Bare (Genetic) Necessities</em>, Four topics are highlighted: topic 1 is about <mark>genetics</mark>, topic 2 is about  <mark style="background-color:#FA3C92">evolutionary biology</mark>, topic 3 is about <mark style="background-color:#8DCECE">data analysis</mark> and topic 4 is about <mark style="background-color:#95CA56">others</mark>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">genetics</th>
+      <th style="text-align: left">evolution</th>
+      <th style="text-align: left">data analysis</th>
+      <th style="text-align: left">others</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">gene 0.04</td>
+      <td style="text-align: left">life 0.02</td>
+      <td style="text-align: left">data 0.02</td>
+      <td style="text-align: left">brain 0.04</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">dna 0.02</td>
+      <td style="text-align: left">evolve 0.01</td>
+      <td style="text-align: left">neuron 0.02</td>
+      <td style="text-align: left">number 0.02</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This is how LDA works. It groups words into topics and it assumes that each document is a mixture of topics. This is the big picture of LDA, which really aligns with our common sense and intuition. When we read an article or a newspaper, we always try to identify the thesis (or the theme) and the topics of the article. If the theme is to deliver a key message, then the topics are the supporting arguments or supporting evidences.</p>
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"><li><span id="blei2012probabilistic">Blei, D. M. (2012). Probabilistic topic models. <i>Communications of the ACM</i>, <i>55</i>(4), 77–84.</span></li></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
