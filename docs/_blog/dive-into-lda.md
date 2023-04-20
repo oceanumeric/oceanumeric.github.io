@@ -121,7 +121,7 @@ $$
 \end{bmatrix}}_{\beta} \approx \underbrace{\begin{bmatrix}
  & & & & \\
 & & & & \\
-& & N \times V & & \\
+& & M \times V & & \\
 & & & & \\
 & & & &
 \end{bmatrix}}_{\text{Corpus}} \tag{1}
@@ -183,7 +183,7 @@ Equation (4) gives the weight of topics in document $i$. It looks if we have wei
          alt="fp7 totalcost hist1"
          style="width: 70%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> The illustration of LDA in terms of generating a document from Blei et al. (2003).
+        <span class='caption-label'>Figure 4.</span> The illustration of LDA in terms of generating a document from Blei et al. (2003). We assume there are 4  topics in this illustration.
     </div>
 </div>
 
@@ -204,6 +204,72 @@ $$
 
 
 But how about the number of words in each topic? We can use the multinomial distribution to sample the number of words in each topic. This means we have our prior knowledge about the number of words in each topic as a multinomial distribution. That's why we need to set up the hyperparameter $\beta$ in the beginning.
+
+Now, we need to come up a mechanism to determine the number of words in each topic. Suppose we have $V$ words in our corpus, we will assign weights $\beta_{kv}$ to each word, where $k$ is the index of topic and $v$ is the index of word. This could be done by sampling from a Dirichlet distribution. I don't know why authors of the original paper did not mention this.
+
+
+<div class='figure'>
+    <img src="/images/blog/lda-illustration-blei4.png"
+         alt="fp7 totalcost hist1"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 5.</span> The illustration of LDA in terms of generating a document from Blei et al. (2003). We assume there are 4  topics in this illustration.
+    </div>
+</div>
+
+Suppose $V = 5$, and $k=4$, we can simulate the $\beta$ matrix as follows. 
+
+```R
+beta_hyperparameter <- c(1,2,3,2.7,9)
+rdirichlet(4, beta_hyperparameter)
+# 0.039350115	0.20518288	0.1656238	0.19104531	0.3987978
+# 0.001968719	0.11850665	0.1971715	0.13461901	0.5477341
+# 0.109902876	0.06116357	0.2768535	0.07761342	0.4744666
+# 0.039633147	0.25311539	0.1254669	0.17837372	0.4034108
+```
+
+The each row gives the weight of words in a topic. 
+
+
+Now, let's walk through the generative process again. We have the weights of topics in a document as $\theta_d$, which is a $1 \times k$ vector. Then we will construct a $k \times V$ matrix $\beta$. To construct this matrix, we could do it two ways:
+
+1. for each word assign weights to each topic, and then repeat the process for all words - $V$ times
+2. for each topic assign weights to each word, and then repeat the process for all topics - $k$ times
+
+Authors of the original paper chose the second way. When we compute the probability of a word in the document, we just need to multiply the weights of topics in a document and the weights of words in a topic, such as $\theta_{d} \times \beta$. 
+
+
+There over $k$ topics, the probability of a word in a document is:
+
+$$
+P(w_{d,n} | \theta_{d}, \beta) = \sum_{k=1}^{k} \theta_{d,k} \times \beta_{k,w_{d,n}} \tag{6}
+$$
+
+Equation (6) is just the vector multiplication of $\theta_{d}$ and $\beta_{w_{d,n}}$, where $\theta_{d}$ is $1 \times k$ vector and $\beta_{w_{d,n}}$ is $k \times 1$ vector.
+
+Now, with $N$ number of words in a document, we can have the probability of a document as:
+
+$$
+P(d_{i} | \theta_{i}, \beta) = \prod_{n=1}^{N} P(w_{d,n} | \theta_{d}, \beta) \tag{7}
+$$
+
+We can use the above equation to compute the probability of a document. But how can we estimate the parameters $\theta_{d}$ and $\beta$? We can use the maximum likelihood estimation to estimate the parameters.
+
+$$
+\begin{aligned}
+\hat{\theta}_{d} & = \text{argmax}_{\theta_{d}} P(d_{i} | \theta_{i}, \beta) \\
+\hat{\beta} & = \text{argmax}_{\beta} P(d_{i} | \theta_{i}, \beta) \\
+\end{aligned} \tag{8}
+$$
+
+Now, we can estimate the posterior distribution of $\theta_{d}$ and $\beta$ by using the Gibbs sampling method. 
+
+
+
+
+
+
+
 
 
 
