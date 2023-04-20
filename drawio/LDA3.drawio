@@ -1,0 +1,70 @@
+<mxfile host="65bd71144e" scale="3" border="0">
+    <diagram id="CYEPzGqQ1QbjqQEH53FX" name="Page-1">
+        <mxGraphModel dx="812" dy="650" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="#ffffff" math="1" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#FFF937;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="104" width="100" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#94CC4E;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="311" width="100" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#DAA9C0;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="207" width="100" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#8BCECF;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="414" width="100" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Topics" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;fontStyle=1;fontSize=15;" vertex="1" parent="1">
+                    <mxGeometry x="107" y="57" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="\(\theta_{i1}\)&lt;svg style=&quot;vertical-align: 0px;&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; viewBox=&quot;0 0 15 15&quot; role=&quot;img&quot; height=&quot;0.034ex&quot; width=&quot;0.034ex&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;defs&gt;&lt;/defs&gt;&lt;g transform=&quot;scale(1,-1)&quot; stroke-width=&quot;0&quot; fill=&quot;currentColor&quot; stroke=&quot;currentColor&quot;&gt;&lt;g data-mml-node=&quot;math&quot;&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="27" y="121" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="\(\theta_{i2}\)&lt;svg style=&quot;vertical-align: 0px;&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; viewBox=&quot;0 0 15 15&quot; role=&quot;img&quot; height=&quot;0.034ex&quot; width=&quot;0.034ex&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;defs&gt;&lt;/defs&gt;&lt;g transform=&quot;scale(1,-1)&quot; stroke-width=&quot;0&quot; fill=&quot;currentColor&quot; stroke=&quot;currentColor&quot;&gt;&lt;g data-mml-node=&quot;math&quot;&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="27" y="224" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="\(\theta_{i3}\)&lt;svg style=&quot;vertical-align: 0px;&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; viewBox=&quot;0 0 15 15&quot; role=&quot;img&quot; height=&quot;0.034ex&quot; width=&quot;0.034ex&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;defs&gt;&lt;/defs&gt;&lt;g transform=&quot;scale(1,-1)&quot; stroke-width=&quot;0&quot; fill=&quot;currentColor&quot; stroke=&quot;currentColor&quot;&gt;&lt;g data-mml-node=&quot;math&quot;&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="27" y="327" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="\(\theta_{i4}\)&lt;svg style=&quot;vertical-align: 0px;&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; viewBox=&quot;0 0 15 15&quot; role=&quot;img&quot; height=&quot;0.034ex&quot; width=&quot;0.034ex&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;defs&gt;&lt;/defs&gt;&lt;g transform=&quot;scale(1,-1)&quot; stroke-width=&quot;0&quot; fill=&quot;currentColor&quot; stroke=&quot;currentColor&quot;&gt;&lt;g data-mml-node=&quot;math&quot;&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="27" y="430" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="life&#10;evolve&#10;organisation" style="text;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;overflow=hidden;rounded=0;fontSize=13;fontColor=#000000;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="99" y="223" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="gene&#10;dna&#10;genetic" style="text;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;overflow=hidden;rounded=0;fontSize=13;fontColor=#000000;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="98" y="120" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="brain&#10;neuron&#10;nerve" style="text;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;overflow=hidden;rounded=0;fontSize=13;fontColor=#000000;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="326" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="data&#10;number&#10;computer" style="text;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;overflow=hidden;rounded=0;fontSize=13;fontColor=#000000;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="428" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="" style="group;strokeColor=none;glass=0;" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="253" y="194" width="320" height="142" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Now, we choose \(N\) words out of all those bags, what's the probability of having \(x_1\) words from topic 1, \(x_2\) words from topic 2, ... , and \(x_k\) words from topic k?&amp;nbsp;" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=17;fontColor=#000000;" vertex="1" parent="22">
+                    <mxGeometry width="320" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="$$ f(x, \theta, N) = \frac{N!}{x_1! \cdots x_k!} \prod_{i=1}^k \theta_i^{x_i} $$" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=17;fontColor=#000000;" vertex="1" parent="22">
+                    <mxGeometry x="104" y="112" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;fontSize=17;fontColor=#000000;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="206" y="109" width="34" height="341" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;glass=0;strokeColor=#1A1A1A;fontSize=17;fontColor=#000000;fillColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="577" y="188" width="20" height="184" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="It looks like we could construct a document now, all we need to do is to sample \(M\) times?&amp;nbsp;" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;glass=0;fontSize=17;fontColor=#000000;fontStyle=2" vertex="1" parent="1">
+                    <mxGeometry x="620" y="219.5" width="160" height="96" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="What are the key assumptions in this process?" style="text;strokeColor=#990000;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;glass=0;fontSize=17;fontColor=#990000;sketch=1;curveFitting=1;jiggle=2;shadow=1;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="404" width="370" height="46" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

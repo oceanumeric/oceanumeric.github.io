@@ -161,6 +161,53 @@ with $x = (x_1, \cdots, x_k)$, $x_i \geq 0$ and $\sum_{i=1}^{k} x_{i} = N$.
 
 ## The estimation of LDA
 
+Before we estimate the parameters of LDA, let's walk through the generative process again with our probability distributions. I found it easier to understand the generative process with probability distributions. 
+
+Our goal is to choose a combination of topics and words that can best explain the corpus. First, we set up a key assumption: __the number of topics $k$ is known and fixed before we start the estimation__. Each topic is a mixture of words, which will be sampled to construct a document. 
+
+
+For $k$ topics, we assign weights $\theta_{ij}$ to each topic, where $i$ is the index of document and $j$ is the index of topic. 
+
+$$
+\begin{aligned}
+d_i & = \text{document}_i  \ \ \text{with weights of topics} \\
+    & = [\theta_{i1}, \theta_{i2}, \cdots, \theta_{ik}] \\
+    & = [0.2, 0.07, \cdots, 0.03]
+\end{aligned} \tag{4}
+$$
+
+Equation (4) gives the weight of topics in document $i$. It looks if we have weights of topics in a document, we can generate a document by sampling words from the topics. Figure 4 shows the process. 
+
+<div class='figure'>
+    <img src="/images/blog/lda-illustration-blei3.png"
+         alt="fp7 totalcost hist1"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 4.</span> The illustration of LDA in terms of generating a document from Blei et al. (2003).
+    </div>
+</div>
+
+
+As it has posed in figure 4, what are the key assumptions we set up in the above process?
+To generate a document and corpus, we need to know:
+
+1. the weights of topics in a document
+2. the number of words in each topic
+
+When I read many blogs and papers about LDA, I found that most of them did not explain the above two assumptions, especially the second one. Most blogs and papers only explain the first assumption, which is easy to understand. 
+
+For the weights of topics in a document, we can use the Dirichlet distribution to sample the weights. This means we have our prior knowledge about the weights of topics in a document as a Dirichlet distribution.
+
+$$
+\theta \sim \text{Dir}(\alpha) \tag{5}
+$$
+
+
+But how about the number of words in each topic? We can use the multinomial distribution to sample the number of words in each topic. This means we have our prior knowledge about the number of words in each topic as a multinomial distribution. That's why we need to set up the hyperparameter $\beta$ in the beginning.
+
+
+
+
 
 
 
