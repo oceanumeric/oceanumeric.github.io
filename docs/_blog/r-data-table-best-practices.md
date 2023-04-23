@@ -1,0 +1,142 @@
+---
+title: R data.table Best Practices
+subtitle: There are many packages in R or Python to deal with table like data (or so called data frame), but data.table is probably the most efficient one. Here are some best practices to use data.table.
+layout: blog_default
+date: 2023-04-23
+keywords: data-science, data-analysis, data-table, r-programming
+published: true
+tags: data-science, r 
+---
+
+I have been planning to write a post on `data.table` for a while. The motivation is that
+many posts on data science or data analysis in R are using `data.frame` or `dplyr` to
+manipulate data. Many people probably will go for `pandas` in Python in the first place.
+However, I appreciate the efficiency of `data.table` more and more now, and believe for the dataset with is larger than 1GB and less than 100GB, `data.table` is the best choice.
+
+After many years of using both `Python` and `R`, I have found that `data.table` is the most efficient package to deal with table-like data. It is also the most efficient package to deal with large dataset in `R`. 
+
+I also realized that there are many posts on the internet teaching people how to use all
+kinds of packages in `R`, especially `tidyverse`. First of all, I have to say
+that I like `dtidyverse` a lot, especially `ggplot2` and `dplyr`. However, I think
+using `data.table` with basic `R` syntax is more efficient than using different kinds 
+of packages. I believe using `data.table` with basic `R` syntax very well is the best
+way to learn `R` for data analysis.
+
+
+So, here are the messages I have learned from my experience:
+
+
+- Use `Excel` for small dataset, such as less than 100MB (it is probably already too large for `Excel`).
+- Use `data.table` with basic `R` syntax for any dataset in the format of table-like or data-frame between 100MB and 100GB.
+- Use `Python` for any dataset that is not structured in the format of table-like or data-frame.
+- Use basic `R` syntax for data visualization and only use `ggplot2` when you need to do some advanced visualization. 
+- Use `Python` for machine learning and deep learning projects.
+- Use `R` for statistical analysis and data analysis projects in finance, economics, and other fields.
+- Keep trying different packages and learn from others, such as `Polars`.
+
+If you do not believe me why I think `data.table` is the efficient one, please read check the [benchmark](https://duckdblabs.github.io/db-benchmark/){:target="_blank"} of different packages on data manipulation.
+
+Here is the roadmap of this post:
+
+- [Big picture](#big-picture)
+- [Best practices](#best-practices)
+
+
+## Big picture
+
+Broadly speaking, there are there kinds of tasks in data analysis:
+
+1. what is the data about? such as the data structure, the data type, the data size, and variable names, etc.
+2. the data manipulation, such as data cleaning, data transformation, data aggregation, and data merging, etc.
+3. the data analysis, such as data visualization, statistical analysis, and machine learning, etc.
+
+I will use a small dataset to illustrate the best practices for each task. One could use those best practices to deal with any dataset in the format of table-like or data-frame
+even if the dataset is very large (e.g., 100GB).
+
+All code in this post uses `%>%` from `magrittr` package heavily, which is a very useful package to chain functions together. The pipe operator `%>%` in `R` community is one of the most important features in `R`, which makes me to favor `R` over `Python` in data analysis for table-like data.
+
+Before we start, you need to understand that table-like data is a two dimensional data structure, which is also called data frame in `R` or `Python`. The first dimension is the row dimension, and the second dimension is the column dimension. The row dimension is the observation dimension, and the column dimension is the variable dimension. Figure 
+1 illustrates how `data.table` manupulates data in the row dimension and the column dimension with the syntax of `i` and `j`.
+
+<div class='figure'>
+    <img src="/images/blog/R-data-table-illustration.png"
+         alt="fp7 totalcost hist1" class="zoom-img"
+         style="width: 76%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The illustration of LDA from the paper by David Blei (2012). You can click on the image to zoom in.
+    </div>
+</div>
+
+## Best practices
+
+Let's import key packages and load the dataset. When you do a project, it is better 
+to use as less packages as possible because it is easier to debug and maintain the code.
+If you have too many packages, the dependencies of the packages may conflict with each other and it also makes the code harder to maintain and debug.
+
+```R
+library(data.table)
+library(magrittr)
+library(knitr)  # for kable, a function to print a table in different formats
+library(ggplot2)  # only use it for advanced visualization
+# for dplyr, it is recommended to call it as dplyr::filter, dplyr::select, etc.
+```
+
+The dataset we will use is based on a survey I did for one of my tutorials. Here is
+the [link](https://docs.google.com/forms/d/1VoDT0dknxvx1T_RDILHOYvLH226ZCFMhkUuRtJvyT60/edit){:target="_blank"} to the survey.
+It has 10 questions and the answers are in the format of single choice, multiple 
+choices, and open answers. The dataset is in the format of table-like data, which is
+stored in a [csv file](https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv){:target="_blank"}. I added duplicated rows to the dataset as an example of how to deal with duplicated rows.
+
+
+### structure of the data: the first step 
+
+Every time I got a new dataset, I use three functions to check the structure of the data: `head`, `str`, and `summary`. The `head` function prints the first 6 rows of the dataset. The `str` function prints the structure of the dataset, which includes the data type of each variable. The `summary` function prints the summary statistics of each variable. 
+
+```R
+# read data
+dt <- fread("https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv")
+
+
+# data structure
+str(dt)  # 24 observations of 11 variables
+head(dt)  # check the first 6 rows
+summary(dt)
+```
+
+### missing values are always tricky
+
+To check how many missing values are in the dataset, we can use the `is.na` function. The `is.na` function returns a logical vector with the same length as the dataset. Combining the `is.na` function with `sum` and `sapply` functions, we can check how many missing values are in each variable. 
+
+```R
+########## --------- check missing values --------- ###########
+
+# Missing values are tricky as they can be represented in different ways
+# such as "", "Na", "NA", "na", "N/A", "n/a", "NA/NaN", "NA/NaN/Na", etc.
+
+# check missing values and print it as a table
+sapply(dt, function(x) sum(is.na(x))) %>% kable()
+
+# there is only one missing value in q2?
+sapply(dt, function(x) sum(x =="")) %>% kable()
+sapply(dt, function(x) sum(x == "Na")) %>% kable()
+
+sapply(dt, function(x) sum(x =="", na.rm = TRUE)) %>% kable()
+sapply(dt, function(x) sum(x == "Na", na.rm = TRUE)) %>% kable()
+
+# replace missing values (represented as strings) with NA
+dt[dt == ""] <- NA
+dt[dt == "Na"] <- NA
+
+sapply(dt, function(x) sum(is.na(x))) %>% kable()
+```
+
+### column transformation
+
+As it is shown in Figure 1, all column operations are done in the `j` part of the `data.table` syntax.
+
+The `data.table` package provides a very efficient way to manipulate data in the column dimension. The `:=` operator is used to create a new variable. The `:=` operator is very similar to the `=` operator in `R`. The difference is that the `:=` operator does not create a new copy of the dataset. The `:=` operator modifies the dataset in place, which means doing operations on the original dataset. 
+
+If you do not want to modify the original dataset, you can use `.()` to create a new copy of the dataset. 
+
+Check the following examples:
+
