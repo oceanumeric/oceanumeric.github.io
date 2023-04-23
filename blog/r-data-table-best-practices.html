@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      R data.table Best Practices
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='data-science, data-analysis, data-table, r-programming'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>R data.table Best Practices</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="R data.table Best Practices" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I have been planning to write a post on data.table for a while. The motivation is that many posts on data science or data analysis in R are using data.frame or dplyr to manipulate data. Many people probably will go for pandas in Python in the first place. However, I appreciate the efficiency of data.table more and more now, and believe for the dataset with is larger than 1GB and less than 100GB, data.table is the best choice." />
+<meta property="og:description" content="I have been planning to write a post on data.table for a while. The motivation is that many posts on data science or data analysis in R are using data.frame or dplyr to manipulate data. Many people probably will go for pandas in Python in the first place. However, I appreciate the efficiency of data.table more and more now, and believe for the dataset with is larger than 1GB and less than 100GB, data.table is the best choice." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/r-data-table-best-practices" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/r-data-table-best-practices" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-23T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="R data.table Best Practices" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-04-23T00:00:00+00:00","datePublished":"2023-04-23T00:00:00+00:00","description":"I have been planning to write a post on data.table for a while. The motivation is that many posts on data science or data analysis in R are using data.frame or dplyr to manipulate data. Many people probably will go for pandas in Python in the first place. However, I appreciate the efficiency of data.table more and more now, and believe for the dataset with is larger than 1GB and less than 100GB, data.table is the best choice.","headline":"R data.table Best Practices","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/r-data-table-best-practices"},"url":"https://oceanumeric.github.io//blog/r-data-table-best-practices"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>R data.table Best Practices</h1>
+            <h4>There are many packages in R or Python to deal with table like data (or so called data frame), but data.table is probably the most efficient one. Here are some best practices to use data.table.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/data-science">data-science,</a>, 
+                            
+                            <a href="/blog-tags/r">r</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>23 April 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>I have been planning to write a post on <code class="language-plaintext highlighter-rouge">data.table</code> for a while. The motivation is that
+many posts on data science or data analysis in R are using <code class="language-plaintext highlighter-rouge">data.frame</code> or <code class="language-plaintext highlighter-rouge">dplyr</code> to
+manipulate data. Many people probably will go for <code class="language-plaintext highlighter-rouge">pandas</code> in Python in the first place.
+However, I appreciate the efficiency of <code class="language-plaintext highlighter-rouge">data.table</code> more and more now, and believe for the dataset with is larger than 1GB and less than 100GB, <code class="language-plaintext highlighter-rouge">data.table</code> is the best choice.</p>
+
+<p>After many years of using both <code class="language-plaintext highlighter-rouge">Python</code> and <code class="language-plaintext highlighter-rouge">R</code>, I have found that <code class="language-plaintext highlighter-rouge">data.table</code> is the most efficient package to deal with table-like data. It is also the most efficient package to deal with large dataset in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<p>I also realized that there are many posts on the internet teaching people how to use all
+kinds of packages in <code class="language-plaintext highlighter-rouge">R</code>, especially <code class="language-plaintext highlighter-rouge">tidyverse</code>. First of all, I have to say
+that I like <code class="language-plaintext highlighter-rouge">dtidyverse</code> a lot, especially <code class="language-plaintext highlighter-rouge">ggplot2</code> and <code class="language-plaintext highlighter-rouge">dplyr</code>. However, I think
+using <code class="language-plaintext highlighter-rouge">data.table</code> with basic <code class="language-plaintext highlighter-rouge">R</code> syntax is more efficient than using different kinds 
+of packages. I believe using <code class="language-plaintext highlighter-rouge">data.table</code> with basic <code class="language-plaintext highlighter-rouge">R</code> syntax very well is the best
+way to learn <code class="language-plaintext highlighter-rouge">R</code> for data analysis.</p>
+
+<p>So, here are the messages I have learned from my experience:</p>
+
+<ul>
+  <li>Use <code class="language-plaintext highlighter-rouge">Excel</code> for small dataset, such as less than 100MB (it is probably already too large for <code class="language-plaintext highlighter-rouge">Excel</code>).</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">data.table</code> with basic <code class="language-plaintext highlighter-rouge">R</code> syntax for any dataset in the format of table-like or data-frame between 100MB and 100GB.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">Python</code> for any dataset that is not structured in the format of table-like or data-frame.</li>
+  <li>Use basic <code class="language-plaintext highlighter-rouge">R</code> syntax for data visualization and only use <code class="language-plaintext highlighter-rouge">ggplot2</code> when you need to do some advanced visualization.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">Python</code> for machine learning and deep learning projects.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">R</code> for statistical analysis and data analysis projects in finance, economics, and other fields.</li>
+  <li>Keep trying different packages and learn from others, such as <code class="language-plaintext highlighter-rouge">Polars</code>.</li>
+</ul>
+
+<p>If you do not believe me why I think <code class="language-plaintext highlighter-rouge">data.table</code> is the efficient one, please read check the <a href="https://duckdblabs.github.io/db-benchmark/" target="_blank">benchmark</a> of different packages on data manipulation.</p>
+
+<p>Here is the roadmap of this post:</p>
+
+<ul>
+  <li><a href="#big-picture">Big picture</a></li>
+  <li><a href="#best-practices">Best practices</a></li>
+</ul>
+
+<h2 id="big-picture">Big picture</h2>
+
+<p>Broadly speaking, there are there kinds of tasks in data analysis:</p>
+
+<ol>
+  <li>what is the data about? such as the data structure, the data type, the data size, and variable names, etc.</li>
+  <li>the data manipulation, such as data cleaning, data transformation, data aggregation, and data merging, etc.</li>
+  <li>the data analysis, such as data visualization, statistical analysis, and machine learning, etc.</li>
+</ol>
+
+<p>I will use a small dataset to illustrate the best practices for each task. One could use those best practices to deal with any dataset in the format of table-like or data-frame
+even if the dataset is very large (e.g., 100GB).</p>
+
+<p>All code in this post uses <code class="language-plaintext highlighter-rouge">%&gt;%</code> from <code class="language-plaintext highlighter-rouge">magrittr</code> package heavily, which is a very useful package to chain functions together. The pipe operator <code class="language-plaintext highlighter-rouge">%&gt;%</code> in <code class="language-plaintext highlighter-rouge">R</code> community is one of the most important features in <code class="language-plaintext highlighter-rouge">R</code>, which makes me to favor <code class="language-plaintext highlighter-rouge">R</code> over <code class="language-plaintext highlighter-rouge">Python</code> in data analysis for table-like data.</p>
+
+<p>Before we start, you need to understand that table-like data is a two dimensional data structure, which is also called data frame in <code class="language-plaintext highlighter-rouge">R</code> or <code class="language-plaintext highlighter-rouge">Python</code>. The first dimension is the row dimension, and the second dimension is the column dimension. The row dimension is the observation dimension, and the column dimension is the variable dimension. Figure 
+1 illustrates how <code class="language-plaintext highlighter-rouge">data.table</code> manupulates data in the row dimension and the column dimension with the syntax of <code class="language-plaintext highlighter-rouge">i</code> and <code class="language-plaintext highlighter-rouge">j</code>.</p>
+
+<div class="figure">
+    <img src="/images/blog/R-data-table-illustration.png" alt="fp7 totalcost hist1" class="zoom-img" style="width: 76%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> The illustration of LDA from the paper by David Blei (2012). You can click on the image to zoom in.
+    </div>
+</div>
+
+<h2 id="best-practices">Best practices</h2>
+
+<p>Let’s import key packages and load the dataset. When you do a project, it is better 
+to use as less packages as possible because it is easier to debug and maintain the code.
+If you have too many packages, the dependencies of the packages may conflict with each other and it also makes the code harder to maintain and debug.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">magrittr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span><span class="w">  </span><span class="c1"># for kable, a function to print a table in different formats</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">  </span><span class="c1"># only use it for advanced visualization</span><span class="w">
+</span><span class="c1"># for dplyr, it is recommended to call it as dplyr::filter, dplyr::select, etc.</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The dataset we will use is based on a survey I did for one of my tutorials. Here is
+the <a href="https://docs.google.com/forms/d/1VoDT0dknxvx1T_RDILHOYvLH226ZCFMhkUuRtJvyT60/edit" target="_blank">link</a> to the survey.
+It has 10 questions and the answers are in the format of single choice, multiple 
+choices, and open answers. The dataset is in the format of table-like data, which is
+stored in a <a href="https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv" target="_blank">csv file</a>. I added duplicated rows to the dataset as an example of how to deal with duplicated rows.</p>
+
+<h3 id="structure-of-the-data-the-first-step">structure of the data: the first step</h3>
+
+<p>Every time I got a new dataset, I use three functions to check the structure of the data: <code class="language-plaintext highlighter-rouge">head</code>, <code class="language-plaintext highlighter-rouge">str</code>, and <code class="language-plaintext highlighter-rouge">summary</code>. The <code class="language-plaintext highlighter-rouge">head</code> function prints the first 6 rows of the dataset. The <code class="language-plaintext highlighter-rouge">str</code> function prints the structure of the dataset, which includes the data type of each variable. The <code class="language-plaintext highlighter-rouge">summary</code> function prints the summary statistics of each variable.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># read data</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv"</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># data structure</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="w">  </span><span class="c1"># 24 observations of 11 variables</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="w">  </span><span class="c1"># check the first 6 rows</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="missing-values-are-always-tricky">missing values are always tricky</h3>
+
+<p>To check how many missing values are in the dataset, we can use the <code class="language-plaintext highlighter-rouge">is.na</code> function. The <code class="language-plaintext highlighter-rouge">is.na</code> function returns a logical vector with the same length as the dataset. Combining the <code class="language-plaintext highlighter-rouge">is.na</code> function with <code class="language-plaintext highlighter-rouge">sum</code> and <code class="language-plaintext highlighter-rouge">sapply</code> functions, we can check how many missing values are in each variable.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">########## --------- check missing values --------- ###########</span><span class="w">
+
+</span><span class="c1"># Missing values are tricky as they can be represented in different ways</span><span class="w">
+</span><span class="c1"># such as "", "Na", "NA", "na", "N/A", "n/a", "NA/NaN", "NA/NaN/Na", etc.</span><span class="w">
+
+</span><span class="c1"># check missing values and print it as a table</span><span class="w">
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># there is only one missing value in q2?</span><span class="w">
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="s2">""</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Na"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Na"</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># replace missing values (represented as strings) with NA</span><span class="w">
+</span><span class="n">dt</span><span class="p">[</span><span class="n">dt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">""</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NA</span><span class="w">
+</span><span class="n">dt</span><span class="p">[</span><span class="n">dt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Na"</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NA</span><span class="w">
+
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="column-transformation">column transformation</h3>
+
+<p>As it is shown in Figure 1, all column operations are done in the <code class="language-plaintext highlighter-rouge">j</code> part of the <code class="language-plaintext highlighter-rouge">data.table</code> syntax.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">data.table</code> package provides a very efficient way to manipulate data in the column dimension. The <code class="language-plaintext highlighter-rouge">:=</code> operator is used to create a new variable. The <code class="language-plaintext highlighter-rouge">:=</code> operator is very similar to the <code class="language-plaintext highlighter-rouge">=</code> operator in <code class="language-plaintext highlighter-rouge">R</code>. The difference is that the <code class="language-plaintext highlighter-rouge">:=</code> operator does not create a new copy of the dataset. The <code class="language-plaintext highlighter-rouge">:=</code> operator modifies the dataset in place, which means doing operations on the original dataset.</p>
+
+<p>If you do not want to modify the original dataset, you can use <code class="language-plaintext highlighter-rouge">.()</code> to create a new copy of the dataset.</p>
+
+<p>Check the following examples:</p>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
