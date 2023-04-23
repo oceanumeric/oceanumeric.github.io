@@ -250,7 +250,7 @@ stored in a <a href="https://raw.githubusercontent.com/oceanumeric/data-science-
   </li>
 </ul>
 
-<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">########## --------- data transformation --------- ###########</span><span class="w">
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">########## --------- column operations --------- ###########</span><span class="w">
 
 </span><span class="c1"># check structure of dt again</span><span class="w">
 </span><span class="n">str</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="w">
@@ -290,6 +290,129 @@ stored in a <a href="https://raw.githubusercontent.com/oceanumeric/data-science-
     </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="p">(</span><span class="n">q7</span><span class="p">)]</span><span class="w">
 </span></code></pre></div></div>
 
+<p>Sometimes, we want to do operations on multiple columns based on their names. 
+For instance, we want to select all columns with names starting with <code class="language-plaintext highlighter-rouge">q</code>. For this,
+we can use <code class="language-plaintext highlighter-rouge">.SDcols</code> to select columns based on their names. The <code class="language-plaintext highlighter-rouge">.SDcols</code> is a
+special variable in <code class="language-plaintext highlighter-rouge">data.table</code> that represents the selected columns. <code class="language-plaintext highlighter-rouge">SD</code> stands
+for Subset of Data.</p>
+
+<p>By combing <code class="language-plaintext highlighter-rouge">.SDcols</code> with <code class="language-plaintext highlighter-rouge">.SD</code>, we can:</p>
+
+<ul>
+  <li>select columns based on their names
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">dt[, .SD, .SDcols = c("q1", "q2", "q3")]</code></li>
+      <li><code class="language-plaintext highlighter-rouge">dt[, .SD, .SDcols = c(1, 2, 3)]</code></li>
+      <li><code class="language-plaintext highlighter-rouge">dt[, .SD, .SDcols = patterns("^q")]</code> select columns with names starting with “q”</li>
+    </ul>
+  </li>
+  <li>do operations on the selected columns
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">dt[, lapply(.SD, mean), .SDcols = c("q1", "q2", "q3")]</code> compute the mean of columns q1, q2, and q3</li>
+      <li><code class="language-plaintext highlighter-rouge">dt[, lapply(.SD, tolower), .SDcols = c(1, 2, 3)]</code> convert all columns to lower case</li>
+      <li><code class="language-plaintext highlighter-rouge">dt[, lapply(.SD, mean), .SDcols = patterns("^q")]</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>I provide four examples below to show how to select columns based on different criteria.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># select columns with names starting with "q"</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grep</span><span class="p">(</span><span class="s2">"^q"</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">dt</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># or using patterns to select columns</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">(</span><span class="s2">"^q"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># we can also do operations on multiple columns</span><span class="w">
+
+</span><span class="c1"># select columns based on their data types == int</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is.integer</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># convert values from q2 to q10 to lower case if they are characters</span><span class="w">
+</span><span class="c1"># return a new data.table</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is.character</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">tolower</span><span class="p">),</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">(</span><span class="s2">"^q"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I believe the above code covers most of the common operations in data transformation in terms of selecting columns. For columns, we have two
+properties: <em>names and data types</em>. We can select columns based on their names or data types, or both by using <code class="language-plaintext highlighter-rouge">%&gt;%</code> to chain multiple operations.</p>
+
+<h3 id="row-transformation">row transformation</h3>
+
+<p>When we talk about row operations, we have two properties: <em>row indices and row values</em>. Based on those two properties, we can:</p>
+
+<ul>
+  <li>operate on <em>row values</em> without any row indices, which means passing
+the all values in one row to a function.</li>
+  <li>operate on <em>row values</em> with row indices, which means
+    <ul>
+      <li>we filter the dataset based on some criteria</li>
+      <li>we subset the dataset based on row indices or some criteria</li>
+    </ul>
+  </li>
+</ul>
+
+<p>When we do operations on row values, we will use <code class="language-plaintext highlighter-rouge">with</code> heavily in the pipeline as it could help us to do:</p>
+
+<ol>
+  <li>call functions on the row values within pipelines</li>
+  <li>call basic plotting functions on the row values within pipelines</li>
+</ol>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># one row operation, without any row indices</span><span class="w">
+</span><span class="c1"># summarize q1 - chr, yes, no</span><span class="w">
+</span><span class="c1"># treat it as factor, using table() to count the number of each level</span><span class="w">
+
+</span><span class="n">table</span><span class="p">(</span><span class="n">dt</span><span class="o">$</span><span class="n">q1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># or convert it to factor first</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">table</span><span class="p">()</span><span class="w"> 
+
+</span><span class="c1"># better presentation</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># calculate the percentage of each level</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">share</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">count.N</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">count.N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># plot it as a bar chart</span><span class="w">
+</span><span class="c1"># set options for the size</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">barplot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you learn regression model before?"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># plot share instead of count</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span><span class="o">/</span><span class="n">nrow</span><span class="p">(</span><span class="n">dt</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">barplot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you learn regression model before?"</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># more advanced visualization with ggplot2</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">share</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">count.N</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">count.N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count.q1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">share</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_col</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#6F6CAE"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">share</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you learn regression model before?"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
     </div>
     <div id='bibliography'>
