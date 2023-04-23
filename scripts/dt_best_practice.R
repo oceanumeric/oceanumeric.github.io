@@ -71,16 +71,22 @@ dt %>%
     .[, .(year, q2, q3)] %>%
     str()
 
-# select columns year, and from q3 to q10
-dt %>%
-    .[, .(year, q3:q10)] %>%
-    str()
-
 # select q9: 9. Did you try ChatGPT?
 # convert it to lower case
 dt %>%
     .[, .(q9 = tolower(q9))] %>% 
     str()
+
+# select columns year, and from q3 to q10
+# one needs to know the column index
+dt %>%
+    .[, c(13, 4:11)] %>%
+    str()
+
+# return a vector
+dt %>%
+    .[, (q7)]
+
 
 
 

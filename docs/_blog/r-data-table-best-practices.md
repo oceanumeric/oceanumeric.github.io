@@ -136,7 +136,63 @@ As it is shown in Figure 1, all column operations are done in the `j` part of th
 
 The `data.table` package provides a very efficient way to manipulate data in the column dimension. The `:=` operator is used to create a new variable. The `:=` operator is very similar to the `=` operator in `R`. The difference is that the `:=` operator does not create a new copy of the dataset. The `:=` operator modifies the dataset in place, which means doing operations on the original dataset. 
 
-If you do not want to modify the original dataset, you can use `.()` to create a new copy of the dataset. 
+If you do not want to modify the original dataset, you can use `.()` to create a new copy of the dataset. One could also use `c(column_name)` to create a new copy of the dataset. 
 
-Check the following examples:
+In summary, here are ways to select and manipulate columns in `data.table`:
+
+- return a new copy of the dataset: 
+    - `dt[, .(variable_name1, variable_name2)]`
+    - `dt[, c(1, 2, 3:7)]` select the first, second, and the third to the seventh columns
+- return a vector of the column: 
+    - `dt[, variable_name]`
+    - `dt %>% .[, (variable_name)]` the dot `.` represents the dataset
+
+- Create new variable in place (on original dataset)
+    - `dt[, new_variable_name := expression]`
+    - `dt %>% .[, new_variable_name := expression]` the dot `.` represents the dataset
+
+- Create new variable in a new copy of the dataset
+    - `dt[, .(new_variable_name = expression)]`
+    - `dt %>% .[, .(new_variable_name = expression)]` the dot `.` represents the dataset
+
+```R
+########## --------- data transformation --------- ###########
+
+# check structure of dt again
+str(dt)
+
+# convert timeStamp to date format by adding a new column
+# called dateTime to dt
+dt %>%
+    .[, dateTime := as.POSIXct(timesStamp, format = "%m/%d/%Y %H:%M:%S")] %>%
+    str()
+
+# create a new column called year
+dt %>%
+    .[, year := format(dateTime, "%Y")] %>%
+    # you can also convert it to numeric
+    # .[, year := as.numeric(format(dateTime, "%Y"))] %>%
+    str()
+
+# select columns and return a new data.table
+dt %>%
+    .[, .(year, q2, q3)] %>%
+    str()
+
+# select q9: 9. Did you try ChatGPT? 
+# convert it to lower case
+dt %>%
+    .[, .(q9 = tolower(q9))] %>% 
+    str()
+
+# select columns year, and from q3 to q10
+# one needs to know the column index
+dt %>%
+    .[, c(13, 4:11)] %>%
+    str()
+
+# return a vector
+dt %>%
+    .[, (q7)]
+```
 
