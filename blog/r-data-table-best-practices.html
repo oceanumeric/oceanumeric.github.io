@@ -219,9 +219,76 @@ stored in a <a href="https://raw.githubusercontent.com/oceanumeric/data-science-
 
 <p>The <code class="language-plaintext highlighter-rouge">data.table</code> package provides a very efficient way to manipulate data in the column dimension. The <code class="language-plaintext highlighter-rouge">:=</code> operator is used to create a new variable. The <code class="language-plaintext highlighter-rouge">:=</code> operator is very similar to the <code class="language-plaintext highlighter-rouge">=</code> operator in <code class="language-plaintext highlighter-rouge">R</code>. The difference is that the <code class="language-plaintext highlighter-rouge">:=</code> operator does not create a new copy of the dataset. The <code class="language-plaintext highlighter-rouge">:=</code> operator modifies the dataset in place, which means doing operations on the original dataset.</p>
 
-<p>If you do not want to modify the original dataset, you can use <code class="language-plaintext highlighter-rouge">.()</code> to create a new copy of the dataset.</p>
+<p>If you do not want to modify the original dataset, you can use <code class="language-plaintext highlighter-rouge">.()</code> to create a new copy of the dataset. One could also use <code class="language-plaintext highlighter-rouge">c(column_name)</code> to create a new copy of the dataset.</p>
 
-<p>Check the following examples:</p>
+<p>In summary, here are ways to select and manipulate columns in <code class="language-plaintext highlighter-rouge">data.table</code>:</p>
+
+<ul>
+  <li>return a new copy of the dataset:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">dt[, .(variable_name1, variable_name2)]</code></li>
+      <li><code class="language-plaintext highlighter-rouge">dt[, c(1, 2, 3:7)]</code> select the first, second, and the third to the seventh columns</li>
+    </ul>
+  </li>
+  <li>return a vector of the column:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">dt[, variable_name]</code></li>
+      <li><code class="language-plaintext highlighter-rouge">dt %&gt;% .[, (variable_name)]</code> the dot <code class="language-plaintext highlighter-rouge">.</code> represents the dataset</li>
+    </ul>
+  </li>
+  <li>Create new variable in place (on original dataset)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">dt[, new_variable_name := expression]</code></li>
+      <li><code class="language-plaintext highlighter-rouge">dt %&gt;% .[, new_variable_name := expression]</code> the dot <code class="language-plaintext highlighter-rouge">.</code> represents the dataset</li>
+    </ul>
+  </li>
+  <li>Create new variable in a new copy of the dataset
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">dt[, .(new_variable_name = expression)]</code></li>
+      <li><code class="language-plaintext highlighter-rouge">dt %&gt;% .[, .(new_variable_name = expression)]</code> the dot <code class="language-plaintext highlighter-rouge">.</code> represents the dataset</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">########## --------- data transformation --------- ###########</span><span class="w">
+
+</span><span class="c1"># check structure of dt again</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># convert timeStamp to date format by adding a new column</span><span class="w">
+</span><span class="c1"># called dateTime to dt</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">dateTime</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">timesStamp</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%m/%d/%Y %H:%M:%S"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># create a new column called year</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">format</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span><span class="w"> </span><span class="s2">"%Y"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># you can also convert it to numeric</span><span class="w">
+    </span><span class="c1"># .[, year := as.numeric(format(dateTime, "%Y"))] %&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># select columns and return a new data.table</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">q2</span><span class="p">,</span><span class="w"> </span><span class="n">q3</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># select q9: 9. Did you try ChatGPT? </span><span class="w">
+</span><span class="c1"># convert it to lower case</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q9</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">q9</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># select columns year, and from q3 to q10</span><span class="w">
+</span><span class="c1"># one needs to know the column index</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="o">:</span><span class="m">11</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># return a vector</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="p">(</span><span class="n">q7</span><span class="p">)]</span><span class="w">
+</span></code></pre></div></div>
 
 
     </div>
