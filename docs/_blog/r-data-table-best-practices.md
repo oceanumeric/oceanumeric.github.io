@@ -156,7 +156,7 @@ In summary, here are ways to select and manipulate columns in `data.table`:
     - `dt %>% .[, .(new_variable_name = expression)]` the dot `.` represents the dataset
 
 ```R
-########## --------- data transformation --------- ###########
+########## --------- column operations --------- ###########
 
 # check structure of dt again
 str(dt)
@@ -196,3 +196,113 @@ dt %>%
     .[, (q7)]
 ```
 
+Sometimes, we want to do operations on multiple columns based on their names. 
+For instance, we want to select all columns with names starting with `q`. For this,
+we can use `.SDcols` to select columns based on their names. The `.SDcols` is a
+special variable in `data.table` that represents the selected columns. `SD` stands
+for Subset of Data.
+
+By combing `.SDcols` with `.SD`, we can:
+
+- select columns based on their names
+    - `dt[, .SD, .SDcols = c("q1", "q2", "q3")]`
+    - `dt[, .SD, .SDcols = c(1, 2, 3)]`
+    - `dt[, .SD, .SDcols = patterns("^q")]` select columns with names starting with "q"
+- do operations on the selected columns
+    - `dt[, lapply(.SD, mean), .SDcols = c("q1", "q2", "q3")]` compute the mean of columns q1, q2, and q3
+    - `dt[, lapply(.SD, tolower), .SDcols = c(1, 2, 3)]` convert all columns to lower case
+    - `dt[, lapply(.SD, mean), .SDcols = patterns("^q")]`
+
+I provide four examples below to show how to select columns based on different criteria.
+
+```R
+# select columns with names starting with "q"
+dt %>%
+    .[, .SD, .SDcols = grep("^q", names(dt))] %>%
+    str()
+
+# or using patterns to select columns
+dt %>%
+    .[, .SD, .SDcols = patterns("^q")] %>%
+    str()
+
+# we can also do operations on multiple columns
+
+# select columns based on their data types == int
+dt %>%
+    .[, .SD, .SDcols = is.integer] %>% str()
+
+# convert values from q2 to q10 to lower case if they are characters
+# return a new data.table
+dt %>%
+    .[, .SD, .SDcols = is.character] %>%
+    .[, lapply(.SD, tolower), .SDcols = patterns("^q")] %>%
+    str()
+```
+
+I believe the above code covers most of the common operations in data transformation in terms of selecting columns. For columns, we have two
+properties: _names and data types_. We can select columns based on their names or data types, or both by using `%>%` to chain multiple operations.
+
+### row transformation
+
+When we talk about row operations, we have two properties: _row indices and row values_. Based on those two properties, we can:
+
+- operate on _row values_ without any row indices, which means passing
+the all values in one row to a function.
+- operate on _row values_ with row indices, which means
+    - we filter the dataset based on some criteria
+    - we subset the dataset based on row indices or some criteria
+
+When we do operations on row values, we will use `with` heavily in the pipeline as it could help us to do:
+
+1. call functions on the row values within pipelines
+2. call basic plotting functions on the row values within pipelines
+
+```R
+# one row operation, without any row indices
+# summarize q1 - chr, yes, no
+# treat it as factor, using table() to count the number of each level
+
+table(dt$q1)
+
+# or convert it to factor first
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    table() 
+
+# better presentation
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    .[, .(count = table(q1))] %>%
+    kable()
+
+# calculate the percentage of each level
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    .[, .(count = table(q1))] %>%
+    .[, share := count.N / sum(count.N)] %>%
+    kable()
+
+# plot it as a bar chart
+# set options for the size
+options(repr.plot.width = 8, repr.plot.height = 5)
+dt %>%
+    with(table(q1)) %>%
+    barplot(main = "Did you learn regression model before?")
+
+# plot share instead of count
+dt %>%
+    with(table(q1)/nrow(dt)) %>%
+    barplot(main = "Did you learn regression model before?")
+
+
+# more advanced visualization with ggplot2
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    .[, .(count = table(q1))] %>%
+    .[, share := count.N / sum(count.N)] %>%
+    ggplot(aes(x = count.q1, y = share)) +
+    geom_col(fill = "#6F6CAE") +
+    geom_text(aes(label = round(share, 2)), vjust = -0.5) +
+    labs(title = "Did you learn regression model before?")
+```

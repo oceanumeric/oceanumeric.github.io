@@ -48,7 +48,7 @@ dt[dt == "Na"] <- NA
 sapply(dt, function(x) sum(is.na(x))) %>% kable()
 
 
-########## --------- data transformation --------- ###########
+########## --------- column operations --------- ###########
 
 # check structure of dt again
 str(dt)
@@ -88,11 +88,76 @@ dt %>%
     .[, (q7)]
 
 
+# select columns with names starting with "q"
+dt %>%
+    .[, .SD, .SDcols = grep("^q", names(dt))] %>%
+    str()
 
+# or using patterns to select columns
+dt %>%
+    .[, .SD, .SDcols = patterns("^q")] %>%
+    str()
 
 # we can also do operations on multiple columns
+
+# select columns based on their data types == int
+dt %>%
+    .[, .SD, .SDcols = is.integer] %>% str()
+
 # convert values from q2 to q10 to lower case if they are characters
 # return a new data.table
 dt %>%
-    .[, lapply(.SD, tolower), .SDcols = 2:ncol(dt)] %>%
+    .[, .SD, .SDcols = is.character] %>%
+    .[, lapply(.SD, tolower), .SDcols = patterns("^q")] %>%
     str()
+
+
+########## --------- row operations --------- ###########
+str(dt)
+
+# one row operation, without any row indices
+# summarize q1 - chr, yes, no
+# treat it as factor, using table() to count the number of each level
+
+table(dt$q1)
+
+# or convert it to factor first
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    table() 
+
+# better presentation
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    .[, .(count = table(q1))] %>%
+    kable()
+
+# calculate the percentage of each level
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    .[, .(count = table(q1))] %>%
+    .[, share := count.N / sum(count.N)] %>%
+    kable()
+
+# plot it as a bar chart
+# set options for the size
+options(repr.plot.width = 8, repr.plot.height = 5)
+dt %>%
+    with(table(q1)) %>%
+    barplot(main = "Did you learn regression model before?")
+
+# plot share instead of count
+dt %>%
+    with(table(q1)/nrow(dt)) %>%
+    barplot(main = "Did you learn regression model before?")
+
+
+# more advanced visualization with ggplot2
+dt %>%
+    .[, .(q1 = factor(q1))] %>% 
+    .[, .(count = table(q1))] %>%
+    .[, share := count.N / sum(count.N)] %>%
+    ggplot(aes(x = count.q1, y = share)) +
+    geom_col(fill = "#6F6CAE") +
+    geom_text(aes(label = round(share, 2)), vjust = -0.5) +
+    labs(title = "Did you learn regression model before?")
