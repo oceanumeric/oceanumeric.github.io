@@ -130,6 +130,60 @@ dt[dt == "Na"] <- NA
 sapply(dt, function(x) sum(is.na(x))) %>% kable()
 ```
 
+### duplicated rows
+
+when it comes to duplicated rows, we are:
+
+- how many duplicated rows are there?
+- what are the duplicated rows?
+
+```R
+######----------------- check duplicates and NAs -----------------######
+# duplicates and NAs are tricky
+# you need to check them carefully
+# to check duplicates, you need to set up a criteria
+# for instance q1 has two answers: yes and no
+# many people might answer yes but this does not mean
+# they are duplicates
+str(survey)
+
+# in our case, we can use the timestamp as the criteria
+# to check duplicates
+
+# check how many duplicates
+survey %>%
+    .[, .N, by = timestamp] %>%
+    .[N > 1] %>%
+    kable()
+
+# check the duplicates
+survey %>%
+    .[timestamp == "2023-04-20 23:44:06"] %>%
+    kable()
+
+# another way to check duplicates (the best way)
+survey %>%
+    .[duplicated(timestamp) | duplicated(timestamp, fromLast = TRUE)] %>%
+    kable()
+
+# get unique values
+survey %>%
+    .[!duplicated(timestamp)] %>%
+    str()
+
+# or use unique function (the best way)
+# when you use unique function, you need put by = "variable_name"
+# as unique function is basic R function, whereas 
+# duplicated function is data.table function
+# which means you can pass variable name to duplicated function
+# directly without putting quotation marks
+survey %>%
+    unique(by = "timestamp") %>%
+    str()
+```
+
+
+
 ### column transformation
 
 As it is shown in Figure 1, all column operations are done in the `j` part of the `data.table` syntax.
@@ -212,6 +266,11 @@ By combing `.SDcols` with `.SD`, we can:
     - `dt[, lapply(.SD, mean), .SDcols = c("q1", "q2", "q3")]` compute the mean of columns q1, q2, and q3
     - `dt[, lapply(.SD, tolower), .SDcols = c(1, 2, 3)]` convert all columns to lower case
     - `dt[, lapply(.SD, mean), .SDcols = patterns("^q")]`
+- transform the selected columns in place
+    - first, select columns with `.SDcols`
+    - get column names
+    - use `:=` to transform the selected columns in place
+ 
 
 I provide four examples below to show how to select columns based on different criteria.
 
@@ -238,6 +297,22 @@ dt %>%
     .[, .SD, .SDcols = is.character] %>%
     .[, lapply(.SD, tolower), .SDcols = patterns("^q")] %>%
     str()
+
+# one of the most powerful features of data.table is that
+# we can do operations on multiple columns in place
+survey %>%
+    .[, .SD, .SDcols = patterns("^q")] %>%
+    .[, .SD, .SDcols = is.character] %>%
+    names() -> select_col_names
+
+select_col_names
+
+# convert string of selected columns to lower case
+survey %>%
+    .[, (select_col_names) := lapply(.SD, tolower),
+       .SDcols = select_col_names] 
+
+str(survey)
 ```
 
 I believe the above code covers most of the common operations in data transformation in terms of selecting columns. For columns, we have two
@@ -259,50 +334,130 @@ When we do operations on row values, we will use `with` heavily in the pipeline 
 2. call basic plotting functions on the row values within pipelines
 
 ```R
-# one row operation, without any row indices
-# summarize q1 - chr, yes, no
-# treat it as factor, using table() to count the number of each level
+######----------------- univariate analysis -----------------######
 
-table(dt$q1)
+# q1: have you ever learned regression analysis before?
+# q1 answer: yes, no
+# it is a categorical variable
+# for categorical variables, we can do following analysis:
+# 1. frequency table with count or percentage
+# 2. bar plot or pie chart
 
-# or convert it to factor first
-dt %>%
-    .[, .(q1 = factor(q1))] %>% 
-    table() 
+# frequency table with count
+survey %>%
+    .[, .N, by = q1] %>%
+    kable()  # a function to print out the table
 
-# better presentation
-dt %>%
-    .[, .(q1 = factor(q1))] %>% 
-    .[, .(count = table(q1))] %>%
-    kable()
+# frequency table with percentage
+survey %>%
+    .[, .N, by = q1] %>%
+    .[, percent := N / sum(N) * 100] %>%
+    kable(align = "c", digits = 2)
 
-# calculate the percentage of each level
-dt %>%
-    .[, .(q1 = factor(q1))] %>% 
-    .[, .(count = table(q1))] %>%
-    .[, share := count.N / sum(count.N)] %>%
-    kable()
-
-# plot it as a bar chart
-# set options for the size
-options(repr.plot.width = 8, repr.plot.height = 5)
-dt %>%
+# use basic R function to get the frequency table
+survey %>%
     with(table(q1)) %>%
-    barplot(main = "Did you learn regression model before?")
+    kable()
 
-# plot share instead of count
-dt %>%
-    with(table(q1)/nrow(dt)) %>%
-    barplot(main = "Did you learn regression model before?")
+# using prop.table function to get the percentage
+survey %>%
+    with(table(q1)) %>%
+    prop.table() %>%
+    kable()
 
 
-# more advanced visualization with ggplot2
-dt %>%
-    .[, .(q1 = factor(q1))] %>% 
-    .[, .(count = table(q1))] %>%
-    .[, share := count.N / sum(count.N)] %>%
-    ggplot(aes(x = count.q1, y = share)) +
-    geom_col(fill = "#6F6CAE") +
-    geom_text(aes(label = round(share, 2)), vjust = -0.5) +
-    labs(title = "Did you learn regression model before?")
+# plot the bar chart with table function and barplot function
+# set the width and height of the plot
+options(repr.plot.width = 8, repr.plot.height = 5)
+survey %>%
+    with(table(q1)) %>%
+    barplot(main = "Did you study the regression analysis before?",
+            xlab = "Answer",
+            ylab = "Count",
+            col = "lightblue")
+
+# plot the pie chart with table function and pie function based on percentage
+# add the percentage to the pie chart
+# following code was inspired by ChatGPT, which is amazing!
+# it uses rainbow color to distinguish the pie chart
+# this is new to me, I will try it next time
+# it also uses prob.table with a dot, which is brilliant!
+survey %>%
+    with(table(q1)) %>%
+    pie(main = "Did you study the regression analysis before?",
+        col = c("lightblue", "lightgreen"),
+        labels = paste0(round(prop.table(.) * 100), "%"))
+
+# sometimes you might need ggplot
+# ggplot is a powerful package to plot the data
+survey %>%
+    with(table(q1)) %>%
+    data.frame() %>%
+    ggplot(aes(x = q1, y = Freq)) +
+    geom_bar(stat = "identity", fill = "#2598bf") +
+    geom_text(aes(label = Freq),
+              vjust = -0.5, size = 4) +
+    labs(title = "Did you study the regression analysis before?",
+         x = "Answer",
+         y = "Count") +
+    theme_bw()
+
+# I only use ggplot when I need to plot multiple variables
+# against one variable by using facet_wrap
+# or any other special plot that is not supported by base R
+
+######----------------- Binomial Distribution -----------------######
+# in question 1, we have the following probability table
+survey %>%
+    with(table(q1)) %>%
+    prop.table() %>%
+    kable()
+
+# this means the probability of getting yes is 0.708
+# the probability of getting no is 0.292
+# NOW, assuming our survey data is a sample of the population
+# and also representing the population
+# we can use binomial distribution to calculate the probability
+# of getting yes or no in the population
+
+# binomial distribution with n = 1000
+# p = 0.708
+# q = 0.292
+# rbinom function is used to generate random numbers
+# from binomial distribution
+# rbinom(1, 10, 0.5) ==  sum(rbionom(10, 1, 0.5))
+
+rbinom(1000, 1, 0.708) %>%
+    table() %>%
+    prop.table() %>%
+    kable()
+
+# the above code simulate 1000 times with p = 0.708
+# the simulation is to imitate our survey
+# but we need to do inference to the population
+
+
+# NOW, we are interested the probability of having 60
+# or more yes in the population if we have 100 people?
+# our parameter of interest is p = 0.708
+# our inference is based on the binomial distribution
+# we need to use the binomial distribution to calculate
+# the probability of getting 60 or more yes in the population
+# if we have 100 people
+pbinom(59, 100, 0.708, lower.tail = FALSE)
+
+# plot the binomial probability density function
+# and cumulative distribution function
+n = 100
+p = 0.708
+x = 0:100
+y = dbinom(x, n, p)
+y_cum = pbinom(x, n, p)
+par(mfrow = c(1, 2))
+plot(x, y, type = "h", lwd = 2,
+        xlab = "Number of Yes", ylab = "Probability",
+        main = "Probability Density Function")
+plot(x, y_cum, type = "l", lwd = 2,
+        xlab = "Number of Yes", ylab = "Probability",
+        main = "Cumulative Distribution Function")
 ```
