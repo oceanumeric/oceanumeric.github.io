@@ -120,7 +120,7 @@ way to learn <code class="language-plaintext highlighter-rouge">R</code> for dat
   <li>Keep trying different packages and learn from others, such as <code class="language-plaintext highlighter-rouge">Polars</code>.</li>
 </ul>
 
-<p>If you do not believe me why I think <code class="language-plaintext highlighter-rouge">data.table</code> is the efficient one, please read check the <a href="https://duckdblabs.github.io/db-benchmark/" target="_blank">benchmark</a> of different packages on data manipulation.</p>
+<p>If you do not believe me why I think <code class="language-plaintext highlighter-rouge">data.table</code> is the efficient one, please  check the <a href="https://duckdblabs.github.io/db-benchmark/" target="_blank">benchmark</a> of different packages on data manipulation.</p>
 
 <p>Here is the roadmap of this post:</p>
 
@@ -171,14 +171,14 @@ If you have too many packages, the dependencies of the packages may conflict wit
 the <a href="https://docs.google.com/forms/d/1VoDT0dknxvx1T_RDILHOYvLH226ZCFMhkUuRtJvyT60/edit" target="_blank">link</a> to the survey.
 It has 10 questions and the answers are in the format of single choice, multiple 
 choices, and open answers. The dataset is in the format of table-like data, which is
-stored in a <a href="https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv" target="_blank">csv file</a>. I added duplicated rows to the dataset as an example of how to deal with duplicated rows.</p>
+stored in a <a href="https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Tutorial_01/survey_responses.csv" target="_blank">csv file</a>. I added duplicated rows to the dataset as an example of how to deal with duplicated rows.</p>
 
 <h3 id="structure-of-the-data-the-first-step">structure of the data: the first step</h3>
 
 <p>Every time I got a new dataset, I use three functions to check the structure of the data: <code class="language-plaintext highlighter-rouge">head</code>, <code class="language-plaintext highlighter-rouge">str</code>, and <code class="language-plaintext highlighter-rouge">summary</code>. The <code class="language-plaintext highlighter-rouge">head</code> function prints the first 6 rows of the dataset. The <code class="language-plaintext highlighter-rouge">str</code> function prints the structure of the dataset, which includes the data type of each variable. The <code class="language-plaintext highlighter-rouge">summary</code> function prints the summary statistics of each variable.</p>
 
 <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># read data</span><span class="w">
-</span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Tutorial_01/survey_responses.csv"</span><span class="p">)</span><span class="w">
 
 
 </span><span class="c1"># data structure</span><span class="w">
