@@ -34,7 +34,7 @@ So, here are the messages I have learned from my experience:
 - Use `R` for statistical analysis and data analysis projects in finance, economics, and other fields.
 - Keep trying different packages and learn from others, such as `Polars`.
 
-If you do not believe me why I think `data.table` is the efficient one, please read check the [benchmark](https://duckdblabs.github.io/db-benchmark/){:target="_blank"} of different packages on data manipulation.
+If you do not believe me why I think `data.table` is the efficient one, please  check the [benchmark](https://duckdblabs.github.io/db-benchmark/){:target="_blank"} of different packages on data manipulation.
 
 Here is the roadmap of this post:
 
@@ -85,7 +85,7 @@ The dataset we will use is based on a survey I did for one of my tutorials. Here
 the [link](https://docs.google.com/forms/d/1VoDT0dknxvx1T_RDILHOYvLH226ZCFMhkUuRtJvyT60/edit){:target="_blank"} to the survey.
 It has 10 questions and the answers are in the format of single choice, multiple 
 choices, and open answers. The dataset is in the format of table-like data, which is
-stored in a [csv file](https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv){:target="_blank"}. I added duplicated rows to the dataset as an example of how to deal with duplicated rows.
+stored in a [csv file](https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Tutorial_01/survey_responses.csv){:target="_blank"}. I added duplicated rows to the dataset as an example of how to deal with duplicated rows.
 
 
 ### structure of the data: the first step 
@@ -94,7 +94,7 @@ Every time I got a new dataset, I use three functions to check the structure of 
 
 ```R
 # read data
-dt <- fread("https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv")
+dt <- fread("https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Tutorial_01/survey_responses.csv")
 
 
 # data structure

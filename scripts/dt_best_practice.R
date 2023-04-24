@@ -7,7 +7,7 @@ library(ggplot2)  # only use it for advanced visualization
 ########## --------- import data --------- ###########
 
 # read data
-dt <- fread("https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Lecture01/survey_responses.csv")
+dt <- fread("https://raw.githubusercontent.com/oceanumeric/data-science-go-small/main/Tutorial_01/survey_responses.csv")
 
 
 # data structure
@@ -17,7 +17,7 @@ summary(dt)
 
 # set variable names
 dt %>%
-    setnames("Timestamp", "timesStamp") %>% # use %>% to chain functions
+    setnames("Timestamp", "timeStamp") %>% # use %>% to chain functions
     str()
 
 # change variable names from the second column to the last column
@@ -56,7 +56,7 @@ str(dt)
 # convert timeStamp to date format by adding a new column
 # called dateTime to dt
 dt %>%
-    .[, dateTime := as.POSIXct(timesStamp, format = "%m/%d/%Y %H:%M:%S")] %>%
+    .[, dateTime := as.POSIXct(timeStamp, format = "%m/%d/%Y %H:%M:%S")] %>%
     str()
 
 # create a new column called year
@@ -66,7 +66,7 @@ dt %>%
     # .[, year := as.numeric(format(dateTime, "%Y"))] %>%
     str()
 
-# select columns and return a new data.table
+# extract columns year q2 q3
 dt %>%
     .[, .(year, q2, q3)] %>%
     str()
