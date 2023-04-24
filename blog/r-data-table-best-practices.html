@@ -213,6 +213,59 @@ stored in a <a href="https://raw.githubusercontent.com/oceanumeric/data-science-
 </span><span class="n">sapply</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
 
+<h3 id="duplicated-rows">duplicated rows</h3>
+
+<p>when it comes to duplicated rows, we are:</p>
+
+<ul>
+  <li>how many duplicated rows are there?</li>
+  <li>what are the duplicated rows?</li>
+</ul>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">######----------------- check duplicates and NAs -----------------######</span><span class="w">
+</span><span class="c1"># duplicates and NAs are tricky</span><span class="w">
+</span><span class="c1"># you need to check them carefully</span><span class="w">
+</span><span class="c1"># to check duplicates, you need to set up a criteria</span><span class="w">
+</span><span class="c1"># for instance q1 has two answers: yes and no</span><span class="w">
+</span><span class="c1"># many people might answer yes but this does not mean</span><span class="w">
+</span><span class="c1"># they are duplicates</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">survey</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># in our case, we can use the timestamp as the criteria</span><span class="w">
+</span><span class="c1"># to check duplicates</span><span class="w">
+
+</span><span class="c1"># check how many duplicates</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timestamp</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">N</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># check the duplicates</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">timestamp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"2023-04-20 23:44:06"</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># another way to check duplicates (the best way)</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">duplicated</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">duplicated</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">fromLast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># get unique values</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="o">!</span><span class="n">duplicated</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># or use unique function (the best way)</span><span class="w">
+</span><span class="c1"># when you use unique function, you need put by = "variable_name"</span><span class="w">
+</span><span class="c1"># as unique function is basic R function, whereas </span><span class="w">
+</span><span class="c1"># duplicated function is data.table function</span><span class="w">
+</span><span class="c1"># which means you can pass variable name to duplicated function</span><span class="w">
+</span><span class="c1"># directly without putting quotation marks</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">unique</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"timestamp"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">str</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
 <h3 id="column-transformation">column transformation</h3>
 
 <p>As it is shown in Figure 1, all column operations are done in the <code class="language-plaintext highlighter-rouge">j</code> part of the <code class="language-plaintext highlighter-rouge">data.table</code> syntax.</p>
@@ -313,6 +366,13 @@ for Subset of Data.</p>
       <li><code class="language-plaintext highlighter-rouge">dt[, lapply(.SD, mean), .SDcols = patterns("^q")]</code></li>
     </ul>
   </li>
+  <li>transform the selected columns in place
+    <ul>
+      <li>first, select columns with <code class="language-plaintext highlighter-rouge">.SDcols</code></li>
+      <li>get column names</li>
+      <li>use <code class="language-plaintext highlighter-rouge">:=</code> to transform the selected columns in place</li>
+    </ul>
+  </li>
 </ul>
 
 <p>I provide four examples below to show how to select columns based on different criteria.</p>
@@ -339,6 +399,22 @@ for Subset of Data.</p>
     </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is.character</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">tolower</span><span class="p">),</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">(</span><span class="s2">"^q"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">str</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># one of the most powerful features of data.table is that</span><span class="w">
+</span><span class="c1"># we can do operations on multiple columns in place</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">(</span><span class="s2">"^q"</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is.character</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">names</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">select_col_names</span><span class="w">
+
+</span><span class="n">select_col_names</span><span class="w">
+
+</span><span class="c1"># convert string of selected columns to lower case</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="p">(</span><span class="n">select_col_names</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">tolower</span><span class="p">),</span><span class="w">
+       </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">select_col_names</span><span class="p">]</span><span class="w"> 
+
+</span><span class="n">str</span><span class="p">(</span><span class="n">survey</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <p>I believe the above code covers most of the common operations in data transformation in terms of selecting columns. For columns, we have two
@@ -366,52 +442,132 @@ the all values in one row to a function.</li>
   <li>call basic plotting functions on the row values within pipelines</li>
 </ol>
 
-<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># one row operation, without any row indices</span><span class="w">
-</span><span class="c1"># summarize q1 - chr, yes, no</span><span class="w">
-</span><span class="c1"># treat it as factor, using table() to count the number of each level</span><span class="w">
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">######----------------- univariate analysis -----------------######</span><span class="w">
 
-</span><span class="n">table</span><span class="p">(</span><span class="n">dt</span><span class="o">$</span><span class="n">q1</span><span class="p">)</span><span class="w">
+</span><span class="c1"># q1: have you ever learned regression analysis before?</span><span class="w">
+</span><span class="c1"># q1 answer: yes, no</span><span class="w">
+</span><span class="c1"># it is a categorical variable</span><span class="w">
+</span><span class="c1"># for categorical variables, we can do following analysis:</span><span class="w">
+</span><span class="c1"># 1. frequency table with count or percentage</span><span class="w">
+</span><span class="c1"># 2. bar plot or pie chart</span><span class="w">
 
-</span><span class="c1"># or convert it to factor first</span><span class="w">
-</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
-    </span><span class="n">table</span><span class="p">()</span><span class="w"> 
+</span><span class="c1"># frequency table with count</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q1</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">  </span><span class="c1"># a function to print out the table</span><span class="w">
 
-</span><span class="c1"># better presentation</span><span class="w">
-</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span><span class="c1"># frequency table with percentage</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q1</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">percent</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">(</span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"c"</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
 
-</span><span class="c1"># calculate the percentage of each level</span><span class="w">
-</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">share</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">count.N</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">count.N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">kable</span><span class="p">()</span><span class="w">
-
-</span><span class="c1"># plot it as a bar chart</span><span class="w">
-</span><span class="c1"># set options for the size</span><span class="w">
-</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
-</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="c1"># use basic R function to get the frequency table</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">barplot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you learn regression model before?"</span><span class="p">)</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
 
-</span><span class="c1"># plot share instead of count</span><span class="w">
-</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span><span class="o">/</span><span class="n">nrow</span><span class="p">(</span><span class="n">dt</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">barplot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you learn regression model before?"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># using prop.table function to get the percentage</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">prop.table</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
 
 
-</span><span class="c1"># more advanced visualization with ggplot2</span><span class="w">
-</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">q1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">share</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">count.N</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">count.N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count.q1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">share</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_col</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#6F6CAE"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">share</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you learn regression model before?"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># plot the bar chart with table function and barplot function</span><span class="w">
+</span><span class="c1"># set the width and height of the plot</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">barplot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you study the regression analysis before?"</span><span class="p">,</span><span class="w">
+            </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Answer"</span><span class="p">,</span><span class="w">
+            </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">,</span><span class="w">
+            </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lightblue"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># plot the pie chart with table function and pie function based on percentage</span><span class="w">
+</span><span class="c1"># add the percentage to the pie chart</span><span class="w">
+</span><span class="c1"># following code was inspired by ChatGPT, which is amazing!</span><span class="w">
+</span><span class="c1"># it uses rainbow color to distinguish the pie chart</span><span class="w">
+</span><span class="c1"># this is new to me, I will try it next time</span><span class="w">
+</span><span class="c1"># it also uses prob.table with a dot, which is brilliant!</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">pie</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you study the regression analysis before?"</span><span class="p">,</span><span class="w">
+        </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"lightblue"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lightgreen"</span><span class="p">),</span><span class="w">
+        </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">prop.table</span><span class="p">(</span><span class="n">.</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">),</span><span class="w"> </span><span class="s2">"%"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># sometimes you might need ggplot</span><span class="w">
+</span><span class="c1"># ggplot is a powerful package to plot the data</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">data.frame</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Freq</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#2598bf"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Freq</span><span class="p">),</span><span class="w">
+              </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Did you study the regression analysis before?"</span><span class="p">,</span><span class="w">
+         </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Answer"</span><span class="p">,</span><span class="w">
+         </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># I only use ggplot when I need to plot multiple variables</span><span class="w">
+</span><span class="c1"># against one variable by using facet_wrap</span><span class="w">
+</span><span class="c1"># or any other special plot that is not supported by base R</span><span class="w">
+
+</span><span class="c1">######----------------- Binomial Distribution -----------------######</span><span class="w">
+</span><span class="c1"># in question 1, we have the following probability table</span><span class="w">
+</span><span class="n">survey</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">with</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">q1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">prop.table</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># this means the probability of getting yes is 0.708</span><span class="w">
+</span><span class="c1"># the probability of getting no is 0.292</span><span class="w">
+</span><span class="c1"># NOW, assuming our survey data is a sample of the population</span><span class="w">
+</span><span class="c1"># and also representing the population</span><span class="w">
+</span><span class="c1"># we can use binomial distribution to calculate the probability</span><span class="w">
+</span><span class="c1"># of getting yes or no in the population</span><span class="w">
+
+</span><span class="c1"># binomial distribution with n = 1000</span><span class="w">
+</span><span class="c1"># p = 0.708</span><span class="w">
+</span><span class="c1"># q = 0.292</span><span class="w">
+</span><span class="c1"># rbinom function is used to generate random numbers</span><span class="w">
+</span><span class="c1"># from binomial distribution</span><span class="w">
+</span><span class="c1"># rbinom(1, 10, 0.5) ==  sum(rbionom(10, 1, 0.5))</span><span class="w">
+
+</span><span class="n">rbinom</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0.708</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">table</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">prop.table</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># the above code simulate 1000 times with p = 0.708</span><span class="w">
+</span><span class="c1"># the simulation is to imitate our survey</span><span class="w">
+</span><span class="c1"># but we need to do inference to the population</span><span class="w">
+
+
+</span><span class="c1"># NOW, we are interested the probability of having 60</span><span class="w">
+</span><span class="c1"># or more yes in the population if we have 100 people?</span><span class="w">
+</span><span class="c1"># our parameter of interest is p = 0.708</span><span class="w">
+</span><span class="c1"># our inference is based on the binomial distribution</span><span class="w">
+</span><span class="c1"># we need to use the binomial distribution to calculate</span><span class="w">
+</span><span class="c1"># the probability of getting 60 or more yes in the population</span><span class="w">
+</span><span class="c1"># if we have 100 people</span><span class="w">
+</span><span class="n">pbinom</span><span class="p">(</span><span class="m">59</span><span class="p">,</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">0.708</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># plot the binomial probability density function</span><span class="w">
+</span><span class="c1"># and cumulative distribution function</span><span class="w">
+</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.708</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="o">:</span><span class="m">100</span><span class="w">
+</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbinom</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w">
+</span><span class="n">y_cum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pbinom</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"h"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+        </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of Yes"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Probability"</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Probability Density Function"</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_cum</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"l"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+        </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of Yes"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Probability"</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Cumulative Distribution Function"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
     </div>
