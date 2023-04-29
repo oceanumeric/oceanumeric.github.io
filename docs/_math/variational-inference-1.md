@@ -167,7 +167,77 @@ Instead, we could use the EM algorithm to solve this problem. To understand the 
 ## Jensen's inequality
 
 
+Jensen's inequality states that for a convex function $f$, we have
 
+$$
+f(\mathbb{E}[x]) \leq \mathbb{E}[f(x)]. \tag{6}
+$$
+
+If the function $f$ is concave, then we have
+
+$$
+f(\mathbb{E}[x]) \geq \mathbb{E}[f(x)]. \tag{7}
+$$
+
+Now, let $f(x) = \ln x$, which is a concave function, then we have
+
+$$
+\ln \mathbb{E}[x] \geq \mathbb{E}[\ln x]. \tag{8}
+$$
+
+## EM algorithm
+
+Now, we could use the Jensen's inequality to derive the EM algorithm. First, we could rewrite the log-likelihood in equation (4) as the following:
+
+$$
+\begin{aligned}
+\ln p(x; \Theta) & =  \ln \sum_z p(x, z; \Theta) \\
+                 & =  \ln \sum_z q(z) \frac{p(x, z; \Theta)}{q(z)} \\
+                 & \geq \sum_z q(z) \ln \frac{p(x, z; \Theta)}{q(z)} 
+\end{aligned} \tag{9}
+$$
+
+where $q(z)$ is a distribution over the latent variable $z$. The last step is based on the Jensen's inequality. Now, we could substitute the lower bound of the log-likelihood into the MLE problem in equation (5):
+
+$$
+\begin{aligned}
+L(\Theta, q) & =  \sum_{i=1}^n  \ln \sum_z p(x, z; \Theta) \\ 
+             & \geq \sum_{i=1}^n \sum_z q(z) \ln \frac{p(x, z; \Theta)}{q(z)} 
+\end{aligned} \tag{10}
+$$
+
+This is the lower bound of the log-likelihood. Now, we could maximize the lower bound with respect to the parameter $\Theta$ and the distribution $q(z)$, which is equivalent to maximizing the log-likelihood. 
+
+
+Now, if we fix the supremum of the lower bound, then we could have
+
+$$
+\frac{p(x, z; \Theta)}{q(z)} = \text{const} = c \tag{11}
+$$
+
+This leads to 
+
+$$
+q(z) \propto p(x, z; \Theta); \quad \ s.t. \sum_z q(z) = 1. \tag{12}
+$$
+
+This shows that the distribution $q(z)$ is the posterior distribution of the latent variable $z$ given the data $x$ and the parameter $\Theta$. Therefore, we could have
+
+$$
+p(z|x; \Theta) = \frac{p(x, z; \Theta)}{p(x; \Theta)} = \frac{p(x, z; \Theta)}{\sum_z p(x, z; \Theta)} = q(z). \tag{13}
+$$
+
+This is the E-step of the EM algorithm. In the E-step, we calculate the posterior distribution of the latent variable $z$ given the data $x$ and the parameter $\Theta$.
+
+For the M-step, we maximize the lower bound with respect to the parameter $\Theta$:
+
+$$
+\Theta^* = \arg \max_\Theta \sum_{i=1}^n  q(z) \ln \frac{\sum_z p(x, z; \Theta)}{q(z)}  \tag{14}
+$$
+
+Before we implement the EM algorithm, we will link the EM algorithm to KL divergence in equation (2).
+
+## Evidence Lower Bound (ELBO)
 
 
 
