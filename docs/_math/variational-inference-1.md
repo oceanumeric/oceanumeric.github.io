@@ -240,6 +240,58 @@ Before we implement the EM algorithm, we will link the EM algorithm to KL diverg
 ## Evidence Lower Bound (ELBO)
 
 
+We could rewrite the lower bound in equation (9) as the following:
+
+$$
+\begin{aligned}
+\ln p(x; \Theta) &= \sum_{z} q(z) \ln \frac{p(x, z; \Theta)}{q(z)} \\
+             &= \sum_{z} q(z) \ln \frac{p(x, z; \Theta)}{p(z|x; \Theta)}  \\ 
+             &= \sum_{z} q(z) \ln \frac{p(x, z; \Theta)/q(z)}{p(z|x; \Theta)/q(z)}  \\
+             & = \sum_{z} q(z) \ln \frac{p(x, z; \Theta)}{q(z)} - \sum_{z} q(z) \ln \frac{p(z|x; \Theta)}{q(z)}  \\
+             & = \sum_{z} q(z) \ln \frac{p(x, z; \Theta)}{q(z)}  + \sum_{z} q(z) \ln \frac{q(z)}{p(z|x; \Theta)}  \\
+             & = L(x, \Theta) + KL(q(z) || p(z|x; \Theta))
+\end{aligned} \tag{15}
+$$ 
+
+Where $L(x, \Theta)$ is the lower bound of the log-likelihood and $KL(q(z) || p(z|x; \Theta))$ is the KL divergence between the posterior distribution $q(z)$ and the true posterior distribution $p(z|x; \Theta)$.
+
+$L(x, \Theta)$ is also called the evidence lower bound (ELBO). The ELBO is a lower bound of the log-likelihood. The KL divergence is always non-negative, which means that the ELBO is always smaller than the log-likelihood. 
+
+
+$$
+\ln p(x; \Theta) \geq L(x, \Theta) \tag{16}
+$$
+
+
+Therefore, we could maximize the ELBO to maximize the log-likelihood.
+
+
+## Application of EM algorithm
+
+Now, we could apply the EM algorithm to Gaussian mixture model (GMM). Suppose we have some data $x_1, x_2, \cdots, x_n$, which is from $K$ Gaussian distributions (K mixture components). To estimate the parameters of the GMM, we could use the EM algorithm. 
+
+Let's set up our notation first:
+
+- $\mu_k$ is the mean of the $k$-th Gaussian distribution.
+- $\Sigma_k$ is the covariance matrix of the $k$-th Gaussian distribution.
+- $\phi_k$ is the mixing coefficient of the $k$-th Gaussian distribution.
+- $z_i$ is the latent variable of the $i$-th data point. $z_i$ is a one-hot vector, which means that $z_{ik} = 1$ if the $i$-th data point is from the $k$-th Gaussian distribution. Otherwise, $z_{ik} = 0$.
+
+_Remark_: $x_i$ does not have to be a scalar. It could be a vector such as $x_i \in \mathbb{R}^d$.
+
+Our goal is to maximize the log-likelihood of the GMM: 
+
+$$
+\arg \max_{\mu, \Sigma, \phi} \sum_{i=1}^n \ln p(x_i; \mu, \Sigma, \phi) \tag{17}
+$$
+
+
+__E-step__: In the E-step, we calculate the posterior distribution of the latent variable $z$ given the data $x$ and the parameter $\Theta$:
+
+$$
+q(z_i) = p(z_i | x_i; \Theta) = p(z_i | x_i; \mu, \Sigma, \phi) \tag{18}
+$$
+
 
 
 
