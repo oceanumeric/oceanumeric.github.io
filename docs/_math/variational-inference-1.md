@@ -597,6 +597,9 @@ Although we use a simple example to explain the EM algorithm, the Bayesian idea 
 this algorithm is very important. If you understand this example well, then you will
 have a better understanding of the latent variable model.
 
+__Note__: The code in this article could only work for the simple example with two
+clusters. If you want to use it for other examples, you need to modify the code or use the `sklearn` package, which is more efficient and stable.
+
 
 
 ## Reference

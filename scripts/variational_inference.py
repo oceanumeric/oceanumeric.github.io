@@ -4,6 +4,8 @@ import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.mixture import GaussianMixture
+
 
 
 def figure1():
@@ -175,8 +177,37 @@ def test_gmm():
     print("Prior probability: \n", gmm.phi)
     # print("Posterior probability: \n", gmm.w)
     
+    # another test with 3 clusters and 3 features
+    X = np.concatenate(
+                (np.random.multivariate_normal([0, 3, 5], [[0.5, 0, 0], [0, 0.8, 0], [0, 0, 1]], 30),
+                    np.random.multivariate_normal([10, 5, 3], np.eye(3), 70),
+                    np.random.multivariate_normal([5, 10, 15], [[0.5, 0, 0], [0, 0.8, 0], [0, 0, 1]], 50)
+                    )
+                )
+    print("Another test with 3 clusters and 3 features:")
+    print(X.shape, X.mean(axis=0), X.std(axis=0))
     
-
+    print("-" * 60)
+    print("Now, we use GMM to fit the data with 3 clusters:")
+    gmm = GMM(X, k=3)
+    gmm.fit(tol=1e-10)
+    
+    # print out the parameters
+    print("Mean: \n", gmm.mean)
+    print("Covariance matrix: \n", gmm.sigma)
+    print("Prior probability: \n", gmm.phi)
+    
+    # test with sckit-learn
+    print("-" * 60)
+    print("Now, we use sckit-learn to fit the data with 3 clusters:")
+    gm = GaussianMixture(n_components=3, covariance_type='full').fit(X)
+    # print out the parameters
+    print("Mean: \n", gm.means_)
+    print("Covariance matrix: \n", gm.covariances_)
+    print("Prior probability: \n", gm.weights_)
+    
+    
+    
         
 if __name__ == "__main__":
     print(os.getcwd())
