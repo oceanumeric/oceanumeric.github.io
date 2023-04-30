@@ -600,13 +600,14 @@ have a better understanding of the latent variable model.
 __Note__: The code in this article could only work for the simple example with two
 clusters. If you want to use it for other examples, you need to modify the code or use the `sklearn` package, which is more efficient and stable.
 
+If you want to have a more rigid understanding of the EM algorithm, you can read the
+chapter 9 of the book _Pattern Recognition and Machine Learning_ by Christopher M. Bishop {% cite bishop2006pattern %}.
+
 
 
 ## Reference
 
 1. [Expectation Maximization](https://zhiyzuo.github.io/EM/#real-example)
-
-
 
 
 
