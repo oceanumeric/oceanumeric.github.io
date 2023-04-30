@@ -12,6 +12,15 @@ I don't know why I got hooked on variational inference. Maybe it's because I'm a
 
 This series of posts again will take the perspective from information theory as I think it really makes our life easier.
 
+- [Big picture](#big-picture)
+- [Density estimation](#density-estimation)
+- [Jensen’s inequality](#jensens-inequality)
+- [EM algorithm](#em-algorithm)
+- [Evidence Lower Bound (ELBO)](#evidence-lower-bound-elbo)
+- [Application of EM algorithm](#application-of-em-algorithm)
+- [Implementation in Python](#implementation-in-python)
+- [Summary and reflection](#summary-and-reflection)
+
 
 ## Big picture
 

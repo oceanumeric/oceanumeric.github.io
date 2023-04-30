@@ -9,3 +9,6 @@ tags: machine-learning deep-learning leadership future-vision
 ---
 
 hello world 
+
+
+## Goals
