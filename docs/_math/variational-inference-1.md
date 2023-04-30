@@ -136,8 +136,6 @@ To classify the data, we could introduce a latent variable $z$ to represent the 
 
 Now, we could model the data generating process as the following:
 
-latex symbol for big theta is 
-
 $$
 p(x, z; \Theta); \quad \Theta \text{is the parameter (mean, etc.) of the model}. \tag{3}
 $$
@@ -379,11 +377,231 @@ $$
 \frac{\partial \mathcal{L}}{\partial \phi_j} & = \frac{\partial}{\partial \phi_j} \left [ \sum_{i=1}^n w_j^{(i)} \ln \phi_j + \lambda \left ( \sum_{j=1}^K \phi_j - 1 \right ) \right ] \\
 & = \frac{\sum_{i=1}^n w_j^{(i)}}{\phi_j} + \lambda \\
 & = 0
-\end{aligned} \tag{27}
+\end{aligned} 
+$$
+
+This gives the following equation:
+
+$$
+\phi_j = -\frac{\sum_{i=1}^n w_j^{(i)}}{\lambda} 
+$$
+
+Since $\sum_{j=1}^K \phi_j = 1$, we have:
+
+$$
+\begin{aligned}
+\sum_{j=1}^K \phi_j & = -\sum_{j=1}^K \frac{\sum_{i=1}^n w_j^{(i)}}{\lambda} = 1 \\
+\lambda & = -\sum_{j=1}^K \sum_{i=1}^n w_j^{(i)} = -\sum_{i=1}^n \sum_{j=1}^K w_j^{(i)} = -\sum_{i=1}^n 1 = -n
+\end{aligned}
+$$
+
+Therefore, we have:
+
+$$
+\phi_j = \frac{\sum_{i=1}^n w_j^{(i)}}{n} \tag{27}
 $$
 
 
+## Implementation in Python
 
+Now, let's implement the EM algorithm in Python. If you look at the equations above, you should notice that we have to calculate $w_j^{(i)}$ in each iteration, which is the probability that $x_i$ belongs to the $j$-th Gaussian distribution. This is the **responsibility** of the $j$-th Gaussian distribution for the $i$-th data point. This is the posterior probability of the $j$-th Gaussian distribution given the $i$-th data point. The value of $w_j^{(i)}$ is calculated as follows:
+
+$$
+q(z_i) = w_j^{(i)} = \frac{\phi_j \mathcal{N}(x_i; \mu_j, \Sigma_j)}{\sum_{k=1}^K \phi_k \mathcal{N}(x_i; \mu_k, \Sigma_k)} \tag{28}
+$$
+
+Because we do not know $\phi_j$, this parameter is prior to the EM algorithm. We could initialize it with some random values. In the following code, we initialize $\phi_j$ with $1/K$.
+
+```python
+class GMM:
+    """
+    Gaussian Mixture Model with EM algorithm
+    
+    It is a semi-supervised learning algorithm, which means user need to provide 
+    the number of clusters.
+    """
+    
+    def __init__(self, X, k=2):
+        # set x as array
+        X = np.array(X)
+        self.n, self.m = X.shape  # n: sample size, m: feature size
+        self.data = X.copy()
+        self.k = k  # number of clusters
+        
+        # initialize parameters for EM algorithm
+        
+        # initialize the mean vector as random vector for each cluster
+        self.mean = np.random.rand(self.k, self.m)
+        # initialize the covariance matrix as identity matrix for each cluster
+        self.sigma = np.array([np.eye(self.m)] * self.k)
+        # initialize the prior probability as equal for each cluster
+        self.phi = np.ones(self.k) / self.k
+        # initialize the posterior probability as zero
+        self.w = np.zeros((self.n, self.k))
+        
+    def _gaussian(self, x, mean, sigma):
+        
+        pdf = sp.stats.multivariate_normal.pdf(x, mean=mean, cov=sigma)
+        
+        return pdf
+        
+    
+    def _e_step(self):
+        # calculate the posterior probability based on equation (28)
+        for i in range(self.n):
+            density = 0 # initialize the density
+            for j in range(self.k):
+                temp = self.phi[j] * self._gaussian(self.data[i],
+                                                        self.mean[j],
+                                                        self.sigma[j])
+                # update the density (marginal probability)
+                density += temp
+                # update the posterior probability (joint probability)
+                self.w[i, j] = temp
+            # normalize the posterior probability
+            self.w[i] /= density
+            # assert the sum of posterior probability is 1
+            assert np.isclose(np.sum(self.w[i]), 1)
+            
+    def _m_step(self):
+        # update the parameters
+        for j in range(self.k):
+            # get the sum of posterior probability for each cluster
+            sum_w = np.sum(self.w[:, j])
+            # update the prior probability based on equation (27)
+            self.phi[j] = sum_w / self.n
+            # update the mean vector based on equation (23)
+            self.mean[j] = np.sum(self.w[:, j].reshape(-1, 1) * self.data,
+                                                    axis=0) / sum_w
+            # update the covariance matrix based on equation (24)
+            self.sigma[j] = np.dot(
+                    (self.w[:, j].reshape(-1, 1) * (self.data - self.mean[j])).T,
+                                (self.data - self.mean[j])) / sum_w
+            
+    def _fit(self):
+        self._e_step()
+        self._m_step()
+        
+    def loglikelihood(self):
+        # calculate the loglikelihood based on equation (21)
+        ll = 0
+        for i in range(self.n):
+            temp = 0
+            for j in range(self.k):
+                temp += self.phi[j] * self._gaussian(self.data[i],
+                                                        self.mean[j],
+                                                        self.sigma[j])
+            ll += np.log(temp)
+            
+        return ll
+    
+    def fit(self, max_iter=100, tol=1e-6):
+        # initialize the loglikelihood
+        ll = [self.loglikelihood()]
+        # initialize the number of iteration
+        i = 0
+        # initialize the difference between two loglikelihood
+        diff = 1
+        # iterate until the difference is less than tolerance or reach the max iteration
+        while diff > tol and i < max_iter:
+            # update the parameters
+            self._fit()
+            # calculate the loglikelihood
+            ll.append(self.loglikelihood())
+            # calculate the difference
+            diff = np.abs(ll[-1] - ll[-2])
+            # update the number of iteration
+            i += 1
+            # print the loglikelihood every 2 iterations
+            if i % 2 == 0:
+                print("Iteration: {}, loglikelihood: {}".format(i, ll[-1]))
+    
+
+def test_gmm():
+    """
+    Test GMM class
+    """
+    # set seed
+    np.random.seed(57)
+    # generate a mixture of two normal distributions
+    # with sample size 30 and 70 respectively
+    # one normal distribution has mean (0, 3) and the other has mean (10, 5)
+    # one normal distribution has covariance matrix [[0.5, 0], [0, 0.8]]
+    # the other normal distribution has identity covariance matrix
+    
+    X = np.concatenate(
+                (np.random.multivariate_normal([0, 3], [[0.5, 0], [0, 0.8]], 30),
+                    np.random.multivariate_normal([10, 5], np.eye(2), 70))
+                )
+    print("If we treat the data as one cluster:")
+    print(X.shape, X.mean(axis=0), X.std(axis=0))
+    
+    print("-" * 60)
+    print("Now, we use GMM to fit the data with 2 clusters:")
+    
+    gmm = GMM(X, k=2)
+    gmm.fit()
+    
+    # print out the parameters
+    print("Mean: \n", gmm.mean)
+    print("Covariance matrix: \n", gmm.sigma)
+    print("Prior probability: \n", gmm.phi)
+    # print("Posterior probability: \n", gmm.w)
+
+
+# If we treat the data as one cluster:
+# (100, 2) [6.82376692 4.47781942] [4.55483689 1.36784028]
+# ------------------------------------------------------------
+# Now, we use GMM to fit the data with 2 clusters:
+# Iteration: 2, loglikelihood: -436.6134973400012
+# Iteration: 4, loglikelihood: -422.43789313300357
+# Iteration: 6, loglikelihood: -341.4412273815827
+# Iteration: 8, loglikelihood: -337.46812095035875
+# Mean: 
+#  [[9.74569874e+00 5.05825309e+00]
+#  [5.92600895e-03 3.12347417e+00]]
+# Covariance matrix: 
+#  [[[0.94691865 0.09556468]
+#   [0.09556468 1.08137946]]
+
+#  [[0.54143237 0.04580301]
+#   [0.04580301 1.09304612]]]
+# Prior probability: 
+#  [0.7 0.3]
+```
+
+By implementing the GMM algorithm, we can see that the mean vectors and covariance matrices are close to the true values. The prior probability is also close to the true values. However, the covariance matrix of the first cluster is not close to the true value. This is because the sample size of the first cluster is small. If we increase the sample size of the first cluster, the covariance matrix of the first cluster will be close to the true value.
+
+
+## Summary and reflection
+
+I hope after reading this article, you can understand the EM algorithm better. The EM 
+algorithm is a Bayesian algorithm. It is a Bayesian algorithm because it uses the
+posterior probability to update the parameters. 
+
+Let's take a look at our model again:
+
+$$
+p(x, z; \Theta),
+$$
+
+where $\Theta = (\mu, \Sigma, \phi)$ is the parameter set, $z$ is the random variable
+that represents the cluster, and $x$ is the random variable that represents the data. If you print out the posterior probability $w$ in our GMM example, you will find that the posterior probability is close to 1 or 0, which is just a _one-hot vector that maps the data to the cluster_. At the same time, $\phi$ is the prior probability of each cluster.
+
+
+At the beginning, we initialize $\phi$ as a uniform distribution, which means that we
+assume that each cluster has the same probability. Then, we use the posterior probability
+to update $\phi$. 
+
+Although we use a simple example to explain the EM algorithm, the Bayesian idea behind
+this algorithm is very important. If you understand this example well, then you will
+have a better understanding of the latent variable model.
+
+
+
+## Reference
+
+1. [Expectation Maximization](https://zhiyzuo.github.io/EM/#real-example)
 
 
 
