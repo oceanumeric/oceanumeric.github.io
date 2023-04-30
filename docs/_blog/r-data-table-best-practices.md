@@ -5,7 +5,7 @@ layout: blog_default
 date: 2023-04-23
 keywords: data-science, data-analysis, data-table, r-programming
 published: true
-tags: data-science, r 
+tags: data-science r 
 ---
 
 I have been planning to write a post on `data.table` for a while. The motivation is that
