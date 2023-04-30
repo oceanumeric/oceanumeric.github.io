@@ -293,6 +293,99 @@ q(z_i) = p(z_i | x_i; \Theta) = p(z_i | x_i; \mu, \Sigma, \phi) \tag{18}
 $$
 
 
+__M-step__: In the M-step, we maximize the lower bound with respect to the parameter $\Theta$. The reason why we could maximize the lower bound is that the KL divergence is always non-negative. Therefore, we could maximize the lower bound to maximize the log-likelihood, which makes the optimization process tractable.
+
+According to equation (14), we could maximize the lower bound with respect to the parameter $\Theta$:
+
+$$
+\begin{aligned}
+\Theta^* & = \arg \max_\Theta \sum_{i=1}^n \sum_{j}^K  q(z_i= j) \ln \frac{p(x_i, z_i ; \Theta)}{q_i(z_i = j)} \\
+         & = \arg \max_\Theta \sum_{i=1}^n \sum_{j}^K  q(z_i= j)\ln \frac{p(x_i|z_i = j; \mu, \Sigma)p(z_i = j; \phi)}{q_i(z_i = j)} \\
+\end{aligned} \tag{19}
+$$
+
+With the above format, we could leverage the distribution functions of $x_i$ and $z_i$ to calculate the lower bound because
+
+$$
+\begin{aligned}
+x_i|z_i = j; \mu, \Sigma & \sim  \mathcal{N}(\mu_j, \Sigma_j) \\
+z_i & \sim \text{Categorical}(\phi) 
+\end{aligned} \tag{20}
+$$
+
+Therefore, the equation (19) could be rewritten as:
+
+$$
+L := \sum_{i=1}^n \sum_{j=1}^K w_j^{(i)} \ln \frac{\frac{1}{\sqrt{(2\pi)^n|\Sigma_j|}} \exp \left[ -\frac{1}{2}(x_i - \mu_j)'\Sigma_j^{-1}(x_i - \mu_j) \right] \phi_j}{w_j^{(i)}} \tag{21}
+$$
+
+
+With the above equation, we could take the derivative of $ll$ with respect to $\mu_j$, $\Sigma_j$, and $\phi_j$ and set the derivative to zero to find the optimal parameters.
+
+First, let's take the derivative of $L$ with respect to $\mu_j$:
+
+$$
+\begin{aligned}
+\frac{\partial L}{\partial \mu_j} & = \sum_{i=1}^n \frac{\partial}{\partial \mu_j} \left (  \ln \frac{\frac{1}{\sqrt{(2\pi)^n|\Sigma_j|}}}{w_j^{i}}  + \left[ -\frac{1}{2}(x_i - \mu_j)'\Sigma_j^{-1}(x_i - \mu_j) \right] \right )  \\ 
+            & = \sum_{i=1}^n w_j^{(i)} \frac{\partial}{\partial \mu_j} \left[ -\frac{1}{2}(x_i - \mu_j)'\Sigma_j^{-1}(x_i - \mu_j) \right] \\
+            & = \frac{1}{2} \frac{\partial}{\partial \mu_j} \sum_{i=1}^n w_j^{(i)} \left [ (\Sigma_j^{-1} + (\Sigma_j^{-1})'(x_i - \mu_j)) \right] \\ 
+            & = \sum_{i=1}^n w_j^{(i)} \Sigma_j^{-1}(x_i - \mu_j) \\
+            & = \Sigma_j^{-1} \sum_{i=1}^n w_j^{(i)} (x_i - \mu_j) \\
+            & = 0
+\end{aligned} \tag{22}
+$$
+
+This gives us the following equation:
+
+$$
+\mu_j = \frac{\sum_{i=1}^n w_j^{(i)} x_i}{\sum_{i=1}^n w_j^{(i)}} \tag{23}
+$$
+
+Now, let's take the derivative of $L$ with respect to $\Sigma_j$ (the reason that we like log-likelihood is that many terms could be dropped):
+
+$$
+\begin{aligned}
+\frac{\partial L}{\partial \Sigma_j} & = \frac{\partial}{\partial \Sigma_j} \left [ \sum_{i=1}^n w_j^{(i)} \left ( \ln \frac{1}{\sqrt{(2\pi)^n}} + \ln \frac{1}{\sqrt{|\Sigma_j|}} - \ln w_j^{(i)} -\frac{1}{2}(x_i - \mu_j)'\Sigma_j^{-1}(x_i - \mu_j) \right)  \right ] \\
+& =  \frac{\partial}{\partial \Sigma_j} \left [ \sum_{i=1}^n w_j^{(i)} \left ( \ln \frac{1}{\sqrt{|\Sigma_j|}}  -\frac{1}{2}(x_i - \mu_j)'\Sigma_j^{-1}(x_i - \mu_j) \right)  \right ] \\
+& = \sum_{i=1^n}w_j^{(i)} \left[ \Sigma_j^{-1} - \Sigma_j^{-1}  (x_i - \mu_j)(x_i - \mu_j)' \Sigma_j^{-1} \right] \\ 
+& = 0
+\end{aligned}
+$$
+
+This gives us the following equation:
+
+$$
+\Sigma_j = \frac{\sum_{i=1}^n w_j^{(i)} (x_i - \mu_j)(x_i - \mu_j)'}{\sum_{i=1}^n w_j^{(i)}} \tag{24}
+$$
+
+Finally, let's take the derivative of $L$ with respect to $\phi_j$. Since there is a constraint that $\sum_{j=1}^K \phi_j = 1$, we could use the Lagrange multiplier to solve this problem:
+
+$$
+\begin{aligned}
+\mathcal{L}(\phi) = L + \lambda \left ( \sum_{j=1}^K \phi_j - 1 \right ) \tag{25}
+\end{aligned}
+$$ 
+
+Again for $L$ we could drop many terms when it comes to the derivative of $\phi_j$:
+
+$$
+L = \sum_{i=1}^n \sum_{j=1}^K w_j^{(i)} \ln \phi_j \tag{26}
+$$
+
+The derivative of $\mathcal{L}$ with respect to $\phi_j$ is:
+
+$$
+\begin{aligned}
+\frac{\partial \mathcal{L}}{\partial \phi_j} & = \frac{\partial}{\partial \phi_j} \left [ \sum_{i=1}^n w_j^{(i)} \ln \phi_j + \lambda \left ( \sum_{j=1}^K \phi_j - 1 \right ) \right ] \\
+& = \frac{\sum_{i=1}^n w_j^{(i)}}{\phi_j} + \lambda \\
+& = 0
+\end{aligned} \tag{27}
+$$
+
+
+
+
+
 
 
 
