@@ -295,8 +295,23 @@ $$
 \ln q(\mu, z) & = \ln q(\mu) + \ln q(z) \\
               & = \sum_i \ln q(z_i) + \sum_j \ln q(\mu_j) \\
               & = \sum_i \ln \text{Categorical}(\phi_i) + \sum_j \ln \mathcal{N}(m_j, s_j^2) \quad \text{based on equation (11)} \\
+              & = \sum_i \ln \left [ \prod_k \phi_{ik}^{z_{ik}} \right ] + \sum_j \ln \left [ \frac{1}{\sqrt{2\pi s_j^2}} \exp \left ( - \frac{(\mu_j - m_j)^2}{2s_j^2} \right ) \right ] \\
+              & = \sum_i \sum_k z_{ik} \ln \phi_{ik} + \sum_j \left [ -\frac{1}{2} \ln (2\pi s_j^2)  - \frac{(\mu_j - m_j)^2}{2s_j^2}  \right ] \\
 \end{aligned} \tag{16}
 $$
+
+Therefore, the ElBO $L(x)$ is:
+
+$$
+\begin{aligned}
+L(x) \propto & \sum_j \mathbb{E_q} \left  [ - \frac{\mu_j^2}{2\sigma^2} \right ] - \sum_i \sum_k \mathbb{E_q}  \left [ z_{ik} \frac{(x_i - \mu_k)^2}{2} \right ] + \\
+     & \sum_i \sum_k z_{ik} \mathbb{E_q} [ \ln \phi_{ik}] + \sum_j \mathbb{E_q}  \left [ -\frac{1}{2} \ln (2\pi s_j^2)  - \frac{(\mu_j - m_j)^2}{2s_j^2}  \right ]
+\end{aligned} \tag{17}
+$$
+
+With equation (17) we can maximize the ELBO $L(x)$ with respect to the variational parameters $\phi$ and $m, s^2$ by taking the derivatives of $L(x)$ with respect to $\phi$ and $m, s^2$ and set them to zero.
+
+We will not go through the derivation of the update equations for $\phi$ and $m, s^2$ here. Instead, we will just write down the update equations:
 
 
 
