@@ -213,12 +213,25 @@ x_i | z_i, \mu & \sim \mathcal{N}(z_i^T \mu, 1), \quad & i = 1, ..., N
 \end{aligned}  \tag{9}
 $$
 
+In equation (7), we have shown 
+
+$$
+\begin{aligned}
+L(x) & = \mathbb{E}_{q(z)} \left [ \ln p(x, z) \right ]  - \mathbb{E}_{q(z)} \left [ \ln p(z) \right ] - KL(q(z) || p(z)) \\
+    & = \mathbb{E}_{q(z)} \left [ \ln p(x, z) \right ] - \mathcal{H}(q(z)) - KL(q(z) || p(z)) \\
+    & = \arg \max_{q(z)} \mathbb{E}_{q(z)} \left [ \ln p(x, z) \right ] - \mathcal{H}(q(z)) 
+\end{aligned}  \tag{10}
+$$
+
+__Note__: equation (10) gives the general form of the ELBO $L(x)$ for any model, which means we only have one latent variable $z$ in equation (10). In our Bayesian mixture of Gaussians, we have two latent variables. 
+
+
 We have two latent variables: the cluster assignment $z_i$ for each data point $x_i$ and the cluster mean $\mu_k$ for each cluster $k$. We have $N$ data points and $K$ clusters. The cluster assignment $z_i$ is a one-hot vector, which means that $z_{ik} = 1$ if data point $x_i$ is assigned to cluster $k$ and $z_{ik} = 0$ otherwise. The cluster mean $\mu_k$ is a $D$-dimensional vector, where $D$ is the dimension of the data points $x_i$.
 
 For latent variables $\{z, \mu\}$, we will choose the following variational distribution:
 
 $$
-q(\mu, z) = q(\mu; m, s^2) q(z; \phi) = \prod_j q(\mu_j; m_j, s_j^2) \prod_i q(z_i; \phi_i) \tag{10}
+q(\mu, z) = q(\mu; m, s^2) q(z; \phi) = \prod_j q(\mu_j; m_j, s_j^2) \prod_i q(z_i; \phi_i) \tag{11}
 $$
 
 where 
@@ -227,17 +240,19 @@ $$
 \begin{aligned}
 q(\mu_j; m_j, s_j^2) & = \mathcal{N}(m_j, s_j^2) \\
 q(z_i; \phi_i) & = \text{Categorical}(\phi_i)
-\end{aligned} \tag{11}
+\end{aligned} \tag{12}
 $$
 
-First, let's write down the joint probability of the observed and latent variables:
+### The first term in the ELBO $L(x)$
+
+First, let's write down the joint probability of the observed and latent variables, which is the first term in the ELBO $L(x)$ (equation (10)):
 
 $$
 \begin{aligned}
 \ln p(x, z, \mu) & = \ln p(\mu) + \ln p(z) + \ln p(x|z, \mu) \\
                  & = \sum_j \ln p(\mu_j) + \sum_i [ \ln p(z_i) + \ln p(x_i|z_i, \mu) ]\\
                  & = \sum_j \ln p(\mu_j) + \sum_i \ln p(x_i|z_i, \mu) + \text{const}
-\end{aligned} \tag{12}
+\end{aligned} \tag{13}
 $$
 
 _Remark_: the last line is because $z_i \sim \text{Categorical}(1/K, \cdots, 1/K)$, which means that $\ln p(z_i)$ is a constant.
@@ -246,24 +261,42 @@ Now, we will compute $\ln p(\mu_j)$:
 
 $$
 \begin{aligned}
-\ln p(\mu_j) & = \ln  \left [ \frac{1}{\sqrt{2\pi \sigma^2}} \exp -\left( \frac{\mu_j^2}{2\sigma^2} \right )  \right ] \quad \text{based on equation (9)}  \\
+\ln p(\mu_j) & = \ln  \left [ \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left(- \frac{\mu_j^2}{2\sigma^2} \right )  \right ] \quad \text{based on equation (9)}  \\
              & = - \frac{\mu_j^2}{2\sigma^2} + \text{const} \\
              & \propto - \frac{\mu_j^2}{2\sigma^2}
-\end{aligned} \tag{13}
+\end{aligned} \tag{14}
 $$
 
 For $\ln p(x_i|z_i, \mu)$, we have:
 
 $$
 \begin{aligned}
-\ln p(x_i |z_i, \mu) & = 
-\end{aligned} \tag{14}
+\ln p(x_i |z_i, \mu) & = \ln p(x_i| z_i) p(x_i | \mu) \\
+                     & = \ln \prod_k p(x_i | \mu_k)^{z_{ik}} \quad \text{using the one-hot vector property of } z_i \\
+                     & = \sum_k z_{ik} \ln p(x_i | \mu_k) \\
+                     & = \sum_k z_{ik} \ln \left [ \frac{1}{\sqrt{2\pi}} \exp \left(- \frac{(x_i - \mu_k)^2}{2} \right )  \right ] \\
+                    & = \sum_k z_{ik} \left [ - \frac{(x_i - \mu_k)^2}{2} + \text{const} \right ] \\
+                    & \propto \sum_k - z_{ik} \frac{ (x_i - \mu_k)^2}{2}
+\end{aligned} \tag{15}
 $$
 
+Now, we will compute full joint distribution by substituting equations (14) and (15) into equation (13):
 
+$$
+\ln p(x, z, \mu) \propto \sum_j \left [ - \frac{\mu_j^2}{2\sigma^2} \right ] - \sum_i \sum_k z_{ik} \frac{(x_i - \mu_k)^2}{2}\tag{15}
+$$
 
+### Entropy of the variational distribution
 
+Now, we will compute the entropy of the variational distribution $q(\mu, z)$, which is the second term in the ELBO $L(x)$ (equation (10)):
 
+$$
+\begin{aligned}
+\ln q(\mu, z) & = \ln q(\mu) + \ln q(z) \\
+              & = \sum_i \ln q(z_i) + \sum_j \ln q(\mu_j) \\
+              & = \sum_i \ln \text{Categorical}(\phi_i) + \sum_j \ln \mathcal{N}(m_j, s_j^2) \quad \text{based on equation (11)} \\
+\end{aligned} \tag{16}
+$$
 
 
 
