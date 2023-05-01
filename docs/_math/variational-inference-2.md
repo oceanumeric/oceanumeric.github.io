@@ -134,16 +134,52 @@ Now, for the evidence $p(x)$, we can write it as:
 
 $$
 \begin{aligned} 
-\ln p(x) & = \int_z p(z) dz \ln p(x) \quad \text{$\int_z p(z) dz = 1$} \\
-         & = \int_z p(z) dz \ln \frac{p(x, z)}{p(z | x)} \\
-         & = \int_z p(z)\ln  \frac{p(x, z)}{p(z | x)}  dz \\
-         & = \int_z p(z) \ln \left ( \frac{p(x, z)}{q(z)} \frac{q(z)}{p(z | x)} \right ) dz \\
-         & = \int_z p(z) \ln \left ( \frac{p(x, z)}{q(z)} \right ) dz + \int_z p(z) \ln \left ( \frac{q(z)}{p(z | x)} \right ) dz \\
+\ln p(x) & = \int_z q(z) dz \ln p(x) \quad \text{$\int_z q(z) dz = 1$} \\
+         & = \int_z q(z) dz \ln \frac{p(x, z)}{p(z | x)} \\
+         & = \int_z q(z)\ln  \frac{p(x, z)}{p(z | x)}  dz \\
+         & = \int_z q(z) \ln \left ( \frac{p(x, z)}{q(z)} \frac{q(z)}{p(z | x)} \right ) dz \\
+         & = \int_z q(z) \ln \left ( \frac{p(x, z)}{q(z)} \right ) dz + \int_z q(z) \ln \left ( \frac{q(z)}{p(z | x)} \right ) dz \\
          & = L(x) + KL(q || p) 
 \end{aligned} \tag{6}
 $$
 
 where $L(x)$ is the evidence lower bound (ELBO) and $KL(q || p)$ is the Kullback-Leibler divergence between the variational distribution $q(z)$ and the true posterior $p(z | x)$, which is non-negative and bounded by zero.
+
+As before, we can maximize the ELBO $L(x)$ to maximize the evidence $p(x)$ by optimization with respect to the variational distribution $q(z)$, which is equivalent to minimizing the KL divergence $KL(q || p)$. Since working with the true posterior $p(z | x)$ is intractable, we therefore consider a family of variational distributions $q(z)$ that are easy to work with, which will make the optimization of the ELBO $L(x)$ tractable.
+
+
+
+Now, for the ELBO $L(x)$, we have:
+
+$$
+\begin{aligned}
+L(x) & = \int_z q(z) \ln \left ( \frac{p(x, z)}{q(z)} \right ) dz \\
+    & = \int_z q(z) \ln \left ( \frac{p(x|z)p(z)}{q(z)} \right ) dz \\
+    & = \int_z q(z) \left [ \ln p(x|z) + \ln \frac{p(z)}{q(z)}   \right] dz  \\
+    & = \int_z q(z) \ln p(x|z) dz - \int_z q(z) \ln \frac{q(z)}{p(z)} dz \\
+    & = \mathbb{E}_{q(z)} \left [ \ln p(x|z) \right ] - KL(q(z) || p(z)) \\
+    & = \mathbb{E}_{q(z)} \left [ \ln \frac{p(x, z)}{p(z)} \right ] - KL(q(z) || p(z)) \\
+    & = \mathbb{E}_{q(z)} \left [ \ln p(x, z) \right ] - \mathbb{E}_{q(z)} \left [ \ln p(z) \right ] - KL(q(z) || p(z)) \\
+    & = \mathbb{E}_{q(z)} \left [ \ln p(x, z) \right ] - \mathcal{H}(q(z)) - KL(q(z) || p(z)) 
+\end{aligned} \tag{7}
+$$
+
+
+The ELBO $L(x)$ is the sum of three terms:
+
+- the first term $\mathbb{E}_{q(z)} \left [ \ln p(x, z) \right ]$ is the expected log joint probability of the observed and latent variables under the variational distribution $q(z)$
+- the second term $\mathcal{H}(q(z))$ is the entropy of the variational distribution $q(z)$
+- the third term $KL(q(z) || p(z))$ is the Kullback-Leibler divergence between the variational distribution $q(z)$ and the prior $p(z)$.
+
+The intuition behind the ELBO $L(x)$ is that we can condition on the latent variable $z$ and maximize the expected log joint probability $\mathbb{E}_{q(z)} \left [ \ln p(x, z) \right ]$ to maximize the ELBO $L(x)$, which is equivalent to maximizing the evidence $p(x)$. This means _we do not have to consider the intractable marginal likelihood $p(x)$ directly_. 
+
+How could we choose the variational distribution $q(z)$? We can choose the variational distribution $q(z)$ to be a member of the exponential family, which is a family of distributions that are easy to work with. The coming section will show how to choose the variational distribution $q(z)$.
+
+
+## Mean field theory 
+
+
+
 
 
 
