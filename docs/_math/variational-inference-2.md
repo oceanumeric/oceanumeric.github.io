@@ -178,6 +178,91 @@ How could we choose the variational distribution $q(z)$? We can choose the varia
 
 ## Mean field theory 
 
+Mean field theory is a variational inference method that assumes that the latent variables $z$ are independent of each other. This means that we can factorize the variational distribution $q(z)$ as:
+
+$$
+q(z) = \prod_{i=1}^N q_i(z_i) \tag{8}
+$$
+
+where $q_i(z_i)$ is the variational distribution for the $i$-th latent variable $z_i$.
+
+## Coordinate ascent mean-field variational inference
+
+By factorizing the variational distribution $q(z)$, we can maximize the ELBO $L(x)$ by coordinate ascent. This means that we can maximize the ELBO $L(x)$ with respect to each variational distribution $q_i(z_i)$ while holding the other variational distributions $q_j(z_j)$ for $j \neq i$ fixed. This is equivalent to minimizing the KL divergence $KL(q || p)$ with respect to each variational distribution $q_i(z_i)$ while holding the other variational distributions $q_j(z_j)$ for $j \neq i$ fixed.
+
+Here is the algorithm for coordinate ascent mean-field variational inference:
+
+1. choose a family of variational distributions $q(z)$
+2. compute the ELBO $L(x)$
+3. maximize the ELBO $L(x)$ with respect to each variational distribution $q_i(z_i)$ while holding the other variational distributions $q_j(z_j)$ for $j \neq i$ fixed
+4. repeat step 2 and 3 until convergence
+
+The reason we could do this is that the factorization of the variational distribution $q(z)$ allows us to optimize each variational distribution $q_i(z_i)$ independently and the computation becomes tractable with log-likelihoods and expectations (the production in equation (8) becomes a summation).
+
+
+## Applying VI to the Bayesian mixture of Gaussians
+
+
+Now, let's apply variational inference to the Bayesian mixture of Gaussians. First, let's review our model:
+
+$$
+\begin{aligned}
+\mu_k & \sim \mathcal{N}(0, \sigma^2), \quad &  k = 1, ..., K \\
+z_i & \sim \text{Categorical}(1/K, \cdots, 1/K), \quad & i = 1, ..., N \\
+x_i | z_i, \mu & \sim \mathcal{N}(z_i^T \mu, 1), \quad & i = 1, ..., N
+\end{aligned}  \tag{9}
+$$
+
+We have two latent variables: the cluster assignment $z_i$ for each data point $x_i$ and the cluster mean $\mu_k$ for each cluster $k$. We have $N$ data points and $K$ clusters. The cluster assignment $z_i$ is a one-hot vector, which means that $z_{ik} = 1$ if data point $x_i$ is assigned to cluster $k$ and $z_{ik} = 0$ otherwise. The cluster mean $\mu_k$ is a $D$-dimensional vector, where $D$ is the dimension of the data points $x_i$.
+
+For latent variables $\{z, \mu\}$, we will choose the following variational distribution:
+
+$$
+q(\mu, z) = q(\mu; m, s^2) q(z; \phi) = \prod_j q(\mu_j; m_j, s_j^2) \prod_i q(z_i; \phi_i) \tag{10}
+$$
+
+where 
+
+$$
+\begin{aligned}
+q(\mu_j; m_j, s_j^2) & = \mathcal{N}(m_j, s_j^2) \\
+q(z_i; \phi_i) & = \text{Categorical}(\phi_i)
+\end{aligned} \tag{11}
+$$
+
+First, let's write down the joint probability of the observed and latent variables:
+
+$$
+\begin{aligned}
+\ln p(x, z, \mu) & = \ln p(\mu) + \ln p(z) + \ln p(x|z, \mu) \\
+                 & = \sum_j \ln p(\mu_j) + \sum_i [ \ln p(z_i) + \ln p(x_i|z_i, \mu) ]\\
+                 & = \sum_j \ln p(\mu_j) + \sum_i \ln p(x_i|z_i, \mu) + \text{const}
+\end{aligned} \tag{12}
+$$
+
+_Remark_: the last line is because $z_i \sim \text{Categorical}(1/K, \cdots, 1/K)$, which means that $\ln p(z_i)$ is a constant.
+
+Now, we will compute $\ln p(\mu_j)$:
+
+$$
+\begin{aligned}
+\ln p(\mu_j) & = \ln  \left [ \frac{1}{\sqrt{2\pi \sigma^2}} \exp -\left( \frac{\mu_j^2}{2\sigma^2} \right )  \right ] \quad \text{based on equation (9)}  \\
+             & = - \frac{\mu_j^2}{2\sigma^2} + \text{const} \\
+             & \propto - \frac{\mu_j^2}{2\sigma^2}
+\end{aligned} \tag{13}
+$$
+
+For $\ln p(x_i|z_i, \mu)$, we have:
+
+$$
+\begin{aligned}
+\ln p(x_i |z_i, \mu) & = 
+\end{aligned} \tag{14}
+$$
+
+
+
+
 
 
 
