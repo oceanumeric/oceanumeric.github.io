@@ -11,9 +11,9 @@ from sklearn.mixture import GaussianMixture
 def figure1():
     # set seed  
     np.random.seed(57)
-    # sample size 100
+    # sample_size size 100
     n = 100
-    # sample mean 1 and 10
+    # sample_size mean 1 and 10
     mu1, mu2 = 1, 10
     # use same standard deviation 1
     sigma = 1
@@ -53,7 +53,7 @@ class GMM:
     def __init__(self, X, k=2):
         # set x as array
         X = np.array(X)
-        self.n, self.m = X.shape  # n: sample size, m: feature size
+        self.n, self.m = X.shape  # n: sample_size size, m: feature size
         self.data = X.copy()
         self.k = k  # number of clusters
         
@@ -153,7 +153,7 @@ def test_gmm():
     # set seed
     np.random.seed(57)
     # generate a mixture of two normal distributions
-    # with sample size 30 and 70 respectively
+    # with sample_size size 30 and 70 respectively
     # one normal distribution has mean (0, 3) and the other has mean (10, 5)
     # one normal distribution has covariance matrix [[0.5, 0], [0, 0.8]]
     # the other normal distribution has identity covariance matrix
@@ -207,12 +207,121 @@ def test_gmm():
     print("Prior probability: \n", gm.weights_)
     
     
+
+class UGMM:
+    """
+    Univariate Gaussian Mixture Model
+    """
     
+    def __init__(self, X, K = 2, sigma = 1):
+        self.X = X
+        self.K = K
+        self.N = X.shape[0]
+        self.sigma2 = sigma**2
+        
+        # initialize the parameters
+        # using dirichlet distribution to initialize the prior probability
+        # we fix alpha in the range of [1, 10] for initialization
+        # it can be changed to other values
+        alpha_const = np.random.random()*np.random.randint(1, 10)
+        self.phi = np.random.dirichlet([alpha_const]*self.K, size=self.N)
+        # initialize the mean from uniform distribution
+        self.m = np.random.uniform(min(self.X), max(self.X), self.K)
+        # initialize the variance from uniform distribution
+        self.s2 = np.random.uniform(0, 1, self.K)
+        
+    def _get_elbo(self):
+        # calculate the evidence lower bound
+        # term 1 in euqation (14)
+        # although we use sigma^2 in equation (14) but we use s2 in the code
+        # because we are not estimating sigma^2 but s2 (variational inference)
+        elbo_term1 = np.log(self.s2) - self.m / self.s2
+        elbo_term1 = elbo_term1.sum()
+        # term is not exactly the same as equation (14)
+        # herer we penalize the model with large variance
+        # term 2 based on equation (17)
+        # again the term is not exactly the same as equation (17)
+        # but proportional to it
+        elbo_term2 = -0.5 * np.add.outer(self.X**2, self.s2+self.m**2)
+        elbo_term2 += np.outer(self.X, self.m)
+        elbo_term2 -= np.log(self.phi)
+        elbo_term2 *= self.phi
+        elbo_term2 = elbo_term2.sum()
+        
+        return elbo_term1 + elbo_term2
+    
+    def _update_phi(self):
+        t1 = np.outer(self.X, self.m)
+        t2 = -(0.5*self.m**2 + 0.5*self.s2)
+        exponent = t1 + t2[np.newaxis, :]
+        self.phi = np.exp(exponent)
+        self.phi = self.phi / self.phi.sum(1)[:, np.newaxis]
+        
+    def _update_m(self):
+        self.m = (self.phi*self.X[:, np.newaxis]).sum(0) * (1/self.sigma2 + self.phi.sum(0))**(-1)
+        assert self.m.size == self.K
+        #print(self.m)
+        self.s2 = (1/self.sigma2 + self.phi.sum(0))**(-1)
+        assert self.s2.size == self.K
+        
+    def _cavi(self):
+        self._update_phi()
+        self._update_m()
+    
+    def fit(self, max_iter=100, tol=1e-10):
+        # fit the model
+        self.elbos = [self._get_elbo()]
+        self.track_m = [self.m.copy()]
+        self.track_s2 = [self.s2.copy()]
+        
+        for iter_ in range(1, max_iter+1):
+            self._cavi()
+            self.track_m.append(self.m.copy())
+            self.track_s2.append(self.s2.copy())
+            self.elbos.append(self._get_elbo())
+            
+            if iter_ % 10 == 0:
+                print("Iteration: {}, ELBO: {}".format(iter_, self.elbos[-1]))
+                
+            if np.abs(self.elbos[-1] - self.elbos[-2]) < tol:
+                # print convergence information at iteration i
+                print("Converged at iteration: {}, ELBO: {}".format(iter_,
+                                                                        self.elbos[-1]))
+                break
+    
+    
+def test_univariate_gmm():
+    # test ugmm with 3 clusters
+    np.random.seed(42)
+    num_components = 3
+    mu_arr = np.random.choice(np.arange(-10, 10, 2),
+                        num_components) + np.random.random(num_components)
+    sample_size = 1000
+    X = np.random.normal(loc=mu_arr[0], scale=1, size=sample_size)
+    for i, mu in enumerate(mu_arr[1:]):
+        X = np.append(X, np.random.normal(loc=mu, scale=1, size=sample_size))
+        
+    # plot the data
+    fig, ax = plt.subplots(figsize=(15, 4))
+    sns.histplot(X[:sample_size], ax=ax, kde=True)
+    sns.histplot(X[sample_size:sample_size*2], ax=ax, kde=True)
+    sns.histplot(X[sample_size*2:], ax=ax, kde=True)
+    
+    # initialize the model
+    ugmm = UGMM(X, K=3)
+    ugmm.fit()
+    
+    # print out the true mean and estimated mean
+    print("True mean: \n", sorted(mu_arr))
+    print("Estimated mean: \n", sorted(ugmm.m))
+                
         
 if __name__ == "__main__":
     print(os.getcwd())
     # figure1()
     # set retina display in jupyter notebook
     # %config InlineBackend.figure_format = 'retina'
-    test_gmm()
+    # test_gmm()
+    test_univariate_gmm()
+    
 # %%

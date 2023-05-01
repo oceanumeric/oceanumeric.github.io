@@ -10,6 +10,16 @@ tags: probability algorithm data-science machine-learning  bayesian-statistics v
 
 In previous post, we used a simple example - expectation maximization (EM) algorithm to illustrate the basic idea of Bayesian inference. In this post, we will continue to study Bayesian inference, but this time we will focus on a more general and powerful method - variational inference.
 
+- [Big picture again](#big-picture-again)
+- [Bayesian mixture of Gaussians](#bayesian-mixture-of-gaussians)
+- [Evidence lower bound (ELBO)](#evidence-lower-bound-elbo)
+- [Mean field theory](#mean-field-theory)
+- [Coordinate ascent mean-field variational inference](#coordinate-ascent-mean-field-variational-inference)
+- [Applying VI to the Bayesian mixture of Gaussians](#applying-vi-to-the-bayesian-mixture-of-gaussians)
+- [Implementation](#implementation)
+- [Summary and reflection](#summary-and-reflection)
+
+
 ## Big picture again
 
 {% katexmm %}
@@ -283,7 +293,7 @@ $$
 Now, we will compute full joint distribution by substituting equations (14) and (15) into equation (13):
 
 $$
-\ln p(x, z, \mu) \propto \sum_j \left [ - \frac{\mu_j^2}{2\sigma^2} \right ] - \sum_i \sum_k z_{ik} \frac{(x_i - \mu_k)^2}{2}\tag{15}
+\ln p(x, z, \mu) \propto \sum_j \left [ - \frac{\mu_j^2}{2\sigma^2} \right ] - \sum_i \sum_k z_{ik} \frac{(x_i - \mu_k)^2}{2}\tag{16}
 $$
 
 ### Entropy of the variational distribution
@@ -297,7 +307,7 @@ $$
               & = \sum_i \ln \text{Categorical}(\phi_i) + \sum_j \ln \mathcal{N}(m_j, s_j^2) \quad \text{based on equation (11)} \\
               & = \sum_i \ln \left [ \prod_k \phi_{ik}^{z_{ik}} \right ] + \sum_j \ln \left [ \frac{1}{\sqrt{2\pi s_j^2}} \exp \left ( - \frac{(\mu_j - m_j)^2}{2s_j^2} \right ) \right ] \\
               & = \sum_i \sum_k z_{ik} \ln \phi_{ik} + \sum_j \left [ -\frac{1}{2} \ln (2\pi s_j^2)  - \frac{(\mu_j - m_j)^2}{2s_j^2}  \right ] \\
-\end{aligned} \tag{16}
+\end{aligned} \tag{17}
 $$
 
 Therefore, the ElBO $L(x)$ is:
@@ -306,14 +316,169 @@ $$
 \begin{aligned}
 L(x) \propto & \sum_j \mathbb{E_q} \left  [ - \frac{\mu_j^2}{2\sigma^2} \right ] - \sum_i \sum_k \mathbb{E_q}  \left [ z_{ik} \frac{(x_i - \mu_k)^2}{2} \right ] + \\
      & \sum_i \sum_k z_{ik} \mathbb{E_q} [ \ln \phi_{ik}] + \sum_j \mathbb{E_q}  \left [ -\frac{1}{2} \ln (2\pi s_j^2)  - \frac{(\mu_j - m_j)^2}{2s_j^2}  \right ]
-\end{aligned} \tag{17}
+\end{aligned} \tag{18}
 $$
 
-With equation (17) we can maximize the ELBO $L(x)$ with respect to the variational parameters $\phi$ and $m, s^2$ by taking the derivatives of $L(x)$ with respect to $\phi$ and $m, s^2$ and set them to zero.
+With equation (18) we can maximize the ELBO $L(x)$ with respect to the variational parameters $\phi$ and $m, s^2$ by taking the derivatives of $L(x)$ with respect to $\phi$ and $m, s^2$ and set them to zero.
 
 We will not go through the derivation of the update equations for $\phi$ and $m, s^2$ here. Instead, we will just write down the update equations:
 
 
+$$
+\begin{aligned}
+\phi_{ik}^* & \propto \exp \left [ - \frac{1}{2} (m_j^2 + s_j^2) + x_im_j \right ] \\
+m_j^* & = \frac{\sum_i \phi_{ij}x_i}{\frac{1}{\sigma^2} + \sum_{i} \phi_{ij}} \\
+s_j^2 & = \frac{1}{\frac{1}{\sigma^2} + \sum_{i} \phi_{ij}}
+\end{aligned} \tag{19}
+$$
+
+> **Note**: you probably notice that the derivation is very long and tedious. In practice, it is difficult to scale up the derivation to more complicated models. [Some people](https://www.inference.vc/online-bayesian-deep-learning-in-production-at-tencent/){:target="_blank"} argued that Bayesian deep learning is not a practical tool but a theoretical curiosity. However, there are some recent works that try to make Bayesian deep learning more practical. For example, [this paper](https://arxiv.org/abs/1806.05978){:target="_blank"} proposed a new variational inference method that can scale up to large models. For probabilistic programming, [this paper](https://arxiv.org/pdf/1301.1299){:target="_blank"} and more recent [this paper](https://arxiv.org/abs/1603.00788){:target="_blank"} proposed a new method that can automatically derive the update equations for the variational parameters. Numpyro is a probabilistic programming library that could do automatic differentiation and automatic derivation of the update equations for the variational parameters. 
+
+
+## Implementation
+
+Now, we will implement the above model in Python. The following figure gives the histogram of simulated data.
+
+<div class='figure'>
+    <img src="/math/images/variational-inference-2.png"
+         alt="Entropy illustration"
+         style="width: 80%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The histogram and density plot of three Gaussian distributions.
+    </div>
+</div>
+
+
+```python
+class UGMM:
+    """
+    Univariate Gaussian Mixture Model
+    """
+    
+    def __init__(self, X, K = 2, sigma = 1):
+        self.X = X
+        self.K = K
+        self.N = X.shape[0]
+        self.sigma2 = sigma**2
+        
+        # initialize the parameters
+        # using dirichlet distribution to initialize the prior probability
+        # we fix alpha in the range of [1, 10] for initialization
+        # it can be changed to other values
+        alpha_const = np.random.random()*np.random.randint(1, 10)
+        self.phi = np.random.dirichlet([alpha_const]*self.K, size=self.N)
+        # initialize the mean from uniform distribution
+        self.m = np.random.uniform(min(self.X), max(self.X), self.K)
+        # initialize the variance from uniform distribution
+        self.s2 = np.random.uniform(0, 1, self.K)
+        
+    def _get_elbo(self):
+        # calculate the evidence lower bound
+        # term 1 in euqation (14)
+        # although we use sigma^2 in equation (14) but we use s2 in the code
+        # because we are not estimating sigma^2 but s2 (variational inference)
+        elbo_term1 = np.log(self.s2) - self.m / self.s2
+        elbo_term1 = elbo_term1.sum()
+        # term is not exactly the same as equation (14)
+        # herer we penalize the model with large variance
+        # term 2 based on equation (17)
+        # again the term is not exactly the same as equation (17)
+        # but proportional to it
+        elbo_term2 = -0.5 * np.add.outer(self.X**2, self.s2+self.m**2)
+        elbo_term2 += np.outer(self.X, self.m)
+        elbo_term2 -= np.log(self.phi)
+        elbo_term2 *= self.phi
+        elbo_term2 = elbo_term2.sum()
+        
+        return elbo_term1 + elbo_term2
+    
+    def _update_phi(self):
+        t1 = np.outer(self.X, self.m)
+        t2 = -(0.5*self.m**2 + 0.5*self.s2)
+        exponent = t1 + t2[np.newaxis, :]
+        self.phi = np.exp(exponent)
+        self.phi = self.phi / self.phi.sum(1)[:, np.newaxis]
+        
+    def _update_m(self):
+        self.m = (self.phi*self.X[:, np.newaxis]).sum(0) * (1/self.sigma2 + self.phi.sum(0))**(-1)
+        assert self.m.size == self.K
+        #print(self.m)
+        self.s2 = (1/self.sigma2 + self.phi.sum(0))**(-1)
+        assert self.s2.size == self.K
+        
+    def _cavi(self):
+        self._update_phi()
+        self._update_m()
+    
+    def fit(self, max_iter=100, tol=1e-10):
+        # fit the model
+        self.elbos = [self._get_elbo()]
+        self.track_m = [self.m.copy()]
+        self.track_s2 = [self.s2.copy()]
+        
+        for iter_ in range(1, max_iter+1):
+            self._cavi()
+            self.track_m.append(self.m.copy())
+            self.track_s2.append(self.s2.copy())
+            self.elbos.append(self._get_elbo())
+            
+            if iter_ % 10 == 0:
+                print("Iteration: {}, ELBO: {}".format(iter_, self.elbos[-1]))
+                
+            if np.abs(self.elbos[-1] - self.elbos[-2]) < tol:
+                # print convergence information at iteration i
+                print("Converged at iteration: {}, ELBO: {}".format(iter_,
+                                                                        self.elbos[-1]))
+                break
+    
+    
+def test_univariate_gmm():
+    # test ugmm with 3 clusters
+    np.random.seed(42)
+    num_components = 3
+    mu_arr = np.random.choice(np.arange(-10, 10, 2),
+                        num_components) + np.random.random(num_components)
+    sample_size = 1000
+    X = np.random.normal(loc=mu_arr[0], scale=1, size=sample_size)
+    for i, mu in enumerate(mu_arr[1:]):
+        X = np.append(X, np.random.normal(loc=mu, scale=1, size=sample_size))
+        
+    # plot the data
+    fig, ax = plt.subplots(figsize=(15, 4))
+    sns.histplot(X[:sample_size], ax=ax, kde=True)
+    sns.histplot(X[sample_size:sample_size*2], ax=ax, kde=True)
+    sns.histplot(X[sample_size*2:], ax=ax, kde=True)
+    
+    # initialize the model
+    ugmm = UGMM(X, K=3)
+    ugmm.fit()
+    
+    # print out the true mean and estimated mean
+    print("True mean: \n", sorted(mu_arr))
+    print("Estimated mean: \n", sorted(ugmm.m))
+
+# Iteration: 10, ELBO: -3574.243674099098
+# Iteration: 20, ELBO: -3574.21530393399
+# Iteration: 30, ELBO: -3574.21530234368
+# Converged at iteration: 32, ELBO: -3574.215302343352
+# True mean: 
+#  [-3.8439813595575636, 2.5986584841970366, 4.155994520336202]
+# Estimated mean: 
+#  [-3.775630707652301, 2.634230928126823, 4.142390002370196]
+```
+
+
+## Summary and reflection
+
+In this post, we derived the CAVI algorithm for Gaussian mixture model. We also implemented the algorithm in Python. However, one can see that it is not easy to derive the closed-form update for the parameters. It is also not very intuitive to implement the algorithm even in `Python`. That's why people invented probabilistic programming languages such as `Stan`, `PyMC3`, `Edward`, `Pyro`, `numpyro`, etc. 
+
+Please read [this post](https://www.uber.com/en-DE/blog/pyro/){:target="_blank"} for more information about probabilistic programming languages.
+
+Some people are trying to introduce variational inference in undergraduate statistics courses: [this paper](https://arxiv.org/pdf/2301.01251.pdf){:target="_blank"} and [this repository](https://github.com/oceanumeric/variational_inference_course){:target="_blank"}.
+
+Right now, variational inference is still a very active research area. There are many new algorithms and applications, especially for large datasets. I hope this post can help you understand the basic idea of variational inference.
+
+If you want to study more about probabilistic programming languages, I think `numpyro` is a good choice. It is based on `JAX` and `Pyro`. It is very easy to use and has a very active community. Following a right community is very important for learning new concepts in machine learning and deep learning.
 
 
 
