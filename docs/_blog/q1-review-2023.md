@@ -14,6 +14,7 @@ It might be a bit late to do a review of the first quarter of 2023 at the end of
 - [ChatGPT in 2023](#chatgpt-in-2023)
 - [The importance of AI in 21st century](#the-importance-of-ai-in-21st-century)
 - [Leadership, china factor and the economy](#leadership-china-factor-and-the-economy)
+- [Geoffrey Hinton's talk about future of AI](#geoffrey-hintons-talk-about-future-of-ai)
 
 ## ChatGPT in 2023 
 
@@ -129,3 +130,9 @@ At the end of this post, let's talk about China. I found the following video to 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/E3Pgml2dIi0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
+
+## Geoffrey Hinton's talk about future of AI
+
+<div align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sitHS6UDMJc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
