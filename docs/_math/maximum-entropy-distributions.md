@@ -117,7 +117,10 @@ $$
 Now, we will take the derivative of the objective function with respect to $p(x)$ and set it to zero:
 
 $$
-\frac{\partial}{\partial p(x)} \left[ - \int_a^b p(x) \ln p(x) dx + \lambda_1 \left( \int_{x \in \mathcal{X}} p(x) - 1 \right) + \lambda_3 \left( \int_{x \in \mathcal{X}} (x - \mu)^2 p(x) - \sigma^2 \right) \right] = 0 \tag{12}
+\begin{aligned}
+\frac{\partial}{\partial p(x)}  \bigg [ - \int_a^b p(x) \ln p(x) dx & + \lambda_1 \left( \int_{x \in \mathcal{X}} p(x) - 1 \right) \\
+ & + \lambda_3 \left( \int_{x \in \mathcal{X}} (x - \mu)^2 p(x) - \sigma^2 \right) \bigg ] = 0 
+\end{aligned} \tag{12}
 $$
 
 This  gives us 
@@ -139,9 +142,9 @@ For the first constraint, we can solve it and get
 
 $$
 \begin{aligned}
-\int_{x \in \mathcal{X}} e^{\lambda_1 - 1 + \lambda_3 (x - \mu)^2} dx = 1 &\Rightarrow \int_{x \in \mathcal{X}} e^{\lambda_1 - 1 + \lambda_3 (x - \mu)^2} dx = e^{\lambda_1 - 1} \int_{x \in \mathcal{X}} e^{\lambda_3 (x - \mu)^2} dx = 1 \\
-&\Rightarrow e^{\lambda_1 - 1} \int_{x \in \mathcal{X}} e^{\lambda_3 (x - \mu)^2} dx = 1 \\
-&\Rightarrow e^{\lambda_1 - 1} \int_{x \in \mathcal{X}} e^{\lambda_3 (x - \mu)^2} dx = e^{\lambda_1 - 1} \sqrt{\frac{-\pi}{\lambda_3}} = 1 \\
+\int_{x \in \mathcal{X}} e^{\lambda_1 - 1 + \lambda_3 (x - \mu)^2} dx = 1 &\Rightarrow \int_{x \in \mathcal{X}} e^{\lambda_1 - 1 + \lambda_3 (x - \mu)^2} dx \\
+&  = e^{\lambda_1 - 1} \int_{x \in \mathcal{X}} e^{\lambda_3 (x - \mu)^2} dx = 1 \\
+&= e^{\lambda_1 - 1} \sqrt{\frac{-\pi}{\lambda_3}} = 1 \\
 &\Rightarrow e^{\lambda_1 -1} = \sqrt{\frac{-\lambda_3}{\pi}}
 \end{aligned} \tag{15}
 $$
