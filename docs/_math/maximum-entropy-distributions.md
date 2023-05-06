@@ -105,7 +105,11 @@ $$
 Now we will solve the following problem:
 
 $$
-\max_{p(x)} H(X) + \lambda_1 \left( \int_{x \in \mathcal{X}} p(x) - 1 \right) -+ \lambda_2 \left( \int_{x \in \mathcal{X}} x p(x) - \mu \right) + \lambda_3 \left( \int_{x \in \mathcal{X}} (x - \mathbb{E}[X])^2 p(x) - \sigma^2 \right) \tag{10}
+\begin{aligned}
+\max_{p(x)} H(X) + \lambda_1 \left ( \int_{x \in \mathcal{X}} p(x) - 1 \right) & + \lambda_2 \left( \int_{x \in \mathcal{X}} x p(x) - \mu \right) \\
+ & + \lambda_3 \left( \int_{x \in \mathcal{X}} (x - \mathbb{E}[X])^2 p(x) - \sigma^2 \right) 
+\end{aligned}
+\tag{10}
 $$
 
 Since $\mu$ is included in the variance, we only need to solve for $\lambda_1$ and $\lambda_3$. Therefore, we could solve the following problem:
