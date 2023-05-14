@@ -161,6 +161,34 @@ comment</li>
 
 <p>The class in <code class="language-plaintext highlighter-rouge">R</code> is very subtle. One could understand it as attributes of an object with flexible types. To learn more this, one could read <a href="https://adv-r.hadley.nz/oo.html" target="_blank">Advanced R</a>.</p>
 
+<h2 id="an-example">An example</h2>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stata_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">haven</span><span class="o">::</span><span class="n">read_dta</span><span class="p">(</span><span class="s2">"../data/innovation_survey/extmidp21.dta"</span><span class="p">,</span><span class="w">
+                                </span><span class="n">encoding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"windows-1252"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">str</span><span class="p">(</span><span class="n">stata_data</span><span class="p">)</span><span class="w">
+</span><span class="c1"># tibble [5,083 × 284] (S3: tbl_df/tbl/data.frame)</span><span class="w">
+</span><span class="c1">#  $ id          : chr [1:5083] "300127" "301003" "301078" "301084" ...</span><span class="w">
+</span><span class="c1">#   ..- attr(*, "label")= chr "Identifikation externe"</span><span class="w">
+</span><span class="c1">#   ..- attr(*, "format.stata")= chr "%10s"</span><span class="w">
+</span><span class="c1">#  $ branche     : dbl+lbl [1:5083]  9,  8, 10,  1,  1,  9,  1,  6,  9,  1,  2, 10,  9,  ...</span><span class="w">
+</span><span class="c1">#    ..@ label       : chr "Einteil. in 21 Wirtschaftszweige"</span><span class="w">
+</span><span class="c1">#    ..@ format.stata: chr "%38.0g"</span><span class="w">
+</span><span class="c1">#    ..@ labels      : Named num [1:21] 1 2 3 4 5 6 7 8 9 10 ...</span><span class="w">
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">stata_data</span><span class="p">,</span><span class="w"> </span><span class="n">attributes</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">as.data.table</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># add one row with the variable names</span><span class="w">
+    </span><span class="n">rbind</span><span class="p">(</span><span class="n">as.list</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">stata_data</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># transpose the data.table</span><span class="w">
+    </span><span class="n">t</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># convert to data.table</span><span class="w">
+    </span><span class="n">as.data.table</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># select columns</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># set names</span><span class="w">
+    </span><span class="n">setnames</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"variable"</span><span class="p">,</span><span class="w"> </span><span class="s2">"labels"</span><span class="p">,</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span><span class="w"> </span><span class="s2">"values"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
 
     </div>
     <div id='bibliography'>
