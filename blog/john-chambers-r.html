@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Everything that exists is an object in R
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='data science, python, R, VS code, stack tools, IDE'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Everything that exists is an object in R</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Everything that exists is an object in R" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The author of R, John Chambers, said that everything that exists is an object in R and everything that happens is a function call. This summarizes the philosophy of R. Knowing this, we can understand R better." />
+<meta property="og:description" content="The author of R, John Chambers, said that everything that exists is an object in R and everything that happens is a function call. This summarizes the philosophy of R. Knowing this, we can understand R better." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/john-chambers-r" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/john-chambers-r" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-05-14T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Everything that exists is an object in R" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-05-14T00:00:00+00:00","datePublished":"2023-05-14T00:00:00+00:00","description":"The author of R, John Chambers, said that everything that exists is an object in R and everything that happens is a function call. This summarizes the philosophy of R. Knowing this, we can understand R better.","headline":"Everything that exists is an object in R","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/john-chambers-r"},"url":"https://oceanumeric.github.io//blog/john-chambers-r"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Everything that exists is an object in R</h1>
+            <h4>According to John Chambers, everything that exists is an object in R and everything that happens is a function call. This summarizes the philosophy of R. Knowing this, we can understand R better.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/data-science">data-science</a>, 
+                            
+                            <a href="/blog-tags/r">r</a>, 
+                            
+                            <a href="/blog-tags/vs-code">vs-code</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>14 May 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>The author of R, John Chambers, said that everything that exists is an object in R and everything that happens is a function call. This summarizes the philosophy of R. Knowing this, we can understand R better.</p>
+
+<p>I came across this statement when I notice the following code:</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">print</span><span class="p">(</span><span class="n">labels_str</span><span class="p">)</span><span class="w">
+</span><span class="c1"># keine Stutzung       Stutzung </span><span class="w">
+</span><span class="c1">#              0              1 </span><span class="w">
+</span><span class="n">typeof</span><span class="p">(</span><span class="n">labels_str</span><span class="p">)</span><span class="w">
+</span><span class="c1"># double</span><span class="w">
+</span><span class="nf">as.character</span><span class="p">(</span><span class="n">labels_str</span><span class="p">)</span><span class="w">
+</span><span class="c1"># "0" "1"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>As a <code class="language-plaintext highlighter-rouge">Python</code> user, I was surprised by the output of <code class="language-plaintext highlighter-rouge">typeof(labels_str)</code>. I thought it should be <code class="language-plaintext highlighter-rouge">character</code> instead of <code class="language-plaintext highlighter-rouge">double</code>. Then I found the following explanation from <a href="https://stackoverflow.com/questions/34376318/whats-the-real-meaning-about-everything-that-exists-is-an-object-in-r" target="_blank">Stackoverflow</a>.</p>
+
+<p>Unlike Python, R is a functional programming language. This means that everything that happens is a function call. This is the reason why you will never see the
+following code in <code class="language-plaintext highlighter-rouge">R</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Instead, you will see:</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Unlike Python, everything that exists is an object in R. This means you can do the following:</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">obj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="w"> </span><span class="s2">"b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"c"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="w">
+</span><span class="c1"># a b c</span><span class="w">
+</span><span class="c1"># 1 2 3</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You can never do this in Python. That’s why in <code class="language-plaintext highlighter-rouge">R</code>, you can do the following:</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">is.double</span><span class="p">(</span><span class="n">labels_str</span><span class="p">)</span><span class="w">
+</span><span class="c1"># TRUE</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">labels_str</span><span class="p">)</span><span class="w">
+</span><span class="c1"># keine Stutzung       Stutzung</span><span class="w">
+</span><span class="c1">#              0              1</span><span class="w">
+</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">labels_str</span><span class="p">)</span><span class="w">
+</span><span class="c1">#                labels_str</span><span class="w">
+</span><span class="c1"># keine Stutzung          0</span><span class="w">
+</span><span class="c1"># Stutzung                1</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The attributes of a variable can be queried with <code class="language-plaintext highlighter-rouge">attributes</code> and <code class="language-plaintext highlighter-rouge">str</code>.</p>
+
+<p>Specially treated attributes (attribute names) are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">class</code> (a character vector with the classes that an object inherits from).
+comment</li>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> (which is used to implement arrays)</li>
+  <li><code class="language-plaintext highlighter-rouge">dimnames</code></li>
+  <li><code class="language-plaintext highlighter-rouge">names</code> (to label the elements of a vector or a list).</li>
+  <li><code class="language-plaintext highlighter-rouge">row.names</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tsp</code> (to store parameters of time series, start, stop and frequencies)</li>
+  <li><code class="language-plaintext highlighter-rouge">levels</code> (for factors)</li>
+</ul>
+
+<p>The class in <code class="language-plaintext highlighter-rouge">R</code> is very subtle. One could understand it as attributes of an object with flexible types. To learn more this, one could read <a href="https://adv-r.hadley.nz/oo.html" target="_blank">Advanced R</a>.</p>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
