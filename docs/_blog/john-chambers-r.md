@@ -108,4 +108,10 @@ sapply(stata_data, attributes) %>%
     # set names
     setnames(c("variable", "labels", "type", "values")) %>%
     kable()
+
+sapply(stata_data, attributes) %>%
+    # save results as text
+    capture.output(.) %>%
+    # save as text file
+    cat(file = "foo.txt", sep = "\n")
 ```
