@@ -188,6 +188,12 @@ comment</li>
     </span><span class="c1"># set names</span><span class="w">
     </span><span class="n">setnames</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"variable"</span><span class="p">,</span><span class="w"> </span><span class="s2">"labels"</span><span class="p">,</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span><span class="w"> </span><span class="s2">"values"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="n">sapply</span><span class="p">(</span><span class="n">stata_data</span><span class="p">,</span><span class="w"> </span><span class="n">attributes</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># save results as text</span><span class="w">
+    </span><span class="n">capture.output</span><span class="p">(</span><span class="n">.</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="c1"># save as text file</span><span class="w">
+    </span><span class="n">cat</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"foo.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
     </div>
