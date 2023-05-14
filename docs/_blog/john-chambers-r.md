@@ -80,3 +80,32 @@ comment
 The class in `R` is very subtle. One could understand it as attributes of an object with flexible types. To learn more this, one could read [Advanced R](https://adv-r.hadley.nz/oo.html){:target="_blank"}.
 
 
+## An example
+
+```R
+stata_data <- haven::read_dta("../data/innovation_survey/extmidp21.dta",
+                                encoding = "windows-1252")
+
+str(stata_data)
+# tibble [5,083 × 284] (S3: tbl_df/tbl/data.frame)
+#  $ id          : chr [1:5083] "300127" "301003" "301078" "301084" ...
+#   ..- attr(*, "label")= chr "Identifikation externe"
+#   ..- attr(*, "format.stata")= chr "%10s"
+#  $ branche     : dbl+lbl [1:5083]  9,  8, 10,  1,  1,  9,  1,  6,  9,  1,  2, 10,  9,  ...
+#    ..@ label       : chr "Einteil. in 21 Wirtschaftszweige"
+#    ..@ format.stata: chr "%38.0g"
+#    ..@ labels      : Named num [1:21] 1 2 3 4 5 6 7 8 9 10 ...
+sapply(stata_data, attributes) %>% 
+    as.data.table() %>%
+    # add one row with the variable names
+    rbind(as.list(names(stata_data))) %>%
+    # transpose the data.table
+    t() %>%
+    # convert to data.table
+    as.data.table() %>%
+    # select columns
+    .[, c(5, 1, 3, 4)] %>%
+    # set names
+    setnames(c("variable", "labels", "type", "values")) %>%
+    kable()
+```
