@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Topic Modeling with Python
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='company financial report, data science, research policy'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Topic Modeling with Python</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Topic Modeling with Python" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Topic modeling is a technique for discovering the abstract “topics” that occur in a collection of documents. It is a frequently used text-mining tool for discovery of hidden semantic structures in a text body." />
+<meta property="og:description" content="Topic modeling is a technique for discovering the abstract “topics” that occur in a collection of documents. It is a frequently used text-mining tool for discovery of hidden semantic structures in a text body." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/topic-modeling" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/topic-modeling" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-05-17T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Topic Modeling with Python" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-05-17T00:00:00+00:00","datePublished":"2023-05-17T00:00:00+00:00","description":"Topic modeling is a technique for discovering the abstract “topics” that occur in a collection of documents. It is a frequently used text-mining tool for discovery of hidden semantic structures in a text body.","headline":"Topic Modeling with Python","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/topic-modeling"},"url":"https://oceanumeric.github.io//blog/topic-modeling"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Topic Modeling with Python</h1>
+            <h4>A quick guide on how to do topic modeling with Python</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/data-science">data-science</a>, 
+                            
+                            <a href="/blog-tags/python">python</a>, 
+                            
+                            <a href="/blog-tags/research-policy">research-policy</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>17 May 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>Topic modeling is a technique for discovering the abstract “topics” that occur in a collection of documents. It is a frequently used text-mining tool for discovery of hidden semantic structures in a text body.</p>
+
+<p>I mean no body could read <em>many</em> documents like financial reports in a short time. Topic modeling could help us to understand the main topics in a collection of documents. In this post, I will try to show you how to do topic modeling with R and Python.</p>
+
+<h2 id="the-messy-documents">The messy documents</h2>
+
+<p>One of my students is working on a project about corporate sustainability. She collects around 10-15 firms of sustainability reports. However the dataset is not balanced as some firms have more reports than others, which is quite common in the real world. The report is in txt format and there are some uncoded characters in the text, which makes the text messy.</p>
+
+<p>Python or R? Here is the rule of thumb:</p>
+
+<ul>
+  <li>if the dataset is table format, use R</li>
+  <li>if the dataset is not table format, use Python</li>
+</ul>
+
+<h2 id="topic-modeling-with-python">Topic modeling with Python</h2>
+
+<p>Since our dataset is not in table format, we will use Python to do topic modeling. We will use <code class="language-plaintext highlighter-rouge">gensim</code> package to do topic modeling.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># %%
+</span><span class="kn">import</span> <span class="n">os</span> 
+<span class="kn">from</span> <span class="n">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="n">gensim</span> <span class="kn">import</span> <span class="n">corpora</span>
+<span class="kn">from</span> <span class="n">gensim.utils</span> <span class="kn">import</span> <span class="n">simple_preprocess</span>
+<span class="kn">from</span> <span class="n">nltk.tokenize</span> <span class="kn">import</span> <span class="n">RegexpTokenizer</span>
+<span class="kn">from</span> <span class="n">nltk.stem.wordnet</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
+<span class="kn">from</span> <span class="n">gensim.models</span> <span class="kn">import</span> <span class="n">Phrases</span>
+<span class="kn">from</span> <span class="n">gensim.corpora</span> <span class="kn">import</span> <span class="n">Dictionary</span>
+<span class="kn">from</span> <span class="n">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
+
+
+<span class="c1"># change working directory
+# os.chdir("./sustainability/")
+</span>
+
+<span class="k">def</span> <span class="nf">_read_txt</span><span class="p">(</span><span class="n">txt_path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">txt_path</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">txt</span>
+
+
+<span class="k">def</span> <span class="nf">_read_all_txt</span><span class="p">(</span><span class="n">txt_dir</span><span class="p">):</span>
+    <span class="n">txt_files</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">txt_dir</span><span class="p">)</span>
+    <span class="n">txt_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_files</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="s">".txt"</span><span class="p">)]</span>
+    <span class="n">txt_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">txt_dir</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_files</span><span class="p">]</span>
+    <span class="n">txt_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="nf">_read_txt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_files</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">txt_corpus</span>
+
+
+<span class="k">def</span> <span class="nf">_preprocess_txt</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">):</span>
+    
+    <span class="c1"># Split the documents into tokens.
+</span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="nc">RegexpTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s">'\w+'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">)):</span>
+        <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">lower</span><span class="p">()</span>  <span class="c1"># Convert to lowercase.
+</span>        <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">.</span><span class="nf">tokenize</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>  <span class="c1"># Split into words.
+</span>
+    <span class="c1"># Remove numbers, but not words that contain numbers.
+</span>    <span class="n">txt_corpus</span> <span class="o">=</span> <span class="p">[[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">.</span><span class="nf">isnumeric</span><span class="p">()]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">txt_corpus</span><span class="p">]</span>
+
+    <span class="c1"># Remove words that are only one character.
+</span>    <span class="n">txt_corpus</span> <span class="o">=</span> <span class="p">[[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">txt_corpus</span><span class="p">]</span>
+
+    <span class="c1"># Lemmatize all words in documents.
+</span>    <span class="n">lemmatizer</span> <span class="o">=</span> <span class="nc">WordNetLemmatizer</span><span class="p">()</span>
+    <span class="n">txt_corpus</span> <span class="o">=</span> <span class="p">[[</span><span class="n">lemmatizer</span><span class="p">.</span><span class="nf">lemmatize</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">txt_corpus</span><span class="p">]</span>
+
+    <span class="c1"># add bigrams and trigrams to docs (only ones that appear 20 times or more).
+</span>    <span class="n">bigram</span> <span class="o">=</span> <span class="nc">Phrases</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">bigram</span><span class="p">[</span><span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">]]:</span>
+            <span class="k">if</span> <span class="s">'_'</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
+                <span class="c1"># Token is a bigram, add to document.
+</span>                <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    
+    <span class="c1"># remove rare and common tokens.
+</span>    <span class="c1"># Create a dictionary representation of the documents.
+</span>    <span class="n">dictionary</span> <span class="o">=</span> <span class="nc">Dictionary</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">)</span>
+
+    <span class="c1"># Filter out words that occur less than 5 documents, or more than 70% of the documents.
+</span>    <span class="n">dictionary</span><span class="p">.</span><span class="nf">filter_extremes</span><span class="p">(</span><span class="n">no_below</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">no_above</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+    <span class="c1"># Bag-of-words representation of the documents.
+</span>
+    <span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">dictionary</span><span class="p">.</span><span class="nf">doc2bow</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">txt_corpus</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span>
+
+
+<span class="k">def</span> <span class="nf">train_lda_model</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">):</span>
+    <span class="c1"># Set training parameters.
+</span>    <span class="n">num_topics</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">chunksize</span> <span class="o">=</span> <span class="mi">2000</span>
+    <span class="n">passes</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">iterations</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">eval_every</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># Don't evaluate model perplexity, takes too much time.
+</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># This is only to "load" the dictionary.
+</span>    <span class="n">id2word</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">.</span><span class="n">id2token</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="nc">LdaModel</span><span class="p">(</span>
+        <span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
+        <span class="n">id2word</span><span class="o">=</span><span class="n">id2word</span><span class="p">,</span>
+        <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="s">'auto'</span><span class="p">,</span>
+        <span class="n">eta</span><span class="o">=</span><span class="s">'auto'</span><span class="p">,</span>
+        <span class="n">iterations</span><span class="o">=</span><span class="n">iterations</span><span class="p">,</span>
+        <span class="n">num_topics</span><span class="o">=</span><span class="n">num_topics</span><span class="p">,</span>
+        <span class="n">passes</span><span class="o">=</span><span class="n">passes</span><span class="p">,</span>
+        <span class="n">eval_every</span><span class="o">=</span><span class="n">eval_every</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model</span>
+
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
+
+    <span class="n">foo</span> <span class="o">=</span> <span class="nf">_read_all_txt</span><span class="p">(</span><span class="s">"./"</span><span class="p">)</span>
+
+    <span class="n">foo_corpus</span><span class="p">,</span> <span class="n">foo_dict</span> <span class="o">=</span> <span class="nf">_preprocess_txt</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+
+    <span class="n">foo_model</span> <span class="o">=</span> <span class="nf">train_lda_model</span><span class="p">(</span><span class="n">foo_corpus</span><span class="p">,</span> <span class="n">foo_dict</span><span class="p">)</span>
+
+    <span class="n">top_topics</span> <span class="o">=</span> <span class="n">foo_model</span><span class="p">.</span><span class="nf">top_topics</span><span class="p">(</span><span class="n">foo_corpus</span><span class="p">)</span>  <span class="c1">#
+</span>
+    <span class="nf">pprint</span><span class="p">(</span><span class="n">top_topics</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Since the number of document is small, the topic extracted is not very meaningful. However, it still can tell us something useful.</p>
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
