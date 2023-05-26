@@ -136,3 +136,10 @@ At the end of this post, let's talk about China. I found the following video to 
 <div align="center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sitHS6UDMJc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
+
+
+## The Current State of Artificial Intelligence with James Wang
+
+<div align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/V6WL4X6pmCY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
