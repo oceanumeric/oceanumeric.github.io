@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Attention is all you need - Part 1
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='NLP, transformers, attention, BERT, GPT-2, GPT-3, Pytorch, Huggingface, OpenAI, Deep Learning, Machine Learning, Data Science, Python,'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Attention is all you need - Part 1</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Attention is all you need - Part 1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The impact of the transformer architecture in the field of NLP has been huge. It has been the main driver of the recent advances in the field and it is here to stay. In this series of posts, we will go through the main concepts of the transformer architecture and we will see how to use it in practice. Our goal is to train a GPT-2 model from scratch using Pytorch." />
+<meta property="og:description" content="The impact of the transformer architecture in the field of NLP has been huge. It has been the main driver of the recent advances in the field and it is here to stay. In this series of posts, we will go through the main concepts of the transformer architecture and we will see how to use it in practice. Our goal is to train a GPT-2 model from scratch using Pytorch." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/attention_is_all_you_need_p1" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/attention_is_all_you_need_p1" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-06-02T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Attention is all you need - Part 1" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-06-02T00:00:00+00:00","datePublished":"2023-06-02T00:00:00+00:00","description":"The impact of the transformer architecture in the field of NLP has been huge. It has been the main driver of the recent advances in the field and it is here to stay. In this series of posts, we will go through the main concepts of the transformer architecture and we will see how to use it in practice. Our goal is to train a GPT-2 model from scratch using Pytorch.","headline":"Attention is all you need - Part 1","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/attention_is_all_you_need_p1"},"url":"https://oceanumeric.github.io//blog/attention_is_all_you_need_p1"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Attention is all you need - Part 1</h1>
+            <h4>The title tells it all and transformers are here to stay. If you want to join the trend of shaping the future of NLP, this is the place to start.</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/deep-learning">deep-learning</a>, 
+                            
+                            <a href="/blog-tags/nlp">NLP</a>, 
+                            
+                            <a href="/blog-tags/transformers">transformers</a>, 
+                            
+                            <a href="/blog-tags/attention">attention</a>, 
+                            
+                            <a href="/blog-tags/gpt-2">GPT-2</a>, 
+                            
+                            <a href="/blog-tags/pytorch">Pytorch</a>, 
+                            
+                            <a href="/blog-tags/huggingface">Huggingface</a>, 
+                            
+                            <a href="/blog-tags/openai">OpenAI</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>02 June 2023</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>The impact of the transformer architecture in the field of NLP has been huge. It has been the main driver of the recent advances in the field and it is here to stay. In this series of posts, we will go through the main concepts of the transformer architecture and we will see how to use it in practice. Our goal is to train a GPT-2 model from scratch using Pytorch.</p>
+
+<p>The series of posts are based on the video by Andrej Karpathy. What I will do is to add some extra explanations with some intuition behind the concepts and I will also add some code to make it more practical.</p>
+
+<p><strong>The post is task-driven, which means that we will always start with simple tasks and we will build on top of them to get to the final goal, which is to train a GPT-2 model from scratch.</strong> <em>In each task, I will mark the tool or tool component that we will use to solve it. This way, you can always go back to the post where we introduced the tool or tool component to refresh your memory</em>.</p>
+
+<p>The task will be annotated with <mark style="background-color:#C5BFDE">this color </mark>, whereas the tool or tool component will be annotated with <mark style="background-color:#CDE7D0">this color </mark>. The reason that I am doing this is because I want to make it easier for you to follow the series of posts and those colors are also used by the orginal paper - <a href="https://arxiv.org/pdf/1706.03762.pdf" target="_blank">Attention is all you need</a> - to annotate the different sections of the paper.</p>
+
+<h2 id="big-picture">Big picture</h2>
+
+<p>If you think about our language, it is a sequence of ‘symbols’ (words, characters, etc). 
+Suppose you think the following setence: “I….”. You can complete it in many ways: “I will go to the beach”, “I think it will rain”, “I am hungry”, etc.</p>
+
+<p>What all language models do is to try to predict the next word given the previous words. In our example, the language model will try to predict the next word given the previous word “I”.</p>
+
+<p>In this series of post, intead of predicting the next word, we will predict the next character given the previous characters. For example, given the following characters “I am hu”, we want to predict the next character “n”. Therefore, we will have two big tasks:</p>
+
+<ul>
+  <li>
+    <p><strong>Task 1</strong>:  <mark style="background-color:#C5BFDE">Given a sequence of characters, predict the next character using names as the dataset </mark>.</p>
+  </li>
+  <li>
+    <p><strong>Task 2</strong>:  <mark style="background-color:#C5BFDE">Given a sequence of characters, predict the next character using Shakespeare text as the dataset </mark>.</p>
+  </li>
+</ul>
+
+<h2 id="n-grams">N-grams</h2>
+
+<p>Before we start with the transformer architecture, we will start with a simple model called n-grams. The <mark style="background-color:#CDE7D0"> n-grams </mark> will be our first tool to solve the task 1. Let’s call it <mark style="background-color:#CDE7D0"> Tool-1: n-grams model </mark>. With the n-grams model, we will learn:</p>
+
+<ul>
+  <li>how to prepare the data for the model</li>
+  <li>how to transform the data into a format that the model can understand (meaning how to transform the data into matrices)</li>
+</ul>
+
+<p>The n-gram is a probabilistic model that predicts the next character given the previous n-1 characters. Since we are working on characters, the easiest way to convert character into numbers is to use the index of letters in the alphabet. For example, the letter “a” will be 0, the letter “b” will be 1, etc. In English, we have 26 letters, so we will have 26 numbers. However, to mark the beginning and the end of the word, we will add two more symbols <code class="language-plaintext highlighter-rouge">&lt;S&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;E&gt;</code> to the alphabet. Therefore, we will have 28 symbols in total.</p>
+
+<p>Please download the <a href="https://github.com/oceanumeric/NLP/blob/main/GPT-2/data/names.txt" target="_blank">names dataset</a> first. Here is the pyton code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="p">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s">'retina'</span>
+<span class="c1"># n-gram
+# read data
+</span><span class="n">words</span> <span class="o">=</span> <span class="nf">open</span><span class="p">(</span><span class="s">'./data/names.txt'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">).</span><span class="nf">read</span><span class="p">().</span><span class="nf">splitlines</span><span class="p">()</span>
+<span class="n">words</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+<span class="c1"># ['emma',
+#  'olivia',
+#  'ava',
+#  'isabella',
+#  'sophia',
+#  'charlotte',
+#  'mia',
+#  'amelia',
+#  'harper',
+#  'evelyn']
+# create charater to index mapping
+</span><span class="n">chars</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">words</span><span class="p">))))</span>
+<span class="n">char_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="n">ch</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">chars</span><span class="p">)}</span>
+<span class="n">char_to_idx</span><span class="p">[</span><span class="s">'&lt;S&gt;'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)</span>
+<span class="n">char_to_idx</span><span class="p">[</span><span class="s">'&lt;E&gt;'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)</span> 
+<span class="n">char_to_idx</span>
+<span class="c1"># {'a': 0,
+#  'b': 1,
+#  'c': 2,
+#  'd': 3,
+#  'e': 4,
+#  'f': 5,
+#  'g': 6,
+#  'h': 7,
+#  'i': 8,
+#  'j': 9,
+#  'k': 10,
+#  'l': 11,
+#  'm': 12,
+#  'n': 13,
+#  'o': 14,
+#  'p': 15,
+#  'q': 16,
+#  'r': 17,
+#  's': 18,
+#  't': 19,
+#  'u': 20,
+#  'v': 21,
+#  'w': 22,
+#  'x': 23,
+#  'y': 24,
+#  'z': 25,
+#  '&lt;S&gt;': 26,
+#  '&lt;E&gt;': 27}
+</span>
+<span class="c1"># create 2-grams matrix
+</span><span class="n">N_gram_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">),</span> <span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="p">[</span><span class="s">'&lt;S&gt;'</span><span class="p">]</span> <span class="o">+</span> <span class="nf">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s">'&lt;E&gt;'</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">ch1</span><span class="p">,</span> <span class="n">ch2</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">id_row</span> <span class="o">=</span> <span class="n">char_to_idx</span><span class="p">[</span><span class="n">ch1</span><span class="p">]</span>
+        <span class="n">id_col</span> <span class="o">=</span> <span class="n">char_to_idx</span><span class="p">[</span><span class="n">ch2</span><span class="p">]</span>
+        <span class="n">N_gram_matrix</span><span class="p">[</span><span class="n">id_row</span><span class="p">,</span> <span class="n">id_col</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># create dict called idx to char
+</span><span class="n">idx_to_char</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">char_to_idx</span><span class="p">.</span><span class="nf">items</span><span class="p">()}</span>
+<span class="n">idx_to_char</span>
+<span class="c1"># {0: 'a',
+#  1: 'b',
+#  2: 'c',
+#  3: 'd',
+#  4: 'e',
+#  5: 'f',
+#  6: 'g',
+#  7: 'h',
+#  8: 'i',
+#  9: 'j',
+#  10: 'k',
+#  11: 'l',
+#  12: 'm',
+#  13: 'n',
+#  14: 'o',
+#  15: 'p',
+#  16: 'q',
+#  17: 'r',
+#  18: 's',
+#  19: 't',
+#  20: 'u',
+#  21: 'v',
+#  22: 'w',
+#  23: 'x',
+#  24: 'y',
+#  25: 'z',
+#  26: '&lt;S&gt;',
+#  27: '&lt;E&gt;'}
+</span>
+<span class="c1"># plot the matrix
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">17</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">N_gram_matrix</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'Blues'</span><span class="p">)</span>
+<span class="c1"># add charater labels
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)):</span>
+        <span class="c1"># get charater
+</span>        <span class="n">chars</span> <span class="o">=</span> <span class="n">idx_to_char</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">idx_to_char</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">chars</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">'bottom'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+        <span class="c1"># add number
+</span>        <span class="n">plt</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">N_gram_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">].</span><span class="nf">item</span><span class="p">(),</span> <span class="n">ha</span><span class="o">=</span><span class="s">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">'top'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="figure">
+    <img src="/images/blog/2-gram-frequency.png" alt="2-gram-frequency" class="zoom-img" style="width: 90%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 1.</span> The 2-gram frequency matrix. I suggest you zoom in the image to see the numbers(Click on the image to zoom in).
+    </div>
+</div>
+
+<p>Notice that the last row and the second last column are all zeros. This is because the last character in the word is always <code class="language-plaintext highlighter-rouge">&lt;E&gt;</code>. Therefore, the last character in the word will never be followed by another character. The same logic applies to the first column and the second row. The first character in the word is always <code class="language-plaintext highlighter-rouge">&lt;S&gt;</code>, so it will never be preceded by another character.</p>
+
+<p>To solve this problem, we will use <code class="language-plaintext highlighter-rouge">.</code> to replace <code class="language-plaintext highlighter-rouge">&lt;E&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;S&gt;</code>. The <code class="language-plaintext highlighter-rouge">.</code> is a special character that represents the beginning and the end of the word. The <code class="language-plaintext highlighter-rouge">.</code> is not a character in the alphabet, so we will add it to the alphabet. Therefore, we will have 27 symbols in total.</p>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
