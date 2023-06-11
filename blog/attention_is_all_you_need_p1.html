@@ -108,160 +108,415 @@
     <div class='wrap article'>
         <p>The impact of the transformer architecture in the field of NLP has been huge. It has been the main driver of the recent advances in the field and it is here to stay. In this series of posts, we will go through the main concepts of the transformer architecture and we will see how to use it in practice. Our goal is to train a GPT-2 model from scratch using Pytorch.</p>
 
-<p>The series of posts are based on the video by Andrej Karpathy. What I will do is to add some extra explanations with some intuition behind the concepts and I will also add some code to make it more practical.</p>
+<p>The series of posts are based on the video by Andrej Karpathy. What I will do is to add some extra explanations with some intuition behind the concepts and I will also add some code to make it more practical. To fully understand the transformer architecture, we need to follow the path of the original paper, which means tracing the evolution of the transformer architecture from recurrent neural networks (RNNs) to the final transformer architecture. Here is our roadmap:</p>
 
-<p><strong>The post is task-driven, which means that we will always start with simple tasks and we will build on top of them to get to the final goal, which is to train a GPT-2 model from scratch.</strong> <em>In each task, I will mark the tool or tool component that we will use to solve it. This way, you can always go back to the post where we introduced the tool or tool component to refresh your memory</em>.</p>
+<ol>
+  <li><a href="#1-understanding-the-neurons-in-the-deep-learning-context">Understanding the neurons in the deep learning context</a></li>
+  <li><a href="#1-implementing-a-simple-rnn-model">Implementing a simple RNN model</a></li>
+  <li>Implementing a LSTM and GRU model</li>
+  <li>Implementing a sequence-to-sequence model</li>
+  <li>Implementing a RNN encoder-decoder model</li>
+  <li>Implementing a neural machine translation model</li>
+  <li>Implementing a transformer encoder-decoder model</li>
+</ol>
 
-<p>The task will be annotated with <mark style="background-color:#C5BFDE">this color </mark>, whereas the tool or tool component will be annotated with <mark style="background-color:#CDE7D0">this color </mark>. The reason that I am doing this is because I want to make it easier for you to follow the series of posts and those colors are also used by the orginal paper - <a href="https://arxiv.org/pdf/1706.03762.pdf" target="_blank">Attention is all you need</a> - to annotate the different sections of the paper.</p>
+<h2 id="1-understanding-the-neurons-in-the-deep-learning-context">1. Understanding the neurons in the deep learning context</h2>
 
-<h2 id="big-picture">Big picture</h2>
-
-<p>If you think about our language, it is a sequence of ‘symbols’ (words, characters, etc). 
-Suppose you think the following setence: “I….”. You can complete it in many ways: “I will go to the beach”, “I think it will rain”, “I am hungry”, etc.</p>
-
-<p>What all language models do is to try to predict the next word given the previous words. In our example, the language model will try to predict the next word given the previous word “I”.</p>
-
-<p>In this series of post, intead of predicting the next word, we will predict the next character given the previous characters. For example, given the following characters “I am hu”, we want to predict the next character “n”. Therefore, we will have two big tasks:</p>
-
-<ul>
-  <li>
-    <p><strong>Task 1</strong>:  <mark style="background-color:#C5BFDE">Given a sequence of characters, predict the next character using names as the dataset </mark>.</p>
-  </li>
-  <li>
-    <p><strong>Task 2</strong>:  <mark style="background-color:#C5BFDE">Given a sequence of characters, predict the next character using Shakespeare text as the dataset </mark>.</p>
-  </li>
-</ul>
-
-<h2 id="n-grams">N-grams</h2>
-
-<p>Before we start with the transformer architecture, we will start with a simple model called n-grams. The <mark style="background-color:#CDE7D0"> n-grams </mark> will be our first tool to solve the task 1. Let’s call it <mark style="background-color:#CDE7D0"> Tool-1: n-grams model </mark>. With the n-grams model, we will learn:</p>
-
-<ul>
-  <li>how to prepare the data for the model</li>
-  <li>how to transform the data into a format that the model can understand (meaning how to transform the data into matrices)</li>
-</ul>
-
-<p>The n-gram is a probabilistic model that predicts the next character given the previous n-1 characters. Since we are working on characters, the easiest way to convert character into numbers is to use the index of letters in the alphabet. For example, the letter “a” will be 0, the letter “b” will be 1, etc. In English, we have 26 letters, so we will have 26 numbers. However, to mark the beginning and the end of the word, we will add two more symbols <code class="language-plaintext highlighter-rouge">&lt;S&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;E&gt;</code> to the alphabet. Therefore, we will have 28 symbols in total.</p>
-
-<p>Please download the <a href="https://github.com/oceanumeric/NLP/blob/main/GPT-2/data/names.txt" target="_blank">names dataset</a> first. Here is the pyton code:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
-<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="p">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s">'retina'</span>
-<span class="c1"># n-gram
-# read data
-</span><span class="n">words</span> <span class="o">=</span> <span class="nf">open</span><span class="p">(</span><span class="s">'./data/names.txt'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">).</span><span class="nf">read</span><span class="p">().</span><span class="nf">splitlines</span><span class="p">()</span>
-<span class="n">words</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
-<span class="c1"># ['emma',
-#  'olivia',
-#  'ava',
-#  'isabella',
-#  'sophia',
-#  'charlotte',
-#  'mia',
-#  'amelia',
-#  'harper',
-#  'evelyn']
-# create charater to index mapping
-</span><span class="n">chars</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">words</span><span class="p">))))</span>
-<span class="n">char_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="n">ch</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">chars</span><span class="p">)}</span>
-<span class="n">char_to_idx</span><span class="p">[</span><span class="s">'&lt;S&gt;'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)</span>
-<span class="n">char_to_idx</span><span class="p">[</span><span class="s">'&lt;E&gt;'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)</span> 
-<span class="n">char_to_idx</span>
-<span class="c1"># {'a': 0,
-#  'b': 1,
-#  'c': 2,
-#  'd': 3,
-#  'e': 4,
-#  'f': 5,
-#  'g': 6,
-#  'h': 7,
-#  'i': 8,
-#  'j': 9,
-#  'k': 10,
-#  'l': 11,
-#  'm': 12,
-#  'n': 13,
-#  'o': 14,
-#  'p': 15,
-#  'q': 16,
-#  'r': 17,
-#  's': 18,
-#  't': 19,
-#  'u': 20,
-#  'v': 21,
-#  'w': 22,
-#  'x': 23,
-#  'y': 24,
-#  'z': 25,
-#  '&lt;S&gt;': 26,
-#  '&lt;E&gt;': 27}
-</span>
-<span class="c1"># create 2-grams matrix
-</span><span class="n">N_gram_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">),</span> <span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
-    <span class="n">word</span> <span class="o">=</span> <span class="p">[</span><span class="s">'&lt;S&gt;'</span><span class="p">]</span> <span class="o">+</span> <span class="nf">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s">'&lt;E&gt;'</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">ch1</span><span class="p">,</span> <span class="n">ch2</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-        <span class="n">id_row</span> <span class="o">=</span> <span class="n">char_to_idx</span><span class="p">[</span><span class="n">ch1</span><span class="p">]</span>
-        <span class="n">id_col</span> <span class="o">=</span> <span class="n">char_to_idx</span><span class="p">[</span><span class="n">ch2</span><span class="p">]</span>
-        <span class="n">N_gram_matrix</span><span class="p">[</span><span class="n">id_row</span><span class="p">,</span> <span class="n">id_col</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="c1"># create dict called idx to char
-</span><span class="n">idx_to_char</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">char_to_idx</span><span class="p">.</span><span class="nf">items</span><span class="p">()}</span>
-<span class="n">idx_to_char</span>
-<span class="c1"># {0: 'a',
-#  1: 'b',
-#  2: 'c',
-#  3: 'd',
-#  4: 'e',
-#  5: 'f',
-#  6: 'g',
-#  7: 'h',
-#  8: 'i',
-#  9: 'j',
-#  10: 'k',
-#  11: 'l',
-#  12: 'm',
-#  13: 'n',
-#  14: 'o',
-#  15: 'p',
-#  16: 'q',
-#  17: 'r',
-#  18: 's',
-#  19: 't',
-#  20: 'u',
-#  21: 'v',
-#  22: 'w',
-#  23: 'x',
-#  24: 'y',
-#  25: 'z',
-#  26: '&lt;S&gt;',
-#  27: '&lt;E&gt;'}
-</span>
-<span class="c1"># plot the matrix
-</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">17</span><span class="p">))</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">N_gram_matrix</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'Blues'</span><span class="p">)</span>
-<span class="c1"># add charater labels
-</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">char_to_idx</span><span class="p">)):</span>
-        <span class="c1"># get charater
-</span>        <span class="n">chars</span> <span class="o">=</span> <span class="n">idx_to_char</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">idx_to_char</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">chars</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">'bottom'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
-        <span class="c1"># add number
-</span>        <span class="n">plt</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">N_gram_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">].</span><span class="nf">item</span><span class="p">(),</span> <span class="n">ha</span><span class="o">=</span><span class="s">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">'top'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">);</span>
-</code></pre></div></div>
+<p>In the deep learning context, we try to represent everything into numbers (float or integer) and when we pass information into our neural network, how those information will be transformed is determined by the weights of the neural network and the activation function. The weights are the parameters of the neural network that are learned during the training process. The activation function is a function that determines the output of the neural network.</p>
 
 <div class="figure">
-    <img src="/images/blog/2-gram-frequency.png" alt="2-gram-frequency" class="zoom-img" style="width: 90%; display: block; margin: 0 auto;" />
+    <img src="/blog/images/summary_activation_fn.png" alt="activation function" style="width: 90%; display: block; margin: 0 auto;" />
     <div class="caption">
-        <span class="caption-label">Figure 1.</span> The 2-gram frequency matrix. I suggest you zoom in the image to see the numbers(Click on the image to zoom in).
+        <span class="caption-label">Figure 1.</span> Three most common activation functions.
     </div>
 </div>
 
-<p>Notice that the last row and the second last column are all zeros. This is because the last character in the word is always <code class="language-plaintext highlighter-rouge">&lt;E&gt;</code>. Therefore, the last character in the word will never be followed by another character. The same logic applies to the first column and the second row. The first character in the word is always <code class="language-plaintext highlighter-rouge">&lt;S&gt;</code>, so it will never be preceded by another character.</p>
+<p>The properties of those activation functions make them useful in different kind of situations. For instance, the sigmoid function can be used as a binary classifier or a binary gate as it takes values between 0 and 1. The tanh function is similar to the sigmoid function, but it takes values between -1 and 1. The ReLU function is the most popular activation function and it is used in most of the neural networks. It is a non-linear function and it is very easy to compute.</p>
 
-<p>To solve this problem, we will use <code class="language-plaintext highlighter-rouge">.</code> to replace <code class="language-plaintext highlighter-rouge">&lt;E&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;S&gt;</code>. The <code class="language-plaintext highlighter-rouge">.</code> is a special character that represents the beginning and the end of the word. The <code class="language-plaintext highlighter-rouge">.</code> is not a character in the alphabet, so we will add it to the alphabet. Therefore, we will have 27 symbols in total.</p>
+<p>When we use different kinds of activation functions, we might call them different terms such as <em>memory gate</em> or <em>forget gate</em>. However, they are all the same thing. They are just activation functions. The only difference is that we use them in different contexts. For instance, in the context of RNNs, we call them <em>memory gate</em> or <em>forget gate</em> because they are used to determine how much information we want to keep from the previous time step. In the context of transformers, we call them <em>attention</em> because they are used to determine how much attention we want to pay to each word in the sentence.</p>
+
+<p>Okay, with that being said, let’s move on to the next section.</p>
+
+<h2 id="1-implementing-a-simple-rnn-model">1. Implementing a simple RNN model</h2>
+
+<p>If you have studied any regression model, and somehow been explored to autoregression models, such as  Autoregressive Moving Average (ARMA), you could pick up the intuition behind RNNs. There is a class of linear time series models with the general form:</p>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>p</mi></munderover><msub><mi>ϕ</mi><mi>i</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mi>i</mi></mrow></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>q</mi></munderover><msub><mi>θ</mi><mi>i</mi></msub><msub><mi>ϵ</mi><mrow><mi>t</mi><mo>−</mo><mi>i</mi></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
+y_t = \sum_{i=1}^p \phi_i y_{t-i} + \sum_{i=1}^q \theta_i \epsilon_{t-i} + \epsilon_t
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.9761740000000003em;vertical-align:-1.277669em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6985050000000004em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.347113em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">ϕ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:2.9761740000000003em;vertical-align:-1.277669em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6985050000000004em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.347113em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">ϵ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">ϵ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p>Here, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">y_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is a time series, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">\epsilon_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">ϵ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is a white noise, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span></span></span></span> are the order of the autoregressive and moving average components, respectively. The autoregressive component is the sum of the previous values of the time series, while the moving average component is the sum of the previous values of the white noise.</p>
+
+<p>Recurrent neural networks (RNNs) has the similar form, but instead of using the previous values of the time series, it uses the previous values of the hidden state. The hidden state is a vector that summarizes the information of the previous values of the time series. The hidden state is updated at each time step, and it is used to predict the next value of the time series.</p>
+
+<div class="figure">
+    <img src="/blog/images/rnn_illustration1.png" alt="activation function" class="zoom-img" style="width: 90%; display: block; margin: 0 auto;" />
+    <div class="caption">
+        <span class="caption-label">Figure 2.</span> RNN illustration (please zoom in to see the details).
+    </div>
+</div>
+
+<p>The folllowing text was generated by a simple RNN model trained on the Shakespeare dataset. The text length is 94081, the size of parameters is 325181; and it takes around 1 minute and 23 seconds to train the model.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hew, and serelt,
+And torthe to chase,
+Nnoury beart ie thye reseaving ghicl simy,
+And ware sthor,
+And py teye,
+The ayd love sownst persund,
+An thou t yould to eassil got no moresty
+Tie il bothery blaise?
+On th tome coof mers ais geare.
+
+Lekala worad siof seles?
+Tean to nou thy sion or mowith thy bars, all our pone yournow<span class="p">;</span>
+A min thy seaviss afo lyou grangute is mabjey,
+Whelu toot murfein<span class="p">;</span> wothh be, beande, fremay ingtice,s no fare morigh toun theish<span class="p">;</span>
+y aruselo wata astate:
+For thay beinose ton the
+</code></pre></div></div>
+
+<p>As you can see that it is not very readable. However it is not bad for a model trained within 2 minutes. The reason why it is not very readable is because the model is not very good at capturing the long-term dependencies. The reason why it is not very good at capturing the long-term dependencies is because of the vanishing gradient problem.</p>
+
+<p>Before I give the full implementation in <code class="language-plaintext highlighter-rouge">Pytorch</code>, let me list what I have learned from the implementation:</p>
+
+<ul>
+  <li>it is important to align the input and target sequence, especially when we are constructing the batch.</li>
+  <li>we are updating the hidden state alogn the sequence length and we are using the last hidden state to predict the next word.</li>
+</ul>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><msub><mover accent="true"><mi>y</mi><mo>^</mo></mover><mi>t</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mtext>softmax</mtext><mo stretchy="false">(</mo><msub><mi>W</mi><mrow><mi>h</mi><mi>y</mi></mrow></msub><msub><mi>h</mi><mi>t</mi></msub><mo>+</mo><msub><mi>b</mi><mi>y</mi></msub><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><msub><mi>h</mi><mi>t</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mtext>tanh</mtext><mo stretchy="false">(</mo><msub><mi>W</mi><mrow><mi>h</mi><mi>h</mi></mrow></msub><msub><mi>h</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>W</mi><mrow><mi>x</mi><mi>h</mi></mrow></msub><msub><mi>x</mi><mi>t</mi></msub><mo>+</mo><msub><mi>b</mi><mi>h</mi></msub><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+\hat{y}_t &amp;= \text{softmax}(W_{hy}h_t + b_y) \\
+h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
+\end{aligned}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.0000000000000004em;vertical-align:-1.2500000000000002em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.7500000000000002em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.19444em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2500000000000002em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.7500000000000002em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class="mord">softmax</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class="mord">tanh</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mord mathdefault mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2500000000000002em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<ul>
+  <li>Three parameters will be learned during the training process: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>h</mi><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{hy}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>h</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{hh}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>x</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{xh}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mord mathdefault mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>; and two bias terms: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">b_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>h</mi></msub></mrow><annotation encoding="application/x-tex">b_h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>; and the hidden state <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">h_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is initialized as a zero vector.</li>
+  <li>The hidden state will not be learned during the training process. It is just a vector that summarizes the information of the previous values of the time series.</li>
+  <li>Instead, the hidden state will be updated from batch to batch.</li>
+  <li>It is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>h</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{hh}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> that is responsible for capturing the long-term dependencies. If <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>h</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{hh}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is close to zero, then the model will not be able to capture the long-term dependencies.</li>
+  <li>Always be careful on the dimension of the input and output of the neural network.</li>
+  <li>Be aware of immutability or mutability of the tensor for different updating process.</li>
+  <li>It is <strong>way more efficient to put everything into a class</strong> and use <code class="language-plaintext highlighter-rouge">nn.Module</code> to define the neural network.</li>
+</ul>
+
+<p>Here is the full implementation of the RNN model in <code class="language-plaintext highlighter-rouge">Pytorch</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># %%
+</span><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">math</span>
+<span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="n">torch.nn</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+
+
+<span class="c1">### --------- define our class module --------- ###
+</span><span class="k">class</span> <span class="nc">SimpleRNN</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">drop_prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">seq_length</span> <span class="o">=</span> <span class="n">seq_length</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+
+        <span class="nf">print</span><span class="p">(</span><span class="s">"::::::::::---------Loading data------::::::::::</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">load_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">chars</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">))</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Unique characters: "</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">))</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"::::::::::---------Processing data------::::::::::</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">encoded_text</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">process_data</span><span class="p">()</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)</span>
+
+        <span class="c1"># initialize the hidden state
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">Wxh</span> <span class="o">=</span> <span class="nc">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nc">Tensor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">Whh</span> <span class="o">=</span> <span class="nc">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nc">Tensor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">bh</span> <span class="o">=</span> <span class="nc">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">))</span>
+
+        <span class="n">nn</span><span class="p">.</span><span class="n">init</span><span class="p">.</span><span class="nf">xavier_uniform_</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">Wxh</span><span class="p">)</span>
+        <span class="n">nn</span><span class="p">.</span><span class="n">init</span><span class="p">.</span><span class="nf">xavier_uniform_</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">Whh</span><span class="p">)</span>
+
+        <span class="c1"># add dropout layer
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">droupout_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Dropout</span><span class="p">(</span><span class="n">drop_prob</span><span class="p">)</span>
+
+        <span class="c1"># add the linear layer
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">lineary_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">)</span>
+
+    
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h_t</span><span class="p">):</span>
+        <span class="s">"""
+        x: input, shape = (batch_size, seq_length, vocab_size), here we use one-hot encoding
+        h_prev: hidden state from previous cell, shape = (batch_size, hidden_size)
+        """</span>
+        <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">,</span> <span class="n">vocab_size</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span>
+        <span class="n">hidden_states</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">seq_length</span><span class="p">):</span>
+            <span class="n">x_t</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">t</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">h_t</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tanh</span><span class="p">(</span><span class="n">x_t</span> <span class="o">@</span> <span class="n">self</span><span class="p">.</span><span class="n">Wxh</span> <span class="o">+</span> <span class="n">h_t</span> <span class="o">@</span> <span class="n">self</span><span class="p">.</span><span class="n">Whh</span><span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">bh</span><span class="p">)</span>
+            <span class="c1"># h_t.shape = (batch_size, self.hidden_size)
+</span>            <span class="c1"># h_t.shape = (batch_size, 1, self.hidden_size)
+</span>            <span class="c1"># do not do h_t = h_t.unsqueeze(1)
+</span>            <span class="n">hidden_states</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">h_t</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        
+        <span class="c1"># concatenate the hidden states
+</span>        <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># reshape the hidden states
+</span>        <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">hidden_states</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">batch_size</span> <span class="o">*</span> <span class="n">seq_length</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">)</span>
+
+        <span class="c1"># apply dropout
+</span>        <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">droupout_layer</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span>
+
+        <span class="c1"># apply the linear layer
+</span>        <span class="n">logits</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">lineary_layer</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span>
+
+        <span class="c1"># logits.shape = (batch_size * seq_length, vocab_size)
+</span>        <span class="c1"># h_t was unsqueezed, so we need to squeeze it back
+</span>
+        <span class="k">return</span> <span class="n">logits</span><span class="p">,</span> <span class="n">h_t</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 
+</span>    
+
+    <span class="k">def</span> <span class="nf">init_hidden</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">)</span>
+    
+
+    <span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+
+        <span class="c1"># set the model to train mode
+</span>        <span class="n">self</span><span class="p">.</span><span class="nf">train</span><span class="p">()</span>
+
+        <span class="n">loss_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># define the optimizer
+</span>        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">tqdm</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">)):</span>
+
+            <span class="c1"># initialize the hidden state
+</span>            <span class="n">h_t</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">init_hidden</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">batch_size</span><span class="p">)</span>
+            <span class="c1"># push the hidden state to GPU, if available
+</span>            <span class="n">h_t</span> <span class="o">=</span> <span class="n">h_t</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="nf">create_batches</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">seq_length</span><span class="p">):</span>
+
+                <span class="c1"># move the data to GPU, if available
+</span>                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># create one-hot encoding
+</span>                <span class="c1"># do not do x = F.one_hot(x, self.vocab_size).float()
+</span>                <span class="c1"># it will have a error message: "RuntimeError: one_hot is not implemented for type torch.cuda.LongTensor"
+</span>                <span class="n">inputs</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="nf">one_hot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">).</span><span class="nf">float</span><span class="p">()</span>
+
+                <span class="c1"># zero out the gradients
+</span>                <span class="n">self</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+
+                <span class="c1"># get the logits
+</span>                <span class="n">logits</span><span class="p">,</span> <span class="n">h_t</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">forward</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">h_t</span><span class="p">)</span>
+
+                <span class="c1"># reshape y to (batch_size * seq_length)
+</span>                <span class="c1"># we need to do this because the loss function expects 1-D input
+</span>                <span class="n">targets</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">batch_size</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">seq_length</span><span class="p">).</span><span class="nf">long</span><span class="p">()</span>
+
+                <span class="c1"># calculate the loss
+</span>                <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="nf">cross_entropy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+                <span class="c1"># backpropagate
+</span>                <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">(</span><span class="n">retain_graph</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+                <span class="c1"># clip the gradients
+</span>                <span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">clip_grad_norm_</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">clip</span><span class="p">)</span>
+
+                <span class="c1"># update the parameters
+</span>                <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+
+                <span class="c1"># append the loss
+</span>                <span class="n">loss_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">())</span>
+            
+            <span class="c1"># print the loss every 10 epochs
+</span>            <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"Epoch: {}, Loss: {:.4f}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">loss_list</span>
+
+
+    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">):</span>
+
+        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">text</span>
+    
+    <span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+
+        <span class="c1"># get all the unique characters
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Vocabulary size: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">))</span>
+
+        <span class="c1"># create a dictionary to map the characters to integers and vice versa
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span> <span class="o">=</span> <span class="p">{</span><span class="n">ch</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)}</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">int_to_char</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">ch</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)}</span>
+
+        <span class="c1"># print the dictionaries
+</span>        <span class="nf">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span><span class="p">)</span>
+
+        <span class="c1"># encode the text, torch.long is int64
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">encoded</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span>
+        <span class="p">)</span>
+        <span class="c1"># print out the length
+</span>        <span class="nf">print</span><span class="p">(</span><span class="s">"Text length: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+        <span class="c1"># print the first 100 characters
+</span>        <span class="nf">print</span><span class="p">(</span><span class="s">"The text has been encoded and the first 100 characters are:"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">encoded</span>
+    
+    
+    <span class="k">def</span> <span class="nf">create_batches</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">):</span>
+
+        <span class="n">num_batches</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded_text</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">*</span> <span class="n">seq_length</span><span class="p">)</span>
+
+        <span class="c1"># clip the data to get rid of the remainder
+</span>        <span class="n">xdata</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">encoded_text</span><span class="p">[:</span> <span class="n">num_batches</span> <span class="o">*</span> <span class="n">batch_size</span> <span class="o">*</span> <span class="n">seq_length</span><span class="p">]</span>
+        <span class="n">ydata</span> <span class="o">=</span>  <span class="n">torch</span><span class="p">.</span><span class="nf">roll</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># reshape the data
+</span>        <span class="c1"># this step is very important, because we need to make sure
+</span>        <span class="c1"># the input and targets are aligned
+</span>        <span class="c1"># we need to make sure xdata.shape = (batch_size, seq_length*num_batches)
+</span>        <span class="c1"># because we feed one batch at a time
+</span>        <span class="n">xdata</span> <span class="o">=</span> <span class="n">xdata</span><span class="p">.</span><span class="nf">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ydata</span> <span class="o">=</span> <span class="n">ydata</span><span class="p">.</span><span class="nf">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># now we will divide the data into batches
+</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xdata</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">seq_length</span><span class="p">):</span>
+            <span class="n">xyield</span> <span class="o">=</span> <span class="n">xdata</span><span class="p">[:,</span> <span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">seq_length</span><span class="p">]</span>
+            <span class="n">yyield</span> <span class="o">=</span> <span class="n">ydata</span><span class="p">[:,</span> <span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">seq_length</span><span class="p">]</span>
+            <span class="k">yield</span> <span class="n">xyield</span><span class="p">,</span> <span class="n">yyield</span>
+
+
+    <span class="c1"># function to predict the next character based on character
+</span>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">char</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c1"># assume char is a single character
+</span>        <span class="c1"># convert the character to integer
+</span>        <span class="n">char</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([[</span><span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span><span class="p">[</span><span class="n">char</span><span class="p">]]])</span>
+        <span class="c1"># push the character to the GPU
+</span>        <span class="n">char</span> <span class="o">=</span> <span class="n">char</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="c1"># one-hot encode the character
+</span>        <span class="n">inputs</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="nf">one_hot</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">).</span><span class="nf">float</span><span class="p">()</span>
+
+        <span class="c1"># initialize the hidden state
+</span>        <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1"># h.shape = (1, hidden_size)
+</span>            <span class="c1"># because we only have one character
+</span>            <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">))</span>
+
+        <span class="c1"># push the hidden state to the GPU
+</span>        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># call the model to get the output and hidden state
+</span>        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+            <span class="c1"># get the output and hidden state
+</span>            <span class="n">output</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="nf">self</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+            <span class="c1"># output.shape = (1, vocab_size)
+</span>
+        <span class="c1"># get the probabilities
+</span>        <span class="c1"># dim=1 because we want to get the probabilities for each character
+</span>        <span class="n">p</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="nf">softmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span>
+
+        <span class="c1"># if top_k is None, we will use torch.multinomial to sample
+</span>        <span class="c1"># otherwise, we will use torch.topk to get the top k characters
+</span>        <span class="k">if</span> <span class="n">top_k</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1"># reshape p as (vocab_size)
+</span>            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">)</span>
+            <span class="c1"># sample with torch.multinomial
+</span>            <span class="n">char_next_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">multinomial</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># char_next_idx.shape = (1, 1)
+</span>            <span class="c1"># convert the index to character
+</span>            <span class="n">char_next</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">int_to_char</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">char_next_idx</span><span class="p">.</span><span class="nf">item</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># since we have many characters,
+</span>            <span class="c1"># it is better to use torch.topk to get the top k characters
+</span>            <span class="n">p</span><span class="p">,</span> <span class="n">char_next_idx</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="nf">topk</span><span class="p">(</span><span class="n">top_k</span><span class="p">)</span>
+            <span class="c1"># char_next_idx.shape = (1, top_k)
+</span>            <span class="c1"># convert the index to character
+</span>            <span class="n">char_next_idx</span> <span class="o">=</span> <span class="n">char_next_idx</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">().</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
+            <span class="c1"># char_next_idx.shape = (top_k)
+</span>            <span class="c1"># randomly select one character from the top k characters
+</span>            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">().</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
+            <span class="c1"># p.shape = (top_k)
+</span>            <span class="n">char_next_idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">char_next_idx</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span> <span class="o">/</span> <span class="n">p</span><span class="p">.</span><span class="nf">sum</span><span class="p">())</span>
+            <span class="c1"># char_next_idx.shape = (1)
+</span>            <span class="c1"># convert the index to character
+</span>            <span class="n">char_next</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">int_to_char</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">char_next_idx</span><span class="p">.</span><span class="nf">item</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">char_next</span><span class="p">,</span> <span class="n">h</span>
+
+    <span class="c1"># function to generate text
+</span>    <span class="k">def</span> <span class="nf">generate_text</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">char</span><span class="o">=</span><span class="s">"a"</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c1"># intialize the hidden state
+</span>        <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">))</span>
+        <span class="c1"># push the hidden state to the GPU
+</span>        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># initialize the generated text
+</span>        <span class="n">gen_text</span> <span class="o">=</span> <span class="n">char</span>
+
+        <span class="c1"># predict the next character until we get the desired length
+</span>        <span class="c1"># we are not feedding the whole sequence to the model
+</span>        <span class="c1"># but we are feeding the output of the previous character to the model
+</span>        <span class="c1"># because the the memory was saved in the hidden state
+</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+            <span class="n">char</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">top_k</span><span class="p">)</span>
+            <span class="n">gen_text</span> <span class="o">+=</span> <span class="n">char</span>
+
+        <span class="k">return</span> <span class="n">gen_text</span>
+    
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
+
+    <span class="n">seq_length</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>   <span class="c1"># 512
+</span>    <span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">512</span>  <span class="c1"># or 256
+</span>    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
+    
+    <span class="n">rnn_model</span> <span class="o">=</span> <span class="nc">SimpleRNN</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s">"data/sonnets.txt"</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                            <span class="n">seq_length</span><span class="o">=</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">)</span>
+    <span class="c1"># print out number of parameters
+</span>    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Number of parameters is </span><span class="si">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">rnn_model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">())</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="c1"># push to GPU
+</span>    <span class="n">rnn_model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="c1"># train the model
+</span>    <span class="n">loss_list</span> <span class="o">=</span> <span class="n">rnn_model</span><span class="p">.</span><span class="nf">train_model</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
+    <span class="c1"># generate text
+</span>    <span class="nf">print</span><span class="p">(</span><span class="n">rnn_model</span><span class="p">.</span><span class="nf">generate_text</span><span class="p">(</span><span class="n">char</span><span class="o">=</span><span class="s">"H"</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div></div>
 
 
     </div>
