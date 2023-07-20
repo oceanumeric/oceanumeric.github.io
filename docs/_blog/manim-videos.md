@@ -17,4 +17,5 @@ I will try to use Manim to replicate a video from `ByteByteGo`. Here is the vide
 
 When I try to replicate this video, I want to decompose the video into many
 reusable parts. For instance, the introduction part should be same for 
-all the videos. 
+all the videos. The goal is to write resuable code so that I can make
+many videos with less effort.
