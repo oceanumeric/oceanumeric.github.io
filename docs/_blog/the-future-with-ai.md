@@ -60,7 +60,7 @@ Since we are in Europe (or we are not in the US), we have to face the following 
     </div>
 </div>
 
-Figure 1 tells us that the market value of IT firms in the US or China is much higher than that in Europe. This means that we have to face the following facts:
+Figure 2 tells us that the market value of IT firms in the US or China is much higher than that in Europe. This means that we have to face the following facts:
 
 - There is a lower chance for people in the Europe to be the first movers.
 - There is a less number of talents who are doing AI in Europe.
