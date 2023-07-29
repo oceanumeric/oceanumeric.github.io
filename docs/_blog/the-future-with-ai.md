@@ -101,3 +101,10 @@ Microsoft Copilot Stack. Please watch it.
 <div align="center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/RhwVMt_XCUE?start=138" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
+
+## The Right Mindset and the Right People
+
+I think the right mindset is to be the followers who are trying to catch up with the first movers. Basically, we need to learn from the best such as OpenAI and
+Google. At the same time, we need to have contacts with the people who are
+working in the first movers. We need to learn from them and we need to
+collaborate with them.
