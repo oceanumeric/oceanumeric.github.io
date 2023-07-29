@@ -32,7 +32,20 @@ I think we should at least be in the second group. We should be the followers wh
 Therefore, __the key question is: how can we be the followers who are trying to catch up with the first movers?__ I think the answer is to make sure that we could
 at least replicate the products from the first movers and then add some values to the products in a small and medium-sized scale. _It is all about imitation and implementation._
 
-If you did some search on the LinkedIn, you will find so many firms who claim that _they are provindg digital transformation services or data science solutions_. It is a big market 
+If you did some search on the LinkedIn, you will find so many firms who claim that _they are provindg digital transformation services or data science solutions_. Nevertheless, __it is a
+big market with a lot of opportunities__. We could still find our niche in the market and
+we need to survive and win in the market.
+
+<div class='figure'>
+    <img src="/images/blog/industry-evolution.png"
+         alt="fp7 totalcost hist1" class="zoom-img"
+         style="width: 87%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The Evolution of Industry
+        from the Perspective of Competition.
+    </div>
+</div>
+
 
 ## Our Environment
 
@@ -43,7 +56,7 @@ Since we are in Europe (or we are not in the US), we have to face the following 
          alt="fp7 totalcost hist1" class="zoom-img"
          style="width: 87%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 1.</span> The Market Value Distribution of IT firms Globally.
+        <span class='caption-label'>Figure 2.</span> The Market Value Distribution of IT firms Globally.
     </div>
 </div>
 
@@ -60,5 +73,31 @@ Probably, that's why we see many IT consulting firms in Europe. But I think the 
 - we add AI to the digital solutions to make the solutions more intelligent.
 
 
-
 ## The Future of Digital Solutions
+
+The future of digital solutions could be summarized in the one sentence: __AI
+is the new interaction technology.__ Please watch the following video to get a
+better understanding of the future of digital solutions.
+
+<div align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/h41Uc73xph4?start=138" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+In the nutshell, in the future, we will have three kinds of interaction technologies which could be equipped with conversational AI:
+
+- Beside (like ChatGPT)
+- Inside (like GitHub Copilot)
+- Outside (like Microsoft Copilot)
+
+For people who did not follow the latest development of AI, I would like to
+ask you to pay attention to the following two products: GitHub Copilot and
+Microsoft Copilot. These two products are the future of digital solutions.
+_We need to understand the full stack of these two products._ The copilot
+stack is also known as the _GPT-4 stack_ or _LLM(Large Language Model) stack_.
+
+The following video from the CEO of Microsoft is a good introduction to the
+Microsoft Copilot Stack. Please watch it.
+
+<div align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RhwVMt_XCUE?start=138" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
