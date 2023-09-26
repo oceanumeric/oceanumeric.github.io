@@ -182,4 +182,26 @@ __My reflections:__ _It happens today in 2022. The ChatGPT is the beginning of t
 <iframe width="560" height="315" src="https://www.youtube.com/embed/CtnX1EJHbC0?si=TtTIioiq3558VxOb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
-__My reflections:__ _Stay close to your customers and your passion. Please know the numbers._
+__My reflections:__ _Stay close to your customers and your passion. Please know the numbers and the best marketing is the education, which you show your customer who you are, what you are passionate about, and then teach them how they could express themselves like you do._
+
+
+### 9. Being focuses is to say no
+
+<div align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/H8eP99neOVs?si=gojai7g0wzpJzolT&amp;start=298" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+
+## What's my strategy for getting involved in the AI industry then?
+
+Now, things are very clear and I could have my peace. This is what I am going to do:
+
+- Follow my heart and have my passion
+- Create great products
+- Find my customers and stay with them
+- Be a thinker and doer in one person
+- Combine the technology and humanities
+- Be focused and say no to the things that are not important to me
+
+What will be the first products that I will create? That will leave to me and my friends to decide. 
+
