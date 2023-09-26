@@ -30,7 +30,7 @@ the same thing. All those talks sound very like Chinese philosophy, but we put i
 Please watch the following video, it is only 3 minutes long.
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nzQWYHHqvIw?si=RrJvQHCwVyeleSV4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/nzQWYHHqvIw?si=RrJvQHCwVyeleSV4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 
@@ -85,7 +85,7 @@ I will list the things that I have learned from Steve Jobs one by one.
 
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-Z9cFdhHKB4?si=79n4kriXfzFtZaQy&amp;start=15" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/-Z9cFdhHKB4?si=79n4kriXfzFtZaQy&amp;start=15" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflection:__ _making money is different from starting a company. There are many ways of making money without starting a company. Think about what you really want and what kind of things you are passion about and what kind of things you want to do for having the peace of mind when you are doing it._
@@ -98,7 +98,7 @@ __My reflection:__ _making money is different from starting a company. There are
 
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/0lvMgMrNDlg?si=ed91bxCMeEGsdWtC&amp;start=152" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/0lvMgMrNDlg?si=ed91bxCMeEGsdWtC&amp;start=152" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflection:__ _The "great man", the "hero", or the "genius" just grows out of
@@ -115,7 +115,7 @@ effects of numberless causes, and causes of endless effects._
 
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-Z9cFdhHKB4?si=hoqHhLf9zvbkguRc&amp;start=55" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/-Z9cFdhHKB4?si=hoqHhLf9zvbkguRc&amp;start=55" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflection:__ _The fourth great age of personal computing is probably the age of AI. But how this age will be different from the previous three ages? Right now,
@@ -131,7 +131,7 @@ and the web did. We will see._
 
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-Z9cFdhHKB4?si=Ao2vn9hRu3Zozyfg&amp;start=436" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/-Z9cFdhHKB4?si=Ao2vn9hRu3Zozyfg&amp;start=436" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflection:__ _The technology is the tool, and the humanities is the goal. The technology is the means, and the humanities is the end. Without serving for the
@@ -144,7 +144,7 @@ great humanities, companies could not grow big. Both Bruce Lee and Steve Jobs me
 
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GnO7D5UaDig?si=RO6i0PnENJaSiswZ&amp;start=1692" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/GnO7D5UaDig?si=RO6i0PnENJaSiswZ&amp;start=1692" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflection:__ _We need to transfer our passion into great products._
@@ -156,7 +156,7 @@ __My reflection:__ _We need to transfer our passion into great products._
 
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oNC8LEj5X4U?si=ezoPWD5U_kNMJVJK&amp;start=2229" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/oNC8LEj5X4U?si=ezoPWD5U_kNMJVJK&amp;start=2229" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflections:__ theory and practices have to come together. 
@@ -167,7 +167,7 @@ __My reflections:__ theory and practices have to come together.
 > When I look at the personal computer, where you know we are living in the wake of the last revolution which was the new source of free energy, that was the free energy of petrochemicals and completely transformed our society and we are products of petrochemicals revolution and we are still living the wake of today. We are not entering another revolution of free energy.. it's free intellectual energy, it is crude and very crude but it is getting more refined and year after year; and in our lifetimes it should get very refined...my hope is someday when the next Aristotle is alive we can capture the underlying worldview of that Aristotle in a computer and someday some students will be able to not only read the words of Aristotle but ask Aristotle a question and get an answer. That's what I hope we can do. This is a beginning of that. It will happen in 20 years.
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2qLuerYx2IA?si=QR5PxaFrWzgCzHM6&amp;start=298" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/2qLuerYx2IA?si=QR5PxaFrWzgCzHM6&amp;start=298" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflections:__ _It happens today in 2022. The ChatGPT is the beginning of that, which is 20 years later than Steve Jobs predicted. But it is still a beginning._
@@ -179,7 +179,7 @@ __My reflections:__ _It happens today in 2022. The ChatGPT is the beginning of t
 
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/CtnX1EJHbC0?si=TtTIioiq3558VxOb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/CtnX1EJHbC0?si=TtTIioiq3558VxOb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 __My reflections:__ _Stay close to your customers and your passion. Please know the numbers and the best marketing is the education, which you show your customer who you are, what you are passionate about, and then teach them how they could express themselves like you do._
@@ -188,7 +188,7 @@ __My reflections:__ _Stay close to your customers and your passion. Please know 
 ### 9. Being focuses is to say no
 
 <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/H8eP99neOVs?si=gojai7g0wzpJzolT&amp;start=298" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/H8eP99neOVs?si=gojai7g0wzpJzolT&amp;start=298" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 
