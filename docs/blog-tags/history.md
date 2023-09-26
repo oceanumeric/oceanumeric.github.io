@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: GPT-3"
-tag: GPT-3
+title: "Tag: history"
+tag: history
 robots: noindex
 ---
