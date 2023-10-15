@@ -271,11 +271,83 @@ $$
 In this section, we will review two ways of deriving the least square solution. The first way is to use the calculus. The second way is to use the linear algebra. Again,
 the purpose of doing this is to give you certain level of mathematical maturity, especailly on the relationship between analysis and algebra.
 
+Suppose the regression model has the following matrix model
+
+$$
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_n
+\end{bmatrix} = \begin{bmatrix}
+1 & x_{11} & x_{12} & \cdots & x_{1p} \\
+1 & x_{21} & x_{22} & \cdots & x_{2p} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_{n1} & x_{n2} & \cdots & x_{np} \\
+\end{bmatrix} \begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\vdots \\
+\beta_p
+\end{bmatrix} + \begin{bmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots \\
+\epsilon_n
+\end{bmatrix} 
+$$
+
+where $y_i$ is the $i$-th observation of the dependent variable, $x_{ij}$ is the $j$-th observation of the $i$-th independent variable, $\beta_j$ is the coefficient of the $j$-th independent variable, and $\epsilon_i$ is the error term of the $i$-th observation. We assume that the error term $\epsilon_i$ is independent and identically distributed (i.i.d.) with mean zero and variance $\sigma^2$. We also assume that the error term $\epsilon_i$ is independent of the independent variables $x_{ij}$. 
+
+The equation (6) could be written in the following matrix form:
+
+$$
+\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} 
+$$
+
+where $\mathbf{y}$ is the vector of the dependent variable, $\mathbf{X}$ is the matrix of the independent variables, $\boldsymbol{\beta}$ is the vector of the coefficients, and $\boldsymbol{\epsilon}$ is the vector of the error terms. 
+
+Now, our goal is to find the estimation of the coefficients $\boldsymbol{\beta}$, denoted by $\hat{\boldsymbol{\beta}}$ by minimizing the residual sum of squares (RSS), which is defined as the following:
+
+$$
+RSS = \sum_{n=1}^N \hat{\epsilon}_i^2 = \sum_{n=1}^N (y_i - \hat{y}_i)^2 = \sum_{n=1}^N (y_i - \mathbf{x}_i^T \hat{\boldsymbol{\beta}})^2 
+$$
+
+where $\hat{\epsilon}_i$ is the residual of the $i$-th observation, $\hat{y}_i$ is the predicted value of the $i$-th observation, and $\mathbf{x}_i$ is the vector of the $i$-th observation of the independent variables.
+
+Since $\hat{\epsilon} = y - X \hat{\boldsymbol{\beta}}$, we have
+
+$$
+\begin{aligned}
+RSS & = \hat{\epsilon}^T \hat{\epsilon} = (y - X \hat{\boldsymbol{\beta}})^T (y - X \hat{\boldsymbol{\beta}}) \\
+& = y^T y - 2y^T X \hat{\boldsymbol{\beta}} + \hat{\boldsymbol{\beta}}^T X^T X \hat{\boldsymbol{\beta}} \\
+\end{aligned}
+$$
+
+The first order condition of the above equation is the following:
+
+$$
+\begin{aligned}
+\frac{\partial RSS}{\partial \hat{\boldsymbol{\beta}}} & = -2 X^T y + 2 X^T X \hat{\boldsymbol{\beta}} = 0 \\
+\Rightarrow \quad \hat{\boldsymbol{\beta}} & = (X^T X)^{-1} X^T y
+\end{aligned} \tag{6}
+$$
+
+This is the least square solution. We can also derive the least square solution by using the linear algebra. To do this, we need to reply on the following two facts:
+
+- the projection of a vector $\mathbf{y}$ onto a vector space $\mathcal{C}(\mathbf{X})$ is the orthogonal projection of $\mathbf{y}$ onto $\mathcal{C}(\mathbf{X})$.
+- the difference between $\mathbf{y}$ and its projection onto $\mathcal{C}(\mathbf{X})$ is orthogonal to $\mathcal{C}(\mathbf{X})$.
+
+Therefore, we have
+
+$$
+X^T (y - X \hat{\boldsymbol{\beta}}) = 0 
+$$
+
+where $X\hat{\boldsymbol{\beta}}$ is the projection of $\mathbf{y}$ onto $\mathcal{C}(\mathbf{X})$. This will lead to the same least square solution as the one derived by using the calculus.
 
 
-
-
-
+## Back to Euler's formula
 
 
 
