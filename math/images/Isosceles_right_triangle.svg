@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-6 -6 115 115">
+<title>Square root of 2</title>
+<defs>
+<marker id="ea" viewBox="0 0 10 10" refX="10" refY="5"	markerUnits="strokeWidth" orient="auto"
+	markerWidth="6" markerHeight="6">
+	<polyline points="10,5 0,10 4,5 0,0 10,5" fill="#777"/>
+	<polyline points="10,0 10,10" stroke="#777"/>
+</marker>
+</defs>
+<g marker-end="url(#ea)" stroke="#777" fill="none">
+	<path d="M53,105H100 M47,105H-1" />
+	<path d="M105, 55V100 M105,45V-2" />
+	<path d="M36,-5H101 M22,-5H-43" transform="rotate(-45,100,0)"/>
+</g>
+<path d="M100,100 v-100 l-100,100z M100,92h-8v8" stroke="black" fill="#99ccff"/><g font-size="10" fill="black" text-anchor="middle">
+	<text x="50" y="108">1</text><text x="105" y="53">1</text>
+	<text x="44" y="50">&#x221a;<tspan dy="-1">2</tspan></text>
+</g>
+
+</svg>
