@@ -5,7 +5,7 @@ layout: math_page_template
 date: 2023-10-15
 keywords: fourier series, fourier transform, probability, measure theory, entropy, foundations of probability
 published: true
-tags: fourier-analysis, probability, measure-theory, entropy, foundations-of-probability
+tags: fourier-analysis probability measure-theory entropy foundations-of-probability
 ---
 
-hello
+hello world
