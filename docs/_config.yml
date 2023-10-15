@@ -26,9 +26,8 @@ github_username:  jekyll
 
 highlighter: rouge
 
-# Build settings
+# Build settings without jekyll-feed
 plugins:
-  - jekyll-feed 
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-scholar
