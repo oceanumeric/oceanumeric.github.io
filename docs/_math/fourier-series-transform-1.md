@@ -168,17 +168,108 @@ Figure 2 shows the Taylor series estimation of $\sqrt{2}$, and its convergence. 
 <p class='theorembox'>
 <b>Reflections</b>
 <br>
-Informally, the expected value is the weighted arithmetic mean of a large number of independently selected outcomes of a random variable. This means we have:
-<i>one random variable</i> and <i> a countable set of possible outcomes</i>. 
-For example, weight of human being follows the normal distribution: random 
-variable is weight of human being, a countable set of possible outcomes 
-is the set of all possible values of weight (some people are fit, some are
-slim, some are overweight). 
-
-At last, we need to calculate the <b>weighted</b> arithmetic mean. 
+This simple example enables us to reflect on the many topics: i) the meaning of
+theoretical mathematics v.s. applied mathematics, ii) the meaning of idealized v.s. real world, iii) the meaning of continuous v.s. discrete. iv) the connection between analysis and linear algebra, etc. 
+<br>
+<b>The most important message</b> I want to convey is that one has to develop the 
+certain level of mathematical maturity to carry out the mathematical analysis and 
+implement the calculation in the real world, which is so called 'engineering'.
 </p>
 
+When we use the Taylor series to estimate $\sqrt{2}$, we did not cover the following interesting and important questions:
 
+- how fast does the Taylor series converge to $\sqrt{2}$?
+- does the anchor point $a$ matter?
+- what's the relationship between the Taylor series and Newton's method?
+- why does the Taylor series converge to $\sqrt{2}$?
+- what's the relationship between the Taylor series and the linear algebra space in terms of basis, eigenvalue, eigenvector, etc.?
+- How could we use the knowledge about Taylor series to guide us to study Neural Networks?
+- Why learning those advanced math topics could help us to understand the optimization algorithms, such as gradient descent, etc.?
+
+All those questions will be answered in the future blog posts when we study Fourier Series and Fourier Transform systematically. So, without further ado, let's start our journey of Fourier Series and Fourier Transform.
+
+
+## Euler's number and Euler's formula
+
+Euler's number is a very important number in mathematics. It is denoted by $e$. It is defined as the following infinite series:
+
+$$
+e = \sum_{n=0}^{\infty} \frac{1}{n!} = 1 + \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \cdots
+$$
+
+where $n!$ is the factorial of $n$. For example, $3! = 3 \times 2 \times 1 = 6$. One cannot overstate the importance of Euler's number. It is almost everywhere in mathematics. For instance, the famous Gaussian distribution is defined as the following:
+
+$$
+\mathcal{N}(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+$$
+
+where $\exp(x) = e^x$. In number theroy, probability theory, statistics, etc., Euler's number is everywhere. To learn how Euler discovered this number, please read [this](https://digitalcommons.ursinus.edu/triumphs_analysis/3/). I have not read this note, but put it here for future reference.
+
+With appreciation of Euler's number, we can define Euler's formula as the following:
+
+$$
+e^{ix} = \cos(x) + i \sin(x) \tag{1}
+$$
+
+where $i$ is the imaginary unit, which is defined as the following:
+
+$$
+i^2 = -1
+$$
+
+This simple formula connects the exponential function with the trigonometric functions. It is a very powerful formula and also the beautiful one. Please read the [wikipedia](https://en.wikipedia.org/wiki/Euler%27s_formula) to learn more about Euler's formula.
+
+With Euler's formula, we can derive the following two important formulas:
+
+$$
+\begin{aligned}
+\cos(x) & = \frac{e^{ix} + e^{-ix}}{2} \\
+\sin(x) & = \frac{e^{ix} - e^{-ix}}{2i} \tag{2}
+\end{aligned}
+$$
+
+In our posts, we will use the above two formulas frequently. So, please remember them.
+
+## Dot product and inner product
+
+In linear algebra, we have the concept of dot product and inner product. They are very important concepts. In this section, we will review them. It is important to know that
+inner product is a generalization of dot product. So, we will start with dot product first.
+
+The dot product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is defined as the following:
+
+$$
+\mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \cdots + a_n b_n
+$$
+
+where $n$ is the dimension of the vectors $\mathbf{a}$ and $\mathbf{b}$. For example, if $\mathbf{a} = [1, 2, 3]$ and $\mathbf{b} = [4, 5, 6]$, then
+
+$$
+\mathbf{a} \cdot \mathbf{b} = 1 \times 4 + 2 \times 5 + 3 \times 6 = 32
+$$
+
+The dot product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is also called the inner product of two vectors $\mathbf{a}$ and $\mathbf{b}$. The inner product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is denoted by $\langle \mathbf{a}, \mathbf{b} \rangle$. So, we have
+
+$$
+\langle \mathbf{a}, \mathbf{b} \rangle = \mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \cdots + a_n b_n \tag{3}
+$$
+
+The inner product has a very nice geometric interpretation:
+
+$$
+\langle \mathbf{a}, \mathbf{b} \rangle = \|\mathbf{a}\| \|\mathbf{b}\| \cos \theta  \tag{4}
+$$
+
+where $\theta$ is the angle between the two vectors $\mathbf{a}$ and $\mathbf{b}$, and $\|\mathbf{a}\|$ and $\|\mathbf{b}\|$ are the lengths of the vectors $\mathbf{a}$ and $\mathbf{b}$, respectively. We also refer to $\|\mathbf{a}\|$ as the norm of the vector $\mathbf{a}$. The norm of a vector $\mathbf{a}$ is defined as the following:
+
+$$
+\|\mathbf{a}\| = \sqrt{\langle \mathbf{a}, \mathbf{a} \rangle} = \sqrt{\mathbf{a} \cdot \mathbf{a}} = \sqrt{\sum_{i=1}^{n} a_i^2}  \tag{5}
+$$
+
+
+## Two ways of deriving least square solution
+
+In this section, we will review two ways of deriving the least square solution. The first way is to use the calculus. The second way is to use the linear algebra. Again,
+the purpose of doing this is to give you certain level of mathematical maturity, especailly on the relationship between analysis and algebra.
 
 
 
