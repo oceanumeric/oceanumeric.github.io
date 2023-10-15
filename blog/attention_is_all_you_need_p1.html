@@ -223,7 +223,7 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
 
 
 
-<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
 
 
 <span class="c1">### --------- define our class module --------- ###
@@ -236,13 +236,13 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
         <span class="n">self</span><span class="p">.</span><span class="n">seq_length</span> <span class="o">=</span> <span class="n">seq_length</span>
         <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
 
-        <span class="nf">print</span><span class="p">(</span><span class="s">"::::::::::---------Loading data------::::::::::</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">::::::::::---------Loading data------::::::::::</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
 
         <span class="n">self</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">load_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
         <span class="n">self</span><span class="p">.</span><span class="n">chars</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">))</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"Unique characters: "</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">))</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Unique characters: </span><span class="sh">"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">))</span>
         <span class="nf">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"::::::::::---------Processing data------::::::::::</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">::::::::::---------Processing data------::::::::::</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
         <span class="n">self</span><span class="p">.</span><span class="n">encoded_text</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">process_data</span><span class="p">()</span>
 
         <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)</span>
@@ -263,10 +263,10 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
 
     
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h_t</span><span class="p">):</span>
-        <span class="s">"""
+        <span class="sh">"""</span><span class="s">
         x: input, shape = (batch_size, seq_length, vocab_size), here we use one-hot encoding
         h_prev: hidden state from previous cell, shape = (batch_size, hidden_size)
-        """</span>
+        </span><span class="sh">"""</span>
         <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">,</span> <span class="n">vocab_size</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span>
         <span class="n">hidden_states</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -356,14 +356,14 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
             
             <span class="c1"># print the loss every 10 epochs
 </span>            <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nf">print</span><span class="p">(</span><span class="s">"Epoch: {}, Loss: {:.4f}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Epoch: {}, Loss: {:.4f}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 
         <span class="k">return</span> <span class="n">loss_list</span>
 
 
     <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">):</span>
 
-        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">text</span>
@@ -372,7 +372,7 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
 
         <span class="c1"># get all the unique characters
 </span>        <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"Vocabulary size: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">))</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Vocabulary size: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">))</span>
 
         <span class="c1"># create a dictionary to map the characters to integers and vice versa
 </span>        <span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span> <span class="o">=</span> <span class="p">{</span><span class="n">ch</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)}</span>
@@ -386,9 +386,9 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
             <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span>
         <span class="p">)</span>
         <span class="c1"># print out the length
-</span>        <span class="nf">print</span><span class="p">(</span><span class="s">"Text length: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Text length: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
         <span class="c1"># print the first 100 characters
-</span>        <span class="nf">print</span><span class="p">(</span><span class="s">"The text has been encoded and the first 100 characters are:"</span><span class="p">)</span>
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The text has been encoded and the first 100 characters are:</span><span class="sh">"</span><span class="p">)</span>
         <span class="nf">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">encoded</span>
@@ -475,7 +475,7 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
         <span class="k">return</span> <span class="n">char_next</span><span class="p">,</span> <span class="n">h</span>
 
     <span class="c1"># function to generate text
-</span>    <span class="k">def</span> <span class="nf">generate_text</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">char</span><span class="o">=</span><span class="s">"a"</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span>    <span class="k">def</span> <span class="nf">generate_text</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">char</span><span class="o">=</span><span class="sh">"</span><span class="s">a</span><span class="sh">"</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="c1"># intialize the hidden state
 </span>        <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">))</span>
@@ -496,8 +496,8 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
         <span class="k">return</span> <span class="n">gen_text</span>
     
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello World</span><span class="sh">"</span><span class="p">)</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
 
     <span class="n">seq_length</span> <span class="o">=</span> <span class="mi">100</span>
@@ -506,16 +506,16 @@ h_t &amp;= \text{tanh}(W_{hh}h_{t-1} + W_{xh}x_t + b_h)
 </span>    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">300</span>
     <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
     
-    <span class="n">rnn_model</span> <span class="o">=</span> <span class="nc">SimpleRNN</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s">"data/sonnets.txt"</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+    <span class="n">rnn_model</span> <span class="o">=</span> <span class="nc">SimpleRNN</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="sh">"</span><span class="s">data/sonnets.txt</span><span class="sh">"</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
                             <span class="n">seq_length</span><span class="o">=</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">)</span>
     <span class="c1"># print out number of parameters
-</span>    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Number of parameters is </span><span class="si">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">rnn_model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">())</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</span>    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Number of parameters is </span><span class="si">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">rnn_model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">())</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
     <span class="c1"># push to GPU
 </span>    <span class="n">rnn_model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
     <span class="c1"># train the model
 </span>    <span class="n">loss_list</span> <span class="o">=</span> <span class="n">rnn_model</span><span class="p">.</span><span class="nf">train_model</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
     <span class="c1"># generate text
-</span>    <span class="nf">print</span><span class="p">(</span><span class="n">rnn_model</span><span class="p">.</span><span class="nf">generate_text</span><span class="p">(</span><span class="n">char</span><span class="o">=</span><span class="s">"H"</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+</span>    <span class="nf">print</span><span class="p">(</span><span class="n">rnn_model</span><span class="p">.</span><span class="nf">generate_text</span><span class="p">(</span><span class="n">char</span><span class="o">=</span><span class="sh">"</span><span class="s">H</span><span class="sh">"</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 </code></pre></div></div>
 
 <h2 id="3-implementing-a-lstm-and-gru-model">3. Implementing a LSTM and GRU model</h2>
@@ -619,7 +619,7 @@ As elein  fre man
 <span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 
-<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
     <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -637,9 +637,9 @@ As elein  fre man
 </span>
 
 <span class="k">class</span> <span class="nc">LSTM</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     LSTM model with only one layer, whereas in PyTorch, the default is two layers.
-    """</span>
+    </span><span class="sh">"""</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">drop_prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
         <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
@@ -648,13 +648,13 @@ As elein  fre man
         <span class="n">self</span><span class="p">.</span><span class="n">seq_length</span> <span class="o">=</span> <span class="n">seq_length</span>
         <span class="n">self</span><span class="p">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
 
-        <span class="nf">print</span><span class="p">(</span><span class="s">"::::::::::---------Loading data------::::::::::</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">::::::::::---------Loading data------::::::::::</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
 
         <span class="n">self</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">load_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
         <span class="n">self</span><span class="p">.</span><span class="n">chars</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">))</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"Unique characters: "</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">))</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Unique characters: </span><span class="sh">"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">))</span>
         <span class="nf">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"::::::::::---------Processing data------::::::::::</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">::::::::::---------Processing data------::::::::::</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
         <span class="n">self</span><span class="p">.</span><span class="n">encoded_text</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">process_data</span><span class="p">()</span>
 
         <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)</span>
@@ -702,7 +702,7 @@ As elein  fre man
         <span class="p">]</span>
 
         <span class="c1"># initialize the parameters
-</span>        <span class="nf">print</span><span class="p">(</span><span class="s">"::::::::::---------Initializing weights------::::::::::</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">::::::::::---------Initializing weights------::::::::::</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
         <span class="n">self</span><span class="p">.</span><span class="nf">init_weights</span><span class="p">()</span>
 
         <span class="c1"># add dropout layer
@@ -717,11 +717,11 @@ As elein  fre man
             <span class="n">weight</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">uniform_</span><span class="p">(</span><span class="o">-</span><span class="n">stdv</span><span class="p">,</span> <span class="n">stdv</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="s">"""
+        <span class="sh">"""</span><span class="s">
         x.shape = (batch_size, seq_length, vocab_size)
         h.shape = (batch_size, hidden_size); initial hidden state
         c.shape = (batch_size, hidden_size); initial cell state
-        """</span>
+        </span><span class="sh">"""</span>
         <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">,</span> <span class="n">vocab_size</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span>
 
         <span class="c1"># initialize hidden states and cell states for all the time steps
@@ -833,17 +833,17 @@ As elein  fre man
 
             <span class="c1"># print the loss after every 10 epochs
 </span>            <span class="nf">if </span><span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nf">print</span><span class="p">(</span><span class="s">"Epoch: {}, Loss: {:.4f}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Epoch: {}, Loss: {:.4f}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 
             <span class="c1"># add early stopping
 </span>            <span class="k">if</span> <span class="n">losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
-                <span class="nf">print</span><span class="p">(</span><span class="s">"Loss is too low, stopping the training"</span><span class="p">)</span>
+                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Loss is too low, stopping the training</span><span class="sh">"</span><span class="p">)</span>
                 <span class="k">break</span>
 
         <span class="k">return</span> <span class="n">losses</span>
 
     <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">):</span>
-        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">text</span>
@@ -851,7 +851,7 @@ As elein  fre man
     <span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
         <span class="c1"># get all the unique characters
 </span>        <span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"Vocabulary size: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">))</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Vocabulary size: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">))</span>
 
         <span class="c1"># create a dictionary to map the characters to integers and vice versa
 </span>        <span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span> <span class="o">=</span> <span class="p">{</span><span class="n">ch</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">chars</span><span class="p">)}</span>
@@ -865,9 +865,9 @@ As elein  fre man
             <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">char_to_int</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span>
         <span class="p">)</span>
         <span class="c1"># print out the length
-</span>        <span class="nf">print</span><span class="p">(</span><span class="s">"Text length: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Text length: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
         <span class="c1"># print the first 100 characters
-</span>        <span class="nf">print</span><span class="p">(</span><span class="s">"The text has been encoded and the first 100 characters are:"</span><span class="p">)</span>
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The text has been encoded and the first 100 characters are:</span><span class="sh">"</span><span class="p">)</span>
         <span class="nf">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">encoded</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">encoded</span>
@@ -940,7 +940,7 @@ As elein  fre man
 
         <span class="k">return</span> <span class="n">char_next</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span>
     
-    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">prime_char</span><span class="o">=</span><span class="s">"M"</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">prime_char</span><span class="o">=</span><span class="sh">"</span><span class="s">M</span><span class="sh">"</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 
         <span class="c1"># initialize the hidden state and cell state
 </span>        <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">c</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -959,12 +959,12 @@ As elein  fre man
 
     
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Hello world"</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Device: "</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello world</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Device: </span><span class="sh">"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
 
-    <span class="n">data_path</span> <span class="o">=</span> <span class="s">"data/sonnets.txt"</span>
+    <span class="n">data_path</span> <span class="o">=</span> <span class="sh">"</span><span class="s">data/sonnets.txt</span><span class="sh">"</span>
     <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
     <span class="n">seq_length</span> <span class="o">=</span> <span class="mi">100</span>
     <span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">512</span>
@@ -974,7 +974,7 @@ As elein  fre man
     <span class="n">lstm</span> <span class="o">=</span> <span class="nc">LSTM</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
 
     <span class="c1"># print out the number of parameters
-</span>    <span class="nf">print</span><span class="p">(</span><span class="s">"Number of parameters: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lstm</span><span class="p">.</span><span class="nf">parameters</span><span class="p">())))</span>
+</span>    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Number of parameters: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lstm</span><span class="p">.</span><span class="nf">parameters</span><span class="p">())))</span>
 
     <span class="c1"># push the model to device
 </span>    <span class="n">lstm</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
@@ -983,7 +983,7 @@ As elein  fre man
 </span>    <span class="n">losses</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">.</span><span class="nf">train_model</span><span class="p">(</span><span class="n">epoches</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">)</span>
 
     <span class="c1"># generate some text
-</span>    <span class="nf">print</span><span class="p">(</span><span class="n">lstm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">prime_char</span><span class="o">=</span><span class="s">"M"</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+</span>    <span class="nf">print</span><span class="p">(</span><span class="n">lstm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">prime_char</span><span class="o">=</span><span class="sh">"</span><span class="s">M</span><span class="sh">"</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 </code></pre></div></div>
 
 

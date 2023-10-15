@@ -138,11 +138,11 @@ implement this in JAX.</p>
 
 
 <span class="k">def</span> <span class="nf">row_wise_loop</span><span class="p">(</span><span class="n">L</span><span class="p">:</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Forward substitution with row-wise loop based on the above formula
     L: m by n matrix
     b: m by 1 matrix
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">L</span><span class="p">.</span><span class="n">shape</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="p">.</span><span class="nf">zeros_like</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="c1"># calculate the first one x_1 = b_1/l_{11}
@@ -332,10 +332,10 @@ A^{(k+1)}[i, :] = A^{(k)}[i, :] - l_{ik} A^{(k)}[k, :]
 <p>Now, let’s implement this algorithm.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lu_outer_product</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Implement outer product form of the LU factorization
     A: n by n matrix (square matrix)
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="c1"># loop over columns 
 </span>    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -582,10 +582,10 @@ a row swap at each step <span class="katex"><span class="katex-mathml"><math xml
 in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>k</mi><mo>:</mo><mi>n</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">A[k:n, k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">A</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span></span></span></span> appears in the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>k</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(k, k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span> position.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lu_partial_pivoting</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     LU factorization with partial pivoting
     A is a n by n matrix (square)
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="c1"># make sure the data type should be float 
 </span>    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="n">jnp</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
@@ -693,9 +693,9 @@ we find any entry of <span class="katex"><span class="katex-mathml"><math xmlns=
 and perform a row and column swap to put that entry in the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>k</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(k, k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span> position.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lu_rook_pivoting</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     LU factorization with rook pivoting
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="c1"># make sure the data type should be float 
 </span>    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="n">jnp</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
@@ -861,9 +861,9 @@ are positive, we can define</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>G</mi><msup><mi>G</mi><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">A = G G^T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8913309999999999em;vertical-align:0em;"></span><span class="mord mathdefault">G</span><span class="mord"><span class="mord mathdefault">G</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913309999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">cholesky_lu</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     A is symmetric postive definite matrix
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="n">jnp</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -884,9 +884,9 @@ are positive, we can define</p>
 
 
 <span class="k">def</span> <span class="nf">cholesky_lu2</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Cholesky lu factorization with row operation (vectorized version)
-    """</span> 
+    </span><span class="sh">"""</span> 
     <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="n">jnp</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>

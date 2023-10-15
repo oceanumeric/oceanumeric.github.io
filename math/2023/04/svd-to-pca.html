@@ -209,7 +209,7 @@ power iteration algorithm only needs to compute <span class="katex"><span class=
 
 
 <span class="k">def</span> <span class="nf">power_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">:</span><span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
-    <span class="s">"""Returns the dominant eigenpair of A.
+    <span class="sh">"""</span><span class="s">Returns the dominant eigenpair of A.
 
     Parameters
     ----------
@@ -224,10 +224,10 @@ power iteration algorithm only needs to compute <span class="katex"><span class=
         Dominant eigenvector.
     lambda : float
         Dominant eigenvalue.
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">m</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="s">'A must be a square matrix.'</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="sh">'</span><span class="s">A must be a square matrix.</span><span class="sh">'</span><span class="p">)</span>
     
     <span class="c1"># generate a random vector
 </span>    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
@@ -375,7 +375,7 @@ want to refresh your memory about the QR decomposition, you can check out
 <a href="https://oceanumeric.github.io/math/2023/04/QR-factorization" target="_blank">my another post</a>.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">qr_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">:</span><span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
-    <span class="s">"""Returns all eigenpairs of A.
+    <span class="sh">"""</span><span class="s">Returns all eigenpairs of A.
 
     Parameters
     ----------
@@ -390,7 +390,7 @@ want to refresh your memory about the QR decomposition, you can check out
         all eigenvectors.
     lambda : float
         all eigenvalues.
-    """</span>
+    </span><span class="sh">"""</span>
  
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_simulations</span><span class="p">):</span>
         <span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="nf">qr</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
@@ -497,7 +497,7 @@ b &amp; c
     <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span>
     <span class="n">eigen_values</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">m</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="s">'A must be a symmetric matrix.'</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="sh">'</span><span class="s">A must be a symmetric matrix.</span><span class="sh">'</span><span class="p">)</span>
     
     <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     

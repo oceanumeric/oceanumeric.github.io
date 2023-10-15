@@ -132,14 +132,14 @@
 </span>
 
 <span class="k">def</span> <span class="nf">_read_txt</span><span class="p">(</span><span class="n">txt_path</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">txt_path</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">txt_path</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">txt</span>
 
 
 <span class="k">def</span> <span class="nf">_read_all_txt</span><span class="p">(</span><span class="n">txt_dir</span><span class="p">):</span>
     <span class="n">txt_files</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">txt_dir</span><span class="p">)</span>
-    <span class="n">txt_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_files</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="s">".txt"</span><span class="p">)]</span>
+    <span class="n">txt_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_files</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">"</span><span class="s">.txt</span><span class="sh">"</span><span class="p">)]</span>
     <span class="n">txt_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">txt_dir</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_files</span><span class="p">]</span>
     <span class="n">txt_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="nf">_read_txt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_files</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">txt_corpus</span>
@@ -148,7 +148,7 @@
 <span class="k">def</span> <span class="nf">_preprocess_txt</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">):</span>
     
     <span class="c1"># Split the documents into tokens.
-</span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="nc">RegexpTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s">'\w+'</span><span class="p">)</span>
+</span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="nc">RegexpTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">\w+</span><span class="sh">'</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">)):</span>
         <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">lower</span><span class="p">()</span>  <span class="c1"># Convert to lowercase.
 </span>        <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">.</span><span class="nf">tokenize</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>  <span class="c1"># Split into words.
@@ -167,7 +167,7 @@
 </span>    <span class="n">bigram</span> <span class="o">=</span> <span class="nc">Phrases</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">txt_corpus</span><span class="p">)):</span>
         <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">bigram</span><span class="p">[</span><span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">]]:</span>
-            <span class="k">if</span> <span class="s">'_'</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
+            <span class="k">if</span> <span class="sh">'</span><span class="s">_</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
                 <span class="c1"># Token is a bigram, add to document.
 </span>                <span class="n">txt_corpus</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
     
@@ -200,8 +200,8 @@
         <span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
         <span class="n">id2word</span><span class="o">=</span><span class="n">id2word</span><span class="p">,</span>
         <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="s">'auto'</span><span class="p">,</span>
-        <span class="n">eta</span><span class="o">=</span><span class="s">'auto'</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="sh">'</span><span class="s">auto</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">eta</span><span class="o">=</span><span class="sh">'</span><span class="s">auto</span><span class="sh">'</span><span class="p">,</span>
         <span class="n">iterations</span><span class="o">=</span><span class="n">iterations</span><span class="p">,</span>
         <span class="n">num_topics</span><span class="o">=</span><span class="n">num_topics</span><span class="p">,</span>
         <span class="n">passes</span><span class="o">=</span><span class="n">passes</span><span class="p">,</span>
@@ -213,11 +213,11 @@
 
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello World!</span><span class="sh">"</span><span class="p">)</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
 
-    <span class="n">foo</span> <span class="o">=</span> <span class="nf">_read_all_txt</span><span class="p">(</span><span class="s">"./"</span><span class="p">)</span>
+    <span class="n">foo</span> <span class="o">=</span> <span class="nf">_read_all_txt</span><span class="p">(</span><span class="sh">"</span><span class="s">./</span><span class="sh">"</span><span class="p">)</span>
 
     <span class="n">foo_corpus</span><span class="p">,</span> <span class="n">foo_dict</span> <span class="o">=</span> <span class="nf">_preprocess_txt</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
 

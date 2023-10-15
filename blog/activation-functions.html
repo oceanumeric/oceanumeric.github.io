@@ -193,13 +193,13 @@ y_2  = x \odot x = \begin{bmatrix}
 </span><span class="n">y1</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
 <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">grad</span><span class="p">)</span>
 <span class="c1"># tensor([0., 2., 4., 6.])
-</span><span class="nf">print</span><span class="p">(</span><span class="s">"Without zeroing the gradient"</span><span class="p">)</span>
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Without zeroing the gradient</span><span class="sh">"</span><span class="p">)</span>
 <span class="n">y2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
 <span class="n">y2</span><span class="p">.</span><span class="nf">sum</span><span class="p">().</span><span class="nf">backward</span><span class="p">()</span>
 <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">grad</span><span class="p">)</span>
 <span class="c1"># tensor([ 0.,  4.,  8., 12.])
 # you can see that the gradient is accumulated
-</span><span class="nf">print</span><span class="p">(</span><span class="s">"Setting the gradient to zero"</span><span class="p">)</span>
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Setting the gradient to zero</span><span class="sh">"</span><span class="p">)</span>
 <span class="n">x</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="nf">zero_</span><span class="p">()</span>
 <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">grad</span><span class="p">)</span>
 <span class="c1"># tensor([0., 0., 0., 0.])
@@ -359,8 +359,8 @@ very small for a large positive or negative number. This causes the gradient to 
 
 <span class="c1"># region --------- environment setup --------- ###
 # set up the data path
-</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
-<span class="n">SAVE_PATH</span> <span class="o">=</span> <span class="s">"../pretrained/ac_fun"</span>
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../data</span><span class="sh">"</span>
+<span class="n">SAVE_PATH</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../pretrained/ac_fun</span><span class="sh">"</span>
 
 
 <span class="c1"># function for setting seed
@@ -378,16 +378,16 @@ very small for a large positive or negative number. This causes the gradient to 
 <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="c1"># set up device
-</span><span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</span><span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
 
 <span class="c1"># endregion
 </span>
 
 <span class="c1"># region --------- data prepocessing --------- ###
 </span><span class="k">def</span> <span class="nf">_get_data</span><span class="p">():</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     download the dataset from FashionMNIST and transfom it to tensor
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set up the transformation
 </span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">(</span>
         <span class="p">[</span><span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))]</span>
@@ -395,20 +395,20 @@ very small for a large positive or negative number. This causes the gradient to 
 
     <span class="c1"># download the dataset
 </span>    <span class="n">train_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span>
-        <span class="n">root</span><span class="o">=</span><span class="s">"./data"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
+        <span class="n">root</span><span class="o">=</span><span class="sh">"</span><span class="s">./data</span><span class="sh">"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
     <span class="p">)</span>
     <span class="n">test_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span>
-        <span class="n">root</span><span class="o">=</span><span class="s">"./data"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
+        <span class="n">root</span><span class="o">=</span><span class="sh">"</span><span class="s">./data</span><span class="sh">"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span>
 
 
 <span class="k">def</span> <span class="nf">_visualize_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     visualize the dataset by randomly sampling
     9 images from the dataset
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set up the figure
 </span>    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
     <span class="n">col</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span>
@@ -418,8 +418,8 @@ very small for a large positive or negative number. This causes the gradient to 
         <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">]</span>
         <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="s">"off"</span><span class="p">)</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="sh">"</span><span class="s">off</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">gray</span><span class="sh">"</span><span class="p">)</span>
 
 
 <span class="c1"># endregion
@@ -430,7 +430,7 @@ very small for a large positive or negative number. This causes the gradient to 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
         <span class="nf">super</span><span class="p">(</span><span class="n">AcFun</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
         <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s">"name"</span><span class="p">:</span> <span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">}</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">}</span>
 
 
 <span class="c1"># inherit from AcFun
@@ -457,7 +457,7 @@ very small for a large positive or negative number. This causes the gradient to 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">negative_slope</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
         <span class="nf">super</span><span class="p">(</span><span class="n">LeakyReLU</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
         <span class="n">self</span><span class="p">.</span><span class="n">negative_slope</span> <span class="o">=</span> <span class="n">negative_slope</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">"negative_slope"</span><span class="p">]</span> <span class="o">=</span> <span class="n">negative_slope</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="sh">"</span><span class="s">negative_slope</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">negative_slope</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">F</span><span class="p">.</span><span class="nf">leaky_relu</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">negative_slope</span><span class="p">)</span>
@@ -475,9 +475,9 @@ very small for a large positive or negative number. This causes the gradient to 
 
 <span class="c1"># function to get gradient of the activation function
 </span><span class="k">def</span> <span class="nf">_get_grad</span><span class="p">(</span><span class="n">ac_fun</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     get the gradient of the activation function at x
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># copy the input tensor and set requires_grad to True
 </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="nf">clone</span><span class="p">().</span><span class="nf">detach</span><span class="p">().</span><span class="nf">requires_grad_</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="nf">ac_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -487,13 +487,13 @@ very small for a large positive or negative number. This causes the gradient to 
 
 
 <span class="k">def</span> <span class="nf">_vis_grad</span><span class="p">(</span><span class="n">ac_fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     visualize the gradient of the activation function
     Input:
         ac_fun: activation function
         x: input tensor
         ax: matplotlib axis
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># calculate the output
 </span>    <span class="n">y</span> <span class="o">=</span> <span class="nf">ac_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="c1"># get the gradient
@@ -502,17 +502,17 @@ very small for a large positive or negative number. This causes the gradient to 
     <span class="c1"># pass the data to cpu and convert to numpy
 </span>    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">grad</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">grad</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
     <span class="c1"># plot the gradient
-</span>    <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">"k-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"AcFun"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad</span><span class="p">,</span> <span class="s">"k--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Gradient"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="n">ac_fun</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">"bold"</span><span class="p">)</span>
+</span>    <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="sh">"</span><span class="s">k-</span><span class="sh">"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">AcFun</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad</span><span class="p">,</span> <span class="sh">"</span><span class="s">k--</span><span class="sh">"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Gradient</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="n">ac_fun</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">"</span><span class="s">bold</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">ax</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
     <span class="n">ax</span><span class="p">.</span><span class="nf">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="nf">max</span><span class="p">())</span>
 
 
 <span class="k">def</span> <span class="nf">vis_ac_fun</span><span class="p">(</span><span class="n">ac_fun_dict</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     visualize the activation function and its gradient
-    """</span>
+    </span><span class="sh">"""</span>
 
     <span class="c1"># get number of activation functions
 </span>    <span class="n">num</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">ac_fun_dict</span><span class="p">)</span>
@@ -534,20 +534,20 @@ very small for a large positive or negative number. This causes the gradient to 
 
 <span class="c1"># region --------- build up a neural network --------- ###
 </span><span class="k">class</span> <span class="nc">BaseNet</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     A simple neural network to show the effect of activation functions
-    """</span>
+    </span><span class="sh">"""</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="n">self</span><span class="p">,</span> <span class="n">ac_fun</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span> <span class="n">num_class</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">hidden_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
     <span class="p">):</span>
-        <span class="s">"""
+        <span class="sh">"""</span><span class="s">
         Inputs:
             ac_fun: activation function
             input_size: size of the input = 28*28
             num_class: number of classes = 10
             hidden_sizes: list of hidden layer sizes that specify the layer sizes
-        """</span>
+        </span><span class="sh">"""</span>
         <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
 
         <span class="c1"># create a list of layers
@@ -564,11 +564,11 @@ very small for a large positive or negative number. This causes the gradient to 
 
         <span class="c1"># set up the config dictionary
 </span>        <span class="n">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s">"ac_fun"</span><span class="p">:</span> <span class="n">ac_fun</span><span class="p">.</span><span class="n">config</span><span class="p">,</span>
-            <span class="s">"input_size"</span><span class="p">:</span> <span class="n">input_size</span><span class="p">,</span>
-            <span class="s">"num_class"</span><span class="p">:</span> <span class="n">num_class</span><span class="p">,</span>
-            <span class="s">"hidden_sizes"</span><span class="p">:</span> <span class="n">hidden_sizes</span><span class="p">,</span>
-            <span class="s">"num_of_nets"</span><span class="p">:</span> <span class="n">self</span><span class="p">.</span><span class="n">num_nets</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">ac_fun</span><span class="sh">"</span><span class="p">:</span> <span class="n">ac_fun</span><span class="p">.</span><span class="n">config</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">input_size</span><span class="sh">"</span><span class="p">:</span> <span class="n">input_size</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">num_class</span><span class="sh">"</span><span class="p">:</span> <span class="n">num_class</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">hidden_sizes</span><span class="sh">"</span><span class="p">:</span> <span class="n">hidden_sizes</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">num_of_nets</span><span class="sh">"</span><span class="p">:</span> <span class="n">self</span><span class="p">.</span><span class="n">num_nets</span><span class="p">,</span>
         <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
@@ -576,18 +576,18 @@ very small for a large positive or negative number. This causes the gradient to 
 </span>        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_layer_summary</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">):</span>
-        <span class="s">"""
+        <span class="sh">"""</span><span class="s">
         print the summary of the model
         input_size: the size of the input tensor
                     in the form of (batch_size, channel, height, width)
         note: using * to unpack the tuple
-        """</span>
+        </span><span class="sh">"""</span>
         <span class="c1"># generate a random input tensor
 </span>        <span class="c1">#
 </span>        <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="o">*</span><span class="n">input_size</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">net</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="nf">layer</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s">"output shape:</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="sh">"</span><span class="s">output shape:</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
 
 
 <span class="c1"># endregion
@@ -595,13 +595,13 @@ very small for a large positive or negative number. This causes the gradient to 
 
 <span class="c1"># region --------- visualize the distribution of gradient --------- ###
 </span><span class="k">def</span> <span class="nf">_vis_grad_dist</span><span class="p">(</span><span class="n">neural_net</span><span class="p">,</span> <span class="n">training_dataset</span><span class="p">,</span> <span class="n">ac_fun_dict</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Input:
         nueral_net: neural network model with activation function
                     such as foo_net = BaseNet(ReLU())
         training_dataset: training dataset
         ac_fun_dict: dictionary of activation functions
-    """</span>
+    </span><span class="sh">"""</span>
 
     <span class="n">fig_rows</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">ac_fun_dict</span><span class="p">)</span>
     <span class="n">fig_cols</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># number of nets
@@ -631,14 +631,14 @@ very small for a large positive or negative number. This causes the gradient to 
 </span>        <span class="n">gradients</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">name</span><span class="p">:</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="nf">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">detach</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">ac_fun_net</span><span class="p">.</span><span class="nf">named_parameters</span><span class="p">()</span>
-            <span class="k">if</span> <span class="s">"weight"</span> <span class="ow">in</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="sh">"</span><span class="s">weight</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">name</span>
         <span class="p">}</span>
         <span class="n">ac_fun_net</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>  <span class="c1"># set the gradient to zero
 </span>
         <span class="k">for</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">gradients</span><span class="p">):</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">]</span>
-            <span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s">"C</span><span class="si">{</span><span class="n">row_idx</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-            <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">ac_key</span><span class="si">}</span><span class="s">:</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="sh">"</span><span class="s">C</span><span class="si">{</span><span class="n">row_idx</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">ac_key</span><span class="si">}</span><span class="s">:</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
 
     <span class="n">fig</span><span class="p">.</span><span class="nf">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
@@ -650,7 +650,7 @@ very small for a large positive or negative number. This causes the gradient to 
 </span><span class="k">def</span> <span class="nf">train_the_model</span><span class="p">(</span>
     <span class="n">network_model</span><span class="p">,</span> <span class="n">training_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">7</span>
 <span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Train the neural network model, we stop if the validation loss
     does not improve for a certain number of epochs (patience=7)
     Inputs:
@@ -661,12 +661,12 @@ very small for a large positive or negative number. This causes the gradient to 
         patience: the number of epochs to wait before early stopping
     Output:
         the trained model
-    """</span>
+    </span><span class="sh">"""</span>
 
     <span class="c1"># initialize the model
 </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">network_model</span>
 
-    <span class="n">ac_fun_name</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">"ac_fun"</span><span class="p">][</span><span class="s">"name"</span><span class="p">]</span>
+    <span class="n">ac_fun_name</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="sh">"</span><span class="s">ac_fun</span><span class="sh">"</span><span class="p">][</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">]</span>
     <span class="c1"># push the model to the device
 </span>    <span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
 
@@ -740,44 +740,44 @@ very small for a large positive or negative number. This causes the gradient to 
 
         <span class="c1"># print out the training and validation accuracy
 </span>        <span class="nf">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s">"### ----- Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="mi">2</span><span class="n">d</span><span class="si">}</span><span class="s"> Training accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span>
+            <span class="sa">f</span><span class="sh">"</span><span class="s">### ----- Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="mi">2</span><span class="n">d</span><span class="si">}</span><span class="s"> Training accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span>
         <span class="p">)</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"                    Validation accuracy: </span><span class="si">{</span><span class="n">val_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">                    Validation accuracy: </span><span class="si">{</span><span class="n">val_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">val_acc</span> <span class="o">&gt;</span> <span class="n">val_scores</span><span class="p">[</span><span class="n">best_val_score</span><span class="p">]</span> <span class="ow">or</span> <span class="n">best_val_score</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">best_val_score</span> <span class="o">=</span> <span class="n">epoch</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># one could save the model here
-</span>            <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="sa">f</span><span class="s">"/</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s">.pt"</span><span class="p">)</span>
-            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"We have not improved for </span><span class="si">{</span><span class="n">epoch_count</span><span class="si">}</span><span class="s"> epochs, stopping..."</span><span class="p">)</span>
+</span>            <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="sa">f</span><span class="sh">"</span><span class="s">/</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s">.pt</span><span class="sh">"</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">We have not improved for </span><span class="si">{</span><span class="n">epoch_count</span><span class="si">}</span><span class="s"> epochs, stopping...</span><span class="sh">"</span><span class="p">)</span>
             <span class="n">time_end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
-            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Took </span><span class="si">{</span><span class="n">time_end</span> <span class="o">-</span> <span class="n">time_start</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s"> seconds to train the model"</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Took </span><span class="si">{</span><span class="n">time_end</span> <span class="o">-</span> <span class="n">time_start</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s"> seconds to train the model</span><span class="sh">"</span><span class="p">)</span>
             <span class="k">break</span>
     <span class="c1"># save the model
-</span>    <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="sa">f</span><span class="s">"/</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s">.pt"</span><span class="p">)</span>
+</span>    <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="sa">f</span><span class="sh">"</span><span class="s">/</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s">.pt</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">time_end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Took </span><span class="si">{</span><span class="n">time_end</span> <span class="o">-</span> <span class="n">time_start</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s"> seconds to train the model"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Took </span><span class="si">{</span><span class="n">time_end</span> <span class="o">-</span> <span class="n">time_start</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s"> seconds to train the model</span><span class="sh">"</span><span class="p">)</span>
 
     <span class="c1"># plot the loss scores and validation scores
 </span>    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
     <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">loss_scores</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">loss_scores</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="s">"Loss"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Epoch</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Loss</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">val_scores</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">val_scores</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="s">"Validation Accuracy"</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="s">"Loss and Validation Accuracy of LeNet-5 for Fashion MNIST"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Epoch</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Validation Accuracy</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="sh">"</span><span class="s">Loss and Validation Accuracy of LeNet-5 for Fashion MNIST</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">.</span><span class="nf">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.45</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">test_the_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">val_data_loader</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Test the model on the validation dataset
     Input:
         model: the trained model
         val_data_loader: the validation data loader
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set the model to evaluation mode
 </span>    <span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
 
@@ -808,12 +808,12 @@ very small for a large positive or negative number. This causes the gradient to 
 
 <span class="c1"># region --- visualize the output for each layer --------- #####
 </span><span class="k">def</span> <span class="nf">_visualize_output</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">ac_fun_dict</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     visualize the output for each layer based on pretrained model
-    """</span>
+    </span><span class="sh">"""</span>
 
     <span class="c1"># will only do this for three activation functions
-</span>    <span class="n">models_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Sigmoid"</span><span class="p">,</span> <span class="s">"Tanh"</span><span class="p">,</span> <span class="s">"ReLU"</span><span class="p">]</span>
+</span>    <span class="n">models_list</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Sigmoid</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Tanh</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">ReLU</span><span class="sh">"</span><span class="p">]</span>
 
     <span class="c1"># initialize a dictionary to store the output of each layer
 </span>    <span class="n">output_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -825,7 +825,7 @@ very small for a large positive or negative number. This causes the gradient to 
         <span class="c1"># load the model
 </span>        <span class="n">ac_fun</span> <span class="o">=</span> <span class="n">ac_fun_dict</span><span class="p">[</span><span class="n">ac_fun_name</span><span class="p">]</span>
         <span class="n">nn_model</span> <span class="o">=</span> <span class="nc">BaseNet</span><span class="p">(</span><span class="n">ac_fun</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
-        <span class="n">saved_model</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="sa">f</span><span class="s">"/</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s">.pt"</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">DEVICE</span><span class="p">)</span>
+        <span class="n">saved_model</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="sa">f</span><span class="sh">"</span><span class="s">/</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s">.pt</span><span class="sh">"</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">DEVICE</span><span class="p">)</span>
         <span class="n">nn_model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">saved_model</span><span class="p">)</span>
 
         <span class="c1"># evaluate the model
@@ -836,7 +836,7 @@ very small for a large positive or negative number. This causes the gradient to 
             <span class="k">for</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">nn_model</span><span class="p">.</span><span class="n">net</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
                 <span class="n">imgs</span> <span class="o">=</span> <span class="nf">layer</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
                 <span class="n">layer_name</span> <span class="o">=</span> <span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span>
-                <span class="n">output_dict_key</span> <span class="o">=</span> <span class="n">ac_fun_name</span> <span class="o">+</span> <span class="s">"_"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">layer_idx</span><span class="p">)</span> <span class="o">+</span> <span class="s">"_"</span> <span class="o">+</span> <span class="n">layer_name</span>
+                <span class="n">output_dict_key</span> <span class="o">=</span> <span class="n">ac_fun_name</span> <span class="o">+</span> <span class="sh">"</span><span class="s">_</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">layer_idx</span><span class="p">)</span> <span class="o">+</span> <span class="sh">"</span><span class="s">_</span><span class="sh">"</span> <span class="o">+</span> <span class="n">layer_name</span>
                 <span class="n">output_dict</span><span class="p">[</span><span class="n">output_dict_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">.</span><span class="nf">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
 
     <span class="n">fig_rows</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nf">len</span><span class="p">(</span><span class="n">models_list</span><span class="p">)</span>
@@ -844,16 +844,16 @@ very small for a large positive or negative number. This causes the gradient to 
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">fig_rows</span><span class="p">,</span> <span class="n">fig_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">fig_cols</span> <span class="o">*</span> <span class="mf">3.7</span><span class="p">,</span> <span class="n">fig_rows</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
     <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="p">.</span><span class="nf">flatten</span><span class="p">()</span>
 
-    <span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Sigmoid"</span><span class="p">:</span> <span class="s">"C0"</span><span class="p">,</span> <span class="s">"Tanh"</span><span class="p">:</span> <span class="s">"C1"</span><span class="p">,</span> <span class="s">"ReLU"</span><span class="p">:</span> <span class="s">"C2"</span><span class="p">}</span>
+    <span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">Sigmoid</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">C0</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Tanh</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">C1</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">ReLU</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">C2</span><span class="sh">"</span><span class="p">}</span>
 
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">output_key</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">output_dict</span><span class="p">):</span>
         <span class="c1"># get the output
 </span>        <span class="n">output</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="n">output_key</span><span class="p">]</span>
         <span class="c1"># get the activation function name
-</span>        <span class="n">ac_fun_name</span> <span class="o">=</span> <span class="n">output_key</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s">"_"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</span>        <span class="n">ac_fun_name</span> <span class="o">=</span> <span class="n">output_key</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="c1"># get the layer index
-</span>        <span class="n">layer_idx</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">output_key</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s">"_"</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">layer_name</span> <span class="o">=</span> <span class="n">output_key</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s">"_"</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+</span>        <span class="n">layer_idx</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">output_key</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">layer_name</span> <span class="o">=</span> <span class="n">output_key</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
         <span class="c1"># get the axis
 </span>        <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span>
@@ -861,10 +861,10 @@ very small for a large positive or negative number. This causes the gradient to 
             <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
             <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
             <span class="n">kde</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">stat</span><span class="o">=</span><span class="s">"density"</span><span class="p">,</span>
+            <span class="n">stat</span><span class="o">=</span><span class="sh">"</span><span class="s">density</span><span class="sh">"</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">ac_fun_name</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s"> - Layer </span><span class="si">{</span><span class="n">layer_idx</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">ac_fun_name</span><span class="si">}</span><span class="s"> - Layer </span><span class="si">{</span><span class="n">layer_idx</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
 
     <span class="n">fig</span><span class="p">.</span><span class="nf">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
@@ -872,30 +872,30 @@ very small for a large positive or negative number. This causes the gradient to 
 <span class="c1"># endregion
 </span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using torch"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using device"</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using torch</span><span class="sh">"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using device</span><span class="sh">"</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">)</span>
     <span class="c1"># set up finger config
 </span>    <span class="c1"># it is only used for interactive mode
 </span>    <span class="c1"># %config InlineBackend.figure_format = "retina"
 </span>
     <span class="c1"># download the dataset
 </span>    <span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="nf">_get_data</span><span class="p">()</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Train set size:"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_set</span><span class="p">))</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Test set size:"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">test_set</span><span class="p">))</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"The shape of the image:"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">shape</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"The size of vectorized image:"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="nf">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Train set size:</span><span class="sh">"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_set</span><span class="p">))</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Test set size:</span><span class="sh">"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">test_set</span><span class="p">))</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The shape of the image:</span><span class="sh">"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The size of vectorized image:</span><span class="sh">"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="nf">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="n">shape</span><span class="p">)</span>
     <span class="c1"># _visualize_data(train_set, test_set)
 </span>
     <span class="c1"># create a dictionary of activation functions 6 activation functions
 </span>    <span class="n">ac_fun_dict</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s">"Sigmoid"</span><span class="p">:</span> <span class="nc">Sigmoid</span><span class="p">(),</span>
-        <span class="s">"Tanh"</span><span class="p">:</span> <span class="nc">Tanh</span><span class="p">(),</span>
-        <span class="s">"ReLU"</span><span class="p">:</span> <span class="nc">ReLU</span><span class="p">(),</span>
-        <span class="s">"LeakyReLU"</span><span class="p">:</span> <span class="nc">LeakyReLU</span><span class="p">(),</span>
-        <span class="s">"ELU"</span><span class="p">:</span> <span class="nc">ELU</span><span class="p">(),</span>
-        <span class="s">"Swish"</span><span class="p">:</span> <span class="nc">Swish</span><span class="p">(),</span>
+        <span class="sh">"</span><span class="s">Sigmoid</span><span class="sh">"</span><span class="p">:</span> <span class="nc">Sigmoid</span><span class="p">(),</span>
+        <span class="sh">"</span><span class="s">Tanh</span><span class="sh">"</span><span class="p">:</span> <span class="nc">Tanh</span><span class="p">(),</span>
+        <span class="sh">"</span><span class="s">ReLU</span><span class="sh">"</span><span class="p">:</span> <span class="nc">ReLU</span><span class="p">(),</span>
+        <span class="sh">"</span><span class="s">LeakyReLU</span><span class="sh">"</span><span class="p">:</span> <span class="nc">LeakyReLU</span><span class="p">(),</span>
+        <span class="sh">"</span><span class="s">ELU</span><span class="sh">"</span><span class="p">:</span> <span class="nc">ELU</span><span class="p">(),</span>
+        <span class="sh">"</span><span class="s">Swish</span><span class="sh">"</span><span class="p">:</span> <span class="nc">Swish</span><span class="p">(),</span>
     <span class="p">}</span>
     <span class="c1"># set seaborn style
 </span>    <span class="c1"># sns.set_style("ticks")
@@ -904,7 +904,7 @@ very small for a large positive or negative number. This causes the gradient to 
     <span class="c1"># set seed
 </span>    <span class="nf">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
     <span class="c1"># check layer summary
-</span>    <span class="n">foo</span> <span class="o">=</span> <span class="nc">BaseNet</span><span class="p">(</span><span class="n">ac_fun_dict</span><span class="p">[</span><span class="s">"Tanh"</span><span class="p">])</span>
+</span>    <span class="n">foo</span> <span class="o">=</span> <span class="nc">BaseNet</span><span class="p">(</span><span class="n">ac_fun_dict</span><span class="p">[</span><span class="sh">"</span><span class="s">Tanh</span><span class="sh">"</span><span class="p">])</span>
     <span class="c1"># print(foo.config)
 </span>    <span class="c1"># good habit to check the dimension dynamically in the network
 </span>    <span class="n">foo</span><span class="p">.</span><span class="nf">_layer_summary</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">))</span>

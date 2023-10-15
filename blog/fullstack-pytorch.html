@@ -154,7 +154,7 @@ and other parameters.</p>
 
 <span class="c1">### --------- environment setup --------- ###
 # set up the data path
-</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../data</span><span class="sh">"</span>
 
 <span class="c1"># function for setting seed
 </span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
@@ -170,7 +170,7 @@ and other parameters.</p>
 <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="c1"># set up device
-</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="managing-the-dataset">Managing the dataset</h2>
@@ -183,9 +183,9 @@ and other parameters.</p>
     <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
 <span class="p">])</span>
 <span class="c1"># download the dataset
-</span><span class="n">train_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+</span><span class="n">train_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                                 <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-<span class="n">test_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">test_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>If you collect and organize the data by yourself, you can use the <code class="language-plaintext highlighter-rouge">torch.utils.data.TensorDataset</code> class to create a dataset. We will talk about this in the second part of this post.</p>
@@ -212,7 +212,7 @@ How could we do this? I think the best way is to use <code class="language-plain
         <span class="k">pass</span>
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
     <span class="c1"># build up the pipeline
 </span>    <span class="nf">fun1</span><span class="p">()</span>
     <span class="n">class1</span> <span class="o">=</span> <span class="nc">Class1</span><span class="p">()</span>
@@ -248,7 +248,7 @@ How could we do this? I think the best way is to use <code class="language-plain
 
 <span class="c1">### --------- environment setup --------- ###
 # set up the data path
-</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../data</span><span class="sh">"</span>
 
 <span class="c1"># function for setting seed
 </span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
@@ -264,15 +264,15 @@ How could we do this? I think the best way is to use <code class="language-plain
 <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="c1"># set up device
-</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
 
 
 <span class="c1">### --------- data preprocessing --------- ###
 </span>
 <span class="k">def</span> <span class="nf">_get_data</span><span class="p">():</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     download the dataset from FashionMNIST and transfom it to tensor
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set up the transformation
 </span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
         <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
@@ -280,19 +280,19 @@ How could we do this? I think the best way is to use <code class="language-plain
     <span class="p">])</span>
     
     <span class="c1"># download the dataset
-</span>    <span class="n">train_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+</span>    <span class="n">train_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                                     <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-    <span class="n">test_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">test_set</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                                     <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span>
 
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using torch"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using device"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using torch</span><span class="sh">"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using device</span><span class="sh">"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
     
     <span class="c1"># download the dataset
 </span>    <span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="nf">_get_data</span><span class="p">()</span>
@@ -318,11 +318,11 @@ How could we do this? I think the best way is to use <code class="language-plain
 <p>There are two main <code class="language-plaintext highlighter-rouge">attributes</code> of the dataset: <code class="language-plaintext highlighter-rouge">train_set.data</code> and <code class="language-plaintext highlighter-rouge">train_set.targets</code>. The <code class="language-plaintext highlighter-rouge">train_set.data</code> is a tensor with shape <code class="language-plaintext highlighter-rouge">(60000, 28, 28)</code>. The <code class="language-plaintext highlighter-rouge">train_set.targets</code> is a tensor with shape <code class="language-plaintext highlighter-rouge">(60000,)</code>. The <code class="language-plaintext highlighter-rouge">train_set.data</code> is the input data. The <code class="language-plaintext highlighter-rouge">train_set.targets</code> is the label data.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># understand the dataset
-</span><span class="nf">print</span><span class="p">(</span><span class="s">"The size of the training set is"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_set</span><span class="p">))</span>
-<span class="nf">print</span><span class="p">(</span><span class="s">"The dimension of the training set is"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="s">"The dimension of the training label is"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">targets</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="s">"The labels are"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">classes</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="s">"The labels with index are"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">class_to_idx</span><span class="p">)</span>
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The size of the training set is</span><span class="sh">"</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_set</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The dimension of the training set is</span><span class="sh">"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The dimension of the training label is</span><span class="sh">"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">targets</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The labels are</span><span class="sh">"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">classes</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The labels with index are</span><span class="sh">"</span><span class="p">,</span> <span class="n">train_set</span><span class="p">.</span><span class="n">class_to_idx</span><span class="p">)</span>
 
 <span class="c1"># The size of the training set is 60000
 # The dimension of the training set is torch.Size([60000, 28, 28])
@@ -385,7 +385,7 @@ How could we do this? I think the best way is to use <code class="language-plain
 
 <span class="c1">### --------- environment setup --------- ###
 # set up the data path
-</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../data</span><span class="sh">"</span>
 
 <span class="c1"># function for setting seed
 </span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
@@ -401,15 +401,15 @@ How could we do this? I think the best way is to use <code class="language-plain
 <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="c1"># set up device
-</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
 
 
 <span class="c1">### --------- data preprocessing --------- ###
 </span>
 <span class="k">def</span> <span class="nf">_get_data</span><span class="p">():</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     download the dataset from FashionMNIST and transfom it to tensor
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set up the transformation
 </span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
         <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
@@ -417,19 +417,19 @@ How could we do this? I think the best way is to use <code class="language-plain
     <span class="p">])</span>
     
     <span class="c1"># download the dataset
-</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                                     <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                                     <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span>
 
 
 <span class="k">def</span> <span class="nf">_visualize_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     visualize the dataset by randomly sampling
     9 images from the dataset
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set up the figure
 </span>    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
     <span class="n">col</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span>
@@ -439,8 +439,8 @@ How could we do this? I think the best way is to use <code class="language-plain
         <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">]</span>
         <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="s">"off"</span><span class="p">)</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="sh">"</span><span class="s">off</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">gray</span><span class="sh">"</span><span class="p">)</span>
         
 
 <span class="c1"># build the model
@@ -480,19 +480,19 @@ How could we do this? I think the best way is to use <code class="language-plain
         
         
     <span class="k">def</span> <span class="nf">_layer_summary</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">):</span>
-        <span class="s">"""
+        <span class="sh">"""</span><span class="s">
         print the summary of the model
         Input:
             input_size: the size of the input tensor
                         in the form of (batch_size, channel, height, width)
         note: using * to unpack the tuple
-        """</span>
+        </span><span class="sh">"""</span>
         <span class="c1"># generate a random input tensor
 </span>        <span class="c1"># 
 </span>        <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="o">*</span><span class="n">input_size</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">net</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="nf">layer</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s">"output shape:</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="sh">"</span><span class="s">output shape:</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
         
     
 
@@ -520,10 +520,10 @@ How could we do this? I think the best way is to use <code class="language-plain
 
     
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using torch"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using device"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using torch</span><span class="sh">"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using device</span><span class="sh">"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
 
     <span class="c1"># check layer summary
 </span>    <span class="n">foo_model</span> <span class="o">=</span> <span class="nc">FashionClassifier</span><span class="p">()</span>
@@ -580,8 +580,8 @@ For instance, in the above code, I am testing a new function called <code class=
 <span class="c1">#region ###### ---------  environment setup --------- ######
 </span>
 <span class="c1"># set up the data path
-</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">"../data"</span>
-<span class="n">SAVE_PATH</span> <span class="o">=</span> <span class="s">"../pretrained"</span>
+</span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../data</span><span class="sh">"</span>
+<span class="n">SAVE_PATH</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../pretrained</span><span class="sh">"</span>
 
 <span class="c1"># function for setting seed
 </span><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
@@ -597,15 +597,15 @@ For instance, in the above code, I am testing a new function called <code class=
 <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="c1"># set up device
-</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
 <span class="c1">#endregion
 </span>
 
 <span class="c1">#region ######  -------- data preprocessing -------- #######
 </span><span class="k">def</span> <span class="nf">_get_data</span><span class="p">():</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     download the dataset from FashionMNIST and transfom it to tensor
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set up the transformation
 </span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
         <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
@@ -613,19 +613,19 @@ For instance, in the above code, I am testing a new function called <code class=
     <span class="p">])</span>
     
     <span class="c1"># download the dataset
-</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                                     <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                                     <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span>
 
 
 <span class="k">def</span> <span class="nf">_visualize_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     visualize the dataset by randomly sampling
     9 images from the dataset
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set up the figure
 </span>    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
     <span class="n">col</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span>
@@ -635,8 +635,8 @@ For instance, in the above code, I am testing a new function called <code class=
         <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">]</span>
         <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="s">"off"</span><span class="p">)</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="sh">"</span><span class="s">off</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">gray</span><span class="sh">"</span><span class="p">)</span>
  <span class="c1">#endregion       
 </span>
 
@@ -691,19 +691,19 @@ For instance, in the above code, I am testing a new function called <code class=
     
         
     <span class="k">def</span> <span class="nf">_layer_summary</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">):</span>
-        <span class="s">"""
+        <span class="sh">"""</span><span class="s">
         print the summary of the model
         Input:
             input_size: the size of the input tensor
                         in the form of (batch_size, channel, height, width)
         note: using * to unpack the tuple
-        """</span>
+        </span><span class="sh">"""</span>
         <span class="c1"># generate a random input tensor
 </span>        <span class="c1"># 
 </span>        <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="o">*</span><span class="n">input_size</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">net</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="nf">layer</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s">"output shape:</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">layer</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span> <span class="sh">"</span><span class="s">output shape:</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
  <span class="c1">#endregion     
 </span>           
     
@@ -711,7 +711,7 @@ For instance, in the above code, I am testing a new function called <code class=
 </span><span class="k">def</span> <span class="nf">train_the_model</span><span class="p">(</span><span class="n">network_model</span><span class="p">,</span> <span class="n">training_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">,</span>
                                     <span class="n">num_epochs</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span>
                                     <span class="n">patience</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Train the neural network model, we stop if the validation loss
     does not improve for a certain number of epochs (patience=7)
     Inputs:
@@ -722,7 +722,7 @@ For instance, in the above code, I am testing a new function called <code class=
         patience: the number of epochs to wait before early stopping
     Output:
         the trained model
-    """</span>
+    </span><span class="sh">"""</span>
     
     <span class="c1"># initialize the model
 </span>    <span class="n">model</span> <span class="o">=</span> <span class="nf">network_model</span><span class="p">()</span>
@@ -796,37 +796,37 @@ For instance, in the above code, I am testing a new function called <code class=
         <span class="n">val_scores</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">val_acc</span><span class="p">)</span>
         
         <span class="c1"># print out the training and validation accuracy
-</span>        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"### ----- Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="mi">2</span><span class="n">d</span><span class="si">}</span><span class="s"> Training accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"                    Validation accuracy: </span><span class="si">{</span><span class="n">val_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">### ----- Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="mi">2</span><span class="n">d</span><span class="si">}</span><span class="s"> Training accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">                    Validation accuracy: </span><span class="si">{</span><span class="n">val_acc</span><span class="o">*</span><span class="mf">100.0</span><span class="si">:</span><span class="mf">03.2</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">val_acc</span> <span class="o">&gt;</span> <span class="n">val_scores</span><span class="p">[</span><span class="n">best_val_score</span><span class="p">]</span> <span class="ow">or</span> <span class="n">best_val_score</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">best_val_score</span> <span class="o">=</span> <span class="n">epoch</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># one could save the model here
-</span>            <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="s">"/best_model.pt"</span><span class="p">)</span>
-            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"We have not improved for </span><span class="si">{</span><span class="n">patience</span><span class="si">}</span><span class="s"> epochs, stopping..."</span><span class="p">)</span>
+</span>            <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">SAVE_PATH</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/best_model.pt</span><span class="sh">"</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">We have not improved for </span><span class="si">{</span><span class="n">patience</span><span class="si">}</span><span class="s"> epochs, stopping...</span><span class="sh">"</span><span class="p">)</span>
             <span class="k">break</span> 
         
     <span class="c1"># plot the loss scores and validation scores
 </span>    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
     <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">loss_scores</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="n">loss_scores</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="s">"Loss"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Epoch</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Loss</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">val_scores</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="n">val_scores</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="s">"Validation Accuracy"</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="s">"Loss and Validation Accuracy of LeNet-5 for Fashion MNIST"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Epoch</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Validation Accuracy</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="sh">"</span><span class="s">Loss and Validation Accuracy of LeNet-5 for Fashion MNIST</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">.</span><span class="nf">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.45</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">test_the_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">val_data_loader</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Test the model on the validation dataset
     Input:
         model: the trained model
         val_data_loader: the validation data loader
-    """</span>
+    </span><span class="sh">"""</span>
     <span class="c1"># set the model to evaluation mode
 </span>    <span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
     
@@ -868,10 +868,10 @@ For instance, in the above code, I am testing a new function called <code class=
     <span class="nf">train_the_model</span><span class="p">(</span><span class="n">FashionClassifier</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">)</span>
     
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">())</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using torch"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Using device"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using torch</span><span class="sh">"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Using device</span><span class="sh">"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
 
     <span class="nf">main</span><span class="p">()</span>
 </code></pre></div></div>

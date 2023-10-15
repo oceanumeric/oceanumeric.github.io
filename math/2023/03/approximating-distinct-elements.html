@@ -569,20 +569,20 @@ is that:</p>
 shows the probability of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">k= 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>. Here is the algorithm.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fm_algorithm</span><span class="p">(</span><span class="n">num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     plot the probabilistic distinct elements counting algorithms
     source: https://en.wikipedia.org/wiki/Flajolet%E2%80%93Martin_algorithm
-    """</span>
-    <span class="n">bitmap</span> <span class="o">=</span> <span class="s">'0'</span><span class="o">*</span><span class="mi">32</span>
+    </span><span class="sh">"""</span>
+    <span class="n">bitmap</span> <span class="o">=</span> <span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="o">*</span><span class="mi">32</span>
     <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
         <span class="n">hash_int</span> <span class="o">=</span> <span class="n">mmh3</span><span class="p">.</span><span class="nf">hash</span><span class="p">(</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">signed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">hash_str</span> <span class="o">=</span> <span class="s">"{0:b}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">hash_int</span><span class="p">)</span>
+        <span class="n">hash_str</span> <span class="o">=</span> <span class="sh">"</span><span class="s">{0:b}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">hash_int</span><span class="p">)</span>
         <span class="n">count_trailing0s</span> <span class="o">=</span> <span class="nf">_calculate_trailing0s</span><span class="p">(</span><span class="n">hash_str</span><span class="p">)</span>
 
-        <span class="n">bitmap</span> <span class="o">=</span> <span class="n">bitmap</span><span class="p">[:</span><span class="n">count_trailing0s</span><span class="p">]</span> <span class="o">+</span> <span class="s">'1'</span> <span class="o">+</span> <span class="n">bitmap</span><span class="p">[</span><span class="n">count_trailing0s</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">bitmap</span> <span class="o">=</span> <span class="n">bitmap</span><span class="p">[:</span><span class="n">count_trailing0s</span><span class="p">]</span> <span class="o">+</span> <span class="sh">'</span><span class="s">1</span><span class="sh">'</span> <span class="o">+</span> <span class="n">bitmap</span><span class="p">[</span><span class="n">count_trailing0s</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
 
-    <span class="n">r</span> <span class="o">=</span> <span class="n">bitmap</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">bitmap</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">r</span>
 </code></pre></div></div>

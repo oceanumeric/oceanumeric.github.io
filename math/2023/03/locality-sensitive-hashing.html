@@ -286,9 +286,9 @@ random process to reduce the running time and space.</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># construct samples and save them into a dict 
 </span><span class="n">doc_dict</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">number_of_files</span><span class="p">):</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="nf">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s">"file_name_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">"</span><span class="p">)</span> 
+    <span class="n">doc</span> <span class="o">=</span> <span class="nf">read_file</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">file_name_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span> 
     <span class="n">n_grams_i</span> <span class="o">=</span> <span class="nf">construct_n_grams</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    <span class="n">doc_dict</span><span class="p">[</span><span class="s">"file_i"</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_grams_i</span>
+    <span class="n">doc_dict</span><span class="p">[</span><span class="sh">"</span><span class="s">file_i</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_grams_i</span>
 
 <span class="c1"># sample space (population) by get the union
 </span><span class="n">doc_union</span> <span class="o">=</span> <span class="p">[]</span>

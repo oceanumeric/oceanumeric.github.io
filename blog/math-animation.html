@@ -162,7 +162,7 @@ a simple animation is to make a photo fly in from the left to the right. Then,
 a photo is a <em>moving object</em>. In <code class="language-plaintext highlighter-rouge">manim</code>, <code class="language-plaintext highlighter-rouge">ImageMobject</code> could read an image
 and make it as a moving object.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img</span> <span class="o">=</span> <span class="nc">ImageMobject</span><span class="p">(</span><span class="s">"images/cuteguy1.png"</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img</span> <span class="o">=</span> <span class="nc">ImageMobject</span><span class="p">(</span><span class="sh">"</span><span class="s">images/cuteguy1.png</span><span class="sh">"</span><span class="p">)</span>
 <span class="n">img</span><span class="p">.</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">img</span><span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">LEFT</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">self</span><span class="p">.</span><span class="nf">play</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="n">animate</span><span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">RIGHT</span><span class="o">*</span><span class="mi">5</span><span class="p">),</span> <span class="n">run_time</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -224,8 +224,8 @@ you can do:</p>
 
 <span class="k">class</span> <span class="nc">Fading</span><span class="p">(</span><span class="n">Scene</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-        <span class="n">tex_in</span> <span class="o">=</span> <span class="nc">Tex</span><span class="p">(</span><span class="s">"Fade"</span><span class="p">,</span> <span class="s">"In"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-        <span class="n">tex_out</span> <span class="o">=</span> <span class="nc">Tex</span><span class="p">(</span><span class="s">"Fade"</span><span class="p">,</span> <span class="s">"Out"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">tex_in</span> <span class="o">=</span> <span class="nc">Tex</span><span class="p">(</span><span class="sh">"</span><span class="s">Fade</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">In</span><span class="sh">"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">tex_out</span> <span class="o">=</span> <span class="nc">Tex</span><span class="p">(</span><span class="sh">"</span><span class="s">Fade</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Out</span><span class="sh">"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">self</span><span class="p">.</span><span class="nf">play</span><span class="p">(</span><span class="nc">FadeIn</span><span class="p">(</span><span class="n">tex_in</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">DOWN</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.66</span><span class="p">))</span>
         <span class="n">self</span><span class="p">.</span><span class="nf">play</span><span class="p">(</span><span class="nc">ReplacementTransform</span><span class="p">(</span><span class="n">tex_in</span><span class="p">,</span> <span class="n">tex_out</span><span class="p">))</span>
         <span class="n">self</span><span class="p">.</span><span class="nf">play</span><span class="p">(</span><span class="nc">FadeOut</span><span class="p">(</span><span class="n">tex_out</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">DOWN</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">))</span>
@@ -295,7 +295,7 @@ method you can utilize for this <code class="language-plaintext highlighter-roug
         
         <span class="c1"># add function label
 </span>        <span class="n">func_label</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">get_graph_label</span><span class="p">(</span>
-            <span class="n">func_graph</span><span class="p">,</span> <span class="s">"f(x) = x^2-2x -3"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">4</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span>
+            <span class="n">func_graph</span><span class="p">,</span> <span class="sh">"</span><span class="s">f(x) = x^2-2x -3</span><span class="sh">"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">4</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span>
         <span class="p">)</span>
         <span class="c1"># add a vertical line of the minimum value
 </span>        <span class="n">line_1</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">get_vertical_line</span><span class="p">(</span><span class="n">ax</span><span class="p">.</span><span class="nf">i2gp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">func_graph</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">YELLOW</span><span class="p">)</span>
@@ -303,27 +303,27 @@ method you can utilize for this <code class="language-plaintext highlighter-roug
         <span class="c1"># derivate function and plot 
 </span>        <span class="k">def</span> <span class="nf">derivate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span>
-        <span class="n">derivate_graph</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">derivate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"#F8A331"</span><span class="p">)</span>
+        <span class="n">derivate_graph</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">derivate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">"</span><span class="s">#F8A331</span><span class="sh">"</span><span class="p">)</span>
         <span class="n">derivate_label</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">get_graph_label</span><span class="p">(</span>
-            <span class="n">derivate_graph</span><span class="p">,</span> <span class="s">"f'(x) = 2x-2"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span><span class="o">*</span><span class="mi">6</span>
+            <span class="n">derivate_graph</span><span class="p">,</span> <span class="sh">"</span><span class="s">f</span><span class="sh">'</span><span class="s">(x) = 2x-2</span><span class="sh">"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span><span class="o">*</span><span class="mi">6</span>
         <span class="p">)</span>
         
         <span class="c1"># gradient descent variable with alpha = 0.03, iteration = 50
 </span>        <span class="c1"># iteration tracker
-</span>        <span class="n">iteration</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nc">Text</span><span class="p">(</span><span class="s">"Iteration"</span><span class="p">),</span> <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+</span>        <span class="n">iteration</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nc">Text</span><span class="p">(</span><span class="sh">"</span><span class="s">Iteration</span><span class="sh">"</span><span class="p">),</span> <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
         
         <span class="c1"># learning rate
 </span>        <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.97</span>
         <span class="n">learning_rate_var</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> 
-                                     <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"\alpha"</span><span class="p">),</span> 
+                                     <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">\alpha</span><span class="sh">"</span><span class="p">),</span> 
                                      <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="nf">shift</span><span class="p">(</span><span class="n">UP</span><span class="o">*</span><span class="mf">3.2</span><span class="o">+</span><span class="n">LEFT</span><span class="o">*</span><span class="mf">0.3</span><span class="p">)</span>
         <span class="n">learning_rate_var</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="n">RED</span><span class="p">)</span>
         
         <span class="c1"># theta 
 </span>        <span class="n">theta</span> <span class="o">=</span> <span class="mi">4</span>
-        <span class="n">theta_var</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="sa">r</span><span class="s">"\theta_t"</span><span class="p">,</span> <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">3</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+        <span class="n">theta_var</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="sa">r</span><span class="sh">"</span><span class="s">\theta_t</span><span class="sh">"</span><span class="p">,</span> <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">3</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
         <span class="n">theta_var</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="n">GREEN</span><span class="p">)</span>
-        <span class="n">theta_var_update</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="sa">r</span><span class="s">"\theta_{t+1}"</span><span class="p">,</span> <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">3</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+        <span class="n">theta_var_update</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="sa">r</span><span class="sh">"</span><span class="s">\theta_{t+1}</span><span class="sh">"</span><span class="p">,</span> <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">3</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
         <span class="n">theta_var_update</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="n">GREEN</span><span class="p">)</span>
         <span class="n">theta_var</span><span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">2.7</span><span class="o">+</span><span class="n">RIGHT</span><span class="o">*</span><span class="mf">3.4</span><span class="p">)</span>
         <span class="n">theta_var_update</span><span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">3.3</span><span class="o">+</span><span class="n">RIGHT</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
@@ -349,7 +349,7 @@ method you can utilize for this <code class="language-plaintext highlighter-roug
         <span class="p">))</span>
         
         <span class="c1"># add gradient descent formula 
-</span>        <span class="n">update_rule</span> <span class="o">=</span> <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"\theta_{t+1} = \theta_t - \alpha f'(x)"</span><span class="p">)</span>
+</span>        <span class="n">update_rule</span> <span class="o">=</span> <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">\theta_{t+1} = \theta_t - \alpha f</span><span class="sh">'</span><span class="s">(x)</span><span class="sh">"</span><span class="p">)</span>
         <span class="n">iter_update_group</span> <span class="o">=</span> <span class="nc">Group</span><span class="p">(</span><span class="n">iteration</span><span class="p">,</span> <span class="n">update_rule</span><span class="p">).</span><span class="nf">arrange</span><span class="p">(</span><span class="n">DOWN</span><span class="p">).</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">1.7</span><span class="o">+</span><span class="n">RIGHT</span><span class="o">*</span><span class="mf">3.9</span><span class="p">)</span>
         
         <span class="c1"># add moving point
@@ -372,11 +372,11 @@ method you can utilize for this <code class="language-plaintext highlighter-roug
         <span class="c1"># add derivative variable
 </span>        <span class="n">derivate_var</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span>
             <span class="nf">derivate</span><span class="p">(</span><span class="n">theta_var</span><span class="p">.</span><span class="n">tracker</span><span class="p">.</span><span class="nf">get_value</span><span class="p">()),</span>
-            <span class="sa">r</span><span class="s">"f'(x)"</span><span class="p">,</span>
+            <span class="sa">r</span><span class="sh">"</span><span class="s">f</span><span class="sh">'</span><span class="s">(x)</span><span class="sh">"</span><span class="p">,</span>
             <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">3</span>
         <span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">).</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">1.5</span><span class="o">+</span><span class="n">LEFT</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
-        <span class="n">derivate_var</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="s">"#F8A331"</span><span class="p">)</span>
-        <span class="n">derivate_var</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="s">"#F8A331"</span><span class="p">)</span>
+        <span class="n">derivate_var</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="sh">"</span><span class="s">#F8A331</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">derivate_var</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="sh">"</span><span class="s">#F8A331</span><span class="sh">"</span><span class="p">)</span>
         
         <span class="n">derivate_var</span><span class="p">.</span><span class="nf">add_updater</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">tracker</span><span class="p">.</span><span class="nf">set_value</span><span class="p">(</span>
             <span class="nf">derivate</span><span class="p">(</span><span class="n">mp</span><span class="p">.</span><span class="nf">get_value</span><span class="p">())</span>
@@ -385,7 +385,7 @@ method you can utilize for this <code class="language-plaintext highlighter-roug
         <span class="c1"># add function variable
 </span>        <span class="n">func_var</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span>
             <span class="nf">func</span><span class="p">(</span><span class="n">mp</span><span class="p">.</span><span class="nf">get_value</span><span class="p">()),</span>
-            <span class="sa">r</span><span class="s">"f(x)"</span><span class="p">,</span>
+            <span class="sa">r</span><span class="sh">"</span><span class="s">f(x)</span><span class="sh">"</span><span class="p">,</span>
             <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">3</span>
         <span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">).</span><span class="nf">shift</span><span class="p">(</span><span class="n">UP</span><span class="o">*</span><span class="mf">2.5</span><span class="o">+</span><span class="n">LEFT</span><span class="o">*</span><span class="mf">6.4</span><span class="p">)</span>
         <span class="n">func_var</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="n">BLUE</span><span class="p">)</span>
@@ -416,21 +416,21 @@ are not updating with the same rate. This happens due to the <code class="langua
 which is defined as:</p>
 
 <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Scene</span><span class="p">:</span>
-    <span class="s">"""A Scene is the canvas of your animation.
+    <span class="sh">"""</span><span class="s">A Scene is the canvas of your animation.
 
     The primary role of :class:`Scene` is to provide the user with tools to 
     manage mobjects and animations.  Generally speaking, a manim script 
     consists of a class that derives from :class:`Scene` 
-    whose :meth:`Scene.construct` method is overridden by the user's code.
-    """</span> 
+    whose :meth:`Scene.construct` method is overridden by the user</span><span class="sh">'</span><span class="s">s code.
+    </span><span class="sh">"""</span> 
     <span class="c1"># ...
 </span>    <span class="c1"># ...
 </span>    <span class="k">def</span> <span class="nf">add_updater</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="bp">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="s">"""Add an update function to the scene.
+        <span class="sh">"""</span><span class="s">Add an update function to the scene.
 
         The scene updater functions are run every frame,
         and they are the last type of updaters to run.
-        """</span>
+        </span><span class="sh">"""</span>
 </code></pre></div></div>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/VLlRqUK8ffA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
@@ -465,7 +465,7 @@ time to create the video as it needs to create more scenes.</p>
         
         <span class="c1"># add function label
 </span>        <span class="n">func_label</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">get_graph_label</span><span class="p">(</span>
-            <span class="n">func_graph</span><span class="p">,</span> <span class="s">"f(x) = x^2-2x -3"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">4</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span>
+            <span class="n">func_graph</span><span class="p">,</span> <span class="sh">"</span><span class="s">f(x) = x^2-2x -3</span><span class="sh">"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">4</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span>
         <span class="p">)</span>
         <span class="c1"># add a vertical line of the minimum value
 </span>        <span class="n">line_1</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">get_vertical_line</span><span class="p">(</span><span class="n">ax</span><span class="p">.</span><span class="nf">i2gp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">func_graph</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">YELLOW</span><span class="p">)</span>
@@ -473,9 +473,9 @@ time to create the video as it needs to create more scenes.</p>
         <span class="c1"># derivate function and plot 
 </span>        <span class="k">def</span> <span class="nf">derivate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span>
-        <span class="n">derivate_graph</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">derivate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"#F8A331"</span><span class="p">)</span>
+        <span class="n">derivate_graph</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">derivate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">"</span><span class="s">#F8A331</span><span class="sh">"</span><span class="p">)</span>
         <span class="n">derivate_label</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="nf">get_graph_label</span><span class="p">(</span>
-            <span class="n">derivate_graph</span><span class="p">,</span> <span class="s">"f'(x) = 2x-2"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span><span class="o">*</span><span class="mi">6</span>
+            <span class="n">derivate_graph</span><span class="p">,</span> <span class="sh">"</span><span class="s">f</span><span class="sh">'</span><span class="s">(x) = 2x-2</span><span class="sh">"</span><span class="p">,</span> <span class="n">x_val</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">UP</span><span class="o">*</span><span class="mi">6</span>
         <span class="p">)</span>
         
         <span class="c1"># gradient descent variable with alpha = 0.03, iteration = 50
@@ -483,7 +483,7 @@ time to create the video as it needs to create more scenes.</p>
         <span class="c1"># add learning rate on the top of scene
 </span>        <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.97</span>
         <span class="n">learning_rate_var</span> <span class="o">=</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> 
-                                     <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"\alpha"</span><span class="p">),</span> 
+                                     <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">\alpha</span><span class="sh">"</span><span class="p">),</span> 
                                      <span class="n">num_decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="nf">shift</span><span class="p">(</span><span class="n">UP</span><span class="o">*</span><span class="mf">3.2</span><span class="o">+</span><span class="n">LEFT</span><span class="o">*</span><span class="mf">0.3</span><span class="p">)</span>
         <span class="n">learning_rate_var</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="n">RED</span><span class="p">)</span>
         
@@ -492,7 +492,7 @@ time to create the video as it needs to create more scenes.</p>
 </span>        
         <span class="c1"># add iteration text 
 </span>        <span class="n">iteration_text</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nc">Text</span><span class="p">(</span><span class="s">"Iteration: "</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+            <span class="nc">Text</span><span class="p">(</span><span class="sh">"</span><span class="s">Iteration: </span><span class="sh">"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">1.3</span><span class="o">+</span><span class="n">RIGHT</span><span class="o">*</span><span class="mf">3.7</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">iteration_value</span> <span class="o">=</span> <span class="nf">always_redraw</span><span class="p">(</span>
@@ -503,13 +503,13 @@ time to create the video as it needs to create more scenes.</p>
         
         <span class="c1"># add gradient descent formula below the iteration
 </span>        <span class="n">update_rule</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"\theta_{t+1} = \theta_t - \alpha f'(x)"</span><span class="p">)</span>
+            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">\theta_{t+1} = \theta_t - \alpha f</span><span class="sh">'</span><span class="s">(x)</span><span class="sh">"</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">RIGHT</span><span class="o">*</span><span class="mf">3.9</span><span class="p">)</span>
         <span class="p">)</span>
                     
         <span class="c1"># add theta and theta_update
 </span>        <span class="n">theta_text</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"\theta_t = "</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">\theta_t = </span><span class="sh">"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">2.6</span><span class="o">+</span><span class="n">RIGHT</span><span class="o">*</span><span class="mf">3.9</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="c1"># initialize the theta value
@@ -534,7 +534,7 @@ time to create the video as it needs to create more scenes.</p>
         
         <span class="c1"># add theta_t+1
 </span>        <span class="n">theta_update_text</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"\theta_{t+1} = "</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">\theta_{t+1} = </span><span class="sh">"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">3.2</span><span class="o">+</span><span class="n">RIGHT</span><span class="o">*</span><span class="mf">2.7</span><span class="p">)</span>
         <span class="p">)</span>
         
@@ -550,9 +550,9 @@ time to create the video as it needs to create more scenes.</p>
         
         <span class="c1"># add derivative value
 </span>        <span class="n">derivate_text</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"f'(x) = "</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">f</span><span class="sh">'</span><span class="s">(x) = </span><span class="sh">"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">DOWN</span><span class="o">*</span><span class="mf">1.5</span><span class="o">+</span><span class="n">LEFT</span><span class="o">*</span><span class="mf">5.6</span><span class="p">)</span>
-            <span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="s">"#F8A331"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="sh">"</span><span class="s">#F8A331</span><span class="sh">"</span><span class="p">)</span>
         <span class="p">)</span>
         
         <span class="k">def</span> <span class="nf">update_derivate_value</span><span class="p">(</span><span class="n">tracker_value</span><span class="p">):</span>
@@ -565,13 +565,13 @@ time to create the video as it needs to create more scenes.</p>
                 <span class="nf">update_derivate_value</span><span class="p">(</span><span class="n">iteration</span><span class="p">.</span><span class="nf">get_value</span><span class="p">())</span>
             <span class="p">)</span>
             <span class="p">.</span><span class="nf">next_to</span><span class="p">(</span><span class="n">derivate_text</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">buff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">).</span><span class="nf">shift</span><span class="p">(</span><span class="n">UP</span><span class="o">*</span><span class="mf">0.01</span><span class="p">)</span>
-            <span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="s">"#F8A331"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="sh">"</span><span class="s">#F8A331</span><span class="sh">"</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
         <span class="p">)</span>
         
         <span class="c1"># add function value
 </span>        <span class="n">func_text</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="s">"f(x) = "</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+            <span class="nc">MathTex</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">f(x) = </span><span class="sh">"</span><span class="p">).</span><span class="nf">scale</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">shift</span><span class="p">(</span><span class="n">UP</span><span class="o">*</span><span class="mf">2.5</span><span class="o">+</span><span class="n">LEFT</span><span class="o">*</span><span class="mf">5.9</span><span class="p">)</span>
             <span class="p">.</span><span class="nf">set_color</span><span class="p">(</span><span class="n">BLUE</span><span class="p">)</span>
         <span class="p">)</span>

@@ -443,9 +443,9 @@ s_j^2 &amp; = \frac{1}{\frac{1}{\sigma^2} + \sum_{i} \phi_{ij}}
 </div>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UGMM</span><span class="p">:</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     Univariate Gaussian Mixture Model
-    """</span>
+    </span><span class="sh">"""</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">self</span><span class="p">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
@@ -515,11 +515,11 @@ s_j^2 &amp; = \frac{1}{\frac{1}{\sigma^2} + \sum_{i} \phi_{ij}}
             <span class="n">self</span><span class="p">.</span><span class="n">elbos</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">_get_elbo</span><span class="p">())</span>
             
             <span class="k">if</span> <span class="n">iter_</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nf">print</span><span class="p">(</span><span class="s">"Iteration: {}, ELBO: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">iter_</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">elbos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Iteration: {}, ELBO: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">iter_</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">elbos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
                 
             <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">elbos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">elbos</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
                 <span class="c1"># print convergence information at iteration i
-</span>                <span class="nf">print</span><span class="p">(</span><span class="s">"Converged at iteration: {}, ELBO: {}"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">iter_</span><span class="p">,</span>
+</span>                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Converged at iteration: {}, ELBO: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">iter_</span><span class="p">,</span>
                                                                         <span class="n">self</span><span class="p">.</span><span class="n">elbos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
                 <span class="k">break</span>
     
@@ -546,8 +546,8 @@ s_j^2 &amp; = \frac{1}{\frac{1}{\sigma^2} + \sum_{i} \phi_{ij}}
     <span class="n">ugmm</span><span class="p">.</span><span class="nf">fit</span><span class="p">()</span>
     
     <span class="c1"># print out the true mean and estimated mean
-</span>    <span class="nf">print</span><span class="p">(</span><span class="s">"True mean: </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">mu_arr</span><span class="p">))</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Estimated mean: </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">ugmm</span><span class="p">.</span><span class="n">m</span><span class="p">))</span>
+</span>    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">True mean: </span><span class="se">\n</span><span class="sh">"</span><span class="p">,</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">mu_arr</span><span class="p">))</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Estimated mean: </span><span class="se">\n</span><span class="sh">"</span><span class="p">,</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">ugmm</span><span class="p">.</span><span class="n">m</span><span class="p">))</span>
 
 <span class="c1"># Iteration: 10, ELBO: -3574.243674099098
 # Iteration: 20, ELBO: -3574.21530393399

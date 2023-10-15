@@ -119,12 +119,12 @@ and <code class="language-plaintext highlighter-rouge">BeautifulSoup</code>. The
         <span class="c1"># you may turn verify to False might unblock multiple requests
 </span>        <span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>  <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="nf">print</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-        <span class="n">page</span><span class="p">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s">"utf-8"</span>
+        <span class="n">page</span><span class="p">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="sh">"</span><span class="s">utf-8</span><span class="sh">"</span>
         <span class="nf">print</span><span class="p">(</span><span class="n">page</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
-        <span class="n">soup</span> <span class="o">=</span> <span class="nc">BeautifulSoup</span><span class="p">(</span><span class="n">page</span><span class="p">.</span><span class="n">content</span><span class="p">,</span> <span class="s">"lxml"</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="nc">BeautifulSoup</span><span class="p">(</span><span class="n">page</span><span class="p">.</span><span class="n">content</span><span class="p">,</span> <span class="sh">"</span><span class="s">lxml</span><span class="sh">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">soup</span>
     <span class="k">except</span> <span class="n">requests</span><span class="p">.</span><span class="n">exceptions</span><span class="p">.</span><span class="nb">ConnectionError</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"Connection refused: "</span><span class="o">+</span><span class="n">url</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Connection refused: </span><span class="sh">"</span><span class="o">+</span><span class="n">url</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="methods-for-dynamic-websites">Methods for dynamic websites</h2>
@@ -143,9 +143,9 @@ was rendered dynamically. Depending on how the data is rendered, you could try:<
 <p>I prefer using <code class="language-plaintext highlighter-rouge">Splash</code> as it allows you to render javascript in <code class="language-plaintext highlighter-rouge">Python</code>
 environment. For instance,</p>
 
-<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"http://localhost:8050/render.html"</span><span class="p">,</span>
-                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s">"url"</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="s">"wait"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-<span class="n">soup</span> <span class="o">=</span> <span class="nc">BeautifulSoup</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">content</span><span class="p">,</span> <span class="s">"html.parser"</span><span class="p">)</span>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">http://localhost:8050/render.html</span><span class="sh">"</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">url</span><span class="sh">"</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="sh">"</span><span class="s">wait</span><span class="sh">"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="nc">BeautifulSoup</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">content</span><span class="p">,</span> <span class="sh">"</span><span class="s">html.parser</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="methods-for-single-page-application-websites">Methods for single-page application websites</h2>
@@ -171,14 +171,14 @@ and get the data we want.</p>
     <span class="c1">// define a function </span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">save</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">filename</span><span class="p">){</span>
 
-        <span class="nf">if</span><span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Console.save: No data</span><span class="dl">'</span><span class="p">)</span>
             <span class="k">return</span><span class="p">;</span>
         <span class="p">}</span>
         <span class="c1">// file name = 'webdata.json' </span>
-        <span class="nf">if</span><span class="p">(</span><span class="o">!</span><span class="nx">filename</span><span class="p">)</span> <span class="nx">filename</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">webdata.json</span><span class="dl">'</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">filename</span><span class="p">)</span> <span class="nx">filename</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">webdata.json</span><span class="dl">'</span>
 
-        <span class="nf">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">data</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">object</span><span class="dl">"</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">data</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">object</span><span class="dl">"</span><span class="p">){</span>
             <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nf">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="c1">// create a blob object to save data </span>
