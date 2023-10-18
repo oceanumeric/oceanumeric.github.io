@@ -349,6 +349,69 @@ where $X\hat{\boldsymbol{\beta}}$ is the projection of $\mathbf{y}$ onto $\mathc
 
 ## Back to Euler's formula
 
+I hope at this stage, you will have developed an intuition that:
+
+- the calculus is about the analysis
+- the linear algebra is about the algebra and calculation
+
+In the real world, we need both analysis and algebra to solve the real world problems,
+especially for the problems in the field of probability and AI. 
+
+Now, let's study the Euler's formula again. We have
+
+$$
+e^{ix} = \cos(x) + i \sin(x) 
+$$
+
+Now, we will extend the above formula to the complex exponentials. To connect the
+analysis and algebra, we will rely on the following series:
+
+- the complex expoenentials $e^{2\pi int}$, where $n = 0, \pm 1, \pm 2, \cdots$ and $t$ is a real number. We write
+
+$$
+e_n(t) = e^{2\pi int}
+$$
+
+The inner product of two of them, $e_n(t)$ and $e_m(t)$ is the following:
+
+$$
+\begin{aligned}
+\langle e_n(t), e_m(t) \rangle = \int_{0}^{1} e^{2\pi int} e^{-2\pi imt} dt & = \int_{0}^{1} e^{2\pi i(n-m)t} dt  \\
+& = \begin{cases}
+1, & \text{if } n = m \\
+0, & \text{if } n \neq m
+\end{cases}
+\end{aligned} \tag{7}
+$$
+
+When $n=m$, the derivation is easy. When $n \neq m$, we have
+
+$$
+\begin{aligned}
+\int_{0}^{1} e^{2\pi i(n-m)t} dt & = \frac{1}{2\pi i(n-m)} e^{2\pi i(n-m)t} \bigg|_{0}^{1} \\
+& = \frac{1}{2\pi i(n-m)} (e^{2\pi i(n-m)} - 1) \\
+& = \frac{1}{2\pi i(n-m)} (1 - 1) \\
+& = 0
+\end{aligned}
+$$
+
+$$
+e^{2\pi i(n-m)} = \cos(2\pi(n-m)) + i \sin(2\pi(n-m)) = 1
+$$
+
+Therefore, the complex exponentials $e_n(t)$ are orthogonal to each other. They form
+an orthonormal basis of the vector space $\mathcal{C}([0, 1])$, which is quite similar to the standard basis of the vector space $\mathbb{R}^n$.
+
+
+<p class='theorembox'>
+<b>Reflections</b>
+I hope you could apprecite $e_n(t)$ and $e_m(t)$ are orthogonal to each other. This is the key to understand the Fourier Series and Fourier Transform.
+<br>
+What I like about the above derivation is that it connects the analysis and algebra. The analysis is about the inner product in complex field, and the algebra is about the orthonormal basis. Again, let's look at it $e_n(t) = e^{2\pi int}$, where $n = 0, \pm 1, \pm 2, \cdots$ and $t$ is a real number. You have real number $t$,  complex number $e^{2\pi int}$, and a sequence with index $n$. This is a very rich structure.
+</p>
+
+
+
 
 
 
