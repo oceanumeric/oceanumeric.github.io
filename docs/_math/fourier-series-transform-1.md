@@ -423,6 +423,7 @@ an orthonormal basis of the vector space $\mathcal{C}([0, 1])$, which is quite s
 
 <p class='theorembox'>
 <b>Reflections</b>
+<br>
 I hope you could apprecite $e_n(t)$ and $e_m(t)$ are orthogonal to each other. This is the key to understand the Fourier Series and Fourier Transform.
 <br>
 What I like about the above derivation is that it connects the analysis and algebra. The analysis is about the inner product in complex field, and the algebra is about the orthonormal basis. Again, let's look at it $e_n(t) = e^{2\pi int}$, where $n = 0, \pm 1, \pm 2, \cdots$ and $t$ is a real number. You have real number $t$,  complex number $e^{2\pi int}$, and a sequence with index $n$. This is a very rich structure.
@@ -470,8 +471,11 @@ Therefore the fourier series coefficients $c_k$ are the inner product of the fun
 
 <p class='theorembox'>
 <b>Reflections</b>
-We keep repeating the same idea: the analysis (calculus and integration) and the algebra (linear algebra and inner product). Hope you now could have a unified view of the analysis and algebra.
+<br>
+We keep repeating the same idea: the analysis (calculus and integration) and the algebra (linear algebra and inner product). Hope you now could have a unified view of the analysis and algebra. While $f(t)$ is defined for a continuous variable $t$, the fourier series coefficients $c_n$ are defined for a discrete variable $n$.
 </p>
+
+
 
 
 
