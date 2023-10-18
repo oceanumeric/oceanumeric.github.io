@@ -411,8 +411,49 @@ What I like about the above derivation is that it connects the analysis and alge
 </p>
 
 
+## Fourier Series
+
+Now, we are ready to study the Fourier Series. The Fourier Series starts with the following question:
+
+- Given a function $f(t)$, how could we represent it as a linear combination of the complex exponentials $e_n(t)$?
+
+To answer this question, we need to find the coefficients of the linear combination. To find the coefficients, we need to rely on the inner product.
 
 
+Now, suppose we could write $f(t)$ as the following:
+
+$$
+f(t) = \sum_{n=-N}^{N} c_n e_n(t) = \sum_{n=-N}^N c_n e^{2\pi int} \tag{8}
+$$
+
+Now, we will fix an index $k$, and pull the $k$-th term out of the summation. We have
+
+$$
+c_k e^{2\pi ikt} = f(t) - \sum_{n=-N, n \neq k}^N c_n e^{2\pi int} 
+$$
+
+Now, multiply both sides by $e^{-2\pi ikt}$, and integrate both sides from $0$ to $1$. We have
+
+$$
+\begin{aligned}
+\int_{0}^{1} c_k e^{2\pi ikt} e^{-2\pi ikt} dt & = \int_{0}^{1} f(t) e^{-2\pi ikt} dt - \int_{0}^{1} \sum_{n=-N, n \neq k}^N c_n e^{2\pi int} e^{-2\pi ikt} dt \\
+& = \int_{0}^{1} f(t) e^{-2\pi ikt} dt - \sum_{n=-N, n \neq k}^N c_n \int_{0}^{1} e^{2\pi i(n-k)t} dt \\
+& = \int_{0}^{1} f(t) e^{-2\pi ikt} dt - \sum_{n=-N, n \neq k}^N c_n \delta_{nk} \\
+\end{aligned}
+$$
+
+where $\delta_{nk}$ is the Kronecker delta, which is orthonormal. Therefore, we have
+
+$$
+c_k = \int_{0}^{1} f(t) e^{-2\pi ikt} dt = \langle f(t), e_k(t) \rangle \tag{9}
+$$
+
+Therefore the fourier series coefficients $c_k$ are the inner product of the function $f(t)$ and the complex exponentials $e_k(t)$. Or you can say that the fourier series coefficients $c_k$ are the projection of the function $f(t)$ onto the vector space $\mathcal{C}([0, 1])$ spanned by the complex exponentials $e_k(t)$.
+
+<p class='theorembox'>
+<b>Reflections</b>
+We keep repeating the same idea: the analysis (calculus and integration) and the algebra (linear algebra and inner product). Hope you now could have a unified view of the analysis and algebra.
+</p>
 
 
 
