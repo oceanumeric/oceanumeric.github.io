@@ -265,6 +265,17 @@ $$
 \|\mathbf{a}\| = \sqrt{\langle \mathbf{a}, \mathbf{a} \rangle} = \sqrt{\mathbf{a} \cdot \mathbf{a}} = \sqrt{\sum_{i=1}^{n} a_i^2}  \tag{5}
 $$
 
+Before we move on, we need to define the inner product for complex functions. Suppose we have two complex functions $f(t)$ and $g(t)$, where $t$ is a real number. The inner product of $f(t)$ and $g(t)$ is defined as the following:
+
+$$
+\langle f(t), g(t) \rangle = \int_{0}^{1} f(t) \overline{g(t)} dt
+$$
+
+where $\overline{g(t)}$ is the complex conjugate of $g(t)$. For example, if $g(t) = e^{2\pi int}$, then $\overline{g(t)} = e^{-2\pi int}$. The inner product of $f(t)$ and $g(t)$ is also called the dot product of $f(t)$ and $g(t)$.
+
+Please read [this](https://en.wikipedia.org/wiki/Complex_conjugate) to learn more about the complex conjugate.
+
+
 
 ## Two ways of deriving least square solution
 
