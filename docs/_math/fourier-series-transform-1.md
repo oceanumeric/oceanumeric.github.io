@@ -18,6 +18,13 @@ If you have read my previous post about probability and distribution, you might 
 that sometimes we have to talk about Gamma function, Beta function, etc. These functions are related to Fourier Series and Fourier Transform. So, I will also try to explain these functions in this series of blog posts. The point is that to understand
 the basic concepts of probability theory, we have to understand Fourier Series and Fourier Transform. Since probabiliy theory is the foundation of AI and even quantum mechanics, we have to understand Fourier Series and Fourier Transform.
 
+- [Where to start?](#where-to-start)
+- [Euler's number and Euler's formula](#eulers-number-and-eulers-formula)
+- [Dot product and inner product](#dot-product-and-inner-product)
+- [Two ways of deriving least square solution](#two-ways-of-deriving-least-square-solution)
+- [Back to Euler's formula](#back-to-eulers-formula)
+- [Fourier Series](#fourier-series)
+
 
 ## Where to start?
 
