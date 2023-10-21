@@ -196,6 +196,37 @@ When we use the Taylor series to estimate $\sqrt{2}$, we did not cover the follo
 All those questions will be answered in the future blog posts when we study Fourier Series and Fourier Transform systematically. So, without further ado, let's start our journey of Fourier Series and Fourier Transform.
 
 
+__How about $(2)^{1/3}$ or $\sqrt{57}$__?
+
+I added this section after talking with my friend as he suggested that one could 
+estimate $\sqrt{2}$ with a method called ``long division". We used this method to 
+do division when we were in elementary school. But I never thought about using this
+method to estimate $\sqrt{2}$. So, I tried it. It works (However, I have to warn you
+that this is quite _wild_ and _unstable_ method).
+
+<div class='figure'>
+    <img src="/math/images/square_root_estimation.png"
+         alt="long division to estimate square root"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Two examples of using long division to estimate square root.
+    </div>
+</div>
+
+The problem of using this method to estimate $\sqrt{2}$ is that it is not a `general' method, which means that it is not easy to guess the number of digits of the estimation. There is a certain algorithm to do [this](https://www.cantorsparadise.com/the-square-root-algorithm-f97ab5c29d6d), but it is not easy to implement. So, I will not talk about it here. Moreover, you can not rely on this method to estimate $(2)^{1/3}$ but you can use Taylor series to estimate $(2)^{1/3}$.
+
+
+<p class='theorembox'>
+<b>Reflections</b>
+<br>
+Since mathematical thinking does not come to our mind naturally, one has to train herself/himself to think mathematically. When we think mathematically, we have to think about the following questions: i) what is the generalization of the problem; ii) how could prove the generalization; iii) how could we apply the generalization to solve the real world problems.
+<br>
+Certain algorithm might work for certain problems, but it might not work for other problems. This reminds me of an interview by <a href="https://en.wikipedia.org/wiki/Wu_Wenjun">Wu WenJun </a> (吴文俊). When he was asked about the difference between the Chinese mathematicians and the western mathematicians, he said that the Chinese mathematicians are good at solving certain problems, but the western mathematicians are good at solving general problems. I think this is a very good observation.
+<br>
+You may not like theory, but the power of the theory has to be appreciated well. The theory is the foundation of the practice. Without the theory, the practice is just a wild guess.
+</p>
+
+
 ## Euler's number and Euler's formula
 
 Euler's number is a very important number in mathematics. It is denoted by $e$. It is defined as the following infinite series:
