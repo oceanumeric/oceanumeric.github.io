@@ -140,25 +140,123 @@ f(x) & = \sum_{n \text{ is odd}} \frac{2}{\pi i n}e^{2\pi i n x} \\
 \end{aligned}
 $$
 
-Here is the visualization of the Fourier Series of the square wave:
+Here is the visualization of the Fourier Series of the square wave (when $N=100$, you can click the right bottom corner to see the animation):
 
-<iframe src="https://www.desmos.com/calculator/sgxedvuhnn?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
-
-
-
-
+<div align="center">
+<iframe src="https://www.desmos.com/calculator/ztj3fj5qch?embed" width="500" height="300" style="border: 1px solid #ccc" frameborder=0></iframe>
+</div>
 
 
+From the above example,we can see that the fourier series is 'converging' to the square wave. The more terms we add, the more similar it is to the square wave. However, we 
+also see _discontinuity_ at the jump points. This is called _Gibbs phenomenon_. Since
+both sine and cosine are continuous, the fourier series of a function is also continuous. Therefore the fourier series of a discontinuous function will have discontinuity at the jump points.
 
+Now, let's see another example - traingle wave - which is defined as:
 
+$$
+f(t) = \frac{1}{2} - |t| = \begin{cases} \frac{1}{2} + t & -\frac{1}{2} \leq t < 0 \\ \frac{1}{2} - t & 0 \leq t < \frac{1}{2} \end{cases}
+$$
 
+<div class='figure'>
+    <img src="/math/images/triangle_wave.png"
+         alt="triangle wave"
+         style="width: 70%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Illustration of triangle wave.
+    </div>
+</div>
 
+The coefficient of $f(t)$ is at $n=0$ is the average of $f(t)$, which is $1/4$. For $n \neq 0$, we have:
 
+$$
+\begin{aligned}
+c_n & = \int_{-1/2}^{1/2} f(t) e^{-2\pi i n t} dt \\
+& = \int_{-1/2}^{1/2} (\frac{1}{2} - |t|) e^{-2\pi i n t} dt \\
+& = \frac{1}{2} \int_{-1/2}^{1/2} e^{-2\pi i n t} dt - \int_{-1/2}^{1/2} |t| e^{-2\pi i n t} dt \\
+& = - \int_{-1/2}^{1/2} |t| e^{-2\pi i n t} dt;  \quad \text{since } \int_{-1/2}^{1/2} e^{-2\pi i n t} dt = 0 \\
+& =  - \bigg( \int_{-1/2}^{0} - t e^{-2\pi i n t} dt + \int_{0}^{1/2}  t e^{-2\pi i n t} dt \bigg) \\
+& = \int_{-1/2}^{0} t e^{-2\pi i n t} dt - \int_{0}^{1/2}  t e^{-2\pi i n t} dt \\
+\end{aligned}
+$$
 
+Now, let $A(n)$ be the first integral and we have:
 
+$$
+\begin{aligned}
+A(n) & = \int_{-1/2}^{0} t e^{-2\pi i n t} dt 
+\end{aligned}
+$$
 
+It is easy to show that
 
+$$
+\begin{aligned}
+A(-n) & = \int_{-1/2}^{0} t e^{2\pi i n t} dt \\
+& = \int_{1/2}^0 -s e^{-2\pi i n s} - ds \quad \text{let } s = -t \\
+& =  \int_{1/2}^0 s e^{-2\pi i n s} ds \\
+& = - \int_{0}^{1/2} s e^{-2\pi i n s} ds \\
+& = - A(n) = - \int_{-1/2}^{0} t e^{-2\pi i n t} dt \\
+\end{aligned}
+$$
 
+Therefore, the fourier coefficient can be written as:
+
+$$
+c_n = A(n) + A(-n)
+$$
+
+Now, let's integrate $A(n)$ by parts:
+
+$$
+\begin{aligned}
+A(n) & = \int_{-1/2}^{0} t e^{-2\pi i n t} dt \\
+& = \frac{1}{-2\pi i n} t e^{-2\pi i n t} \Big|_{-1/2}^0 - \int_{-1/2}^{0} \frac{1}{-2\pi i n} e^{-2\pi i n t} dt \\
+& = \frac{1}{-2\pi i n} t e^{-2\pi i n t} \Big|_{-1/2}^0 - \frac{1}{(2\pi i n)^2} e^{-2\pi i n t} \Big|_{-1/2}^0 \\
+& = \frac{1}{-2\pi i n} [0 + \frac{1}{2} e^{\pi i n}] - \frac{1}{(2\pi i n)^2} [1 - e^{\pi i n}] \\
+& = - \frac{1}{4\pi i n}e^{\pi in} + \frac{1}{4\pi^2n^2} [1 - e^{\pi i n}] \\
+& = \frac{\pi i n}{4 \pi^2 n^2} e^{\pi i n} + \frac{1}{4\pi^2n^2} [1 - e^{\pi i n}] \\
+& = \frac{1}{4\pi^2n^2} [1 - e^{\pi i n} + \pi i n e^{\pi i n}] \\
+& = \frac{1}{4\pi^2n^2} [ 1 + e^{\pi i n} (\pi i n - 1)] 
+\end{aligned}
+$$
+
+Therefore, we could have 
+
+$$
+A(-n) = \frac{1}{4\pi^2n^2} [ 1 + e^{-\pi i n} (-\pi i n - 1)]
+$$
+
+The fourier coefficient is:
+
+$$
+\begin{aligned}
+c_n & = A(n) + A(-n) \\
+& = \frac{1}{4\pi^2n^2} [ 1 + e^{\pi i n} (\pi i n - 1)] + \frac{1}{4\pi^2n^2} [ 1 + e^{-\pi i n} (-\pi i n - 1)] \\
+& = \frac{1}{4\pi^2 n^2} [ 2 + e^{\pi i n} (\pi i n - 1) + e^{-\pi i n} (-\pi i n - 1)] \\
+& =  \frac{1}{4\pi^2 n^2} [ 2 + (\cos(\pi n) + i \sin(\pi n)) (\pi i n - 1) - (\cos(\pi n) - i \sin(\pi n)) (\pi i n + 1)] \\
+& =  \frac{1}{4\pi^2 n^2} [ 2 + \cos(\pi n)(\pi in - 1) - \cos(\pi n)(\pi in +1)] \\
+& = \frac{1}{2\pi^2 n^2} (1 - \cos(\pi n))  \\ 
+& = \begin{cases} 0 & n \text{ is even} \\  \frac{1}{\pi^2 n^2} & n \text{ is odd}  \end{cases} 
+\end{aligned}
+$$
+
+Now, let's write down the fourier series of $f(t)$:
+
+$$
+\begin{aligned}
+f(t) & = \sum_{n=-\infty}^{\infty} c_n e^{2\pi i n t} \\
+& = \sum_{n \text{ is odd}} \frac{1}{\pi^2 n^2} e^{2\pi i n t} \\
+& = \sum_{-\infty}^{0} \frac{1}{\pi^2 n^2} e^{2\pi i n t} + \sum_{1}^{\infty} \frac{1}{\pi^2 n^2} e^{2\pi i n t} \\
+& = c_{-n} e^{-2\pi i n t} + c_n e^{2\pi i n t} \\
+& = c_n (e^{2\pi i n t} + e^{-2\pi i n t}) \\
+& = \frac{2}{\pi^2 n^2} \cos (2 \pi n t) \\
+& = \frac{1}{4} + \sum_{k=0}^\infty \frac{1}{\pi^2 (2k+1)^2} \cos[2\pi (2k+1) t] \\
+\end{aligned}
+$$
+
+<div align="center">
+<iframe src="https://www.desmos.com/calculator/xkhg6zaa9j?embed" width="500" height="300" style="border: 1px solid #ccc" frameborder=0></iframe>
+</div>
 
 
 
