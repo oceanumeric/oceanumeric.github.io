@@ -16,6 +16,7 @@ In our last [post](https://oceanumeric.github.io/math/2023/10/fourier-series-tra
 - [Dirichlet Kernel](#dirichlet-kernel)
 - [Orthogonality of the basis](#orthogonality-of-the-basis)
 - [Some important inequalities](#some-important-inequalities)
+- [Application of Rayleigh's Identity](#application-of-rayleighs-identity)
 
 
 ## Definition of Fourier Series
@@ -444,5 +445,86 @@ $$
 This proves the Rayleigh's Identity in equation (7). This means _the energy of the function $f(x)$ is the sum of the energy of the fourier coefficients_.
 
 We will not prove the Cauchy-Schwarz inequality here as this one is so well-known. The proof can be found anywhere on the internet.
+
+
+## Application of Rayleigh's Identity
+
+Now, let's use the Rayleigh's Identity to prove the following identity:
+
+$$
+\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6} \tag{11}
+$$
+
+Euler proved this identity in 1735. This is also a special case of zeta function, which is defined as:
+
+$$
+\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} \tag{12}
+$$
+
+All those equations are also realted to the [Basel problem](https://en.wikipedia.org/wiki/Basel_problem), which is fun to read.
+
+To derive the identity, we first define a function $f(x)$ as:
+
+$$
+f(x) = x \quad \text{on } (-\pi, \pi) \tag{13}
+$$
+
+The period of $f(x)$ is $2\pi$. Therefore, we can write the fourier coefficient of $f(x)$ as:
+
+$$
+\begin{aligned}
+\hat{f}(n) & = \frac{1}{2\pi} \int_{-\pi}^{\pi} x e^{-2\pi i n x/L} dx \\
+& = \frac{1}{2\pi} \int_{-\pi}^{\pi} x e^{- i n x} dx \\
+& = \frac{1}{2\pi} \bigg( \frac{1}{-i n} x e^{ -i n x} \Big|_{-\pi}^{\pi} - \int_{-\pi}^{\pi} \frac{1}{-i n} e^{ -i n x} dx \bigg) \\
+& = \frac{1}{2\pi} \bigg( \frac{1}{-i n} x e^{ -i n x} \Big|_{-\pi}^{\pi} -  \frac{1}{(i n)^2} e^{ -i n x} \Big|_{-\pi}^{\pi} \bigg) \\
+& = \frac{1}{2\pi} \bigg( \frac{1}{i n} (\pi e^{ -i n \pi} - (-\pi) e^{i n \pi}) -  \frac{1}{(i n)^2} (e^{ -i n \pi} - e^{- i n \pi}) \bigg) \\
+& = \frac{1}{2\pi} \bigg( \frac{1}{-i n} \pi (e^{in\pi} + e^{-in\pi}) -  \frac{1}{(i n)^2} \frac{\sin n \pi}{2i} \bigg) \\
+& = \frac{1}{2\pi} \frac{1}{-i n} \pi \cdot  2 \cos n \pi  \\
+& = \frac{\cos n \pi}{-in} \\
+& = \frac{(-1)^{n+1}}{in} \quad n \neq 0
+\end{aligned}
+$$
+
+
+Therefore we have the fourier series of $f(x)$:
+
+$$
+\begin{aligned}
+f(x) & = \sum_{n=-\infty}^{\infty} \hat{f}(n) e^{2\pi i n x/L} \\
+& = \sum_{n=-\infty, n\neq 0}^{\infty} \frac{(-1)^{n+1}}{in} e^{ i n x} 
+\end{aligned}
+$$
+
+From the above equation, we can see that $f(x)$ is an odd function, so the fourier coefficient is imaginary and odd. Based on Rayleigh's Identity, we have:
+
+$$
+\begin{aligned}
+\frac{1}{2\pi} \int_{-\pi}^\pi |f(x)|^2 dx & = \sum_{n=-\infty}^{\infty} |\hat{f}(n)|^2 \\ 
+& = \sum_{-\infty}^{-1} |\hat{f}(n)|^2 + \sum_{1}^{\infty} |\hat{f}(n)|^2 \\
+& = \sum_{-\infty}^{-1} \bigg | \frac{(-1)^{n+1}}{in} \bigg |^2 + \sum_{n=1}^{\infty} \bigg | \frac{(-1)^{n+1}}{in} \bigg |^2 \\
+& = 2 \sum_{n=1}^{\infty} \frac{1}{n^2} \\
+& = \frac{1}{2\pi} \int_{-\pi}^\pi x^2 dx \\
+& = \frac{1}{2\pi} \frac{x^3}{3} \Big|_{-\pi}^{\pi} \\
+& = \frac{\pi^2}{3} \\
+\end{aligned}
+$$
+
+Therefore, we have:
+
+$$
+\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+$$
+
+<p class='theorembox'>
+<b>Reflections</b>
+<br>
+I have mentioned that learning Fourer Series will help us to understand probability
+theory. Here is an example. The above example is related to the Basel problem and Zeta
+function, which are related to Gamma function. When you study probability theory, you will see Gamma function a lot, for example, the Gamma distribution or the Gamma distribution as the conjugate prior of the Poisson distribution, etc.
+</p>
+
+
+
+
 
 {% endkatexmm %}
