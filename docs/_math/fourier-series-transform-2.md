@@ -10,8 +10,15 @@ tags: fourier-analysis probability measure-theory entropy foundations-of-probabi
 
 In our last [post](https://oceanumeric.github.io/math/2023/10/fourier-series-transform-1), we have introduced the big picture of Fourier Series. In this post, we will continue to explore the Fourier Series.
 
+- [Definition of Fourier Series](#definition-of-fourier-series)
+- [Two Examples](#two-examples)
+- [Convergence of Fourier Series](#convergence-of-fourier-series)
+- [Dirichlet Kernel](#dirichlet-kernel)
+- [Orthogonality of the basis](#orthogonality-of-the-basis)
+- [Some important inequalities](#some-important-inequalities)
 
-## Fourier Series
+
+## Definition of Fourier Series
 
 {% katexmm %}
 
@@ -274,20 +281,168 @@ for the square wave they decrease like $1/n$. Or, it takes around $N=100$ terms 
 I hope those two examples could give you the sense of how the fourier series works and how it converges to the original function in terms of the speed and the smoothness.
 </p>
 
+## Convergence of Fourier Series
+
+Until now, we have assumed that the period is always $1$. Now, let's assume $f$ is
+periodic at interval $L$ from $[a, b]$, which means $f(x+L) = f(x)$. We can write the fourier series as:
+
+$$
+c_n = \hat{f}(n) =  \frac{1}{L} \int_a^b f(x) e^{-2\pi i n x / L} dx, \quad n \in \mathbb{Z} \tag{1} 
+$$
+
+The $N$-th partial sum of the fourier series is:
+
+$$
+S_N(f)(x) = \sum_{n=-N}^{N} \hat{f}(n) e^{2\pi i n x / L} \tag{2}
+$$
+
+Now, we try to answer the following questions:
+
+-  Does the fourier series converge to $f(x)$?
+- In what sense does $S_N(f)(x) $ converge to $f(x)$ as $N \rightarrow \infty$?
+
+Roughly speaking, there are three senses of convergence:
+
+1. _Pointwise Convergence_: $S_N(f)(x)$ converges to $f(x)$ for every $x$.
+2. _Uniform Convergence_: $S_N(f)(x)$ converges to $f(x)$ uniformly. In words, when $N$ is large, the partial sum $S_N(f)(x)$ is close to $f(x)$ for every $x$ over the 
+entire interval $[a, b]$.
+3. _Mean Square Convergence_: $S_N(f)(x)$ converges to $f(x)$ in the mean square sense. In words, the average of the square of the difference between $S_N(f)(x)$ and $f(x)$ converges to $0$ as $N \rightarrow \infty$, meaning:
+
+$$
+\lim_{N \rightarrow \infty} \int_a^b |S_N(f)(x) - f(x)|^2 dx = 0 \tag{3}
+$$
+
+We will not prove the convergence of the fourier series here. We refer the readers to the two examples we have shown above. The square wave is discontinuous, so the fourier series converges to the square wave in the mean square sense. The triangle wave is continuous, so the fourier series converges to the triangle wave uniformly. Generally speaking, _uniform convergence_ is the strongest form of convergence. _Pointwise convergence_ is the weakest form of convergence. _Mean square convergence_ is in between, which is also very subtle to study.
+
+
+## Dirichlet Kernel
+
+After introducing the partial sum, it is natural to ask how good is the partial sum $S_N(f)(x)$ in approximating $f(x)$. The answer is given by the Dirichlet kernel. Now, let's examine the partial sum $S_N(f)(x)$ (to simplify the notation, we assume $L=1$):
+
+$$
+\begin{aligned}
+S_N(f)(x) & = \sum_{n=-N}^{N} \hat{f}(n) e^{2\pi i n x / L} \\
+& = \sum_{n=-N}^{N} \frac{1}{L} \int_a^b f(t) e^{-2\pi i n t / L} dt  \ e^{2\pi i n x / L} \\
+& = \int_a^b f(t) \sum_{n=-N}^{N} e^{-2\pi i n (t-x) } dt \\
+& = \int_a^b f(t) D_N(t-x) dt \\
+\end{aligned}
+$$
+
+where $D_N(x)$ is the Dirichlet kernel:
+
+$$
+D_N(x) = \sum_{n=-N}^{N} e^{-2\pi i n x} = \frac{\sin[(N+\frac{1}{2})2\pi x]}{\sin(\pi x)} \tag{4}
+$$
+
+We will not discuss the derivation of the Dirichelt kernel here. We will learn more about the Dirichlet kernel in the future when we talk about the convolution.
+
+
+## Orthogonality of the basis
+
+In the previous post, we have show that 
+
+$$
+e_n(t) = e^{2\pi i n t}
+$$
+
+is an orthogonal basis. From this, we could derive Pythagoras's Theorem for the inner product:
+
+$$
+\langle f, g \rangle = \int_a^b f(x) \overline{g(x)} dx 
+$$
+
+For our basis, we have:
+
+$$
+\begin{aligned}
+\langle e_n, e_m \rangle & = \int_a^b e^{2\pi i n t} \overline{e^{2\pi i m t}} dt \\
+& = \begin{cases} 1 & n = m \\ 0 & n \neq m  \end{cases}
+\end{aligned}
+$$
+
+The Pythagoras's Theorem for the inner product is:
+
+$$
+\bigg | \bigg | \sum_{n=-N}^{N} e_n \bigg | \bigg |^2 = \sum_{n=-N}^{N} |e_n|^2 \tag{5}
+$$
+
+Here is the proof:
+
+$$
+\begin{aligned}
+\bigg | \bigg | \sum_{n=-N}^{N} e_n \bigg | \bigg |^2 & = \bigg \langle \sum_{n=-N}^{N} e_n, \sum_{n=-N}^{N} e_n \bigg \rangle \\
+& = \sum_{n=-N}^N \sum_{m=-N}^N \langle e_n, e_m \rangle \quad \text{by linearity} \\
+& = \sum_{n=-N}^N \sum_{m=-N}^N  \begin{cases} <e_n, e_m> & n = m \\ 0 & n \neq m  \end{cases} \\
+& = \sum_{n=-N}^N |e_n|^2
+\end{aligned}
+$$
 
 
 
 
+## Some important inequalities
+
+Before we finish this post, let's introduce some important inequalities that are useful when we study the fourier series:
+
+- Bessel's inequality: $$\sum_{n=-\infty}^{\infty} |\hat{f}(n)|^2 \leq \frac{1}{L} \int_a^b |f(x)|^2 dx \tag{6}$$
+- Rayleigh's Identity (a.k.a. Parseval's theorem): $$\frac{1}{L} \int_a^b |f(x)|^2 dx = \sum_{n=-\infty}^{\infty} |\hat{f}(n)|^2 \tag{7}$$
+- Cauchy-Schwarz inequality: $$\bigg| \int_a^b f(x) \overline{g(x)} dx \bigg| \leq \sqrt{\int_a^b |f(x)|^2 dx} \sqrt{\int_a^b |g(x)|^2 dx} \tag{8}$$
 
 
+The norm of a function $f(x)$ is defined as:
+
+$$
+||f(x)|| = \sqrt{\langle f(x), f(x) \rangle} = \sqrt{\int_a^b |f(x)|^2 dx} \tag{9}
+$$
+
+If you forget how we calculate the absolute value of a complex number, here is a quick review:
+
+$$
+|z| = \sqrt{z \overline{z}} = \sqrt{a^2 + b^2} \tag{10}
+$$
+
+where $z = a + bi$ and $\overline{z} = a - bi$. Therefore,
+
+$$
+\langle f(x), f(x) \rangle = \int_a^b f(x) \overline{f(x)} dx = \int_a^b |f(x)|^2 dx = ||f(x)||^2 
+$$
+
+With the defintion of norm, let's prove the Bessel's inequality. For the complex inner product, we have:
+
+$$
+\begin{aligned}
+||f + g||^2  & = \langle f + g, f + g \rangle \\
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+0 \leq \bigg | \bigg | f(x) - \sum_{n=-N}^{N} \langle f(x), e^{2\pi i n x} \rangle e^{2\pi i n x} \bigg | \bigg |^2 & = \langle f(x) - \sum_{n=-N}^{N} \langle f(x), e^{2\pi i n x} \rangle e^{2\pi i n x}, f(x) - \sum_{n=-N}^{N} \langle f(x), e^{2\pi i n x} \rangle e^{2\pi i n x} \rangle \\
+& = ||f(x)||^2 - \sum_{n=-N}^{N} |\langle f(x), e^{2\pi i n x} \rangle|^2 \\
+& = ||f(x)||^2 - \sum_{n=-N}^{N} |\hat{f}(n)|^2 
+\end{aligned}
+$$
+
+This proves the Bessel's inequality in equation (6). The complete proof of Bessel's inequality can be found [here](https://proofwiki.org/wiki/Bessel%27s_Inequality). 
 
 
+Now, let's derive the Rayleigh's Identity. We will assume $L=1$ for simplicity:
 
+$$
+\begin{aligned}
+\langle f, f \rangle  & = \int_0^1 f(x) \overline{f(x)} dx \\
+& = \int_0^1 |f(x)|^2 dx  \\ 
+& = \bigg \langle \sum_{n=-\infty}^{\infty} \hat{f}(n) e^{2\pi i n x}, \sum_{m=-\infty}^{\infty} \hat{f}(m) e^{2\pi i m x} \bigg \rangle \\
+& = \bigg \langle \sum_{n=-\infty}^{\infty} \langle f, e_n \rangle  e_n, \sum_{m=-\infty}^{\infty} \langle f, e_m \rangle e_m \bigg \rangle  \\ 
+& = \sum_{n, m} \langle f, e_n \rangle \overline{ \langle f, e_m \rangle} \langle e_n, e_m \rangle \quad \text{using linearity} \\
+& = \sum_{n, m} \langle f, e_n \rangle \overline{ \langle f, e_m \rangle} \delta_{n, m} \quad \text{using orthogonality} \\
+& = \sum_{n} |\langle f, e_n \rangle|^2 \\
+& = \sum_{n} |\hat{f}(n)|^2 
+\end{aligned}
+$$
 
+This proves the Rayleigh's Identity in equation (7). This means _the energy of the function $f(x)$ is the sum of the energy of the fourier coefficients_.
 
-
-
-
-
+We will not prove the Cauchy-Schwarz inequality here as this one is so well-known. The proof can be found anywhere on the internet.
 
 {% endkatexmm %}
