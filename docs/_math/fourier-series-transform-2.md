@@ -258,6 +258,36 @@ $$
 <iframe src="https://www.desmos.com/calculator/xkhg6zaa9j?embed" width="500" height="300" style="border: 1px solid #ccc" frameborder=0></iframe>
 </div>
 
+For this example, there is no joumping points, so there is no Gibbs phenomenon. The fourier series is converging to the triangle wave. However, since we have infinite terms, the fourier series is not a triangle wave. It is a _smooth_ triangle wave. The fourier series is a smooth approximation of the triangle wave. The more terms we add, the more similar it is to the triangle wave.
+
+This is due to the fact that the fourier series is a _linear combination_ of the basis $e^{2\pi i n t}$. The basis $e^{2\pi i n t}$ is a _smooth_ function, so the fourier series is also a smooth function. Or put it in another way, both sines and cosines are _differentiable_ to any order, so the fourier series is also differentiable to any order. 
+
+In summary, __a discontinuoity in any order derivative of a periodic function will
+force an infinite number of terms in the fourier series to approximate the function.__
+
+Note also that for the triangle wave the coefficients decrease like $1/n^2$ while
+for the square wave they decrease like $1/n$. Or, it takes around $N=100$ terms to approximate the square wave, but it only takes around $N=10$ terms to approximate the triangle wave. This has exactly do do wit the fact that the square wave is discontinuous while the triangle wave is continuous but its derivative is discontinuous.
+
+<p class='theorembox'>
+<b>Reflections</b>
+<br>
+I hope those two examples could give you the sense of how the fourier series works and how it converges to the original function in terms of the speed and the smoothness.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {% endkatexmm %}
