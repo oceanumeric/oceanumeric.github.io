@@ -74,7 +74,6 @@ Once I finished this post, I found the following map from [Pacific's Scholarly C
 </div>
 
 
-
 Sometimes, I also refer myself as a data scientist. So, from this map, I can confidently predict that the rise of China is inevitable. Of course, I only checked the first 10% of the visitors but I don't think the distribution will change much if I check the rest of the visitors.
 
 
