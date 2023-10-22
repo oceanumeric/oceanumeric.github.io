@@ -59,7 +59,23 @@ Hope now you will also have a feeling of exuberance after realizing that you can
 
 So, Enjoy!
 
+-------
 
+Once I finished this post, I found the following map from [Pacific's Scholarly Commons Follow](https://scholarlycommons.pacific.edu/), which is the host of the Euleriana website. I think this map is a good way to end this post.
+
+
+<div class='figure'>
+    <img src="/images/blog/euleriana-map.png"
+         alt="euleriana_map"
+         style="width: 87%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The map of visitors to Euleriana website.
+    </div>
+</div>
+
+
+
+Sometimes, I also refer myself as a data scientist. So, from this map, I can confidently predict that the rise of China is inevitable. Of course, I only checked the first 10% of the visitors but I don't think the distribution will change much if I check the rest of the visitors.
 
 
 
