@@ -1,0 +1,109 @@
+---
+title: To Compete or Not To Compete
+subtitle: Living in a competitive world, it is very important to understand the pros and cons of competition. And more importantly, when to compete and when not to compete.
+layout: blog_default
+date: 2023-11-19
+keywords: strategy, industry, competition, business, economics, game theory, philosophy, history, math
+published: true
+tags: economics game theory philosophy history
+---
+
+Ever since I want to create my own company, I have been thinking about having a 
+strategy in this competitive world. For my case, I have to examine my situation
+based on where I am, what kind of resources I have, and what are my relative
+advantages and disadvantages, etc. All these factors lead me to think about
+competition as I definitely want to avoid over-competition (or put it in
+the Chinese context, to avoid '内卷', which is a very popular term in China).
+
+Before we start, I want to spoil that this post is also a very good 
+post on how to use big data to gain extremely valuable insights. It is also important to know beforehands that we are only focusing on the software industry in this post.
+
+
+## Learning from Big Data
+
+To aovid over-competition in a smart way, I simply ask myself a question: who
+(or what kind of startups) survived and growed to be a decent size in Germany (as
+I am currently living in Germany)? Here is how I tried to answer this question
+step by step:
+
+- Step 1: Gather Data from LinkedIn, such as the following table.
+
+|  Index   | name                          | industry    |   found_date |   num_employees |
+|:-----|:------------------------------|:---------------------|-------------:|:---------------------------:|
+| 7914 | CONWIN Technologies GmbH | Software Development |         2002 |                          9 |
+| 5743 | StoryBox GmbH            | Software Development |         2017 |                         25 |
+| 5310 | Seneca Business Software GmbH | Software Development |         2011 |                          5 |
+| 4236 | Lyvia Group                   | Software Development |       2020       |                        917 |
+| 4725 | MyMinds                       | Software Development |         2021 |                          2 |
+
+
+- Step 2: Clean the data and focus on German companies that were founed after 2016. 
+
+<div class='figure'>
+    <img src="/blog/images/num-startups-germany.png"
+         alt="euleriana_map"
+         style="width: 87%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 1.</span> The number of firmes in Germany after 2016.
+    </div>
+</div>
+
+As you can see from the Figure 1, the number of firms decreases when the year
+decreases. This is because __Some firms exit the market and only a few firms
+survive and grow to be a decent size.__ Even for those who survive, most of them
+stay small unfortunately.
+
+
+<div class='figure'>
+    <img src="/blog/images/germany-firm-size.png"
+         alt="euleriana_map"
+         style="width: 87%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 2.</span> Firm size distribution in Germany for those firms that were founded in 2015.
+    </div>
+</div>
+
+Figure 2 shows the firm size distribution for those firms that were founded in 2015. As you can see, most of the firms are small and only a few firms grow to
+be a decent size. 
+
+- Step 3: Find the common features of those firms that survived and growed to be a decent size.
+
+With the help of the data, I found the following common features of those firms
+that survived and growed to be a decent size:
+
+1. Firms who growed to be a decent size chose the right market that allows them to grow (no one can grow in a shrinking market).
+2. Firms who growed to be a decent size clearly avoided over-competition, especially in the early stage from the US firms.
+3. Almost all of the firms who survived focused on providing customized solutions to their customers with digital technologies.
+
+
+## Stylzed Facts about Competition and Innovation
+
+After checking the data from Linkedin, I also checked some literature about
+competition and innovation. I found a very good paper called [The Schumpeterian Growth Paradigm](https://www.brown.edu/Departments/Economics/Faculty/Peter_Howitt/publication/Schumpeterian_Paradigm.pdf). In this paper, the authors found the following stylized facts about competition and innovation {% cite aghion2015schumpeterian %}:
+
+
+- _Fact 1_: The relationship between competition and innovation follows an
+inverted-U pattern, and the average technological gap within a sector increases with
+competition.
+
+
+<div class='figure'>
+    <img src="/blog/images/neck-and-neck-competition.png"
+         alt="euleriana_map"
+         style="width: 87%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> The relationship between competition and innovation follows an inverted-U pattern; source: {% cite aghion2015schumpeterian %}
+    </div>
+</div>
+
+In English, if two competitors are neck and neck, they are level with each other and __have an equal chance of winning__. Figure 3 shows that innovation drops when the competition is too low or too high. Furthermore, When firms are in neck-and-neck competition, they are more likely to innovate compared to the case when they are not in neck-and-neck competition.
+
+What is the reason behind this fact? When firms have equal chance of winning, they are more likely to innovate to gain an advantage over their competitors. By innovating, they can not just differentiate themselves from their competitors, but also gain a technological advantage over their competitors if they succeed in innovating.
+
+However, when firms are not having equal chance of winning, they are less likely to innovate. This is because the firms who are in the leading position are more likely to innovate to maintain their leading position. On the other hand, the firms who are in the lagging position are less likely to innovate because they are more likely to be eliminated from the market. Overall, the average technological gap within a sector increases with competition.
+
+This explains why the term '内卷' is so popular in China. __With the higher competition, the average technological gap within a sector increases, which makes
+those who are in the lagging position have less resources to innovate and
+compete with those who are in the leading position.__
+
+
