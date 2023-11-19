@@ -239,4 +239,7 @@ you not just open up a new market, but also avoid over-competition.
 Therefore, being the first to create a new market is very important. However,
 this is not easy.
 
+__Some tips:__ if you have 10 skills in your skill set, you should try to 
+combine the best one with something that will help you to avoid over-competition. 
+
 
