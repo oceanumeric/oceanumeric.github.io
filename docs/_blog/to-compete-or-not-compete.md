@@ -75,6 +75,15 @@ that survived and growed to be a decent size:
 2. Firms who growed to be a decent size clearly avoided over-competition, especially in the early stage from the US firms.
 3. Almost all of the firms who survived focused on providing customized solutions to their customers with digital technologies.
 
+<div class='figure'>
+    <img src="/blog/images/software-germany-wordcloud.png"
+         alt="euleriana_map"
+         style="width: 87%; display: block; margin: 0 auto;"/>
+    <div class='caption'>
+        <span class='caption-label'>Figure 3.</span> Word cloud for the industry of those firms that survived and growed to be a decent size. As you can see, most of them are providing customized solutions to their customers with digital technologies (such as management, softare as a service, etc.).
+    </div>
+</div>
+
 
 ## Stylzed Facts about Competition and Innovation
 
@@ -92,7 +101,7 @@ competition.
          alt="euleriana_map"
          style="width: 87%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 3.</span> The relationship between competition and innovation follows an inverted-U pattern; source: {% cite aghion2015schumpeterian %}
+        <span class='caption-label'>Figure 4</span> The relationship between competition and innovation follows an inverted-U pattern; source: {% cite aghion2015schumpeterian %}
     </div>
 </div>
 
@@ -114,7 +123,7 @@ discourage it in nonfrontier firms.
          alt="euleriana_map"
          style="width: 87%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 4.</span> Total productiviy diverges for groups who are near frontier or far from; source: {% cite aghion2015schumpeterian %}
+        <span class='caption-label'>Figure 5.</span> Total productiviy diverges for groups who are near frontier or far from; source: {% cite aghion2015schumpeterian %}
     </div>
 </div>
 
@@ -153,7 +162,7 @@ The author used India as an example to show the importance of the trustworthines
          alt="firm growth in India"
          style="width: 87%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 5.</span> Firm growth trend in India, Mexcio and India source: {% cite aghion2015schumpeterian %}
+        <span class='caption-label'>Figure 6.</span> Firm growth trend in India, Mexcio and India source: {% cite aghion2015schumpeterian %}
     </div>
 </div>
 
@@ -170,7 +179,7 @@ opening up the market as it is shown in the following figure.
          alt="firm growth in India"
          style="width: 87%; display: block; margin: 0 auto;"/>
     <div class='caption'>
-        <span class='caption-label'>Figure 6.</span> News about China's opening up the market.
+        <span class='caption-label'>Figure 7.</span> News about China's opening up the market.
     </div>
 </div>
 
