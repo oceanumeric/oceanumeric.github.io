@@ -224,3 +224,19 @@ Since I realized that how much money you have to invest to train a large
 language model (such as GPT-3), I have already given up the idea of creating a
 startup directly related to AI. However, I will focus on providing customized
 solutions to my customers with AI technologies that are driven by data.
+
+
+## Some Reflections
+
+In the post, we assumed that growing to be a decent size is the goal of a
+startup. However, this is not always the case. Many firms want to 
+stay small on purpose. 
+
+For the innovation part, we did not talk that much about what kind of innovation
+we need. I encourage people to be innovative in your own way. By doing this,
+you not just open up a new market, but also avoid over-competition.
+
+Therefore, being the first to create a new market is very important. However,
+this is not easy.
+
+
