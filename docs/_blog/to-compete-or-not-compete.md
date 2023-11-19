@@ -105,7 +105,7 @@ competition.
     </div>
 </div>
 
-In English, if two competitors are neck and neck, they are level with each other and __have an equal chance of winning__. Figure 3 shows that innovation drops when the competition is too low or too high. Furthermore, When firms are in neck-and-neck competition, they are more likely to innovate compared to the case when they are not in neck-and-neck competition.
+In English, if two competitors are neck and neck, they are level with each other and __have an equal chance of winning__. Figure 4 shows that innovation drops when the competition is too low or too high. Furthermore, When firms are in neck-and-neck competition, they are more likely to innovate compared to the case when they are not in neck-and-neck competition.
 
 What is the reason behind this fact? When firms have equal chance of winning, they are more likely to innovate to gain an advantage over their competitors. By innovating, they can not just differentiate themselves from their competitors, but also gain a technological advantage over their competitors if they succeed in innovating.
 
@@ -127,7 +127,7 @@ discourage it in nonfrontier firms.
     </div>
 </div>
 
-Results from figure 4 are very striking as it shows that the total productivity
+Results from figure 5 are very striking as it shows that the total productivity
 diverges so much between those who are near frontier and those who are far from
 frontier with the increase of competition. This means __if you are not near frontier,
 higher level of competition will even make you become less productive; however,
