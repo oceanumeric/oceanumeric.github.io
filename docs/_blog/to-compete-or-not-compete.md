@@ -49,7 +49,7 @@ step by step:
 </div>
 
 As you can see from the Figure 1, the number of firms decreases when the year
-decreases. This is because __Some firms exit the market and only a few firms
+decreases. This is because __some firms exit the market and only a few firms
 survive and grow to be a decent size.__ Even for those who survive, most of them
 stay small unfortunately.
 
