@@ -235,6 +235,19 @@ startup directly related to AI. However, I will focus on providing customized
 solutions to my customers with AI technologies that are driven by data.
 
 
+## Back to the Question
+
+Now, let's go back to the question: who (or what kind of startups) survived and
+growed to be a decent size in Germany? From the data and the literature, we can
+answer this question as follows: _those who avoided over-competition from 
+the US firms and focused on providing customized solutions to their customers
+with digital technologies survived and growed to be a decent size in Germany._
+
+As the literautre argues, since most of German software firms are not near
+frontier, they naturally avoided over-competition by focusing on providing
+customized solutions to their customers. 
+
+
 ## Some Reflections
 
 In the post, we assumed that growing to be a decent size is the goal of a
