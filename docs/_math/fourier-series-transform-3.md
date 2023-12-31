@@ -180,6 +180,16 @@ Here is the graph of the Fourier transform of the triangle function:
 
 As you can see, we are transofrming a function from the time domain to the frequency domain. Both functions are continuous.
 
+After introducing the Fourier transform, we will list some properties of the Fourier transform.
+
+- linearity: $\mathcal{F}[af(t) + bg(t)] = a\mathcal{F}[f(t)] + b\mathcal{F}[g(t)]$
+- time shift: $\mathcal{F}[f(t - t_0)] = e^{-2\pi i s t_0} \mathcal{F}[f(t)]$
+- stretch: $\mathcal{F}[f(at)] = \frac{1}{|a|} \mathcal{F}[f(t)]$
+- derivative: $\mathcal{F}[f'(t)] = 2\pi i s \mathcal{F}[f(t)]$
+
+
+## Convolution
+
 
 
 
