@@ -110,6 +110,11 @@
 
 <p>In this blog post, I will try to summarize what I have learned about <code class="language-plaintext highlighter-rouge">data.table</code> and present a framework from an advanced standpoint. With this framework, you will have a better understanding of how to use <code class="language-plaintext highlighter-rouge">data.table</code> to solve complex problems and how to think like a data scientist and software engineer at the same time.</p>
 
+<ul>
+  <li><a href="#advanced-standpoint-1-it-is-all-about-the-object">Advanced standpoint 1: it is all about the object</a></li>
+  <li><a href="#advanced-standpoint-2-programming--data-structure--algorithm">Advanced standpoint 2: programming = data structure + algorithm</a></li>
+</ul>
+
 <h2 id="advanced-standpoint-1-it-is-all-about-the-object">Advanced standpoint 1: it is all about the object</h2>
 
 <p>If you open <code class="language-plaintext highlighter-rouge">python</code> and type <code class="language-plaintext highlighter-rouge">1 + 2</code>, you will get <code class="language-plaintext highlighter-rouge">3</code>. If you open <code class="language-plaintext highlighter-rouge">R</code> and type <code class="language-plaintext highlighter-rouge">1 + 2</code>, you will get <code class="language-plaintext highlighter-rouge">3</code>. This is because <code class="language-plaintext highlighter-rouge">1</code> and <code class="language-plaintext highlighter-rouge">2</code> are objects and <code class="language-plaintext highlighter-rouge">+</code> is a method that is defined for these objects. Since <code class="language-plaintext highlighter-rouge">python</code> is more object-oriented than <code class="language-plaintext highlighter-rouge">R</code>, the syntax and structure of <code class="language-plaintext highlighter-rouge">python</code> is more consistent and predictable. In <code class="language-plaintext highlighter-rouge">R</code>, the syntax and structure is more flexible and less predictable. This gives <code class="language-plaintext highlighter-rouge">R</code> a lot of power and flexibility, but it also makes <code class="language-plaintext highlighter-rouge">R</code> more difficult to learn and use and sometimes very confusing for beginners.</p>
@@ -278,6 +283,665 @@ Error <span class="k">in</span> <span class="s2">"a"</span> + <span class="s2">"
 
 <blockquote>
   <p>It should be this way as <code class="language-plaintext highlighter-rouge">R</code> was designed for data analysis and statistics, not for web development or system engineering. In a nutshell, <code class="language-plaintext highlighter-rouge">R</code> is not a general-purpose programming language like <code class="language-plaintext highlighter-rouge">python</code> or <code class="language-plaintext highlighter-rouge">javascript</code> but a domain-specific language like <code class="language-plaintext highlighter-rouge">SQL</code> or <code class="language-plaintext highlighter-rouge">LaTeX</code>.</p>
+</blockquote>
+
+<p>Before I give you some examples, let’s review the following table (taken from <a href="https://youtu.be/92YFZhKSJq0?si=tW6QvsYhO_cK_fTd" target="_blank">this video</a>).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data structure</th>
+      <th>dimension</th>
+      <th>class</th>
+      <th>attributes/methods</th>
+      <th>mixed data types</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>vector</td>
+      <td>1</td>
+      <td>atomic</td>
+      <td>length</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <td>matrix</td>
+      <td>2</td>
+      <td>matrix</td>
+      <td>dim, dimnames</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <td>array</td>
+      <td>n</td>
+      <td>array</td>
+      <td>dim, dimnames</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <td>list</td>
+      <td>n</td>
+      <td>list</td>
+      <td>length, names</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>factor</td>
+      <td>1</td>
+      <td>factor</td>
+      <td>levels, labels</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <td>table</td>
+      <td>2</td>
+      <td>table</td>
+      <td>dim, dimnames, names …</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>data.frame</td>
+      <td>2</td>
+      <td>data.frame</td>
+      <td>dim, names, rownames …</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>data.table</td>
+      <td>2</td>
+      <td>data.table</td>
+      <td>dim, names, rownames …</td>
+      <td>yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Knowing the data structures is extremely important as it will help you to manipulate data more efficiently and effectively.</p>
+
+<h2 id="datatable-from-an-advanced-standpoint">data.table from an advanced standpoint</h2>
+
+<p>Now, let’s learn <code class="language-plaintext highlighter-rouge">data.table</code> from an advanced standpoint. The vignettes of <code class="language-plaintext highlighter-rouge">data.table</code> are very comprehensive and well-written. Please read them if you are new to <code class="language-plaintext highlighter-rouge">data.table</code>, here is the <a href="https://cran.r-project.org/web/packages/data.table/vignettes/">link</a>. In this post, I will try to summarize what I have learned about <code class="language-plaintext highlighter-rouge">data.table</code> into a framework from an advanced standpoint.</p>
+
+<p>The starting point is same as the vignetts, you have to know the following syntax.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DT</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="p">]</span><span class="w">
+
+</span><span class="c1">##   R:                 i                 j        by</span><span class="w">
+</span><span class="c1">## SQL:  where | order by   select | update  group by</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notice that <code class="language-plaintext highlighter-rouge">[]</code> looks like a symbol of a rectangle, which already gives you a hint that <code class="language-plaintext highlighter-rouge">data.table</code> is all about data structure. We are working with a rectangle of data, which is a 2D data structure. This is the first thing you have to know about <code class="language-plaintext highlighter-rouge">data.table</code>. It is a 2D data structure. <code class="language-plaintext highlighter-rouge">data.table</code> is the enhanced version of <code class="language-plaintext highlighter-rouge">data.frame</code>. Therefore, many of the syntax and methods of <code class="language-plaintext highlighter-rouge">data.frame</code> are also available in <code class="language-plaintext highlighter-rouge">data.table</code>.</p>
+
+<p>The framework I am introducing here is based on the following two principles:</p>
+
+<ol>
+  <li>visualize a matrix in your mind</li>
+  <li>think about the data structure either in a row-wise or column-wise manner</li>
+</ol>
+
+<p>let’s look at the following matrix</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>…</th>
+      <th>height</th>
+      <th>weight</th>
+      <th>…</th>
+      <th>age</th>
+      <th>…</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>John</td>
+      <td>…</td>
+      <td>180</td>
+      <td>70</td>
+      <td>…</td>
+      <td>25</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td>…</td>
+      <td> </td>
+      <td>65</td>
+      <td>…</td>
+      <td> </td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td>…</td>
+      <td> </td>
+      <td>75</td>
+      <td>…</td>
+      <td> </td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td>…</td>
+      <td> </td>
+      <td>80</td>
+      <td>…</td>
+      <td> </td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>78</td>
+      <td>Mary</td>
+      <td>…</td>
+      <td>160</td>
+      <td>50</td>
+      <td>…</td>
+      <td>30</td>
+      <td>…</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="checking-missing-values-for-each-column">Checking missing values for each column</h3>
+
+<p>Now, let’s say you want to check the missing values for each column. You can do it in a row-wise manner or column-wise manner.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># column-wise manner</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">))),</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">dt</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">is.na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">colSums</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># row-wise manner</span><span class="w">
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">n_missing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">.SD</span><span class="p">))),</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+
+</span><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="nf">is.na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">rowSums</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I think column-wise manner is more intuitive and easier to understand. However, sometimes you might need to do operations in a row-wise manner. Since we could always transpose the matrix, we could always do operations in a column-wise manner.</p>
+
+<h3 id="checking-the-summary-statistics-for-selected-columns">Checking the summary statistics for selected columns</h3>
+
+<p>Now, let’s say you want to check the summary statistics for selected columns. The most common way is to use the <code class="language-plaintext highlighter-rouge">summary</code> function with <code class="language-plaintext highlighter-rouge">lapply</code> function. However, if you try the following code, you will get an error.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">summary</span><span class="p">),</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'height'</span><span class="p">,</span><span class="w"> </span><span class="s1">'weight'</span><span class="p">,</span><span class="w"> </span><span class="s1">'age'</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span><span class="c1"># Error in dimnames(x) &lt;- dnx: 'dimnames' applied to non-array</span><span class="w">
+</span><span class="c1"># Traceback:</span><span class="w">
+</span></code></pre></div></div>
+
+<p>However, the above code does not work because <code class="language-plaintext highlighter-rouge">summary</code> function returns a <code class="language-plaintext highlighter-rouge">table</code> for each column and the dimension of the <code class="language-plaintext highlighter-rouge">table</code> of each column is not the same. Therefore, you will get an error.</p>
+
+<p>However, if you try the following code, you will still get an error.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">summary</span><span class="p">),</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'height'</span><span class="p">,</span><span class="w"> </span><span class="s1">'weight'</span><span class="p">,</span><span class="w"> </span><span class="s1">'age'</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span><span class="c1"># 'dimnames' applied to non-array</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This is because <code class="language-plaintext highlighter-rouge">summary</code> function returns a <code class="language-plaintext highlighter-rouge">table</code> for each column and not a <code class="language-plaintext highlighter-rouge">list</code>. Therefore, you will get an error. If we run the following code, we get:</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="o">$</span><span class="n">height</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">summary</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">attributes</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># $names</span><span class="w">
+</span><span class="c1"># 'Min.''1st Qu.''Median''Mean''3rd Qu.''Max.''NA\'s'</span><span class="w">
+</span><span class="c1"># $class</span><span class="w">
+</span><span class="c1"># 'summaryDefault''table'</span><span class="w">
+</span></code></pre></div></div>
+
+<p>As you can see the class of the output of <code class="language-plaintext highlighter-rouge">summary</code> function is <code class="language-plaintext highlighter-rouge">table</code> and not <code class="language-plaintext highlighter-rouge">list</code>. Many statistical summary in <code class="language-plaintext highlighter-rouge">R</code> returns a <code class="language-plaintext highlighter-rouge">table</code> and not a <code class="language-plaintext highlighter-rouge">list</code>. Therefore, you have to be careful when you use <code class="language-plaintext highlighter-rouge">lapply</code> function with <code class="language-plaintext highlighter-rouge">summary</code> function.</p>
+
+<blockquote>
+  <p>This shows that knowing the data structure is extremely important. If you know the output of a function is a <code class="language-plaintext highlighter-rouge">table</code> and not a <code class="language-plaintext highlighter-rouge">list</code>, you will not make the mistake of using <code class="language-plaintext highlighter-rouge">lapply</code> function with it.</p>
+</blockquote>
+
+<p>The following code works.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">sapply</span><span class="p">(</span><span class="n">.SD</span><span class="p">,</span><span class="w"> </span><span class="n">summary</span><span class="p">),</span><span class="w"> </span><span class="n">.SDcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'height'</span><span class="p">,</span><span class="w"> </span><span class="s1">'weight'</span><span class="p">,</span><span class="w"> </span><span class="s1">'age'</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">kable</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">height</th>
+      <th style="text-align: right">weight</th>
+      <th style="text-align: right">age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Min.</td>
+      <td style="text-align: right">132.3291</td>
+      <td style="text-align: right">39.58384</td>
+      <td style="text-align: right">18.0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1st Qu.</td>
+      <td style="text-align: right">163.8469</td>
+      <td style="text-align: right">63.31751</td>
+      <td style="text-align: right">30.0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Median</td>
+      <td style="text-align: right">170.3699</td>
+      <td style="text-align: right">69.89749</td>
+      <td style="text-align: right">41.0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Mean</td>
+      <td style="text-align: right">170.0986</td>
+      <td style="text-align: right">69.70877</td>
+      <td style="text-align: right">41.1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">3rd Qu.</td>
+      <td style="text-align: right">176.9779</td>
+      <td style="text-align: right">76.40854</td>
+      <td style="text-align: right">54.0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Max.</td>
+      <td style="text-align: right">198.5624</td>
+      <td style="text-align: right">105.43519</td>
+      <td style="text-align: right">64.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The above code works because:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">summary</code> function returns a <code class="language-plaintext highlighter-rouge">table</code> and not a <code class="language-plaintext highlighter-rouge">list</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sapply</code> function is used to apply the <code class="language-plaintext highlighter-rouge">summary</code> function to each column of the <code class="language-plaintext highlighter-rouge">data.table</code> and the output is a <code class="language-plaintext highlighter-rouge">matrix</code> and not a <code class="language-plaintext highlighter-rouge">list</code></li>
+  <li>since we put the output of <code class="language-plaintext highlighter-rouge">sapply</code> function into a <code class="language-plaintext highlighter-rouge">data.table</code>, the <code class="language-plaintext highlighter-rouge">matrix</code> is automatically converted into a <code class="language-plaintext highlighter-rouge">data.table</code> and the <code class="language-plaintext highlighter-rouge">dim</code> attribute is automatically added to the <code class="language-plaintext highlighter-rouge">data.table</code></li>
+  <li>we use <code class="language-plaintext highlighter-rouge">na.omit</code> function to remove the missing values before we apply the <code class="language-plaintext highlighter-rouge">summary</code> function to the <code class="language-plaintext highlighter-rouge">data.table</code> as the dimension of the <code class="language-plaintext highlighter-rouge">table</code> of each column is not the same when there are missing values</li>
+</ol>
+
+<blockquote>
+  <p>As long as j returns a list, each element of the list will become a column in the resulting data.table. If the result is a matrix, the columns of the matrix will become columns in the resulting data.table.</p>
+</blockquote>
+
+<h3 id="order-the-count-within-each-group">Order the count within each group</h3>
+
+<p>Now, we want to order the count for categorical variables such as <code class="language-plaintext highlighter-rouge">year</code>, <code class="language-plaintext highlighter-rouge">education</code> 
+and <code class="language-plaintext highlighter-rouge">degree</code> within each group.</p>
+
+<p>Let’s run the following code.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">dob</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">education</span><span class="p">,</span><span class="w"> </span><span class="n">gender</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">peep_head</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">year</th>
+      <th style="text-align: center">education</th>
+      <th style="text-align: center">gender</th>
+      <th style="text-align: right">N</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">PhD</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As you can see that we have ordered the year and the count. However, This is what we want. We want to order the count within each group, meaning, we should have rows that be ordered as a subgroup based on year, education and gender. Or what we want is something like this.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">year</th>
+      <th style="text-align: center">education</th>
+      <th style="text-align: center">gender</th>
+      <th style="text-align: right">N</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">PhD</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">PhD</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You might try the following code.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">dob</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">education</span><span class="p">,</span><span class="w"> </span><span class="n">gender</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">gender</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">peep_head</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>It still does not work as <code class="language-plaintext highlighter-rouge">N</code> is always ordered at the global level. The following code works.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">dob</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">education</span><span class="w"> </span><span class="n">gender</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">education</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">education</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">peep_head</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">year</th>
+      <th style="text-align: center">education</th>
+      <th style="text-align: center">gender</th>
+      <th style="text-align: right">N</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">High School</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">High School</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>But what if we want to order <code class="language-plaintext highlighter-rouge">N</code> at the global level but at the same time we want to order <code class="language-plaintext highlighter-rouge">gender</code> within each group? The following code works.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dt</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">dob</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">.N</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">education</span><span class="p">,</span><span class="w"> </span><span class="n">gender</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[,</span><span class="w"> </span><span class="n">n_sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">N</span><span class="p">),</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">education</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">.</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n_sum</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">N</span><span class="p">)]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">peep_head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The above code works because we have created a new column <code class="language-plaintext highlighter-rouge">n_sum</code> that is the sum of <code class="language-plaintext highlighter-rouge">N</code> within each group. Therefore, we can order <code class="language-plaintext highlighter-rouge">n_sum</code> at the global level and <code class="language-plaintext highlighter-rouge">N</code> within each group.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">year</th>
+      <th style="text-align: center">education</th>
+      <th style="text-align: center">gender</th>
+      <th style="text-align: right">N</th>
+      <th style="text-align: right">n_sum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">9</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">9</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">High School</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">High School</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1950</td>
+      <td style="text-align: center">PhD</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1951</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1951</td>
+      <td style="text-align: center">Masters</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1951</td>
+      <td style="text-align: center">Bachelors</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1951</td>
+      <td style="text-align: center">PhD</td>
+      <td style="text-align: center">F</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1951</td>
+      <td style="text-align: center">PhD</td>
+      <td style="text-align: center">M</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The above table tells us that for each year which education has the most number of people and which gender has the most number of people.</p>
+
+<p>I used this example to introduce the following principle.</p>
+
+<blockquote>
+  <p>Fundamental theorem of software engineering: we can solve any problem by introducing an extra level of indirection (David Wheeler)</p>
+</blockquote>
+
+<p>In this example, we have introduced an extra level of indirection by creating a new column <code class="language-plaintext highlighter-rouge">n_sum</code> that is the sum of <code class="language-plaintext highlighter-rouge">N</code> within each group. This allows us to order <code class="language-plaintext highlighter-rouge">n_sum</code> at the global level and <code class="language-plaintext highlighter-rouge">N</code> within each group.</p>
+
+<h3 id="working-with-nested-data">Working with nested data</h3>
+
+<p>This is a very common task in data analysis, which is also known as unnesting or flattening. This kind of task is quite challenging for almost all programming languages.</p>
+
+<p>Suppose you have one column that contains a nested json data, which looks like the following one:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># for one cell
+{
+  "name": "John",
+  "dob": "1950-01-01",
+  "education": [
+    {
+      "degree": "Bachelors",
+      "year": 1970
+    },
+    {
+      "degree": "Masters",
+      "year": 1975
+    }
+  ]
+  "working_experience": [
+    {
+      "company": "Google",
+      "year": 1990
+    },
+    {
+      "company": "Facebook",
+      "year": 1995
+    }
+  ]
+}
+
+# another cell
+{
+    "name": "Mary",
+    "dob": "1955-01-01",
+    "education": [
+        {
+        "degree": "Bachelors",
+        "year": 1975
+        }
+    ]
+    "working_experience": [
+        {
+        "company": "Amazon",
+        "year": 1995
+        },
+        {
+        "company": "Microsoft",
+        "year": 2000
+        },
+        {
+        "company": "Apple",
+        "year": 2005
+        }
+    ]
+}
+</code></pre></div></div>
+
+<p>As you can see that the <code class="language-plaintext highlighter-rouge">education</code> and <code class="language-plaintext highlighter-rouge">working_experience</code> are nested data they also have different length. Based on my experience, there is no easy way in <code class="language-plaintext highlighter-rouge">R</code> to flatten the nested data. Since the nested json has <code class="language-plaintext highlighter-rouge">keys</code> and also <code class="language-plaintext highlighter-rouge">lists</code>, it is quite difficult to flatten the nested data in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<p>However, if you use <code class="language-plaintext highlighter-rouge">python</code>, you can use the <code class="language-plaintext highlighter-rouge">pandas</code> library to flatten the nested data. The <code class="language-plaintext highlighter-rouge">json_normalize</code> function and <code class="language-plaintext highlighter-rouge">explode</code> function are very handy for this kind of task. In <code class="language-plaintext highlighter-rouge">duckdb</code>, you can also find the <code class="language-plaintext highlighter-rouge">flatten</code> function that is very handy for this kind of task.</p>
+
+<blockquote>
+  <p>This again shows that data structure is extremely important. Because <code class="language-plaintext highlighter-rouge">R</code> does not have dictionary-like data structure, it is quite difficult to flatten the nested data in <code class="language-plaintext highlighter-rouge">R</code>. However, <code class="language-plaintext highlighter-rouge">python</code> has dictionary-like data structure, so it is quite easy to flatten the nested data in <code class="language-plaintext highlighter-rouge">python</code>.</p>
 </blockquote>
 
     </div>
