@@ -16,6 +16,11 @@ In this blog post, I will try to summarize what I have learned about `data.table
 
 - [Advanced standpoint 1: it is all about the object](#advanced-standpoint-1-it-is-all-about-the-object)
 - [Advanced standpoint 2: programming = data structure + algorithm](#advanced-standpoint-2-programming--data-structure--algorithm)
+- [data.table from an advanced standpoint](#data-table-from-an-advanced-standpoint)
+  - [Checking missing values for each column](#checking-missing-values-for-each-column)
+  - [Checking the summary statistics for selected columns](#checking-the-summary-statistics-for-selected-columns)
+  - [Order the count within each group](#order-the-count-within-each-group)
+  - [Working with nested data](#working-with-nested-data)
 
 
 ## Advanced standpoint 1: it is all about the object
