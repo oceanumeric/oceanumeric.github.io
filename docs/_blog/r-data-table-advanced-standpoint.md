@@ -14,6 +14,9 @@ Recently, I have discovered `duckdb` which is a new database engine that could a
 
 In this blog post, I will try to summarize what I have learned about `data.table` and present a framework from an advanced standpoint. With this framework, you will have a better understanding of how to use `data.table` to solve complex problems and how to think like a data scientist and software engineer at the same time.
 
+- [Advanced standpoint 1: it is all about the object](#advanced-standpoint-1-it-is-all-about-the-object)
+- [Advanced standpoint 2: programming = data structure + algorithm](#advanced-standpoint-2-programming--data-structure--algorithm)
+
 
 ## Advanced standpoint 1: it is all about the object
 
@@ -190,3 +193,316 @@ Even for a simple task, algorithms (let's say a simple for loop) and data struct
 The whole community is now moving towards higher awareness of data structures and types. That's why we have `pydantic` in `python` and `typescript` in web development. Because `R` is a mix of functional and object-oriented, it is quite difficult to define a strict data structure in `R`. We will see many examples in the following sections. This makes `R` more flexbile but also more restrictive for certain tasks. Therefore, we will see `R` will alway dominate the data science and statistics field, but it will never be a good language for web development or system engineering.
 
 > It should be this way as `R` was designed for data analysis and statistics, not for web development or system engineering. In a nutshell, `R` is not a general-purpose programming language like `python` or `javascript` but a domain-specific language like `SQL` or `LaTeX`.
+
+
+Before I give you some examples, let's review the following table (taken from [this video](https://youtu.be/92YFZhKSJq0?si=tW6QvsYhO_cK_fTd){:target="_blank"}).
+
+| Data structure | dimension | class | attributes/methods | mixed data types |
+|----------------|-----------|-------|------------| -----------------|
+| vector         | 1         | atomic| length     | no |
+| matrix         | 2         | matrix| dim, dimnames | no |
+| array          | n       | array | dim, dimnames | no |
+| list           | n        | list  | length, names | yes |
+| factor         | 1         | factor| levels, labels | no |
+| table          | 2         | table | dim, dimnames, names ...| yes |
+| data.frame     | 2         | data.frame | dim, names, rownames ... | yes |
+| data.table     | 2         | data.table | dim, names, rownames ... | yes |
+
+
+Knowing the data structures is extremely important as it will help you to manipulate data more efficiently and effectively.
+
+
+## data.table from an advanced standpoint
+
+Now, let's learn `data.table` from an advanced standpoint. The vignettes of `data.table` are very comprehensive and well-written. Please read them if you are new to `data.table`, here is the [link](https://cran.r-project.org/web/packages/data.table/vignettes/). In this post, I will try to summarize what I have learned about `data.table` into a framework from an advanced standpoint.
+
+The starting point is same as the vignetts, you have to know the following syntax.
+
+```R
+DT[i, j, by]
+
+##   R:                 i                 j        by
+## SQL:  where | order by   select | update  group by
+```
+
+Notice that `[]` looks like a symbol of a rectangle, which already gives you a hint that `data.table` is all about data structure. We are working with a rectangle of data, which is a 2D data structure. This is the first thing you have to know about `data.table`. It is a 2D data structure. `data.table` is the enhanced version of `data.frame`. Therefore, many of the syntax and methods of `data.frame` are also available in `data.table`.
+
+The framework I am introducing here is based on the following two principles:
+
+1. visualize a matrix in your mind
+2. think about the data structure either in a row-wise or column-wise manner
+
+let's look at the following matrix
+
+| id | name| ... |height| weight| ... | age | ... |
+|----|-----|-----|------|-------|-----|-----|-----|
+| 1  | John| ... | 180  | 70    | ... | 25  | ... |
+|   | | ... |  |  65 | ... |  | ... |
+|   | | ... |  |  75 | ... |  | ... |
+|   | | ... |  |  80 | ... |  | ... |
+| 78 | Mary| ... | 160  | 50    | ... | 30  | ... |
+
+### Checking missing values for each column
+
+Now, let's say you want to check the missing values for each column. You can do it in a row-wise manner or column-wise manner.
+
+
+```R
+# column-wise manner
+dt %>%
+    .[, lapply(.SD, function(x) sum(is.na(x))), .SDcols = names(dt)] %>%
+    kable()
+
+dt %>%
+    is.na() %>% 
+    colSums() %>% kable()
+
+# row-wise manner
+dt %>%
+    .[, .(n_missing = sum(is.na(.SD))), by = id] %>% 
+    kable()
+
+dt %>%
+    is.na() %>%
+    rowSums() %>% kable()
+```
+
+I think column-wise manner is more intuitive and easier to understand. However, sometimes you might need to do operations in a row-wise manner. Since we could always transpose the matrix, we could always do operations in a column-wise manner.
+
+
+### Checking the summary statistics for selected columns
+
+Now, let's say you want to check the summary statistics for selected columns. The most common way is to use the `summary` function with `lapply` function. However, if you try the following code, you will get an error.
+
+```R
+dt %>%
+    .[, lapply(.SD, summary), .SDcols = c('height', 'weight', 'age')] %>%
+    kable()
+# Error in dimnames(x) <- dnx: 'dimnames' applied to non-array
+# Traceback:
+```
+
+However, the above code does not work because `summary` function returns a `table` for each column and the dimension of the `table` of each column is not the same. Therefore, you will get an error.
+
+However, if you try the following code, you will still get an error.
+
+```R
+dt %>% 
+    na.omit() %>%
+    .[, lapply(.SD, summary), .SDcols = c('height', 'weight', 'age')] %>%
+    kable()
+# 'dimnames' applied to non-array
+```
+
+This is because `summary` function returns a `table` for each column and not a `list`. Therefore, you will get an error. If we run the following code, we get:
+
+```R
+dt$height %>% summary() %>% attributes()
+
+# $names
+# 'Min.''1st Qu.''Median''Mean''3rd Qu.''Max.''NA\'s'
+# $class
+# 'summaryDefault''table'
+```
+
+As you can see the class of the output of `summary` function is `table` and not `list`. Many statistical summary in `R` returns a `table` and not a `list`. Therefore, you have to be careful when you use `lapply` function with `summary` function.
+
+> This shows that knowing the data structure is extremely important. If you know the output of a function is a `table` and not a `list`, you will not make the mistake of using `lapply` function with it.
+
+The following code works.
+
+```R
+dt %>% 
+    na.omit() %>%
+    .[, sapply(.SD, summary), .SDcols = c('height', 'weight', 'age')] %>%
+    kable()
+```
+
+
+|        |   height|    weight|  age|
+|:-------|--------:|---------:|----:|
+|Min.    | 132.3291|  39.58384| 18.0|
+|1st Qu. | 163.8469|  63.31751| 30.0|
+|Median  | 170.3699|  69.89749| 41.0|
+|Mean    | 170.0986|  69.70877| 41.1|
+|3rd Qu. | 176.9779|  76.40854| 54.0|
+|Max.    | 198.5624| 105.43519| 64.0|
+
+The above code works because:
+
+1. `summary` function returns a `table` and not a `list`
+2. `sapply` function is used to apply the `summary` function to each column of the `data.table` and the output is a `matrix` and not a `list`
+3. since we put the output of `sapply` function into a `data.table`, the `matrix` is automatically converted into a `data.table` and the `dim` attribute is automatically added to the `data.table`
+4. we use `na.omit` function to remove the missing values before we apply the `summary` function to the `data.table` as the dimension of the `table` of each column is not the same when there are missing values
+
+
+> As long as j returns a list, each element of the list will become a column in the resulting data.table. If the result is a matrix, the columns of the matrix will become columns in the resulting data.table. 
+
+
+### Order the count within each group
+
+Now, we want to order the count for categorical variables such as `year`, `education` 
+and `degree` within each group. 
+
+Let's run the following code.
+
+```R
+dt %>%
+    .[, year := year(dob)] %>%
+    .[, .N, by = .(year, education, gender)] %>%
+    .[order(year, -N)] %>%
+    peep_head()
+```
+
+
+| year|education |gender |  N|
+|:----|:---------:|:------:|--:|
+| 1950|Bachelors |M      |  5|
+| 1950|Bachelors |F      |  4|
+| 1950|Masters   |M      |  3|
+| 1950|PhD       |M      |  3|
+| 1950|Masters   |F      |  3|
+
+As you can see that we have ordered the year and the count. However, This is what we want. We want to order the count within each group, meaning, we should have rows that be ordered as a subgroup based on year, education and gender. Or what we want is something like this.
+
+| year|education |gender |  N|
+|:----|:---------:|:------:|--:|
+| 1950|Bachelors |M      |  5|
+| 1950|Bachelors |F      |  4|
+| 1950|Masters   |M      |  3|
+| 1950|Masters   |F      |  3|
+| 1950|PhD       |M      |  3|
+| 1950|PhD       |F      |  2|
+| 1950|Masters   |F      |  3|
+
+You might try the following code.
+
+```R
+dt %>%
+    .[, year := year(dob)] %>%
+    .[, .N, by = .(year, education, gender)] %>%
+    .[order(year, gender, -N)] %>%
+    peep_head()
+```
+
+It still does not work as `N` is always ordered at the global level. The following code works.
+
+```R
+dt %>%
+    .[, year := year(dob)] %>%
+    .[, .N, by = .(year, education gender)] %>%
+    .[order(year, education)] %>%
+    .[order(year, education, -N)] %>%
+    peep_head()
+```
+
+| year|education   |gender |  N|
+|:----|:-----------:|:------:|--:|
+| 1950|Bachelors   |M      |  5|
+| 1950|Bachelors   |F      |  4|
+| 1950|High School |M      |  2|
+| 1950|High School |F      |  2|
+| 1950|Masters     |M      |  3|
+
+
+But what if we want to order `N` at the global level but at the same time we want to order `gender` within each group? The following code works.
+
+```R
+dt %>%
+    .[, year := year(dob)] %>%
+    .[, .N, by = .(year, education, gender)] %>%
+    .[, n_sum := sum(N), by = .(year, education)] %>%
+    .[order(year, -n_sum, -N)] %>% peep_head(10)
+```
+
+The above code works because we have created a new column `n_sum` that is the sum of `N` within each group. Therefore, we can order `n_sum` at the global level and `N` within each group.
+
+| year|education   |gender |  N| n_sum|
+|:----|:-----------:|:------:|--:|-----:|
+| 1950|Bachelors   |M      |  5|     9|
+| 1950|Bachelors   |F      |  4|     9|
+| 1950|Masters     |M      |  3|     6|
+| 1950|Masters     |F      |  3|     6|
+| 1950|High School |M      |  2|     4|
+| 1950|High School |F      |  2|     4|
+| 1950|PhD         |M      |  3|     3|
+| 1951|Masters     |F      |  3|     5|
+| 1951|Masters     |M      |  2|     5|
+| 1951|Bachelors   |M      |  2|     3|
+| 1951|PhD         |F      |  2|     3|
+| 1951|PhD         |M      |  1|     3|
+
+The above table tells us that for each year which education has the most number of people and which gender has the most number of people.
+
+I used this example to introduce the following principle.
+
+> Fundamental theorem of software engineering: we can solve any problem by introducing an extra level of indirection (David Wheeler)
+
+In this example, we have introduced an extra level of indirection by creating a new column `n_sum` that is the sum of `N` within each group. This allows us to order `n_sum` at the global level and `N` within each group.
+
+
+### Working with nested data
+
+This is a very common task in data analysis, which is also known as unnesting or flattening. This kind of task is quite challenging for almost all programming languages.
+
+Suppose you have one column that contains a nested json data, which looks like the following one:
+
+```
+# for one cell
+{
+  "name": "John",
+  "dob": "1950-01-01",
+  "education": [
+    {
+      "degree": "Bachelors",
+      "year": 1970
+    },
+    {
+      "degree": "Masters",
+      "year": 1975
+    }
+  ]
+  "working_experience": [
+    {
+      "company": "Google",
+      "year": 1990
+    },
+    {
+      "company": "Facebook",
+      "year": 1995
+    }
+  ]
+}
+
+# another cell
+{
+    "name": "Mary",
+    "dob": "1955-01-01",
+    "education": [
+        {
+        "degree": "Bachelors",
+        "year": 1975
+        }
+    ]
+    "working_experience": [
+        {
+        "company": "Amazon",
+        "year": 1995
+        },
+        {
+        "company": "Microsoft",
+        "year": 2000
+        },
+        {
+        "company": "Apple",
+        "year": 2005
+        }
+    ]
+}
+```
+
+As you can see that the `education` and `working_experience` are nested data they also have different length. Based on my experience, there is no easy way in `R` to flatten the nested data. Since the nested json has `keys` and also `lists`, it is quite difficult to flatten the nested data in `R`.
+
+However, if you use `python`, you can use the `pandas` library to flatten the nested data. The `json_normalize` function and `explode` function are very handy for this kind of task. In `duckdb`, you can also find the `flatten` function that is very handy for this kind of task.
+
+> This again shows that data structure is extremely important. Because `R` does not have dictionary-like data structure, it is quite difficult to flatten the nested data in `R`. However, `python` has dictionary-like data structure, so it is quite easy to flatten the nested data in `python`.
