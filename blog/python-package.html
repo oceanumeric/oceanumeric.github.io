@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en">
+  <head>
+    <title>
+      Python Package with Poetry
+    </title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name='author' content='Michael Wang Fei'>
+    <meta name='keywords' content='
+          machine learning,
+          statistical machine learning,
+          bayesian inference,
+          statistics,
+          computational statistics,
+          linear algebra,
+          numerical linear algebra,
+          statistical software,
+          deep learning,
+          computer science,
+          probability,
+          math,
+          mathematics,
+          probabilistic reasoning
+      '>
+      <meta name='keywords' content='python, poetry, package, pip, documentation, pypi, sphinx, pytest, coverage, codecov, black, flake8, mypy, pre-commit, git, github, gitlab, bitbucket, ci, cd, devops, production'>
+      <link rel="stylesheet" href="/css/blog.css">
+      <link rel="stylesheet" href="/css/markdown.css">
+      <link rel="stylesheet" href="/css/trac.css">
+      <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+      <!-- The loading of KaTeX is deferred to speed up page rendering -->
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Python Package with Poetry</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Python Package with Poetry" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Software enginners often feel that technology evolves at a rapid pace. From time to time, we see new tools and libraries coming up. Many years ago, python developers in the community were using setuptools and pip to create and distribute python packages. But now, we have a new tool called poetry which is a modern tool for dependency management and packaging in python. In this blog post, we will see how to create a python package with poetry and publish it to pypi." />
+<meta property="og:description" content="Software enginners often feel that technology evolves at a rapid pace. From time to time, we see new tools and libraries coming up. Many years ago, python developers in the community were using setuptools and pip to create and distribute python packages. But now, we have a new tool called poetry which is a modern tool for dependency management and packaging in python. In this blog post, we will see how to create a python package with poetry and publish it to pypi." />
+<link rel="canonical" href="https://oceanumeric.github.io//blog/python-package" />
+<meta property="og:url" content="https://oceanumeric.github.io//blog/python-package" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-05-09T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Python Package with Poetry" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-05-09T00:00:00+00:00","datePublished":"2024-05-09T00:00:00+00:00","description":"Software enginners often feel that technology evolves at a rapid pace. From time to time, we see new tools and libraries coming up. Many years ago, python developers in the community were using setuptools and pip to create and distribute python packages. But now, we have a new tool called poetry which is a modern tool for dependency management and packaging in python. In this blog post, we will see how to create a python package with poetry and publish it to pypi.","headline":"Python Package with Poetry","mainEntityOfPage":{"@type":"WebPage","@id":"https://oceanumeric.github.io//blog/python-package"},"url":"https://oceanumeric.github.io//blog/python-package"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+</html>
+
+
+</head>
+<body>
+<div class='content'>
+    <!DOCTYPE html>
+<div class='nav'>
+    <ul class='wrap'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/blog'>Blog</a></li>
+        <li><a href='/math'>Math</a></li>
+        <li><a href='/tags'>Tags</a></li>
+    </ul>
+</div>
+</html>
+
+    <div class='front-matter'>
+        <div class='wrap'>
+            <h1>Python Package with Poetry</h1>
+            <h4>Create a python package with poetry in production</h4>
+            <div class='bylines'>
+                <div class='byline'>
+                    
+                    
+                        <span class="post-tags">
+                            <i class="fa fa-tags"></i>
+                            
+                            <a href="/blog-tags/python">python</a>, 
+                            
+                            <a href="/blog-tags/poetry">poetry</a>, 
+                            
+                            <a href="/blog-tags/package">package</a>, 
+                            
+                            <a href="/blog-tags/pip">pip</a>, 
+                            
+                            <a href="/blog-tags/pypi">pypi</a>, 
+                            
+                            <a href="/blog-tags/sphinx">sphinx</a>, 
+                            
+                            <a href="/blog-tags/pytest">pytest</a>, 
+                            
+                            <a href="/blog-tags/cicd">cicd</a>, 
+                            
+                            <a href="/blog-tags/devops">devops</a>
+                            
+                        </span>
+                    
+                    <h3>Published</h3>
+                    <p>09 May 2024</p>
+                </div>
+            </div>
+            <div class='clear'></div>
+        </div>
+    </div>
+    <div class='wrap article'>
+        <p>Software enginners often feel that technology evolves at a rapid pace. From time to
+time, we see new tools and libraries coming up. Many years ago, python developers
+in the community were using <code class="language-plaintext highlighter-rouge">setuptools</code> and <code class="language-plaintext highlighter-rouge">pip</code> to create and distribute python
+packages. But now, we have a new tool called <code class="language-plaintext highlighter-rouge">poetry</code> which is a modern tool for
+dependency management and packaging in python. In this blog post, we will see how
+to create a python package with poetry and publish it to pypi.</p>
+
+<p>Here is a <a href="https://github.com/oceanumeric/juskata" target="_blank">demo package</a> that I have created for a job interview. You can also <code class="language-plaintext highlighter-rouge">pip install juskata</code> to install the package for testing.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># after installing the package
+</span><span class="kn">from</span> <span class="n">juskata</span> <span class="kn">import</span> <span class="n">Num2Words</span>
+<span class="c1"># initialize the class
+</span><span class="n">n2w_fr</span> <span class="o">=</span> <span class="nc">Num2Words</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="sh">"</span><span class="s">FR</span><span class="sh">"</span><span class="p">)</span>
+<span class="c1"># convert a number to words
+</span><span class="nf">print</span><span class="p">(</span><span class="n">n2w_fr</span><span class="p">.</span><span class="nf">convert_num</span><span class="p">(</span><span class="mi">17</span><span class="p">))</span>  <span class="c1"># dix-sept
+# convert a list of numbers to words
+</span><span class="n">n2w_fr</span><span class="p">.</span><span class="nf">convert_num_list</span><span class="p">([</span><span class="mi">17</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">180000</span><span class="p">])</span>
+<span class="c1"># ['dix-sept', 'quatre-vingts' 'cent-quatre-vingt-milles']
+</span></code></pre></div></div>
+
+<p>We will use <code class="language-plaintext highlighter-rouge">cookiecutter</code> to create a python package template. First, install <code class="language-plaintext highlighter-rouge">cookiecutter</code> using the following command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--user</span> cookiecutter
+</code></pre></div></div>
+
+<p>There are many <a href="https://www.cookiecutter.io/" target="_blank">templates</a>, the one we will use is <a href="https://github.com/py-pkgs/py-pkgs-cookiecutter" target="_blank"><code class="language-plaintext highlighter-rouge">py-pkgs-cookiecutter</code></a>. There is also a <a href="https://py-pkgs.org/" target="_blank">book</a> that you can read to learn more about creating python packages.</p>
+
+<p>I put everything in the following pipeline. You can read the rest of the blog post to understand each step.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Step 0: make sure you have pyenv installed</span>
+<span class="c"># Step 1: create a python package template</span>
+cookiecutter https://github.com/py-pkgs/py-pkgs-cookiecutter.git
+
+<span class="c"># Step 2: initialize the git repository and setup the remote repository</span>
+<span class="nb">cd </span>justkata
+git init
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Initial commit for justkata package"</span>
+
+git remote add origin &lt;remote-repository-url&gt;
+git branch <span class="nt">-M</span> main
+git push <span class="nt">-u</span> origin main
+
+<span class="c"># Step 3: install poetry and setup python environment (skip if you have poetry installed)</span>
+<span class="c"># linux, mac, windows(WSL)</span>
+curl <span class="nt">-sSL</span> https://install.python-poetry.org | python3 -
+<span class="c"># after this, you need to restart your terminal</span>
+<span class="c"># check if poetry is installed</span>
+poetry <span class="nt">--version</span>
+
+<span class="c"># install the python version you want to use</span>
+pyenv <span class="nb">install </span>3.9  <span class="c"># or pyenv install 3.8.10 [whatever version you want]</span>
+<span class="c"># set the python version for the project</span>
+pyenv <span class="nb">local </span>3.9
+<span class="c"># create a virtual environment with poetry</span>
+poetry <span class="nb">env </span>use <span class="si">$(</span>pyenv which python<span class="si">)</span>
+<span class="c"># activate the virtual environment</span>
+poetry shell
+
+<span class="c"># you can check the list of virtual environments</span>
+poetry <span class="nb">env </span>list
+
+<span class="c"># install the dependencies</span>
+peotry <span class="nb">install
+
+</span>poeotry add black loguru jupyterlab <span class="nt">--group</span> dev
+
+<span class="c"># Step 4: write the code and tests</span>
+<span class="c"># Step 5: manage the documentation with sphinx</span>
+poetry add <span class="nt">--group</span> dev myst-nb <span class="nt">--python</span> <span class="s2">"^3.9"</span>
+poetry add <span class="nt">--group</span> dev sphinx-autoapi sphinx-rtd-theme
+
+<span class="c"># Step 6: build the package and publish it to pypi</span>
+poetry build
+
+<span class="c"># add the test pypi repository</span>
+poetry config repositories.test-pypi https://test.pypi.org/legacy/
+poetry publish <span class="nt">-r</span> test-pypi <span class="nt">-u</span> __token__ <span class="nt">-p</span> yourlongtestpypitokengoeshere...
+
+<span class="c"># test the package</span>
+pip <span class="nb">install</span> <span class="nt">--index-url</span> https://test.pypi.org/simple/ <span class="se">\</span>
+  <span class="nt">--extra-index-url</span> https://pypi.org/simple <span class="se">\</span>
+    justkata  <span class="c"># or whatever package name you have</span>
+
+<span class="c"># publish the package to the pypi server</span>
+poetry publish <span class="nt">-u</span> __token__ <span class="nt">-p</span> yourlongpypitokengoeshere...
+
+<span class="c"># Step 7: check up the ci/cd pipeline</span>
+</code></pre></div></div>
+
+<h2 id="7-steps-to-create-a-python-package-with-poetry">7 steps to create a python package with poetry</h2>
+
+<ul>
+  <li>Step 0: Setup the environment</li>
+</ul>
+
+<p>I highly recommend using <code class="language-plaintext highlighter-rouge">pyenv</code> to manage your python versions. Please read <a href="https://github.com/pyenv/pyenv" target="_blank">official documentation</a> to install <code class="language-plaintext highlighter-rouge">pyenv</code> on your machine.</p>
+
+<ul>
+  <li>Step 1: Create a python package template using <code class="language-plaintext highlighter-rouge">cookiecutter</code></li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cookiecutter https://github.com/py-pkgs/py-pkgs-cookiecutter.git
+</code></pre></div></div>
+
+<p>Like many <code class="language-plaintext highlighter-rouge">node.js</code> projects, you will be asked to provide some information about your package. For example, the package name, author name, email, etc.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>author_name [Monty Python]: oceanumeric
+package_name [mypkg]: justkata
+package_short_description []: Convert numbers to words in French
+package_version [0.1.0]: 0.1.0
+python_version [3.9]: 3.9
+Select open_source_license:
+1 - MIT
+2 - Apache License 2.0
+3 - GNU General Public License v3.0
+4 - Creative Commons Attribution 4.0
+5 - BSD 3-Clause
+6 - Proprietary
+7 - None
+Choose from 1, 2, 3, 4, 5, 6 [1]: 
+Select include_github_actions:
+1 - no
+2 - ci
+3 - ci+cd
+Choose from 1, 2, 3 [1]:
+</code></pre></div></div>
+
+<ul>
+  <li>Step 2: Initialize the git repository and setup the remote repository</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>justkata
+git init
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Initial commit for justkata package"</span>
+</code></pre></div></div>
+
+<p>If you are using github, you can create a new repository <em>without any README, LICENSE, or .gitignore</em> files. Then, push the local repository to the remote repository.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote add origin &lt;remote-repository-url&gt;
+git branch <span class="nt">-M</span> main
+git push <span class="nt">-u</span> origin main
+</code></pre></div></div>
+
+<p>Your project structure should look like this at this point.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current directory: juskata
+.
+├── CHANGELOG.md
+├── CONDUCT.md
+├── CONTRIBUTING.md
+├── docs
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── src
+└── tests
+</code></pre></div></div>
+
+<ul>
+  <li>Step 3: Install poetry and setup python environment</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># linux, mac, windows(WSL)</span>
+curl <span class="nt">-sSL</span> https://install.python-poetry.org | python3 -
+<span class="c"># after this, you need to restart your terminal</span>
+<span class="c"># check if poetry is installed</span>
+poetry <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>With poetry, you can manage the python environment and dependencies for the project. You can create a virtual environment with poetry and activate it.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># install the python version you want to use</span>
+pyenv <span class="nb">install </span>3.9  <span class="c"># or pyenv install 3.8.10 [whatever version you want]</span>
+<span class="c"># set the python version for the project</span>
+pyenv <span class="nb">local </span>3.9
+<span class="c"># create a virtual environment with poetry</span>
+poetry <span class="nb">env </span>use <span class="si">$(</span>pyenv which python<span class="si">)</span>
+<span class="c"># activate the virtual environment</span>
+poetry shell
+
+<span class="c"># you can check the list of virtual environments</span>
+poetry <span class="nb">env </span>list
+</code></pre></div></div>
+
+<p>After setting up the python environment, you can install the dependencies for the project. With <code class="language-plaintext highlighter-rouge">pyproject.toml</code> file, poetry will install the dependencies for you.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>If you are not using any template, you can create a project with <code class="language-plaintext highlighter-rouge">poetry new &lt;project-name&gt;</code> and then add the dependencies to the <code class="language-plaintext highlighter-rouge">pyproject.toml</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add justkata numpy pandas 
+</code></pre></div></div>
+
+<p><em>Since we are developing a package, we should only add this for development.</em></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add black loguru jupyterlab --group dev
+</code></pre></div></div>
+
+<p>Those packages will be only used for development and testing purposes. This means
+no one will install those packages when they install your package. In the following
+example, the only dependency is python with version 3.9.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>tool.poetry.dependencies]
+python <span class="o">=</span> <span class="s2">"^3.9"</span>
+
+<span class="o">[</span>tool.poetry.dev-dependencies]
+
+<span class="o">[</span>tool.poetry.group.dev.dependencies]
+pytest <span class="o">=</span> <span class="s2">"^8.2.0"</span>
+black <span class="o">=</span> <span class="s2">"^24.4.2"</span>
+pytest-cov <span class="o">=</span> <span class="s2">"^5.0.0"</span>
+jupyter <span class="o">=</span> <span class="s2">"^1.0.0"</span>
+myst-nb <span class="o">=</span> <span class="o">{</span>version <span class="o">=</span> <span class="s2">"^1.1.0"</span>, python <span class="o">=</span> <span class="s2">"^3.9"</span><span class="o">}</span>
+sphinx-autoapi <span class="o">=</span> <span class="s2">"^3.0.0"</span>
+sphinx-rtd-theme <span class="o">=</span> <span class="s2">"^2.0.0"</span>
+fastapi <span class="o">=</span> <span class="s2">"^0.111.0"</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Step 4: Write the code and tests</li>
+</ul>
+
+<p>You can write the code in the <code class="language-plaintext highlighter-rouge">src</code> directory and tests in the <code class="language-plaintext highlighter-rouge">tests</code> directory. You can also use <code class="language-plaintext highlighter-rouge">pytest</code> to run the tests.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current directory: src
+<span class="nb">.</span>
+├── juskata
+│   ├── __init__.py
+│   └── juskata.py
+│   ├── <span class="c"># you can add more modules here, such as regression.py</span>
+</code></pre></div></div>
+
+<p><strong>Please be careful with the naming of the directories and files.</strong> Within the <code class="language-plaintext highlighter-rouge">src</code> directory, you should have a directory with the same name as the package name. In this case, the package name is <code class="language-plaintext highlighter-rouge">juskata</code>. The <code class="language-plaintext highlighter-rouge">juskata</code> directory should have an <code class="language-plaintext highlighter-rouge">__init__.py</code> file. The module file does not have to be the same name as the package name. In this case, the module file is <code class="language-plaintext highlighter-rouge">juskata.py</code>.</p>
+
+<p><strong>There is also a small trick to import the module in the <code class="language-plaintext highlighter-rouge">__init__.py</code> file.</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># juskata/__init__.py
+# read version from installed package
+</span><span class="kn">from</span> <span class="n">importlib.metadata</span> <span class="kn">import</span> <span class="n">version</span>
+<span class="kn">from</span> <span class="n">.juskata</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="nf">version</span><span class="p">(</span><span class="sh">"</span><span class="s">juskata</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>With this trick, you can import the module in the <code class="language-plaintext highlighter-rouge">__init__.py</code> file and then import the package in the main script.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">juskata</span> <span class="kn">import</span> <span class="n">Num2Words</span>
+</code></pre></div></div>
+
+<p>Without this trick, you would have to import the module directly in the main script.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">juskata.juskata</span> <span class="kn">import</span> <span class="n">Num2Words</span>
+</code></pre></div></div>
+
+<p>If you are a user of the package, you do not want to see the package name twice!</p>
+
+<p>When you finish writing the code and tests, you can run the tests with <code class="language-plaintext highlighter-rouge">pytest</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># at root directory</span>
+pytest
+</code></pre></div></div>
+
+<p>You can also run the tests with coverage.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># at root directory</span>
+pytest <span class="nt">--cov</span><span class="o">=</span>juskata
+</code></pre></div></div>
+
+<ul>
+  <li>Step 5: Mangage the documentation with sphinx</li>
+</ul>
+
+<p>You can use <code class="language-plaintext highlighter-rouge">sphinx</code> to manage the documentation for the package. You can install <code class="language-plaintext highlighter-rouge">sphinx</code> with poetry.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># here are the dependencies for documentation</span>
+poetry add <span class="nt">--group</span> dev myst-nb <span class="nt">--python</span> <span class="s2">"^3.9"</span>
+poetry add <span class="nt">--group</span> dev sphinx-autoapi sphinx-rtd-theme
+</code></pre></div></div>
+
+<p>In <code class="language-plaintext highlighter-rouge">Vscode</code>, you can use <a href="https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring" target="_blank">autodocstring</a> to generate the docstrings for the functions and classes automatically. This extension is using google style docstrings, which I highly recommend. Some people use numpy style docstrings, but I prefer google style docstrings as I think numpy style takes too much space.</p>
+
+<p>Within the <code class="language-plaintext highlighter-rouge">docs</code> directory, there is an <code class="language-plaintext highlighter-rouge">example.ipynb</code> file that you can use to show how to use the package. Since we are using <code class="language-plaintext highlighter-rouge">myst-nb</code>, there is no need to add <code class="language-plaintext highlighter-rouge">rst</code> files. You can write the documentation in <code class="language-plaintext highlighter-rouge">markdown</code> format. Here is my documentation structure.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current directory: docs
+<span class="nb">.</span>
+├── _build
+├── changelog.md
+├── conduct.md
+├── conf.py
+├── contributing.md
+├── example.ipynb
+├── images
+├── index.md
+├── make.bat
+├── Makefile
+├── __pycache__
+└── requirements.txt
+</code></pre></div></div>
+
+<p>If you want to add more pages to the documentation, you can first create a markdown file and then add it to the <code class="language-plaintext highlighter-rouge">index.md</code> file.</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:maxdepth: 1
+:hidden:
+
+example.ipynb
+changelog.md
+contributing.md
+add_more_pages.md
+add_more_pages2.md
+conduct.md
+autoapi/index
+</code></pre></div></div>
+
+<p>We can build the documentation with the following command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>docs
+make html
+</code></pre></div></div>
+
+<p>You can review the documentation if you have installed <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank">live server</a> in <code class="language-plaintext highlighter-rouge">Vscode</code>. You can click on the <code class="language-plaintext highlighter-rouge">Go Live</code> button to see the documentation in the browser.</p>
+
+<ul>
+  <li>Step 6: Build the package and publish it to pypi</li>
+</ul>
+
+<p>You can build the package with the following command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry build
+</code></pre></div></div>
+
+<p>Now assume you have registered an account on both <a href="https://test.pypi.org/" target="_blank">test.pypi.org</a> and <a href="https://pypi.org/" target="_blank">pypi.org</a>. You can publish the package to the test pypi server first.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># add the test pypi repository</span>
+poetry config repositories.test-pypi https://test.pypi.org/legacy/
+poetry publish <span class="nt">-r</span> test-pypi <span class="nt">-u</span> __token__ <span class="nt">-p</span> yourlongtestpypitokengoeshere...
+
+<span class="c"># test the package</span>
+pip <span class="nb">install</span> <span class="nt">--index-url</span> https://test.pypi.org/simple/ <span class="se">\</span>
+  <span class="nt">--extra-index-url</span> https://pypi.org/simple <span class="se">\</span>
+    justkata  <span class="c"># or whatever package name you have</span>
+</code></pre></div></div>
+
+<p>If everything is fine, you can publish the package to the pypi server.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry publish <span class="nt">-u</span> __token__ <span class="nt">-p</span> yourlongpypitokengoeshere...
+</code></pre></div></div>
+
+<p>That’s it! You have created a python package with poetry and published it to pypi. Now anyone can install your package with <code class="language-plaintext highlighter-rouge">pip install justkata</code>.</p>
+
+<ul>
+  <li>Step 7: Check up the ci/cd pipeline</li>
+</ul>
+
+<p>Go to your remote repository and check the ci/cd pipeline. The template we used has a github action workflow that runs the tests and builds the package. The documentation is also built and deployed to readthedocs. You can also add more steps to the workflow, such as deploying the package to pypi.</p>
+
+
+    </div>
+    <div id='bibliography'>
+        <div class='wrap'>
+            <ol class="bibliography"></ol>
+        </div>
+    </div>
+</div>
+<!-- back-to-top button from Mkdocs material -->
+<a
+href="#"
+id="back-top"
+aria-label="Back-to-top link"
+style="
+position: fixed;
+bottom: 10%;
+margin-left:85%;
+color: #808080;
+background-color: #FFFFFF;"
+hidden
+>
+<img width="30px" height="30px" alt="up-arrow" src="/images/up-arrow.png">
+</a>
+
+<script src="/assets/js/codeCopy.js"></script>
+<script src="/assets/js/backTotop.js"></script>
+<script>
+    var lis = document.getElementsByClassName("footnotes")
+    for (let i = 0; i < lis.length; i++){
+        var li_tag = lis[i].getElementsByTagName('li')
+    
+        for (let j = 0; j < li_tag.length; j++) {
+            li_tag[j].setAttribute('role', 'link')
+        }
+        var a_tag = lis[i].getElementsByTagName('a')
+    
+        for (let k = 0; k < a_tag.length; k++) {
+            a_tag[k].setAttribute('role', 'link')
+        }
+    }
+    </script>
+    <style>
+        .zoom-img{
+            display: block;
+            height: auto;
+            transition: transform ease-in-out 0.7s;
+            cursor: zoom-in;
+        }
+        .image-zoom-scale{
+            transform: scale(1.7);
+            cursor: zoom-out;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            z-index: 100;
+            position: relative;
+        }
+    </style>
+    <script>
+        document.querySelectorAll('.zoom-img').forEach(item => {
+        item.addEventListener('click', function () {
+            this.classList.toggle('image-zoom-scale');
+        })
+        });
+    </script>
+</body>
+</html>
