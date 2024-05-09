@@ -5,7 +5,7 @@ layout: blog_default
 date: 2023-06-02
 keywords: NLP, transformers, attention, BERT, GPT-2, GPT-3, Pytorch, Huggingface, OpenAI, Deep Learning, Machine Learning, Data Science, Python,
 published: true
-tags: deep-learning NLP transformers attention  GPT-2 Pytorch Huggingface OpenAI
+tags: deep-learning nlp transformers attention  gpt-2 pytorch huggingface openai
 ---
 
 
@@ -14,13 +14,9 @@ The impact of the transformer architecture in the field of NLP has been huge. It
 The series of posts are based on the video by Andrej Karpathy. What I will do is to add some extra explanations with some intuition behind the concepts and I will also add some code to make it more practical. To fully understand the transformer architecture, we need to follow the path of the original paper, which means tracing the evolution of the transformer architecture from recurrent neural networks (RNNs) to the final transformer architecture. Here is our roadmap:
 
 
-1. [Understanding the neurons in the deep learning context](#1-understanding-the-neurons-in-the-deep-learning-context)
-2. [Implementing a simple RNN model](#1-implementing-a-simple-rnn-model)
-3. [Implementing a LSTM and GRU model](#3-implementing-a-lstm-and-gru-model)
-4. Implementing a sequence-to-sequence model
-5. Implementing a RNN encoder-decoder model
-6. Implementing a neural machine translation model
-7. Implementing a transformer encoder-decoder model
+- [1. Understanding the neurons in the deep learning context](#1-understanding-the-neurons-in-the-deep-learning-context)
+- [2. Implementing a simple RNN model](#2-implementing-a-simple-rnn-model)
+- [3. Implementing a LSTM and GRU model](#3-implementing-a-lstm-and-gru-model)
 
 
 ## 1. Understanding the neurons in the deep learning context

@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: OpenAI"
-tag: OpenAI
+title: "Tag: openai"
+tag: openai
 robots: noindex
 ---

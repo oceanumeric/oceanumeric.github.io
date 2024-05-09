@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: NLP"
-tag: NLP
+title: "Tag: nlp"
+tag: nlp
 robots: noindex
 ---

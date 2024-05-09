@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: GPT-2"
-tag: GPT-2
+title: "Tag: gpt-2"
+tag: gpt-2
 robots: noindex
 ---

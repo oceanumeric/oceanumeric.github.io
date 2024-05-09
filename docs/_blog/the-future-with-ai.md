@@ -5,7 +5,7 @@ layout: blog_default
 date: 2023-07-29
 keywords: AI machine-learning deep-learning ChatGPT GPT-3 GPT-4
 published: true
-tags: machine-learning deep-learning ChatGPT future leadership artificial-intelligence
+tags: machine-learning deep-learning chatgpt future leadership artificial-intelligence
 ---
 
 We are living in a very noisy world. There are so many things happening around us about AI. Almost every one is excited about AI. Almost every one in the community claims that they are doing AI or they are using AI to solve problems.
