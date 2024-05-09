@@ -82,19 +82,19 @@
                             
                             <a href="/blog-tags/deep-learning">deep-learning</a>, 
                             
-                            <a href="/blog-tags/nlp">NLP</a>, 
+                            <a href="/blog-tags/nlp">nlp</a>, 
                             
                             <a href="/blog-tags/transformers">transformers</a>, 
                             
                             <a href="/blog-tags/attention">attention</a>, 
                             
-                            <a href="/blog-tags/gpt-2">GPT-2</a>, 
+                            <a href="/blog-tags/gpt-2">gpt-2</a>, 
                             
-                            <a href="/blog-tags/pytorch">Pytorch</a>, 
+                            <a href="/blog-tags/pytorch">pytorch</a>, 
                             
-                            <a href="/blog-tags/huggingface">Huggingface</a>, 
+                            <a href="/blog-tags/huggingface">huggingface</a>, 
                             
-                            <a href="/blog-tags/openai">OpenAI</a>
+                            <a href="/blog-tags/openai">openai</a>
                             
                         </span>
                     
@@ -110,15 +110,11 @@
 
 <p>The series of posts are based on the video by Andrej Karpathy. What I will do is to add some extra explanations with some intuition behind the concepts and I will also add some code to make it more practical. To fully understand the transformer architecture, we need to follow the path of the original paper, which means tracing the evolution of the transformer architecture from recurrent neural networks (RNNs) to the final transformer architecture. Here is our roadmap:</p>
 
-<ol>
-  <li><a href="#1-understanding-the-neurons-in-the-deep-learning-context">Understanding the neurons in the deep learning context</a></li>
-  <li><a href="#1-implementing-a-simple-rnn-model">Implementing a simple RNN model</a></li>
-  <li><a href="#3-implementing-a-lstm-and-gru-model">Implementing a LSTM and GRU model</a></li>
-  <li>Implementing a sequence-to-sequence model</li>
-  <li>Implementing a RNN encoder-decoder model</li>
-  <li>Implementing a neural machine translation model</li>
-  <li>Implementing a transformer encoder-decoder model</li>
-</ol>
+<ul>
+  <li><a href="#1-understanding-the-neurons-in-the-deep-learning-context">1. Understanding the neurons in the deep learning context</a></li>
+  <li><a href="#2-implementing-a-simple-rnn-model">2. Implementing a simple RNN model</a></li>
+  <li><a href="#3-implementing-a-lstm-and-gru-model">3. Implementing a LSTM and GRU model</a></li>
+</ul>
 
 <h2 id="1-understanding-the-neurons-in-the-deep-learning-context">1. Understanding the neurons in the deep learning context</h2>
 
