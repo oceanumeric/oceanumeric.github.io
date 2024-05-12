@@ -2,7 +2,7 @@
 title: Python Package with Poetry
 subtitle: Create a python package with poetry in production
 layout: blog_default
-date: 2024-05-09
+date: 2024-05-06
 keywords: python, poetry, package, pip, documentation, pypi, sphinx, pytest, coverage, codecov, black, flake8, mypy, pre-commit, git, github, gitlab, bitbucket, ci, cd, devops, production
 published: true
 tags: python poetry package pip pypi sphinx pytest cicd devops
