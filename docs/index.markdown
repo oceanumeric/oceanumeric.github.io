@@ -38,7 +38,7 @@ title: Michael Wang Fei's Homepage
 		</ul>
 		</div>
 		<div id='landing-right'>
-		<img src="/images/Drawing-Michael-Data.jpg" style="width:30%" alt='homepage-image-BIG-DATA'>
+		<img src="/images/homepage-banner.png" style="width:30%" alt='homepage-image-BIG-DATA'>
 		</div>
 	</div>
 </body>
