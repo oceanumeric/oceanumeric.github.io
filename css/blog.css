@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap');
+
 html {
-  font-family: -apple-system, Helvetica, arial, sans-serif;
+  font-family:  "Vollkorn", -apple-system, Helvetica, arial, sans-serif, serif;
   color: rgba(0, 0, 0, 0.8);
+  background-color: #fffff8;
   line-height: 1.5em;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -21,7 +24,7 @@ a:hover {
 }
 h1,
 h4 {
-  font-family: -apple-system, Helvetica, arial, sans-serif;
+  font-family: "Vollkorn", -apple-system, Helvetica, arial, sans-serif, serif;
 }
 
 
@@ -175,7 +178,7 @@ table th {
 }
 
 .table-figure-wrapper .caption {
-  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Vollkorn", -apple-system, "Helvetica Neue", Arial, sans-serif, serif;
   padding-top: 15px;
   display: inline-block;
   font-size: 15px;
@@ -207,7 +210,7 @@ table th {
 }
 
 .article {
-  font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
+  font-family: "Vollkorn", Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
   font-size: 21px;
   line-height: 1.7em;
   color: rgba(0, 0, 0, 0.8);
@@ -232,7 +235,7 @@ table th {
   padding: 20px 0;
 }
 .article .figure .caption {
-  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Vollkorn", -apple-system, "Helvetica Neue", Arial, sans-serif, serif;
   padding-top: 15px;
   display: inline-block;
   font-size: 15px;
@@ -243,7 +246,7 @@ table th {
   color:rgba(0, 0, 0, 0.8)
 }
 .article .table-caption {
-  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Vollkorn", -apple-system, "Helvetica Neue", Arial, sans-serif, serif;
   margin-top: -10px;
   font-size: 15px;
   text-align: center !important;
